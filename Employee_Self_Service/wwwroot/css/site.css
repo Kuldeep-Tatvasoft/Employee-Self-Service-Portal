@@ -1,0 +1,85 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+
+/* Login CSS */
+
+.login{
+  background-color: #D4F6FF;
+}
+
+form i{
+  margin-top: 22px;
+  padding: 0px;
+  margin-left: -30px !important;
+  cursor: pointer;
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
+}
+
+.eye {
+  z-index: 5;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.card-title{
+  color: #0F67B1 !important;
+}
+
+.btn-primary{
+  background-color: #0F67B1 !important;
+}
+
+.forgot{
+  font-size: smaller;
+}
+
+/* Register User CSS */
+
+.inner-container{
+  background: #FAFAFA 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+}
+
+.upload-div{
+    
+  border: #3E3E3E 1px dashed;
+
+}
+
+/* Toaster CSS */
+.toast-success {
+  background-color: #28a745 !important;
+  color : white !important;
+}
+
+.toast-error {
+  background-color: #dc3545 !important; 
+  color : white !important;
+}
