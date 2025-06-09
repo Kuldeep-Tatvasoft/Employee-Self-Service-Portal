@@ -20,7 +20,7 @@ public class JwtService : IJwtService
         _audience = configuration["Jwt:Audience"];
     }
 
-    public string GenerateJwtToken( string email,  string role)
+    public string GenerateJwtToken( string email,int timeToLive,  string role)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_key); 
@@ -33,7 +33,7 @@ public class JwtService : IJwtService
                 new Claim(ClaimTypes.Role, role),
                 
             }),
-            Expires = DateTime.UtcNow.AddHours(24),
+            Expires = DateTime.UtcNow.AddHours(timeToLive),
             Issuer = _issuer,
             Audience = _audience,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)

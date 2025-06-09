@@ -1,3 +1,4 @@
+using Employee_Self_Service_BAL.Helper;
 using Employee_Self_Service_BAL.Implementation;
 using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.Data;
@@ -13,16 +14,14 @@ builder.Services.AddDbContext<EmployeeSelfServiceContext>(q=>q.UseNpgsql(connect
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-// builder.Services.Configure<
-
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

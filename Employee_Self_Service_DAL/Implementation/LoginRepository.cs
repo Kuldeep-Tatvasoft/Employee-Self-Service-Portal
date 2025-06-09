@@ -21,6 +21,7 @@ public class LoginRepository : ILoginRepository
         LoginViewModel login = new LoginViewModel{
             EmployeeId = employee.EmployeeId,
             Role = employee.Role.Role1,
+            ProfileImage = employee.ProfileImage,
             EmployeeName = employee.Name
         };
 
@@ -39,6 +40,23 @@ public class LoginRepository : ILoginRepository
         return true;
     }
     
+    public async Task<bool> ExistUserByEmail(string Email)
+    {
+        try
+        {
+            var email =  _context.Employees.FirstOrDefault(x => x.Email == Email);
+            if (email == null)
+            {
+                return false;
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            
+            return false; 
+        }
+    }
     public async Task<bool> RegisterUser(Employee employee)
     {
         try

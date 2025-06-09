@@ -32,18 +32,18 @@ public class LoginService : ILoginService
             var loginCredential = _loginRepository.GetUserByEmail(model.Email);
             if (loginCredential == null)
             {
-                return null;
+                
+                return new LoginViewModel{
+                    Email = "Email is not valid"
+                };
             }
-
-            // if (model.Password != loginCredential.Password)
-            // {
-            //     return null;
-            // }
 
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(model.Password, loginCredential.Password);
             if (!isPasswordValid)
             {
-                return null;
+                return new LoginViewModel{
+                    Password = "Password is not valid"
+                };
             }
 
             if (loginCredential.IsActive == false)
@@ -67,6 +67,19 @@ public class LoginService : ILoginService
        return await _loginRepository.UpdatePassword(employee);
     }
     
+    public async Task<bool> ExistUserByEmail(string Email)
+    {
+        try
+        {
+            return await _loginRepository.ExistUserByEmail(Email);
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return false; 
+        }
+    }
     public async Task<bool> RegisterUser (RegisterViewModel model)
     {
         try
@@ -111,5 +124,3 @@ public class LoginService : ILoginService
         }
     } 
 }
-
-

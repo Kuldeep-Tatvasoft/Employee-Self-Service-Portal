@@ -3,7 +3,7 @@ using System.Net.Mail;
 using Employee_Self_Service_BAL.Interface;
 using Microsoft.Extensions.Configuration;
 
-namespace Employee_Self_Service_BAL.Implementation;
+namespace Employee_Self_Service_BAL.Helper;
 
 public class EmailService : IEmailService
 {
@@ -45,5 +45,3 @@ public class EmailService : IEmailService
         await smtpclient.SendMailAsync(mailMessage);
     }
 }
-
-

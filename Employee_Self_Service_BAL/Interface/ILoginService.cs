@@ -8,5 +8,6 @@ public interface ILoginService
     LoginViewModel Login(LoginViewModel model);
     Employee GetUserByEmail(string email);
     Task<bool> UpdatePassword(Employee employee);
+    Task<bool> ExistUserByEmail(string Email);
     Task<bool> RegisterUser (RegisterViewModel model);
 }

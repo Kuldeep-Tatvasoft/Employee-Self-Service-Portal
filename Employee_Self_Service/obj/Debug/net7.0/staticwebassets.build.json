@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "OD2xJPWV+2e1IoHknEHtyD3HldyjmjIqS1UlH8ICsGA=",
+  "Hash": "zWDqY1shOC+CSEjVPVcBIhI45p5+2hwqy5DDUm5qWrI=",
   "Source": "Employee_Self_Service",
   "BasePath": "_content/Employee_Self_Service",
   "Mode": "Default",
@@ -83,6 +83,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\images\\Default_pfp.svg.png",
+      "SourceId": "Employee_Self_Service",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "BasePath": "_content/Employee_Self_Service",
+      "RelativePath": "images/Default_pfp.svg.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Default_pfp.svg.png"
     },
     {
       "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\js\\site.js",
