@@ -6,7 +6,7 @@
 <div>
     <div class="container-fluid w-75">
         <h2 class="text-primary  fw-bold">Register</h2>
-        <form asp-action="Register" asp-controller="Login" method="post">
+        <form asp-action="Register" asp-controller="Login" method="post" enctype="multipart/form-data">
             <div class="inner-container mt-3 p-4">
                 <!-- First Row Name and Role -->
                 <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap mt-2">
@@ -98,7 +98,9 @@
                 <div class="form-floating col ">
                 <div class="upload-div w-100 mt-4 p-3 d-flex flex-column justify-content-center align-items-center">
                     <i class="bi bi-cloud-arrow-up"></i>
-                    <input type="file"  id="file" asp-for="@Model.ProfileImage">
+                    @* <input type="file"  id="file" asp-for="ProfileImage"> *@
+                    <input type="file" id="file" asp-for="@Model.ProfileImage">
+                    <a href="" class="file text-secondary">Browse file</a>
                     
                     <label fw-semibold" for="floatingPassword">Profile Image</label>
                 </div>

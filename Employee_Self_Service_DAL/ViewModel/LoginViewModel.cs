@@ -19,7 +19,6 @@ public class LoginViewModel
     [DataType(DataType.Password)]
     [RegularExpression("([a-z]|[A-Z]|[0-9]|[\\W]){4}[a-zA-Z0-9\\W]{3,11}", ErrorMessage = "Password Must contain Special Symbol, Number,Alphabet")]
     public string NewPassword { get; set; } = null!;
-
     [Required (ErrorMessage = "Confirm Password is Required")]
     [Compare("NewPassword", ErrorMessage ="Confirm Password does not match")]
     public string ConfirmPassword { get; set; }
@@ -27,4 +26,6 @@ public class LoginViewModel
     public string Role { get; set; } = null!;
     public string ProfileImage {get; set;}
     public string  message {get; set;}
+
+
 }

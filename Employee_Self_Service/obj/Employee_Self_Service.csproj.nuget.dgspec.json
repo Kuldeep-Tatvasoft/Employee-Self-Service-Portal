@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj": {}
+    "d:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj": {}
   },
   "projects": {
-    "D:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj": {
+    "d:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj",
+        "projectUniqueName": "d:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj",
         "projectName": "Employee_Self_Service",
-        "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj",
+        "projectPath": "d:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj",
         "packagesPath": "C:\\Users\\pca179\\.nuget\\packages\\",
-        "outputPath": "D:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\",
+        "outputPath": "d:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pca179\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj": {
-                "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj"
+              "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj": {
+                "projectPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj"
               },
               "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj": {
                 "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj"
@@ -47,7 +47,7 @@
           "dependencies": {
             "Microsoft.AspNetCore.Http": {
               "target": "Package",
-              "version": "[2.3.0, )"
+              "version": "[1.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -93,14 +93,14 @@
         }
       }
     },
-    "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj": {
+    "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
+        "projectUniqueName": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
         "projectName": "Employee_Self_Service_BAL",
-        "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
+        "projectPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
         "packagesPath": "C:\\Users\\pca179\\.nuget\\packages\\",
-        "outputPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\obj\\",
+        "outputPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pca179\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -138,6 +138,10 @@
             "Microsoft.AspNetCore.DataProtection": {
               "target": "Package",
               "version": "[7.0.20, )"
+            },
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[1.0.0, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
@@ -204,7 +208,7 @@
             },
             "Microsoft.AspNetCore.Http": {
               "target": "Package",
-              "version": "[2.3.0, )"
+              "version": "[1.0.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",

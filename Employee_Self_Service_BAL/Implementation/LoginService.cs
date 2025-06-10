@@ -34,7 +34,8 @@ public class LoginService : ILoginService
             if (loginCredential == null)
             {
                 
-                return new LoginViewModel{
+                return new LoginViewModel
+                {
                     message = "Email is not valid"
                 };
             }

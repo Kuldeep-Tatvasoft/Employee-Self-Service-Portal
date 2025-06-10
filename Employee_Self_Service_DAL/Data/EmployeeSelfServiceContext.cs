@@ -27,10 +27,17 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.ToTable("employee");
 
             entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+            entity.Property(e => e.AnyDiseases)
+                .HasColumnType("character varying")
+                .HasColumnName("any_diseases");
+            entity.Property(e => e.BloodGroup)
+                .HasColumnType("character varying")
+                .HasColumnName("blood_group");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("created_at");
+            entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
             entity.Property(e => e.DeletedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
@@ -44,6 +51,9 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.Property(e => e.Email)
                 .HasColumnType("character varying")
                 .HasColumnName("email");
+            entity.Property(e => e.Gender)
+                .HasColumnType("character varying")
+                .HasColumnName("gender");
             entity.Property(e => e.IsActive)
                 .HasDefaultValueSql("true")
                 .HasColumnName("is_active");

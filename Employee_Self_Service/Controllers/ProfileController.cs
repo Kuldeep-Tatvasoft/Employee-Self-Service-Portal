@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Employee_Self_Service_BAL.Interface;
+using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -19,15 +20,44 @@ public class ProfileController : Controller
         var token = _jwtService.ValidateToken(Request.Cookies["token"]);
         var email = token?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
-        // var details = await _profileService.GetUserDetails(email);
-        // if (details == null)
-        // {
-        //     TempData["errorToastr"] = "User details not found.";
-        //     return RedirectToAction("Index", "Home");
-        // }
-        return View();
+        var details = await _profileService.GetUserDetails(email);
+        if (details == null)
+        {
+            TempData["errorToastr"] = "User details not found.";
+            return RedirectToAction("Index", "Home");
+        }
+        return View(details);
     }
 
-    
+    [HttpGet]
+    public async Task<IActionResult> EditProfile()
+    {
+        var token = _jwtService.ValidateToken(Request.Cookies["token"]);
+        var email = token?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
+        var details = await _profileService.GetUserDetails(email);
+        if (details == null)
+        {
+            TempData["errorToastr"] = "User details not found.";
+            return RedirectToAction("Index", "Home");
+        }
+        return View(details);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EditProfile(ProfileViewModel model)
+    {
+        var isEdit = await _profileService.UpdateProfile(model);
+        if(isEdit)
+        {
+            TempData["successToastr"] = "Profile updated successfully.";
+        }
+        else
+        {
+            TempData["errorToastr"] = "Failed to update profile.";
+            return RedirectToAction("EditProfile");
+        }
+        return RedirectToAction("MyProfile");
+
+    }
 }

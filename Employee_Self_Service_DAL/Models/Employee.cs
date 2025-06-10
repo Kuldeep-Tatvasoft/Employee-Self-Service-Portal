@@ -33,6 +33,14 @@ public partial class Employee
 
     public int EmployeeId { get; set; }
 
+    public DateOnly? DateOfBirth { get; set; }
+
+    public string? Gender { get; set; }
+
+    public string? BloodGroup { get; set; }
+
+    public string? AnyDiseases { get; set; }
+
     public virtual ICollection<LeaveRequest> LeaveRequestApprovedByNavigations { get; set; } = new List<LeaveRequest>();
 
     public virtual ICollection<LeaveRequest> LeaveRequestEmployees { get; set; } = new List<LeaveRequest>();

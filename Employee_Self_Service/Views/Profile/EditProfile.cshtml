@@ -1,0 +1,176 @@
+@model Employee_Self_Service_DAL.ViewModel.ProfileViewModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="d-flex flex-column py-3 px-1">
+    <div class="px-3 d-flex justify-content-between align-items-center">
+        <h4 class=" d-flex align-content-center m-0">Member Profile</h4>
+        <button type="button" class="btn btn-white border-primary text-primary"> <a href="/Home/Index"
+                class=" text-decoration-none">
+                < Back</a> </button>
+    </div>
+    <hr class="dropdown-divider">
+
+
+    <div class="details p-3">
+        <div class="details form">
+            <form asp-action="EditProfile" asp-controller="Profile" method="post" enctype="multipart/form-data">
+               
+            <div class="row">
+                <input type="hidden" asp-for="@Model.EmployeeId">
+                <div class="row mb-sm-0 p-2 mb-3">
+
+                    <div class="d-flex justify-content-start align-items-center gap-3 img-fluid">
+
+                        <img src=" @(!string.IsNullOrEmpty(Model.ProfileImage) ? Model.ProfileImage : "../images/Default_pfp.svg.png")" alt="User Avatar" class="rounded-circle "
+                            onclick="document.getElementById('profile-chooser').click()" width="120" />
+                            <input type="file" class="form-control d-none" id="profile-chooser" placeholder="First Name" asp-for="@Model.FormFile">
+                            @* <input type="file"  id="file"  asp-for="@Model.ProfileImage2"> *@
+                        <div>
+                            <h2 class="">@Model.Name</h2>
+                            
+                            <span>@Model.Email</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Employee Details -->
+                <div class="col-md-9 col-12 p-3 ">
+                    <div class="row ">
+                        <!-- Left Column -->
+                        <div class="col-md-6 " style="border: 1px solid black">
+                            <div class="col mb-3 d-flex gap-2 ">
+                                <div class="col-4 "><strong>Full Name:</strong> </div>
+                                <div class="d-flex justify-content-start">
+                                    <p>@Model.Name</p>
+                                </div>
+                                
+                                @* <input type="text"> *@
+                            </div>
+                            <div class="mb-3 d-flex gap-2">
+                                <strong>Starting Date:</strong>
+                                <p>@Model.StartingDate</p>
+                            </div>
+                            <div class="mb-3 d-flex gap-2">
+                                <strong>Experience:</strong>
+                                <p>@Model.Experience Years</p>
+                            </div>
+                            <div class="mb-3 d-flex gap-2 col">
+                                <div class="  "><strong>Department:</strong></div>
+                                <div class=""><p>@Model.Department</p></div>
+                                
+                                
+                            </div>
+                            <div class="mb-3 d-flex gap-2">
+                                <strong>Designation:</strong>
+                                <p>@Model.Designation</p>
+                            </div>
+                            <div class="mb-3 d-flex gap-2">
+                                <strong>Blood Group:</strong>
+                                <input type="text" class="form-control" id="BloodGroup" asp-for="@Model.BloodGroup" value="">
+                        
+                                <p></p>
+                            </div>
+                            <div class="mb-3 d-flex gap-2">
+                                <strong>Any Diseases:</strong>
+                                <textarea asp-for="@Model.AnyDiseases" class="form-control" rows="4"placeholder=""></textarea>
+                                <p></p>
+                            </div>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="col-md-6" style="border: 1px solid black">
+                            <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
+                                <strong>Date Of Birth:</strong>
+                                <div class="form-floating col">
+                                <input type="date" class="form-control w-100" id="customersFromDate" value="@Model.DateOfBirth" asp-for="@Model.DateOfBirth">
+                                <label for="customersFromDate" class="mx-2">From Date</label>
+                            </div>
+                               @* <input type="date" class="form-control mt-1 w-75" id="ordersFromDate"> *@
+                                
+                            </div>
+                            <div class="mb-3 d-flex gap-2  align-items-center justify-content-between ">
+                                <strong>Gender:</strong>
+                                <select  class="form-select d-flex align-content-end align-items-end justify-content-end w-75" id="Gender" asp-for="@Model.Gender">
+                                    <option value="">Select a Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                @* <div class="d-flex gap-2 ">
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1">
+                                <label class="form-check-label" for="radioDefault1">
+                                    Male
+                                </label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2" >
+                                <label class="form-check-label" for="radioDefault2">
+                                    Female
+                                </label>
+                                </div>
+                                </div> *@
+                            </div>
+                            <div class="mb-3 d-flex gap-2">
+                                <strong>Card Number:</strong>
+                                <p></p>
+                            </div>
+                            <div class="mb-3 d-flex gap-2">
+                                <strong>Seating Location:</strong>
+                                <p></p>
+                            </div>
+                            <div class="mb-3 d-flex gap-2">
+                                <strong>Reporting Person:</strong>
+
+                            </div>
+                            <div class="mb-3 d-flex gap-2">
+                                <strong>Project Manager:</strong>
+
+                            </div>
+                            <div class="mb-3 d-flex gap-2">
+                                <strong>Emergency Contact No:</strong>
+                                <input type="text" class="form-control" id="Phone" asp-for="ContactNo" value="@Model.ContactNo">
+                            </div>
+                        </div>
+                         <div class="d-flex justify-content-end mt-4 gap-2">
+                            <button type="submit" id="customDateApplyModel" class="btn btn-primary">Save</button>
+                            <a href="/Profile/MyProfile" ><button type="button" class="btn btn-white text-primary border-primary">Cancel</button></a>
+                        </div>
+                    </div>
+                </div>
+               
+               
+            </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            
+
+
+
+            $("#customDateApplyModel").click(function () {
+                @* var selectedValue = $(".custom").val(); *@
+                let startDate = $('#customersFromDate').val();
+                @* let endDate = $('#customersToDate').val(); *@
+
+                console.log(startDate);
+            });
+                
+            
+        });
+        let startDate = $('#customersFromDate').val();
+        console.log(startDate);
+        console.log("sfsdf")
+        @* let ordersFromDate = $('#ordersFromDate').val(); *@
+        @* console.log(ordersFromDate); *@
+    </script>
