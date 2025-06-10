@@ -32,17 +32,27 @@ public class LoginController : Controller
     [HttpPost]
     public IActionResult Index(LoginViewModel model)
     {   
-        
+       
         LoginViewModel? employee =  _loginService.Login(model);
 
-        if (employee.Email == "Email is not valid")
+        if (employee.message == "Email is not valid")
         {   
-            TempData["errorToastr"] = employee.Email;
+            TempData["errorToastr"] = employee.message;
             return View("Index");
         }
-        else if(employee.Password == "Password is not valid")
+        else if(employee.message == "Password is not valid")
         {
-            TempData["errorToastr"] = employee.Password;
+            TempData["errorToastr"] = employee.message;
+            return View("Index");
+        }
+        else if(employee.message == "User is not active")
+        {
+            TempData["errorToastr"] = employee.message;
+            return View("Index");
+        }
+        else if  (employee.message != null)
+        {
+            TempData["errorToastr"] = employee.message;
             return View("Index");
         }
         else 

@@ -26,4 +26,5 @@ public class LoginViewModel
     public bool RememberMe { get; set; }
     public string Role { get; set; } = null!;
     public string ProfileImage {get; set;}
+    public string  message {get; set;}
 }

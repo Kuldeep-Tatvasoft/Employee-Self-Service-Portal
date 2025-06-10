@@ -27,14 +27,15 @@ public class LoginService : ILoginService
     }
 
     public LoginViewModel Login(LoginViewModel model)
-    {
+    {   
+        
         try{
             var loginCredential = _loginRepository.GetUserByEmail(model.Email);
             if (loginCredential == null)
             {
                 
                 return new LoginViewModel{
-                    Email = "Email is not valid"
+                    message = "Email is not valid"
                 };
             }
 
@@ -42,13 +43,15 @@ public class LoginService : ILoginService
             if (!isPasswordValid)
             {
                 return new LoginViewModel{
-                    Password = "Password is not valid"
+                    message = "Password is not valid"
                 };
             }
 
             if (loginCredential.IsActive == false)
             {
-                return null; 
+                return new LoginViewModel{
+                    message = "User is not active"
+                }; 
             }
 
             return GetUserById(loginCredential.EmployeeId);
@@ -56,7 +59,9 @@ public class LoginService : ILoginService
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            return null;
+            return new LoginViewModel{
+                message = "Internal error."
+            };
         }
     }
     #endregion
