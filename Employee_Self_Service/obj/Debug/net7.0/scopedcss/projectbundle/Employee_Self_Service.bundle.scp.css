@@ -40,10 +40,45 @@ button.accept-policy[b-3p0re55jfj] {
   line-height: inherit;
 }
 
-.footer[b-3p0re55jfj] {
+/* .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
   line-height: 60px;
+} */
+
+.main-container[b-3p0re55jfj]{
+  display: flex;
+  height: 886px;
+  
+}
+.sidebar[b-3p0re55jfj] {
+  background-color: #f5f5f8;
+}
+.navbar[b-3p0re55jfj]{
+  background-color: #f5f5f8;
+}
+/* .sidebar.hidden {
+  transform: translateX(-100%);
+} */
+.content[b-3p0re55jfj] {
+  margin-left: 250px;
+  transition: all 0.3s;
+}
+.content.full[b-3p0re55jfj] {
+  margin-left: 0;
+}
+.topbar[b-3p0re55jfj] {
+  height: 60px;
+  background-color: #0d6efd;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1050;
 }

@@ -7,4 +7,5 @@ public interface IProfileRepository
 {
     Task<Employee> GetUserDetails(string email);
     Task<bool> UpdateProfile(ProfileViewModel model);
+    Task<ResponseViewModel> ChangePassword(Employee user);
 }

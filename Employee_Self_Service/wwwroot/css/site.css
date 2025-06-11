@@ -144,3 +144,12 @@ form i{
 .form-detail ul li span{
   padding: 1rem;
 }
+
+.table th{
+ background-color: #f5f5f8;
+}
+
+.changePassword{
+  margin-left: 200px !important;
+}
+

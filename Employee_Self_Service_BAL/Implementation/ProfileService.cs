@@ -8,9 +8,11 @@ namespace Employee_Self_Service_BAL.Implementation;
 public class ProfileService : IProfileService
 {
     private readonly IProfileRepository _profileRepository;
-    public ProfileService(IProfileRepository profileRepository)
+    private readonly ILoginService _loginService;
+    public ProfileService(IProfileRepository profileRepository, ILoginService loginService)
     {
         _profileRepository = profileRepository;
+        _loginService = loginService;
     }
 
     public async Task<ProfileViewModel> GetUserDetails(string email)
@@ -28,8 +30,10 @@ public class ProfileService : IProfileService
             Experience = DateTime.Now.Year - DateTime.Parse(details.CreatedAt.ToString()).Year,
             Department = details.Department,
             Designation = details.Designation,
-            ContactNo = details.Phone.ToString(),
-            DateOfBirth = (DateOnly)details.DateOfBirth
+            ContactNo = details.Phone.ToString() ?? null,
+            DateOfBirth = (DateOnly)details.DateOfBirth,
+            BloodGroup = details.BloodGroup,
+            AnyDiseases = details.AnyDiseases ?? null
         };
         return model;
        }
@@ -44,5 +48,43 @@ public class ProfileService : IProfileService
     {
         return await _profileRepository.UpdateProfile(model);
     }
+
+    public async Task<ResponseViewModel> ChangePassword(LoginViewModel model)
+    {
+        try
+        {   
+            Employee user = _loginService.GetUserByEmail(model.Email);
+            if (user == null)
+            {
+                return new ResponseViewModel
+                {
+                    success = false,
+                    message = "User not found"
+                };
+            }
+            bool isPasswordMatch = BCrypt.Net.BCrypt.Verify(model.Password, user.Password);
+            if (!isPasswordMatch)
+            {
+                return new ResponseViewModel
+                {
+                    success = false,
+                    message = "Current password is incorrect"
+                };
+            }
+            user.Password = model.NewPassword;
+            String hashPassword = BCrypt.Net.BCrypt.HashPassword(user.Password); 
+            user.Password = hashPassword;
+            ResponseViewModel response = await _profileRepository.ChangePassword(user);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                message = ex.Message,
+                success = false
+            };
+        }
+    } 
 
 }

@@ -20,9 +20,9 @@ public class ProfileViewModel
     public int CardNumber { get; set;}
     public string SeatingLocation {get; set;}
     public string ReportingPerson {get; set;}
-    public string BloodGroup { get; set;}
+    public string BloodGroup { get; set;} = null;
     public string ProjectManager {get; set;}
-    public string AnyDiseases {get; set;}
+    public string AnyDiseases {get; set;} = null;
     [Required(ErrorMessage = "Emergency Contact Required")]
     public string ContactNo {get; set;}
 }

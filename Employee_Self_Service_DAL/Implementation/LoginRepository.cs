@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Employee_Self_Service_DAL.Data;
 using Employee_Self_Service_DAL.Interface;
 using Employee_Self_Service_DAL.Models;
@@ -15,22 +16,22 @@ public class LoginRepository : ILoginRepository
         _context = context;
     }
 
-    public LoginViewModel GetUserById(long id)
-    {
-        Employee? employee = _context.Employees.Include(x => x.Role).FirstOrDefault(u => u.EmployeeId == id);
-        LoginViewModel login = new LoginViewModel{
-            EmployeeId = employee.EmployeeId,
-            Role = employee.Role.Role1,
-            ProfileImage = employee.ProfileImage,
-            EmployeeName = employee.Name
-        };
+    // public LoginViewModel GetUserById(long id)
+    // {
+    //     Employee? employee = _context.Employees.Include(x => x.Role).FirstOrDefault(u => u.EmployeeId == id);
+    //     LoginViewModel login = new LoginViewModel{
+    //         EmployeeId = employee.EmployeeId,
+    //         Role = employee.Role.Role1,
+    //         ProfileImage = employee.ProfileImage,
+    //         EmployeeName = employee.Name
+    //     };
 
-        return login;
-    }
+    //     return login;
+    // }
 
     public  Employee GetUserByEmail(string email)
     {
-        return  _context.Employees.FirstOrDefault(u => u.Email == email );
+        return  _context.Employees.Include(u => u.Role).FirstOrDefault(u => u.Email == email );
     }
 
     public async Task<bool> UpdatePassword(Employee employee)

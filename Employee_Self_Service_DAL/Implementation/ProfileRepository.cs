@@ -47,7 +47,7 @@ public class ProfileRepository : IProfileRepository
 
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    model.FormFile.CopyToAsync(fileStream);
+                   await model.FormFile.CopyToAsync(fileStream);
                 }
 
                 user.ProfileImage = $"/uploads/{fileName}"; // Store relative path in DB
@@ -61,5 +61,17 @@ public class ProfileRepository : IProfileRepository
             Console.WriteLine(ex.Message);
             return false;
         }
+    }
+
+    public async Task<ResponseViewModel> ChangePassword(Employee user)
+    {
+        _context.Employees.Update(user);
+        await _context.SaveChangesAsync();
+
+        return new ResponseViewModel
+        {
+            success = true,
+            message = "Password changes successfully"
+        };
     }
 }

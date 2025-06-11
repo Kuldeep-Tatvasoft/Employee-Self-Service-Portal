@@ -37,111 +37,92 @@
                 </div>
 
                 <!-- Employee Details -->
-                <div class="col-md-9 col-12 p-3 ">
-                    <div class="row ">
-                        <!-- Left Column -->
-                        <div class="col-md-6 " style="border: 1px solid black">
-                            <div class="col mb-3 d-flex gap-2 ">
-                                <div class="col-4 "><strong>Full Name:</strong> </div>
-                                <div class="d-flex justify-content-start">
-                                    <p>@Model.Name</p>
-                                </div>
-                                
-                                @* <input type="text"> *@
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <strong>Starting Date:</strong>
-                                <p>@Model.StartingDate</p>
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <strong>Experience:</strong>
-                                <p>@Model.Experience Years</p>
-                            </div>
-                            <div class="mb-3 d-flex gap-2 col">
-                                <div class="  "><strong>Department:</strong></div>
-                                <div class=""><p>@Model.Department</p></div>
-                                
-                                
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <strong>Designation:</strong>
-                                <p>@Model.Designation</p>
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <strong>Blood Group:</strong>
-                                <input type="text" class="form-control" id="BloodGroup" asp-for="@Model.BloodGroup" value="">
-                        
-                                <p></p>
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <strong>Any Diseases:</strong>
-                                <textarea asp-for="@Model.AnyDiseases" class="form-control" rows="4"placeholder=""></textarea>
-                                <p></p>
-                            </div>
-                        </div>
 
-                        <!-- Right Column -->
-                        <div class="col-md-6" style="border: 1px solid black">
-                            <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
-                                <strong>Date Of Birth:</strong>
-                                <div class="form-floating col">
-                                <input type="date" class="form-control w-100" id="customersFromDate" value="@Model.DateOfBirth" asp-for="@Model.DateOfBirth">
-                                <label for="customersFromDate" class="mx-2">From Date</label>
-                            </div>
-                               @* <input type="date" class="form-control mt-1 w-75" id="ordersFromDate"> *@
-                                
-                            </div>
-                            <div class="mb-3 d-flex gap-2  align-items-center justify-content-between ">
-                                <strong>Gender:</strong>
-                                <select  class="form-select d-flex align-content-end align-items-end justify-content-end w-75" id="Gender" asp-for="@Model.Gender">
+               <div class="col p-3 ">
+                    
+                    <div class="row col col-xxl-10 col-xl-11 col-lg-12 ">
+                        <div class="col-xl-6 col-lg-12 p-0 m-0">
+                            <table class="table col table-bordered m-0">
+                                <tr>
+                                    <th class="heading col-lg- col-md-5 col-sm-6 col-6 " >Full Name:</th>
+                                    <td>@Model.Name</td>
+                                </tr>
+                                <tr>
+                                    <th >Starting Date:</th>
+                                    <td>@Model.StartingDate</td>
+                                </tr>
+                                <tr>
+                                    <th>Experience:</th>
+                                    <td>@Model.Experience Years</td>
+                                </tr>
+                                <tr>
+                                    <th>Department:</th>
+                                    <td>@Model.Department</td>
+                                </tr>
+                                <tr>
+                                    <th>Designation:</th>
+                                    <td>@Model.Designation</td>
+                                </tr>
+                                <tr>
+                                    <th>Blood Group:</th>
+                                    @* <td><input type="text" class="form-control rounded-0 shadow-none border-2" id="BloodGroup" asp-for="@Model.BloodGroup"></td> *@
+                                    <td><input type="text" class="form-control rounded-0 shadow-none border-2" id="BloodGroup" asp-for="@Model.BloodGroup" value=" " autocomplete="on" aria-invalid="false"  aria-required="false" ></td>
+                                </tr>
+                                <tr>
+                                    <th>Any Diseases:</th>
+                                    @* <td><textarea asp-for="@Model.AnyDiseases" class="form-control rounded-0 shadow-none border-2" rows="4" placeholder = " " value=" " ></textarea></td> *@
+                                    <td><textarea  asp-for="@Model.AnyDiseases" class="form-control rounded-0 shadow-none border-2" rows="4" aria-required="false" aria-invalid="false"> </textarea></td>
+
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="col-12 col-sm-12 col-xl-6 p-0 col-lg-m-0">
+                            
+                            <table class="table col table-bordered">
+                                <tr>
+                                    <th class="col-md-5 col-sm-6 col-6">Date Of Birth:</th>
+                                    <td>
+                                        <input type="date" class="form-control w-100" id="dateOfBirth" asp-for="@Model.DateOfBirth" value="@Model.DateOfBirth" >
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Gender:</th>
+                                    <td class=""> <select  class="form-select d-flex align-content-end align-items-end justify-content-end  " id="Gender" asp-for="@Model.Gender">
                                     <option value="">Select a Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
-                                </select>
-                                @* <div class="d-flex gap-2 ">
-                                <div class="form-check">
-                                <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1">
-                                <label class="form-check-label" for="radioDefault1">
-                                    Male
-                                </label>
-                                </div>
-                                <div class="form-check">
-                                <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2" >
-                                <label class="form-check-label" for="radioDefault2">
-                                    Female
-                                </label>
-                                </div>
-                                </div> *@
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <strong>Card Number:</strong>
-                                <p></p>
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <strong>Seating Location:</strong>
-                                <p></p>
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <strong>Reporting Person:</strong>
-
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <strong>Project Manager:</strong>
-
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <strong>Emergency Contact No:</strong>
-                                <input type="text" class="form-control" id="Phone" asp-for="ContactNo" value="@Model.ContactNo">
-                            </div>
+                                </select></td>
+                                </tr>
+                                <tr>
+                                    <th>Card Number:</th>
+                                    <td>@Model.CardNumber</td>
+                                </tr>
+                                <tr>
+                                    <th>Seating Location:</th>
+                                    <td>@Model.SeatingLocation</td>
+                                </tr>
+                                <tr>
+                                    <th>Reporting Person:</th>
+                                    <td>@Model.ReportingPerson</td>
+                                </tr>
+                                <tr>
+                                    <th>Project Manager:</th>
+                                    <td>@Model.ProjectManager</td>
+                                </tr>
+                                <tr>
+                                    <th class="">Emergency Contact No*:</th>
+                                    <td><input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" asp-for="ContactNo" value="@Model.ContactNo"></td>
+                                </tr>
+                            </table>
                         </div>
                          <div class="d-flex justify-content-end mt-4 gap-2">
                             <button type="submit" id="customDateApplyModel" class="btn btn-primary">Save</button>
                             <a href="/Profile/MyProfile" ><button type="button" class="btn btn-white text-primary border-primary">Cancel</button></a>
                         </div>
                     </div>
+
                 </div>
-               
-               
             </div>
             </form>
             
@@ -151,26 +132,4 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-    <script>
-
-        $(document).ready(function () {
-            
-
-
-
-            $("#customDateApplyModel").click(function () {
-                @* var selectedValue = $(".custom").val(); *@
-                let startDate = $('#customersFromDate').val();
-                @* let endDate = $('#customersToDate').val(); *@
-
-                console.log(startDate);
-            });
-                
-            
-        });
-        let startDate = $('#customersFromDate').val();
-        console.log(startDate);
-        console.log("sfsdf")
-        @* let ordersFromDate = $('#ordersFromDate').val(); *@
-        @* console.log(ordersFromDate); *@
-    </script>
+    

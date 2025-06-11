@@ -30,50 +30,36 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public IActionResult Index(LoginViewModel model)
+    public async Task<IActionResult> Index(LoginViewModel model)
     {   
-       
-        LoginViewModel? employee =  _loginService.Login(model);
+        
+        ResponseViewModel? response =await _loginService.Login(HttpContext,model);
 
-        if (employee.message == "Email is not valid")
+        if (response.message == "Email is not valid")
         {   
-            TempData["errorToastr"] = employee.message;
+            TempData["errorToastr"] = response.message;
             return View("Index");
         }
-        else if(employee.message == "Password is not valid")
+        else if(response.message == "Password is not valid")
         {
-            TempData["errorToastr"] = employee.message;
+            TempData["errorToastr"] = response.message;
             return View("Index");
         }
-        else if(employee.message == "User is not active")
+        else if(response.message == "User is not active")
         {
-            TempData["errorToastr"] = employee.message;
+            TempData["errorToastr"] = response.message;
             return View("Index");
         }
-        else if  (employee.message != null)
+        else if  (response.message == "Login Successfully")
         {
-            TempData["errorToastr"] = employee.message;
-            return View("Index");
+            TempData["successToastr"] = response.message;
+            return RedirectToAction("Index", "Home");
         }
         else 
         {   
+            TempData["errorToastr"] = response.message;
+            return View("Index");
             
-            if(model.RememberMe)
-            {
-                CookieOptions option = new CookieOptions(); 
-                option.Expires = DateTime.Now.AddHours(24);
-                Response.Cookies.Append("email", model.Email, option);
-            }
-            
-            var token = _jwtService.GenerateJwtToken(model.Email,24, employee.Role);
-            Response.Cookies.Append("token", token);
-            Response.Cookies.Append("role", employee.Role);
-            Response.Cookies.Append("profileImage", employee.ProfileImage ?? "/images/Default_pfp.svg.png");
-            Response.Cookies.Append("employeeName", employee.EmployeeName);
-
-            TempData["successToastr"] = "login successfully";
-
-            return RedirectToAction("Index", "Home");
         }      
     } 
 
@@ -211,6 +197,8 @@ public class LoginController : Controller
         
     }
     #endregion
+
+    [HttpPost]
     public IActionResult Logout()
     {
         Response.Cookies.Delete("email");
