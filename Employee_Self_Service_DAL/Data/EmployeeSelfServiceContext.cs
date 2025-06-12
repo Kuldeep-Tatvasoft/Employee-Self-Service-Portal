@@ -16,6 +16,12 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<LeaveRequest> LeaveRequests { get; set; }
 
+    public virtual DbSet<LeaveType> LeaveTypes { get; set; }
+
+    public virtual DbSet<Reason> Reasons { get; set; }
+
+    public virtual DbSet<RequestStatus> RequestStatuses { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -90,7 +96,12 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
+            entity.Property(e => e.AdhocLeave).HasColumnName("adhoc_leave");
+            entity.Property(e => e.ApprovedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("approved_at");
             entity.Property(e => e.ApprovedBy).HasColumnName("approved_by");
+            entity.Property(e => e.AvailableOnPhone).HasColumnName("available_on_phone");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
@@ -103,21 +114,19 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.Property(e => e.EndDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("end_date");
-            entity.Property(e => e.IsDeleted)
-                .HasDefaultValueSql("false")
-                .HasColumnName("is_deleted");
-            entity.Property(e => e.LeaveType)
-                .HasMaxLength(20)
-                .HasColumnName("leave_type");
-            entity.Property(e => e.Reason)
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.LeaveType).HasColumnName("leave_type");
+            entity.Property(e => e.Reason).HasColumnName("reason");
+            entity.Property(e => e.ReasonDescription)
                 .HasColumnType("character varying")
-                .HasColumnName("reason");
+                .HasColumnName("reason_description");
+            entity.Property(e => e.ReturnDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("return_date");
             entity.Property(e => e.StartDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("start_date");
-            entity.Property(e => e.Status)
-                .HasColumnType("character varying")
-                .HasColumnName("status");
+            entity.Property(e => e.StatusId).HasColumnName("status_id");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
@@ -132,6 +141,54 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasForeignKey(d => d.EmployeeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("leave_request_employee_id_fkey");
+
+            entity.HasOne(d => d.LeaveTypeNavigation).WithMany(p => p.LeaveRequests)
+                .HasForeignKey(d => d.LeaveType)
+                .HasConstraintName("leave_request_leave_type_fkey");
+
+            entity.HasOne(d => d.ReasonNavigation).WithMany(p => p.LeaveRequests)
+                .HasForeignKey(d => d.Reason)
+                .HasConstraintName("leave_request_reason_fkey");
+
+            entity.HasOne(d => d.Status).WithMany(p => p.LeaveRequests)
+                .HasForeignKey(d => d.StatusId)
+                .HasConstraintName("leave_request_status_id_fkey");
+        });
+
+        modelBuilder.Entity<LeaveType>(entity =>
+        {
+            entity.HasKey(e => e.TypeId).HasName("leave_type_pkey");
+
+            entity.ToTable("leave_type");
+
+            entity.Property(e => e.TypeId).HasColumnName("type_id");
+            entity.Property(e => e.Type)
+                .HasColumnType("character varying")
+                .HasColumnName("type");
+        });
+
+        modelBuilder.Entity<Reason>(entity =>
+        {
+            entity.HasKey(e => e.ReasonId).HasName("reason_pkey");
+
+            entity.ToTable("reason");
+
+            entity.Property(e => e.ReasonId).HasColumnName("reason_id");
+            entity.Property(e => e.Reason1)
+                .HasColumnType("character varying")
+                .HasColumnName("reason");
+        });
+
+        modelBuilder.Entity<RequestStatus>(entity =>
+        {
+            entity.HasKey(e => e.StatusId).HasName("request_status_pkey");
+
+            entity.ToTable("request_status");
+
+            entity.Property(e => e.StatusId).HasColumnName("status_id");
+            entity.Property(e => e.Status)
+                .HasColumnType("character varying")
+                .HasColumnName("status");
         });
 
         modelBuilder.Entity<Role>(entity =>

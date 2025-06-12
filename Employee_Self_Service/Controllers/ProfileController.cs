@@ -47,21 +47,7 @@ public class ProfileController : Controller
     [HttpPost]
     public async Task<IActionResult> EditProfile(ProfileViewModel model)
     {
-        // Fetch the existing profile data
-        // var existingProfile = await _profileService.GetUserDetails(model.Email);
-        // if (existingProfile == null)
-        // {
-        //     TempData["errorToastr"] = "Profile not found.";
-        //     return RedirectToAction("MyProfile");
-        // }
-
-        // // Preserve existing values for blank fields
-        // // existingProfile.DateOfBirth = model.DateOfBirth ?? existingProfile.DateOfBirth;
-        // existingProfile.BloodGroup = string.IsNullOrWhiteSpace(model.BloodGroup) ? existingProfile.BloodGroup : model.BloodGroup;
-        // existingProfile.AnyDiseases = string.IsNullOrWhiteSpace(model.AnyDiseases) ? existingProfile.AnyDiseases : model.AnyDiseases;
-        // existingProfile.ContactNo = string.IsNullOrWhiteSpace(model.ContactNo) ? existingProfile.ContactNo : model.ContactNo;
-
-        // Save the updated profile
+        
         var isEdit = await _profileService.UpdateProfile(model);
         if (isEdit)
         {

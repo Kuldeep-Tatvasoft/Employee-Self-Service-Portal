@@ -153,3 +153,7 @@ form i{
   margin-left: 200px !important;
 }
 
+.Leave{
+  overflow-y: scroll;
+}
+

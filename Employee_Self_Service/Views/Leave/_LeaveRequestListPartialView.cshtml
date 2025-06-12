@@ -1,0 +1,150 @@
+@model Employee_Self_Service_DAL.ViewModel.LeaveRequestPaginationViewModel
+@using Employee_Self_Service_BAL.Helpers
+<div class="table-responsive px-0">
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>
+                    <a href="javascript:void(0)" onclick="sortBy('StartDate')" class="text-decoration-none text-dark">Start Date
+                        <i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
+                </th>
+                <th>
+                    <a href="javascript:void(0)" onclick="sortBy('EndDate')" class="text-decoration-none text-dark">End Date<i
+                            class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i></a>
+                </th>
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('ActualDuration')"
+                        class="text-decoration-none text-dark">Actual Duration<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
+                        class="text-decoration-none text-dark">Total Duration<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
+                        class="text-decoration-none text-dark">Total Duration<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('ReturnDate')"
+                        class="text-decoration-none text-dark">Return Date<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('AvailableOnPhone')"
+                        class="text-decoration-none text-dark">Available On Phone<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('ApprovedDate')"
+                        class="text-decoration-none text-dark">Approved Date<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('Status')"
+                        class="text-decoration-none text-dark">Status<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('AdhocLeave')"
+                        class="text-decoration-none text-dark">Adhoc Leave?<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var count = 1;
+            }
+            @foreach (var data in Model.RequestList)
+            {
+                <tr>
+                    <td>
+                        @count
+                        @{count++;
+                        }
+                    </td>
+                    <td>
+                        <span class="@data.StartDate"></span>
+                    </td>
+                    <td>
+                    </td>
+                    <td class=" ">
+                        <span class="@data.EndDate"></span>
+                    </td>
+                    <td class="">
+                        @data.ActualDuration
+                    </td>
+                    <td class="">
+                        @data.TotalDuration
+                    </td>
+                    <td class="">
+                        <span class="@data.ReturnDate"></span>
+                    </td>
+                    <td class="">
+                        @data.AvailableOnPhone
+                    </td>
+                    <td>
+                        <span class="@data.ApprovedDate"></span>
+                    </td>
+                    <td class="">
+                        @data.Status
+                    </td>
+                    <td class="">
+                        @data.AdhocLeave
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <a class="editIcon text-decoration-none"
+                            href='/' id="editIcon">
+                            <i class="bi bi-pen"></i>
+                            </a>
+                            <a asp-action="OrderDetails" asp-controller="Order" asp-route-orderId="@data.LeaveRequestId"
+                                class="btn " type="button">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a class="btn deleteBookBtn p-0" data-id="@data.LeaveRequestId" data-bs-toggle="modal"
+                               data-bs-target="#deleteBookModal">
+                                @* <i class="deleteTaxBtn bi bi-trash text-black"></i> *@
+                                <i class="deleteTaxBtn bi bi-x-lg"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination Section -->
+<div class="d-flex flex-row justify-content-end  gap-2 mb-3 align-items-center">
+    <p class="pt-3 text-black">Items per page</p>
+    <div class="dropdown">
+        <select class="form-select w-auto " onchange="LeaveRequestPaginationAjax(@Model.Page.CurrentPage)"
+            aria-label="Default select example" id="leaveRequestPageSize">
+            @if (Model.Page.PageSize != null)
+            {
+                <option value="2" selected="@(Model.Page.PageSize == 2 ? true : false)">2</option>
+                <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option>
+                <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false)">5</option>
+                <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
+                <option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>
+            }
+        </select>
+    </div>
+    <p class="pt-3 text-black">Showing @Model.Page!.FromRec - @Model.Page.ToRec of @Model.Page.TotalRecord</p>
+
+    <!-- Previous Button -->
+    <button class="btn btn-outline-primary col-auto" onclick="LeaveRequestPaginationAjax(@Model.Page.CurrentPage - 1)"
+        @(Model.Page.CurrentPage > 1 ? "" : "disabled")> &lt; </button>
+
+    <!-- Next Button -->
+    <button class="btn btn-outline-primary col-auto" onclick="LeaveRequestPaginationAjax(@Model.Page.CurrentPage + 1)"
+        @(Model.Page.CurrentPage < Model.Page.TotalPages ? "" : "disabled")> &gt; </button>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>

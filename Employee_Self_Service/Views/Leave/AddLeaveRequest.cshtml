@@ -1,0 +1,169 @@
+@model Employee_Self_Service_DAL.ViewModel.AddLeaveRequestViewModel
+<div class=" d-flex flex-column py-3 ">
+    <div class="px-3 d-flex justify-content-between align-items-center">
+        <div>
+            <h6>Leave</h6>
+            <h4 class=" d-flex align-content-center m-0">Add Leave Request</h4>
+        </div>
+
+
+    </div>
+    <hr class="dropdown-divider">
+
+    <form asp-action="AddLeaveRequest" asp-controller="Leave">
+    <div class="details ">
+
+        <div class="row col col-xxl-6 col-xl-7 col-lg-12 px-4">
+
+            <!-- First Row -->
+            <label for="itemName" class="p-0 mb-1"> Name</label>
+            <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@Model.Name" id="Name" value="">
+
+            <!-- Second Row -->
+            <label for="itemName" class="p-0 mb-1 mt-3"> Reporting Person</label>
+            <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@Model.ReportingPerson" id="ReportingPerson" value="">
+
+            <!-- Third Row -->
+            <label for="itemName" class="p-0 mb-1 mt-3"> Leave Reason</label>
+            <select class="form-select d-flex align-content-end align-items-end justify-content-end rounded-0"
+                id="Reason">
+                <option value="">Select a Reason</option>
+            </select>
+
+            <label for="itemName" class="p-0 mb-1 mt-3"> Reason Description</label>
+
+            <textarea class="form-control rounded-0 shadow-none border-2" rows="4" aria-required="false"
+                aria-invalid="false"> </textarea>
+            <!-- Fourth Row -->
+            <label for="itemName" class="p-0 mt-3 mb-1"> Leave Start Date</label>
+            <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap  p-0">
+
+                <div class=" col">
+
+                    <div>
+
+                        <input type="date" class="form-control rounded-0" id="leaveRequestFromDate">
+                    </div>
+
+                    @* <span asp-validation-for="Department" class="text-danger"></span> *@
+                </div>
+                <div class="col ">
+
+                    <select class="form-select d-flex align-content-end align-items-end justify-content-end rounded-0"
+                        id="Reason">
+                        <option value="">Select a Reason</option>
+                    </select>
+                    @* <span asp-validation-for="Designation" class="text-danger"></span> *@
+                </div>
+            </div>
+
+            <!-- Fifth Row -->
+            <label for="itemName" class="p-0 mt-3 mb-1"> Leave End Date</label>
+            <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap  p-0">
+
+                <div class=" col">
+
+                    <div>
+
+                        <input type="date" class="form-control rounded-0" id="leaveRequestFromDate">
+                    </div>
+
+                    @* <span asp-validation-for="Department" class="text-danger"></span> *@
+                </div>
+                <div class="col ">
+
+                    <select class="form-select d-flex align-content-end align-items-end justify-content-end rounded-0"
+                        id="Reason">
+                        <option value="">Select a Reason</option>
+                    </select>
+                    @* <span asp-validation-for="Designation" class="text-danger"></span> *@
+                </div>
+            </div>
+
+            <!-- Sixth Row -->
+            <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap mt-3 mb-1  p-0">
+
+                <div class=" col">
+
+                    <div>
+                        <label for="itemName" class="p-0 mb-1">Actual Leave Duration</label>
+                        <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" value="">
+                    </div>
+
+                    @* <span asp-validation-for="Department" class="text-danger"></span> *@
+                </div>
+                <div class="col ">
+                    <label for="itemName" class="p-0 mb-1"> Total Leave Duration</label>
+                    <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" value="">
+                    @* <span asp-validation-for="Designation" class="text-danger"></span> *@
+                </div>
+
+
+            </div>
+
+            <!-- Seventh Row -->
+            <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap mt-3 mb-1  p-0">
+
+                <div class=" col">
+
+                    <div>
+                        <label for="itemName" class="p-0 mb-1"> Return Date</label>
+                        <input type="date" class="form-control rounded-0" id="leaveRequestFromDate">
+                    </div>
+
+                    @* <span asp-validation-for="Department" class="text-danger"></span> *@
+                </div>
+                <div class="col ">
+                    <label for="itemName" class="p-0 mb-1"> Requested Date</label>
+                    <input type="date" class="form-control rounded-0" id="leaveRequestFromDate">
+                    @* <span asp-validation-for="Designation" class="text-danger"></span> *@
+                </div>
+
+
+            </div>
+
+            <!-- Eighth Row -->
+            <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap mt-3 mb-1  p-0">
+
+                <div class=" col">
+
+                    <div>
+                        <label for="itemName" class="p-0 mb-1">Phone No*</label>
+                        <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" value="">
+                    </div>
+
+                    @* <span asp-validation-for="Department" class="text-danger"></span> *@
+                </div>
+                <div class="col ">
+                    <label for="itemName" class="p-0 ">Alternate Phone No* </label>
+                    <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" value="">
+                    @* <span asp-validation-for="Designation" class="text-danger"></span> *@
+                </div>
+
+
+            </div>
+
+            <!-- Nineth Row -->
+            <label for="itemName" class="p-0 mb-1 mt-3"> Available On Phone</label>
+            <select class="form-select d-flex align-content-end align-items-end justify-content-end rounded-0"
+                id="Reason">
+                <option value="">Select a Reason</option>
+            </select>
+
+            <div class="form-check mt-3">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Adhoc Leave?
+                </label>
+            </div>
+            <div class="d-flex justify-content-start mt-4 gap-2 p-0">
+                <button type="submit" id="customDateApplyModel" class="btn btn-primary rounded-0">Save</button>
+                <a href="/Profile/MyProfile"><button type="button"
+                        class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
+            </div>
+        </div>
+
+    </div>
+    </form>
+
+</div>

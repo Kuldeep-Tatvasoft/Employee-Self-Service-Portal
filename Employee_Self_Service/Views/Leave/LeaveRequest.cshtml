@@ -2,11 +2,8 @@
     Layout = "_Layout";
 }
 
-
-
-
 <div class="container-fluid ">
-    <div class="row  p-0 justify-content-sm-between orders ">
+    <div class="row  p-0 justify-content-sm-between orders col ">
         <div class="d-flex flex-column py-3 px-1">
             <div class="px-4 d-flex justify-content-between align-items-center">
                 <div>
@@ -14,143 +11,163 @@
                     <h4 class=" d-flex align-content-center m-0">Leave Request</h4>
                 </div>
 
-                @* <button type="button" class="btn btn-white border-primary text-primary"> <a href="/Home/Index"
-                class=" text-decoration-none">
-                < Back</a> </button> *@
-                <i class="bi bi-plus-square-fill fs-2"></i>
-                @* <i class="bi bi-plus-lg fs-2" style="background-color: #f5f5f8;"></i> *@
+               <a href="/Leave/AddLeaveRequest" class="text-dark"><i class="bi bi-plus-square-fill fs-2"></i></a>
+                
+                
             </div>
             <hr class="dropdown-divider">
         </div>
 
-
-        @* <div class="col-12 col-md-10 col-xl-10 col-xxl-10 col-lg-10 align-items-center gap-3 d-sm-flex
-        justify-content-end mb-2">
-            <div class="col">
-                <div class="row align-items-center d-flex align-item-center ">
-                    <div class="col-md-auto col-12 col-lg-3 ">
-                        <label for="itemName" class="mx-2 mb-1">From Date</label>
-                        <input type="date" class="form-control rounded-0" id="ordersFromDate">
-
-                    </div>
-
-                    <div class="col-md-auto col-12 col-xl-3 col-lg-4">
-
-                        <label for="itemName" class="mx-2 mb-1 ">To Date</label>
-                        <input type="date" class="form-control rounded-0 " id="ordersToDate">
-                    </div>
-                </div>
-            </div>
-
-            <div class="row align-items-center d-flex align-item-center justify-content-end ">
-
-                <div class="col-md-auto col-12 ">
-                    <select class="form-select py-2 my-2" id="ordersTime">
-                        <option value="All Time">All Time</option>
-                        <option value="Last 7 days">Last 7 days</option>
-                        <option value="Last 30 days">Last 30 days</option>
-                        <option value="Current Month">Current Month</option>
-                    </select>
-                </div>
-                <div class="col-md-auto col-12 justify-content-center justify-content-md-end">
-                    <a class="btn w-auto my-1 my-lg-0 ms-1 d-flex align-items-center justify-content-center text-white"
-                        id="exportOrderBtn" style="background-color:#0066a7">
-                        <i class="fa-solid fa-share-from-square me-2"></i>
-                        Export
-                    </a>
-                </div>
-            </div>
-
-        </div> *@
-        @* <div class="row"> *@
-        @* <div
-            class="d-flex flex-column flex-xl-row justify-content-center justify-content-lg-start align-items-end mb-3">
-            <div class="row ">
-                <div class="dateSelection  px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-4 col-xl-4  col-12">
-                    <label for="itemName" class="mx-2 mb-1">From Date</label>
-                    <input type="date" class="form-control rounded-0" id="ordersFromDate">
-
+        <div class="d-flex flex-column flex-xl-row gap-3 justify-content-start align-content-end mb-3">
+            <div class="row col ">
+                <div class="dateSelection  px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-6 col-xl-2  col-12">
+                    <label for="itemName" class=" mb-1"> Date From</label>
+                    <input type="date" class="form-control rounded-0" id="leaveRequestFromDate">
                 </div>
 
-                <div class="dateSelection re px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-4 ">
-                    <label for="itemName" class="mx-2 mb-1 ">To Date</label>
-                    <input type="date" class="form-control rounded-0 " id="ordersToDate">
-
+                <div class="dateSelection re px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-6 col-xl-2 ">
+                    <label for="itemName" class=" mb-1 "> Date To</label>
+                    <input type="date" class="form-control rounded-0 " id="leaveRequestToDate">
                 </div>
 
-                <div class="col-md-auto col-12 col-xl-3 col-lg-4 ">
-                    <label for="itemName" class="mx-2 mb-1 ">Status</label>
-                    <select class="form-select  rounded-0 " id="ordersStatus">
-                        <option value="All Status">All Status</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Served">Served</option>
-                        <option value="Completed">Approved</option>
-                        <option value="Cancelled">Cancelled</option>
-                        <option value="Failed">Failed</option>
+                <div class="col-md-6 col-12 col-xl-3 col-lg-6 col-xl-2 ">
+                    <label for="itemName" class=" mb-1 ">Status</label>
+                    <select class="form-select  rounded-0 " id="leaveRequestStatus">
+                        <option value="1">All </option>
+                        <option value="2">Approved</option>
+                        <option value="3" selected>Pending</option>                        
+                        <option value="4">Cancelled</option>
+                        <option value="5">Rejected</option>
                     </select>
                 </div>
 
-                <div class="d-flex col-md-auto ms-2 col-md-auto col-12 col-xl-3 col-lg-4 ">
-                    <a class="btn btn-primary   px-4" style="background-color:#0066a7" id="searchOrder">
+                <div class="d-flex align-items-end  col-12 col-xl-3 col-lg-6 col-xl-2 mt-3 ">
+                    <a class="btn btn-primary rounded-0  px-4" style="background-color:#0066a7" id="searchleaveRequest">
                         Search
                     </a>
-                    <a class="btn cancle_btn clear  ms-2 px-4 border-primary text-primary fw-semibold">
-                        Clear
+                    <a class="btn cancle_btn clear rounded-0 ms-2 px-4 border-primary text-primary fw-semibold">
+                        Reset
                     </a>
                 </div>
-
-            </div>
-        </div> *@
-         <div
-            class="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-start align-items-center mb-3">
-            <div class="dateSelection form-floating px-2 my-1 my-lg-0 col-sm-8 col-md-10 col-lg-3 col-xl-2">
-                <input type="date" class="form-control" id="ordersFromDate">
-                <label for="itemName" class="mx-2">From Date</label>
-            </div>
-            <div class="dateSelection form-floating px-2 my-1 my-lg-0 col-sm-8 col-md-10 col-lg-3 col-xl-2">
-                <input type="date" class="form-control" id="ordersToDate">
-                <label for="itemName" class="mx-2">To Date</label>
-            </div>
-             <div class="col-md-auto col-12 col-xl-3 col-lg-4">
-                
-                <select class="form-select py-2 my-2" id="ordersStatus">
-                    <option value="All Status">All Status</option>
-                    <option value="Pending">Pending</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Served">Served</option>
-                    <option value="On Hold">On Hold</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Cancelled">Cancelled</option>
-                    <option value="Failed">Failed</option>
-                </select>
-            </div>
-             <div class="col-md-auto col-12 col-xl-3 col-lg-4">
-                
-                <select class="form-select py-2 my-2" id="ordersStatus">
-                    <option value="All Status">All Status</option>
-                    <option value="Pending">Pending</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Served">Served</option>
-                    <option value="On Hold">On Hold</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Cancelled">Cancelled</option>
-                    <option value="Failed">Failed</option>
-                </select>
-                </div>
-            <div class="d-flex ms-2 p-1">
-                <a class="btn btn-primary d-flex justify-content-center align-items-center px-4"
-                    style="background-color:#0066a7" id="searchOrder">
-                    Search
-                </a>
-                <a
-                    class="btn cancle_btn clear d-flex justify-content-center align-items-center ms-2 px-4 border-primary text-primary fw-semibold">
-                    Clear
-                </a>
             </div>
         </div>
-        <div id="ordersTableList" class="table_container">
+        <div class="row d-flex  col-md-auto col-12 col-lg-3  mb-3 ">
+                    
+                    <div class="input-group d-flex ">
+                        <input type="text" class="search form-control border-end-0 outline:none" id="leaveSearchInput"
+                            aria-label="Amount (to the nearest dollar)" oninput="LeaveRequestPaginationAjax(1)">
+                        <span onclick="clearSearch()" class="input-group-text bg-white"><i
+                                class="bi bi-search"></i></span>
+                    </div>
         </div>
-
-
+        
+        
+        <div id="leaveRequestTableList" class="table_container">
+            
+        </div>
     </div>
 </div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    let sortColumn = '';
+    let sortDirection = 'asc';
+    let id;
+
+    function LeaveRequestPaginationAjax(pageNumber) {
+        
+
+        let pageSize = $("#leaveRequestPageSize").val();
+        if (pageSize == 0 || pageSize == null) pageSize = 3;
+        if (pageNumber === 0) pageNumber = 1;
+        var searchQuery = $('#leaveSearchInput').val() || '';
+
+        if (pageNumber === 0) {
+            pageNumber = @((Model?.Page!.CurrentPage ?? 1));
+        }
+
+        let leaveRequestFromDate = $('#leaveRequestFromDate').val();
+        let leaveRequestToDate = $('#leaveRequestToDate').val();
+        let leaveRequestStatus = $('#leaveRequestStatus').val();
+
+        $.ajax({
+            url: "/Leave/GetRequestList",
+            data: {
+                pageSize: pageSize,
+                pageNumber: pageNumber,
+                searchQuery: searchQuery,
+                sortColumn: sortColumn,
+                sortDirection: sortDirection,
+                leaveRequestFromDate: leaveRequestFromDate,
+                leaveRequestToDate: leaveRequestToDate,
+                leaveRequestStatus: leaveRequestStatus
+            },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                console.log("Hello");
+                $("#leaveRequestTableList").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#leaveRequestTableList").html('An error has occurred');
+            }
+        });
+    }
+
+    function sortBy(column) {
+        if (sortColumn === column) {
+            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            sortDirection = 'asc';
+        }
+        sortColumn = column;
+        LeaveRequestPaginationAjax(1); 
+    }
+
+    $('#searchleaveRequest').click(function () {
+        console.log("search");
+
+        LeaveRequestPaginationAjax(1);
+    });
+
+    $(document).ready(function () {
+        LeaveRequestPaginationAjax(1);
+        console.log("hello");
+    });
+    @* function changePageSize(size) {
+        $("#leaveRequestPageSize").val(size);
+            LeaveRequestPaginationAjax(1); 
+    } *@
+    @* function changePageSize(size) {
+            localStorage.setItem('pageSize', size);
+            LeaveRequestPaginationAjax(1); 
+        } *@
+
+    function clearSearch() {
+        $('#searchInput').val('');
+        LeaveRequestPaginationAjax(1);
+    }
+
+    $(document).ready(function () {
+        var today = new Date().toISOString().split("T")[0];
+        $("#leaveRequestFromDate, #leaveRequestToDate").attr("max", today);
+
+        $("#leaveRequestFromDate").on("change", function () {
+            var leaveRequestFromDate = $(this).val();
+            $("#leaveRequestToDate").attr("min", leaveRequestFromDate);
+        });
+
+        $("#leaveRequestToDate").on("change", function () {
+            var leaveRequestToDate = $(this).val();
+            $("#leaveRequestFromDate").attr("max", leaveRequestToDate);
+        });
+    });
+
+    $(document).on("click",".cancle_btn",function(){
+        $("#leaveRequestFromDate").val(""); 
+        $("#leaveRequestToDate").val("");
+        $('#leaveRequestStatus').val(3)
+    })
+</script>
