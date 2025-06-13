@@ -5,11 +5,9 @@ namespace Employee_Self_Service_DAL.Models;
 
 public partial class LeaveRequest
 {
-    public int Id { get; set; }
+    public DateOnly? StartDate { get; set; }
 
-    public DateTime? StartDate { get; set; }
-
-    public DateTime? EndDate { get; set; }
+    public DateOnly? EndDate { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
@@ -21,7 +19,7 @@ public partial class LeaveRequest
 
     public int EmployeeId { get; set; }
 
-    public int ApprovedBy { get; set; }
+    public int? ApprovedBy { get; set; }
 
     public int? StatusId { get; set; }
 
@@ -37,9 +35,17 @@ public partial class LeaveRequest
 
     public int? Reason { get; set; }
 
-    public DateTime? ReturnDate { get; set; }
+    public DateOnly? ReturnDate { get; set; }
 
-    public virtual Employee ApprovedByNavigation { get; set; } = null!;
+    public int? ActualLeaveDuration { get; set; }
+
+    public int? TotalLeaveDuration { get; set; }
+
+    public string? AlternatePhoneMo { get; set; }
+
+    public int LeaveRequestId { get; set; }
+
+    public virtual Employee? ApprovedByNavigation { get; set; }
 
     public virtual Employee Employee { get; set; } = null!;
 
@@ -48,4 +54,6 @@ public partial class LeaveRequest
     public virtual Reason? ReasonNavigation { get; set; }
 
     public virtual RequestStatus? Status { get; set; }
+
+    
 }

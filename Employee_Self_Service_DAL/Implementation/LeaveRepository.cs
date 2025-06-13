@@ -19,20 +19,18 @@ public class LeaveRepository : ILeaveRepository
     public async Task<LeaveRequestPaginationViewModel> GetPaginatedRequest(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus)
     {
         var query = _context.LeaveRequests
-                    // .Include(l => l.LeaveType)
                     .Include(l => l.Status)
-                    // .Include(l => l.Reason)
                     .Where(l => !l.IsDeleted)
                     .Select(l => new LeaveRequestDetailsViewModel 
                     {
-                        LeaveRequestId = l.Id,
-                        StartDate = l.StartDate,
-                        EndDate = l.EndDate,
-                        ActualDuration =  (int)(l.EndDate.Value - l.StartDate.Value).TotalDays,
-                        TotalDuration =  (int)(l.EndDate.Value - l.StartDate.Value).TotalDays,
-                        ReturnDate = l.ReturnDate,
+                        LeaveRequestId = l.LeaveRequestId,
+                        StartDate = (DateOnly)l.StartDate,
+                        EndDate = (DateOnly)l.EndDate,
+                        ActualDuration =  (int)(((DateOnly)l.EndDate).DayNumber - ((DateOnly)l.StartDate).DayNumber),
+                        TotalDuration = (int)(((DateOnly)l.EndDate).DayNumber - ((DateOnly)l.StartDate).DayNumber),
+                        ReturnDate = (DateOnly)l.ReturnDate,
                         AvailableOnPhone = l.AvailableOnPhone,
-                        ApprovedDate = (DateTime)l.ApprovedAt,
+                        // ApprovedDate = (DateTime)l.ApprovedAt,
                         Status = l.Status.Status,
                         AdhocLeave = l.AdhocLeave,
                         Date = DateOnly.FromDateTime(l.CreatedAt.Value) 
@@ -85,6 +83,42 @@ public class LeaveRepository : ILeaveRepository
         model.Page.SetPagination(totalRecords, pageSize, pageNumber);
 
         return model;
+    }
+
+    public async Task<List<Reason>> GetReason()
+    {
+        return _context.Reasons.ToList();
+    }
+
+    public async Task<List<LeaveType>> GetLeaveType()
+    {
+        return _context.LeaveTypes.ToList();
+    }
+
+    public async Task<ResponseViewModel> AddRequest(LeaveRequest request)
+    {   
+        try
+        {   
+            _context.Add(request);
+            await _context.SaveChangesAsync();
+            return new ResponseViewModel{
+                success = true,
+                message = "Request Added Successfully"
+            };
+        }
+        catch (Exception ex)
+        {   
+            return new ResponseViewModel{
+                success = false,
+                message = ex.Message
+            };
+        }
+        
+
+    }
+    public async Task<LeaveRequest> GetEditDetails(int requestId)
+    {
+        return await _context.LeaveRequests.FirstOrDefaultAsync(u => u.LeaveRequestId == requestId);
     }
 
 }

@@ -18,11 +18,7 @@
                         class="text-decoration-none text-dark">Actual Duration<i class="bi bi-arrow-down-up" id="sort-by-role"
                             data-direction="asc"></i> </a>
                 </th>
-                <th class="">
-                    <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
-                        class="text-decoration-none text-dark">Total Duration<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
+                
                 <th class="">
                     <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
                         class="text-decoration-none text-dark">Total Duration<i class="bi bi-arrow-down-up" id="sort-by-role"
@@ -68,13 +64,9 @@
                         @{count++;
                         }
                     </td>
-                    <td>
-                        <span class="@data.StartDate"></span>
-                    </td>
-                    <td>
-                    </td>
+                    <td>@data.StartDate</td>
                     <td class=" ">
-                        <span class="@data.EndDate"></span>
+                        @data.EndDate
                     </td>
                     <td class="">
                         @data.ActualDuration
@@ -83,13 +75,15 @@
                         @data.TotalDuration
                     </td>
                     <td class="">
-                        <span class="@data.ReturnDate"></span>
+                        @data.ReturnDate
+                        @* <span class="@data.ReturnDate"></span> *@
                     </td>
                     <td class="">
                         @data.AvailableOnPhone
                     </td>
                     <td>
-                        <span class="@data.ApprovedDate"></span>
+                        @data.ApprovedDate
+                        @* <span class="@data.ApprovedDate"></span> *@
                     </td>
                     <td class="">
                         @data.Status
@@ -99,11 +93,15 @@
                     </td>
                     <td>
                         <div class="d-flex align-items-center">
-                            <a class="editIcon text-decoration-none"
-                            href='/' id="editIcon">
-                            <i class="bi bi-pen"></i>
+                            @* <a class="editIcon text-decoration-none"
+                             id="editIcon" asp-action="OrderDetails" asp-controller="Leave" asp-route-requestId="@data.LeaveRequestId">
+                            <i class="bi bi-pen"  /></i>
+                            </a> *@
+                            <a asp-action="AddLeaveRequest" asp-controller="Leave" asp-route-requestId="@data.LeaveRequestId" 
+                                class="btn " type="button">
+                                <i class="bi bi-pen" ></i>
                             </a>
-                            <a asp-action="OrderDetails" asp-controller="Order" asp-route-orderId="@data.LeaveRequestId"
+                            <a asp-action="OrderDetails" asp-controller="Leave" asp-route-orderId="@data.LeaveRequestId"
                                 class="btn " type="button">
                                 <i class="bi bi-eye"></i>
                             </a>

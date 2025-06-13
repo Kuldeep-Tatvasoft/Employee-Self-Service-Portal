@@ -15,6 +15,7 @@ html {
 html {
   position: relative;
   min-height: 100%;
+ 
 }
 
 body {
@@ -153,7 +154,6 @@ form i{
   margin-left: 200px !important;
 }
 
-.Leave{
-  overflow-y: scroll;
+.leave{
+  overflow-y: scroll; 
 }
-

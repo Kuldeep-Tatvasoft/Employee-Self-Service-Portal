@@ -21,146 +21,152 @@
 </head>
 
 <body>
-<div class="  ">
-    <div class="">
-        <header class="header bg-primary p-2  d-flex justify-content-between w-100 ">
-            <div class="img  col-sm-4 col-md-3 col-4 col-xl-2 col-xxl-2 d-flex align-items-center">
-                <div class="logo-div d-flex align-items-center justify-content-start gap-1 ">
-                    <a class="navbar-brand text-white fw-semibold" asp-area="" asp-controller="Home"
-                        asp-action="Index">Employee_Self_Service</a>
-                </div>
-            </div>
+    <div class="  ">
+        <div class="">
+            
 
-            <div class="col d-flex justify-content-end px-2 w-100 ">
-                <div class="input-group w-25 rounded-3 p-2">
-                    <input type="text" class="search form-control w-25 border-end-0 outline:none d-sm-block d-none"
-                        id="searchInput" placeholder="Search" aria-label="Amount (to the nearest dollar)">
-                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                </div>
 
-                <div class="dropdown">
-                    <button class="btn shadow-none  border-none " type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <img src="@(!string.IsNullOrEmpty(profileImage) ? profileImage : "/images/Default_pfp.svg.png")"
-                            alt="" class="user-img rounded-circle">
-                    </button>
-                    <ul class="dropdown-menu p-4 ">
-                        <li class="d-flex align-items-center flex-column gap-1 fw-bold text-secondary">
-                            <div class="d-flex align-items-center  ">
-                                <img src="@(!string.IsNullOrEmpty(profileImage) ? profileImage : "~/images/Default_pfp.svg.png")"
-                                    alt="" class="user-img1 rounded-circle">
-                            </div>
-                            <div>
-                                @username
-                            </div>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <div class="d-flex ">
-                                <a class="text-decoration-none" asp-action="MyProfile" asp-controller="Profile"><button
-                                        class="dropdown-item p-0 mt-2 fw-bold text-secondary gap-1 d-flex justify-content-start"
-                                        type="submit">
-                                        <i class="fa-solid fa-user mt-1"></i>
-                                        <span class="">My Profile</span></button></a>
-                            </div>
+                <header class="header bg-primary p-2  d-flex justify-content-between w-100  ">
+                    <div class="img  col-sm-4 col-md-3 col-4 col-xl-2 col-xxl-2 d-flex align-items-center">
+                        <div class="logo-div d-flex align-items-center justify-content-start gap-1 ">
+                            <a class="navbar-brand text-white fw-semibold" asp-area="" asp-controller="Home"
+                                asp-action="Index">Employee_Self_Service</a>
+                        </div>
+                    </div>
 
-                        </li>
-                        <li>
-                            <a href="/Profile/ChangePassword" class="text-decoration-none">
-                            <button
-                                class="dropdown-item p-0 mt-2 fw-bold text-secondary d-flex align-items-center justify-content-start "
-                                type="submit">
-                                <i class=" fa-solid fa-lock "></i>&nbsp;
-                                <span class="">Change Password</span>
-                            </button></a>
-                        </li>
-                        <li>
+                    <div class="col d-flex justify-content-end px-2 w-100 ">
+                        <div class="input-group w-25 rounded-3 p-2">
+                            <input type="text"
+                                class="search form-control w-25 border-end-0 outline:none d-sm-block d-none"
+                                id="searchInput" placeholder="Search" aria-label="Amount (to the nearest dollar)">
+                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        </div>
 
-                            <button
-                                class="dropdown-item p-0 mt-2  fw-bold text-secondary d-flex align-items-center justify-content-start "
-                                data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <i class="fa-solid fa-sign-out"></i>&nbsp;
-                                Logout
+                        <div class="dropdown">
+                            <button class="btn shadow-none  border-none " type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <img src="@(!string.IsNullOrEmpty(profileImage) ? profileImage : "/images/Default_pfp.svg.png")"
+                                    alt="" class="user-img rounded-circle">
                             </button>
-                        </li>
-                    </ul>
+                            <ul class="dropdown-menu p-4 ">
+                                <li class="d-flex align-items-center flex-column gap-1 fw-bold text-secondary">
+                                    <div class="d-flex align-items-center  ">
+                                        <img src="@(!string.IsNullOrEmpty(profileImage) ? profileImage : "~/images/Default_pfp.svg.png")"
+                                            alt="" class="user-img1 rounded-circle">
+                                    </div>
+                                    <div>
+                                        @username
+                                    </div>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <div class="d-flex ">
+                                        <a class="text-decoration-none" asp-action="MyProfile"
+                                            asp-controller="Profile"><button
+                                                class="dropdown-item p-0 mt-2 fw-bold text-secondary gap-1 d-flex justify-content-start"
+                                                type="submit">
+                                                <i class="fa-solid fa-user mt-1"></i>
+                                                <span class="">My Profile</span></button></a>
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <a href="/Profile/ChangePassword" class="text-decoration-none">
+                                        <button
+                                            class="dropdown-item p-0 mt-2 fw-bold text-secondary d-flex align-items-center justify-content-start "
+                                            type="submit">
+                                            <i class=" fa-solid fa-lock "></i>&nbsp;
+                                            <span class="">Change Password</span>
+                                        </button></a>
+                                </li>
+                                <li>
+
+                                    <button
+                                        class="dropdown-item p-0 mt-2  fw-bold text-secondary d-flex align-items-center justify-content-start "
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <i class="fa-solid fa-sign-out"></i>&nbsp;
+                                        Logout
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+            
+            <div class="main-container col d-flex ">
+
+                <!-- Sidebar  -->
+
+                <div class="sidebar col-sm-4 col-0 col-md-3 col-lg-3 col-xl-2 col-xxl-2 d-sm-block d-none  ">
+
+                    <aside class="aside bg-white ">
+                        <nav class="navbar d-flex flex-column gap-3">
+                            <ul class="bullet d-flex flex-column gap-4 w-100 p-2 ">
+
+                                <li class="Dashboard list-active d-flex align-items-center gap-2 ">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a href="/Home/Index"
+                                            class="d-flex text-decoration-none text-dark align-items-center gap-2 @((ViewData["ActiveLink"] as string) == "Dashboard" ? "active" : "")">
+                                            <i class="fa-solid fa-table-cells-large "></i><span
+                                                class="icon-name fw-bold ">Dashboard</span></a>
+                                    </div>
+                                </li>
+                                <li class="Leave d-flex align-items-center gap-2  ">
+
+                                    <a href="/Leave/LeaveRequest"
+                                        class="d-flex text-decoration-none text-dark align-items-center gap-2 ">
+                                        <i class="fa-solid fa-pen-to-square"></i><span
+                                            class="icon-name icon-name-inner fw-bold">Leave</span></a>
+                                </li>
+                                <li class="HelpDesk d-flex align-items-center gap-2">
+                                    <a class="d-flex text-decoration-none text-dark align-items-center gap-2 ">
+                                        <i class="fa-solid fa-user-clock "></i><span
+                                            class="icon-name fw-bold ">HelpDesk</span></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </aside>
                 </div>
-            </div>
-        </header>
-    
-        <div class="main-container  col d-flex vh-100">
 
-            <!-- Sidebar  -->
-
-            <div class="sidebar col-sm-4 col-0 col-md-3 col-lg-3 col-xl-2 col-xxl-2 d-sm-block d-none ">
-
-                <aside class="aside bg-white ">
-                    <nav class="navbar d-flex flex-column gap-3">
-                        <ul class="bullet d-flex flex-column gap-4 w-100 p-2 ">
-
-                            <li class="Dashboard list-active d-flex align-items-center gap-2 ">
-                                <div class="d-flex align-items-center gap-2">
-                                    <a href="/Home/Index" 
-                                        class="d-flex text-decoration-none text-dark align-items-center gap-2 @((ViewData["ActiveLink"] as string) == "Dashboard" ? "active" : "")">
-                                        <i class="fa-solid fa-table-cells-large "></i><span
-                                            class="icon-name fw-bold ">Dashboard</span></a>
-                                </div>
-                            </li>
-                            <li class="Leave d-flex align-items-center gap-2  ">
-
-                                <a href="/Leave/LeaveRequest" class="d-flex text-decoration-none text-dark align-items-center gap-2 ">
-                                    <i class="fa-solid fa-pen-to-square"></i><span
-                                        class="icon-name icon-name-inner fw-bold">Leave</span></a>
-                            </li>
-                            <li class="HelpDesk d-flex align-items-center gap-2">
-                                <a class="d-flex text-decoration-none text-dark align-items-center gap-2 ">
-                                    <i class="fa-solid fa-user-clock "></i><span
-                                        class="icon-name fw-bold ">HelpDesk</span></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </aside>
-            </div>
-
-            <div class="sub  col-12 col-sm-8 col-md-9 col-lg-9 col-xl-10 col-xxl-10 h-100 ">
-                <div>
-                    @RenderBody()
+                <div class="sub  col-12 col-sm-8 col-md-9 col-lg-9 col-xl-10 col-xxl-10 h-100 ">
+                    <div>
+                        @RenderBody()
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
 
-    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered text-secondary">
-            <div class="modal-content">
-                <form asp-action="Logout" asp-controller="Login" method="post">
-                    <div class="modal-body d-flex justify-content-center flex-column align-items-center">
-                        <img src="../images/toppng.com-warning-icon-2400x2400.png" alt="" style="width: 70px">
-                        <p>Are you sure want to logout?</p>
-                    </div>
-                    <div class="modal-footer border border-0 d-flex justify-content-center">
-                        <button type="submit" class="confirmDelete btn btn-primary">YES</button>
-                        
-                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">NO</button>
-                    </div>
-                </form>
+        <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered text-secondary">
+                <div class="modal-content">
+                    <form asp-action="Logout" asp-controller="Login" method="post">
+                        <div class="modal-body d-flex justify-content-center flex-column align-items-center">
+                            <img src="../images/toppng.com-warning-icon-2400x2400.png" alt="" style="width: 70px">
+                            <p>Are you sure want to logout?</p>
+                        </div>
+                        <div class="modal-footer border border-0 d-flex justify-content-center">
+                            <button type="submit" class="confirmDelete btn btn-primary">YES</button>
+
+                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">NO</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await Html.PartialAsync("_TosterPartialView")
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await Html.PartialAsync("_TosterPartialView")
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

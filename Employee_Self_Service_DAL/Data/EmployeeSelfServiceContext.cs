@@ -89,14 +89,16 @@ public partial class EmployeeSelfServiceContext : DbContext
 
         modelBuilder.Entity<LeaveRequest>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("leave_request_pkey");
+            entity.HasKey(e => e.LeaveRequestId).HasName("leave_request_pkey");
 
             entity.ToTable("leave_request");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.LeaveRequestId).HasColumnName("leave_request_id");
+            entity.Property(e => e.ActualLeaveDuration).HasColumnName("actual_leave_duration");
             entity.Property(e => e.AdhocLeave).HasColumnName("adhoc_leave");
+            entity.Property(e => e.AlternatePhoneMo)
+                .HasColumnType("character varying")
+                .HasColumnName("alternate_phone_mo");
             entity.Property(e => e.ApprovedAt)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("approved_at");
@@ -111,22 +113,17 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("deleted_at");
             entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("end_date");
+            entity.Property(e => e.EndDate).HasColumnName("end_date");
             entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
             entity.Property(e => e.LeaveType).HasColumnName("leave_type");
             entity.Property(e => e.Reason).HasColumnName("reason");
             entity.Property(e => e.ReasonDescription)
                 .HasColumnType("character varying")
                 .HasColumnName("reason_description");
-            entity.Property(e => e.ReturnDate)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("return_date");
-            entity.Property(e => e.StartDate)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("start_date");
+            entity.Property(e => e.ReturnDate).HasColumnName("return_date");
+            entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.StatusId).HasColumnName("status_id");
+            entity.Property(e => e.TotalLeaveDuration).HasColumnName("total_leave_duration");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
@@ -134,7 +131,6 @@ public partial class EmployeeSelfServiceContext : DbContext
 
             entity.HasOne(d => d.ApprovedByNavigation).WithMany(p => p.LeaveRequestApprovedByNavigations)
                 .HasForeignKey(d => d.ApprovedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("leave_request_approved_by_fkey");
 
             entity.HasOne(d => d.Employee).WithMany(p => p.LeaveRequestEmployees)

@@ -26,25 +26,26 @@
 
             <!-- Third Row -->
             <label  class="p-0 mb-1 mt-3"> Leave Reason</label>
-            @* <select class="form-select d-flex align-content-end align-items-end justify-content-end "
+            @* <select class="form-select d-flex align-content-end align-items-end justify-content-end rounded-0"
                 asp-for="@Model.ReasonId" id="Reason">
                 <option value="">Select a Reason</option>
             </select> *@
-            
-           
-                    @* <select asp-for="ReasonId" class="form-select dropdown " asp-items="@ViewBag.Reason"
+            @* <select asp-for="ReasonId" class="form-select dropdown rounded-0" asp-items="@ViewBag.ReasonList"
+                        id="ReasonId">
+                        <option value="">Select a Reason</option>
+                    </select> *@
+                    <select asp-for="ReasonId" class="form-select dropdown " asp-items="@ViewBag.Reason"
                         id="LeaveTypeId">
                         <option value=" ">Select a Reason</option>
-                    </select> *@
-                    
-                    <select asp-for="@Model.ReasonId" class="form-select rounded-0" id="reasonSelect"  >
+                    </select>
+                    <span asp-validation-for="ReasonId" class="text-danger"></span>
+                    @* <select asp-for="@Model.ReasonId" class="form-select" id="reasonSelect"  >
                         <option value=" ">Select a Reason</option>
                         @foreach (var reason in Model.Reasons)
                         {   
                             <option value="@reason.ReasonId">@reason.Reason1</option>
                         } 
-                </select>
-                <span asp-validation-for="ReasonId" class="text-danger"></span>
+                </select> *@
             <label for="itemName" class="p-0 mb-1 mt-3"> Reason Description</label>
 
             <textarea class="form-control rounded-0 shadow-none border-2" rows="4" asp-for="@Model.ReasonDescription" aria-required="false"
@@ -57,10 +58,10 @@
 
                     <div>
 
-                        <input type="date" class="form-control rounded-0" id="leaveRequestStartDate" asp-for="@Model.StartDate" value="@Model.StartDate">
+                        <input type="date" class="form-control rounded-0" id="leaveRequestStartDate" asp-for="@Model.StartDate">
                     </div>
 
-                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                    @* <span asp-validation-for="Department" class="text-danger"></span> *@
                 </div>
                 <div class="col ">
 
@@ -68,7 +69,7 @@
                         id="LeaveType">
                         <option value="">Select a Type</option>
                     </select> *@
-                    <select asp-for="LeaveTypeId" class="form-select dropdown " asp-items="@ViewBag.LeaveType" 
+                    <select asp-for="LeaveTypeId" class="form-select dropdown " asp-items="@ViewBag.LeaveType"
                         id="LeaveTypeId">
                     </select>
                     @* <span asp-validation-for="Designation" class="text-danger"></span> *@
@@ -83,7 +84,7 @@
 
                     <div>
 
-                        <input type="date" class="form-control rounded-0" id="leaveRequestEndDate" asp-for="EndDate" >
+                        <input type="date" class="form-control rounded-0" id="leaveRequestEndDate" asp-for="EndDate">
                     </div>
 
                     @* <span asp-validation-for="Department" class="text-danger"></span> *@
@@ -108,15 +109,15 @@
 
                     <div>
                         <label for="itemName" class="p-0 mb-1">Actual Leave Duration</label>
-                        <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" asp-for = "ActualDuration" value="@Model.ActualDuration">
+                        <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" asp-for = "ActualDuration" value="">
                     </div>
 
-                    <span asp-validation-for="ActualDuration" class="text-danger"></span>
+                    @* <span asp-validation-for="Department" class="text-danger"></span> *@
                 </div>
                 <div class="col ">
                     <label for="itemName" class="p-0 mb-1"> Total Leave Duration</label>
-                    <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" value="@Model.TotalDuration" asp-for="TotalDuration" >
-                    <span asp-validation-for="TotalDuration" class="text-danger"></span>
+                    <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" value="" asp-for="TotalDuration">
+                    @* <span asp-validation-for="Designation" class="text-danger"></span> *@
                 </div>
 
 
