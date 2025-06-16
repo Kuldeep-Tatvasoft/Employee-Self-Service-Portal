@@ -34,7 +34,7 @@ public class LoginRepository : ILoginRepository
         return  _context.Employees.Include(u => u.Role).FirstOrDefault(u => u.Email == email );
     }
 
-    public async Task<bool> UpdatePassword(Employee employee)
+    public async Task<bool> UpdateEmployee(Employee employee)
     {   
         _context.Employees.Update(employee);
         await _context.SaveChangesAsync();

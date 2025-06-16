@@ -9,30 +9,35 @@ public class AddLeaveRequestViewModel
     public int LeaveRequestId { get; set; }
     public string Name { get; set; }
     public string ReportingPerson {get; set;}
-    // public string LeaveReason {get; set;}
-    [Required]
+    [Required(ErrorMessage = "Reason is required")]
     public int ReasonId {get; set;}
     [Required]
     public string ReasonDescription {get; set;}
     [Required]
-    public DateOnly StartDate { get; set; }
+    public DateOnly? StartDate { get; set; }   
     public int LeaveTypeId {get; set;}
     [Required]
     public DateOnly? EndDate { get; set; }
+    [Required(ErrorMessage ="ActualDuration is Required")]
+    [Range(1, int.MaxValue, ErrorMessage = "ActualDuration must be at least 1")]    
     public int? ActualDuration { get; set; }
-    public int? TotalDuration { get; set; }
+    [Required(ErrorMessage ="TotalDuration is Required")]
+    [Range(1, int.MaxValue, ErrorMessage = "TotalDuration must be at least 1")]
+    public int TotalDuration { get; set; }
     public DateOnly? ReturnDate { get; set; }
     [Required]
     public bool? AvailableOnPhone { get; set; }
-    public DateOnly RequestedDate {get; set;}
-    public string PhoneNo {get; set;} 
     [Required]
+    public DateOnly RequestedDate {get; set;}
+    [Required (ErrorMessage = "PhoneNo is Required")]
+    [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
+    public string PhoneNo {get; set;} 
+    [Required (ErrorMessage = "AlternatePhoneNo is Required")]
+    [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
     public string AlternatePhoneNo {get; set;} 
-    public DateTime ApprovedDate { get; set; }
-    public string Status { get; set; }
+    [Required]
     public bool AdhocLeave { get; set; }
     public ProfileViewModel profile { get; set; }
-     public  Reason? ReasonNavigation { get; set; }
-      public List<Reason> Reasons { get; set;} = new List<Reason>();
+    public List<Reason> Reasons { get; set;} = new List<Reason>();
 
 }

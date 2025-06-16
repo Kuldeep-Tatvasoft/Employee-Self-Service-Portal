@@ -83,14 +83,46 @@ public class LeaveService : ILeaveService
             ReasonDescription = details.ReasonDescription,
             StartDate = (DateOnly)details.StartDate,
             LeaveTypeId = (int)details.LeaveType,
-            EndDate = details.EndDate,
+            EndDate = (DateOnly)details.EndDate,
             ActualDuration = details.ActualLeaveDuration,
-            TotalDuration = details.TotalLeaveDuration,
+            TotalDuration = (int)details.TotalLeaveDuration,
             ReturnDate = details.ReturnDate,
             AlternatePhoneNo = details.AlternatePhoneMo,
             AvailableOnPhone = details.AvailableOnPhone,
             AdhocLeave = (bool)details.AdhocLeave
         };
         return model;   
+    }
+
+    public async Task<ResponseViewModel> EditRequest(AddLeaveRequestViewModel model)
+    {
+        try
+        {
+        LeaveRequest request = new LeaveRequest
+        {   
+            LeaveRequestId = model.LeaveRequestId,
+            EmployeeId = model.EmployeeId,
+            Reason = model.ReasonId,
+            ReasonDescription = model.ReasonDescription,
+            StartDate = model.StartDate,
+            LeaveType = model.LeaveTypeId,
+            EndDate = model.EndDate,
+            ActualLeaveDuration = model.ActualDuration,
+            TotalLeaveDuration = model.TotalDuration,
+            ReturnDate = model.ReturnDate,
+            AlternatePhoneMo = model.AlternatePhoneNo,
+            AvailableOnPhone = model.AvailableOnPhone,
+            AdhocLeave = model.AdhocLeave
+        };
+
+        ResponseViewModel response = await _leaveRepository.EditRequest(request);
+        return response;
+        }
+        catch{
+            return new ResponseViewModel{
+                success = false,
+                message = "Request Failed to Add"
+            };
+        }
     }
 }

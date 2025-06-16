@@ -10,4 +10,5 @@ public interface ILeaveRepository
     Task<List<LeaveType>> GetLeaveType();
     Task<ResponseViewModel> AddRequest(LeaveRequest request);
     Task<LeaveRequest> GetEditDetails(int requestId);
+    Task<ResponseViewModel> EditRequest(LeaveRequest request);
 }

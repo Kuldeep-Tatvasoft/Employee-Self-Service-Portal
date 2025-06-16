@@ -26,11 +26,10 @@ public class LeaveRepository : ILeaveRepository
                         LeaveRequestId = l.LeaveRequestId,
                         StartDate = (DateOnly)l.StartDate,
                         EndDate = (DateOnly)l.EndDate,
-                        ActualDuration =  (int)(((DateOnly)l.EndDate).DayNumber - ((DateOnly)l.StartDate).DayNumber),
-                        TotalDuration = (int)(((DateOnly)l.EndDate).DayNumber - ((DateOnly)l.StartDate).DayNumber),
+                        ActualDuration = (int)l.ActualLeaveDuration,
+                        TotalDuration = (int)l.TotalLeaveDuration,
                         ReturnDate = (DateOnly)l.ReturnDate,
                         AvailableOnPhone = l.AvailableOnPhone,
-                        // ApprovedDate = (DateTime)l.ApprovedAt,
                         Status = l.Status.Status,
                         AdhocLeave = l.AdhocLeave,
                         Date = DateOnly.FromDateTime(l.CreatedAt.Value) 
@@ -119,6 +118,37 @@ public class LeaveRepository : ILeaveRepository
     public async Task<LeaveRequest> GetEditDetails(int requestId)
     {
         return await _context.LeaveRequests.FirstOrDefaultAsync(u => u.LeaveRequestId == requestId);
+    }
+
+    public async Task<ResponseViewModel> EditRequest(LeaveRequest request)
+    {
+        LeaveRequest leaveRequest = await _context.LeaveRequests.Where(u => u.LeaveRequestId == request.LeaveRequestId).FirstOrDefaultAsync();
+
+        if(leaveRequest == null)
+        {
+            return new ResponseViewModel{
+                success = false,
+                message = "Leave Request Not Exist."
+            };
+        }
+
+        try
+        {
+    
+            _context.LeaveRequests.Update(leaveRequest);
+            await _context.SaveChangesAsync();
+            return new ResponseViewModel{
+                success = true,
+                message = "Leave Request Update Successfully"
+            };
+        }
+        catch(Exception ex)
+        {
+            return new ResponseViewModel{
+                success = false,
+                message = ex.Message
+            };
+        }
     }
 
 }

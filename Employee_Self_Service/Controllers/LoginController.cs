@@ -11,12 +11,11 @@ public class LoginController : Controller
     private readonly IJwtService _jwtService;
     private readonly IEmailService _emailService;
 
-    public LoginController(ILogger<LoginController> logger, ILoginService loginService,  IJwtService jwtService, IEmailService emailService)
+    public LoginController(ILoginService loginService,  IJwtService jwtService, IEmailService emailService)
     {
        _loginService = loginService;
        _jwtService = jwtService;
        _emailService = emailService;
-
     }
 
     #region Login
@@ -33,7 +32,7 @@ public class LoginController : Controller
     public async Task<IActionResult> Index(LoginViewModel model)
     {   
         
-        ResponseViewModel? response =await _loginService.Login(HttpContext,model);
+        ResponseViewModel? response = await _loginService.Login(HttpContext,model);
 
         if (response.message == "Email is not valid")
         {   

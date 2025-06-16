@@ -50,18 +50,37 @@ public class LeaveController : Controller
         return View(model);
     }
 
-
-    public async Task<IActionResult> AddLeaveRequest(AddLeaveRequestViewModel model)
+    [HttpPost]
+    public async Task<IActionResult> AddEditLeaveRequest(AddLeaveRequestViewModel model)
     {
-        ResponseViewModel response =  await _leaveService.AddRequest(model);
-        if (response.success)
-        {
+        if(model.LeaveRequestId == 0){
+            ResponseViewModel response =  await _leaveService.AddRequest(model);
+            if (response.success)
+            {
             TempData["successToastr"] = response.message;
+            }
+            else
+            {
+             TempData["errorToastr"] = response.message;
+            }
         }
         else
         {
-             TempData["errorToastr"] = response.message;
+            ResponseViewModel response = await _leaveService.EditRequest(model);
+            if (response.success)
+            {
+                TempData["successToastr"] = response.message;
+            }
+            else
+            {
+                TempData["errorToastr"] = response.message;
+            }
         }
+        
         return RedirectToAction("LeaveRequest");
     }
+
+    
+
+
 }

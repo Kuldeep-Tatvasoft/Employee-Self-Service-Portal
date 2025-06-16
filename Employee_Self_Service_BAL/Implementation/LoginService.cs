@@ -21,13 +21,13 @@ public class LoginService : ILoginService
         _jwtService = jwtService;
         // _httpContextAccessor = httpContextAccessor;
     }
-    
+
 
     #region Login
     // public LoginViewModel GetUserById(long employeeId)
     // {   
     //     return _loginRepository.GetUserById(employeeId);
-        
+
     // }
 
     public Employee GetUserByEmail(string email)
@@ -36,14 +36,16 @@ public class LoginService : ILoginService
     }
 
     public async Task<ResponseViewModel> Login(HttpContext httpContext, LoginViewModel model)
-    {   
-        try{
+    {
+        try
+        {
             var user = _loginRepository.GetUserByEmail(model.Email);
             if (user == null)
             {
-                
+
                 return new ResponseViewModel
                 {
+                    success = false,
                     message = "Email is not valid"
                 };
             }
@@ -51,52 +53,56 @@ public class LoginService : ILoginService
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(model.Password, user.Password);
             if (!isPasswordValid)
             {
-                return new ResponseViewModel{
+                return new ResponseViewModel
+                {
                     message = "Password is not valid"
                 };
             }
 
             if (user.IsActive == false)
             {
-                return new ResponseViewModel{
+                return new ResponseViewModel
+                {
                     message = "User is not active"
-                }; 
-            } 
-            if(model.RememberMe)   
+                };
+            }
+            if (model.RememberMe)
             {
-                CookieOptions option = new CookieOptions(); 
+                CookieOptions option = new CookieOptions();
                 option.Expires = DateTime.Now.AddHours(24);
                 httpContext.Response.Cookies.Append("email", model.Email, option);
             }
 
-            var token = _jwtService.GenerateJwtToken(model.Email,24, user.Role.Role1);
-            
+            var token = _jwtService.GenerateJwtToken(model.Email, 24, user.Role.Role1);
+
             httpContext.Response.Cookies.Append("token", token);
             httpContext.Response.Cookies.Append("role", user.Role.Role1);
             httpContext.Response.Cookies.Append("profileImage", user.ProfileImage ?? "/images/Default_pfp.svg.png");
             httpContext.Response.Cookies.Append("employeeName", user.Name);
             httpContext.Response.Cookies.Append("EmployeeId", user.EmployeeId.ToString());
-            
-            return new ResponseViewModel{
+
+            return new ResponseViewModel
+            {
                 message = "Login Successfully"
-            } ;
+            };
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            return new ResponseViewModel{
+            return new ResponseViewModel
+            {
                 message = "Internal error."
             };
         }
     }
     #endregion
-    
-    
+
+
     public async Task<bool> UpdatePassword(Employee employee)
     {
-       return await _loginRepository.UpdatePassword(employee);
+        return await _loginRepository.UpdateEmployee(employee);
     }
-    
+
     public async Task<bool> ExistUserByEmail(string Email)
     {
         try
@@ -107,13 +113,14 @@ public class LoginService : ILoginService
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            return false; 
+            return false;
         }
     }
-    public async Task<bool> RegisterUser (RegisterViewModel model)
+    public async Task<bool> RegisterUser(RegisterViewModel model)
     {
         try
-        {   String hashPassword = BCrypt.Net.BCrypt.HashPassword(model.Password); 
+        {
+            String hashPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
             Employee employee = new Employee
             {
                 Name = model.Name,
@@ -124,9 +131,9 @@ public class LoginService : ILoginService
                 Designation = model.Designation,
                 Phone = long.TryParse(model.Phone, out var phone) ? phone : 0
             };
-            if(model.ProfileImage != null)
-                {
-                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            if (model.ProfileImage != null)
+            {
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
@@ -144,12 +151,12 @@ public class LoginService : ILoginService
             }
 
             return await _loginRepository.RegisterUser(employee);
-            
+
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
             return false;
         }
-    } 
+    }
 }

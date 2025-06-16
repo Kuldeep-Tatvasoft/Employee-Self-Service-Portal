@@ -8,7 +8,7 @@ public interface ILoginRepository
     Employee GetUserByEmail(string email);
 
     // LoginViewModel GetUserById(long id);
-    Task<bool> UpdatePassword(Employee employee);
+    Task<bool> UpdateEmployee(Employee employee);
     Task<bool> ExistUserByEmail(string Email);
     Task<bool> RegisterUser(Employee model);
 }
