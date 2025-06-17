@@ -13,13 +13,13 @@
                     <a href="javascript:void(0)" onclick="sortBy('EndDate')" class="text-decoration-none text-dark">End Date<i
                             class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i></a>
                 </th>
-                <th class="">
+                <th class="text-center">
                     <a href="javascript:void(0)" onclick="sortBy('ActualDuration')"
                         class="text-decoration-none text-dark">Actual Duration<i class="bi bi-arrow-down-up" id="sort-by-role"
                             data-direction="asc"></i> </a>
                 </th>
                 
-                <th class="">
+                <th class="text-center">
                     <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
                         class="text-decoration-none text-dark">Total Duration<i class="bi bi-arrow-down-up" id="sort-by-role"
                             data-direction="asc"></i> </a>
@@ -29,7 +29,7 @@
                         class="text-decoration-none text-dark">Return Date<i class="bi bi-arrow-down-up" id="sort-by-role"
                             data-direction="asc"></i> </a>
                 </th>
-                <th class="">
+                <th class="text-center">
                     <a href="javascript:void(0)" onclick="sortBy('AvailableOnPhone')"
                         class="text-decoration-none text-dark">Available On Phone<i class="bi bi-arrow-down-up" id="sort-by-role"
                             data-direction="asc"></i> </a>
@@ -44,7 +44,7 @@
                         class="text-decoration-none text-dark">Status<i class="bi bi-arrow-down-up" id="sort-by-role"
                             data-direction="asc"></i> </a>
                 </th>
-                <th class="">
+                <th class="text-center">
                     <a href="javascript:void(0)" onclick="sortBy('AdhocLeave')"
                         class="text-decoration-none text-dark">Adhoc Leave?<i class="bi bi-arrow-down-up" id="sort-by-role"
                             data-direction="asc"></i> </a>
@@ -68,47 +68,50 @@
                     <td class=" ">
                         @data.EndDate
                     </td>
-                    <td class="">
+                    <td class="text-center">
                         @data.ActualDuration
                     </td>
-                    <td class="">
+                    <td class="text-center">
                         @data.TotalDuration
                     </td>
                     <td class="">
                         @data.ReturnDate
                         @* <span class="@data.ReturnDate"></span> *@
                     </td>
-                    <td class="">
-                        @data.AvailableOnPhone
+                    <td class="text-center">
+                        
+                        @if(data.AvailableOnPhone.GetValueOrDefault())
+                        {
+                            <div>Yes</div>
+                        }
+                        else
+                        {
+                            <div>No</div>
+                        }
                     </td>
                     <td>
-                        @data.ApprovedDate
-                        @* <span class="@data.ApprovedDate"></span> *@
+                       
+                        <span class="@data.ApprovedDate"></span>
                     </td>
                     <td class="">
                         @data.Status
                     </td>
-                    <td class="">
+                    <td class="text-center">
                         @data.AdhocLeave
                     </td>
                     <td>
                         <div class="d-flex align-items-center">
-                            @* <a class="editIcon text-decoration-none"
-                             id="editIcon" asp-action="OrderDetails" asp-controller="Leave" asp-route-requestId="@data.LeaveRequestId">
-                            <i class="bi bi-pen"  /></i>
-                            </a> *@
                             <a asp-action="AddLeaveRequest" asp-controller="Leave" asp-route-requestId="@data.LeaveRequestId" 
                                 class="btn " type="button">
                                 <i class="bi bi-pen" ></i>
                             </a>
-                            <a asp-action="OrderDetails" asp-controller="Leave" asp-route-orderId="@data.LeaveRequestId"
+                            <a asp-action="" asp-controller="Leave" asp-route-orderId="@data.LeaveRequestId"
                                 class="btn " type="button">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <a class="btn deleteBookBtn p-0" data-id="@data.LeaveRequestId" data-bs-toggle="modal"
-                               data-bs-target="#deleteBookModal">
-                                @* <i class="deleteTaxBtn bi bi-trash text-black"></i> *@
-                                <i class="deleteTaxBtn bi bi-x-lg"></i>
+                            <a class="btn deleteLeaveBtn p-0" data-id="@data.LeaveRequestId" data-bs-toggle="modal"
+                               data-bs-target="#deleteLeaveModal">
+                                <i class="deleteLeaveBtn bi bi-trash text-black"></i>
                             </a>
                         </div>
                     </td>
@@ -126,7 +129,6 @@
             aria-label="Default select example" id="leaveRequestPageSize">
             @if (Model.Page.PageSize != null)
             {
-                <option value="2" selected="@(Model.Page.PageSize == 2 ? true : false)">2</option>
                 <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option>
                 <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false)">5</option>
                 <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
@@ -145,4 +147,4 @@
         @(Model.Page.CurrentPage < Model.Page.TotalPages ? "" : "disabled")> &gt; </button>
 </div>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script> 

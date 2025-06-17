@@ -9,5 +9,7 @@ public partial class LeaveType
 
     public string? Type { get; set; }
 
-    public virtual ICollection<LeaveRequest> LeaveRequests { get; set; } = new List<LeaveRequest>();
+    public virtual ICollection<LeaveRequest> LeaveRequestEndLeaveTypeNavigations { get; set; } = new List<LeaveRequest>();
+
+    public virtual ICollection<LeaveRequest> LeaveRequestStartLeaveTypeNavigations { get; set; } = new List<LeaveRequest>();
 }

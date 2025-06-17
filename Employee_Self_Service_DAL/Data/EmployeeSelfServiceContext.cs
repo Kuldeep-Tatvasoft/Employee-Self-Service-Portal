@@ -114,14 +114,15 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasColumnName("deleted_at");
             entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.EndLeaveType).HasColumnName("end_leave_type");
             entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
-            entity.Property(e => e.LeaveType).HasColumnName("leave_type");
             entity.Property(e => e.Reason).HasColumnName("reason");
             entity.Property(e => e.ReasonDescription)
                 .HasColumnType("character varying")
                 .HasColumnName("reason_description");
             entity.Property(e => e.ReturnDate).HasColumnName("return_date");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
+            entity.Property(e => e.StartLeaveType).HasColumnName("start_leave_type");
             entity.Property(e => e.StatusId).HasColumnName("status_id");
             entity.Property(e => e.TotalLeaveDuration).HasColumnName("total_leave_duration");
             entity.Property(e => e.UpdatedAt)
@@ -138,13 +139,17 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("leave_request_employee_id_fkey");
 
-            entity.HasOne(d => d.LeaveTypeNavigation).WithMany(p => p.LeaveRequests)
-                .HasForeignKey(d => d.LeaveType)
-                .HasConstraintName("leave_request_leave_type_fkey");
+            entity.HasOne(d => d.EndLeaveTypeNavigation).WithMany(p => p.LeaveRequestEndLeaveTypeNavigations)
+                .HasForeignKey(d => d.EndLeaveType)
+                .HasConstraintName("leave_request_end_leave_type_fkey");
 
             entity.HasOne(d => d.ReasonNavigation).WithMany(p => p.LeaveRequests)
                 .HasForeignKey(d => d.Reason)
                 .HasConstraintName("leave_request_reason_fkey");
+
+            entity.HasOne(d => d.StartLeaveTypeNavigation).WithMany(p => p.LeaveRequestStartLeaveTypeNavigations)
+                .HasForeignKey(d => d.StartLeaveType)
+                .HasConstraintName("leave_request_start_leave_type_fkey");
 
             entity.HasOne(d => d.Status).WithMany(p => p.LeaveRequests)
                 .HasForeignKey(d => d.StatusId)

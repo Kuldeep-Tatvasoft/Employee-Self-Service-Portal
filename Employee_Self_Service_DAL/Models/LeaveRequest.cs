@@ -31,29 +31,31 @@ public partial class LeaveRequest
 
     public string? ReasonDescription { get; set; }
 
-    public int? LeaveType { get; set; }
+    public int? StartLeaveType { get; set; }
 
     public int? Reason { get; set; }
 
     public DateOnly? ReturnDate { get; set; }
 
-    public int? ActualLeaveDuration { get; set; }
+    public decimal? ActualLeaveDuration { get; set; }
 
-    public int? TotalLeaveDuration { get; set; }
+    public decimal? TotalLeaveDuration { get; set; }
 
     public string? AlternatePhoneMo { get; set; }
 
     public int LeaveRequestId { get; set; }
 
+    public int? EndLeaveType { get; set; }
+
     public virtual Employee? ApprovedByNavigation { get; set; }
 
     public virtual Employee Employee { get; set; } = null!;
 
-    public virtual LeaveType? LeaveTypeNavigation { get; set; }
+    public virtual LeaveType? EndLeaveTypeNavigation { get; set; }
 
     public virtual Reason? ReasonNavigation { get; set; }
 
-    public virtual RequestStatus? Status { get; set; }
+    public virtual LeaveType? StartLeaveTypeNavigation { get; set; }
 
-    
+    public virtual RequestStatus? Status { get; set; }
 }

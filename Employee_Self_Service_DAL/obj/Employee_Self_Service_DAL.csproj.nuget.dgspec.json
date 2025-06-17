@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj": {}
+    "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj": {}
   },
   "projects": {
-    "d:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj": {
+    "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj",
+        "projectUniqueName": "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj",
         "projectName": "Employee_Self_Service_DAL",
-        "projectPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj",
+        "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj",
         "packagesPath": "C:\\Users\\pca179\\.nuget\\packages\\",
-        "outputPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\obj\\",
+        "outputPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pca179\\AppData\\Roaming\\NuGet\\NuGet.Config"

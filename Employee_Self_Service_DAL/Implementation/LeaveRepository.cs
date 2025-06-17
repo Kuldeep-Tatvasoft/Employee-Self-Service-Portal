@@ -26,36 +26,42 @@ public class LeaveRepository : ILeaveRepository
                         LeaveRequestId = l.LeaveRequestId,
                         StartDate = (DateOnly)l.StartDate,
                         EndDate = (DateOnly)l.EndDate,
-                        ActualDuration = (int)l.ActualLeaveDuration,
-                        TotalDuration = (int)l.TotalLeaveDuration,
+                        ActualDuration = (decimal)l.ActualLeaveDuration,
+                        TotalDuration = (decimal)l.TotalLeaveDuration,
                         ReturnDate = (DateOnly)l.ReturnDate,
-                        AvailableOnPhone = l.AvailableOnPhone,
+                        AvailableOnPhone = (bool)l.AvailableOnPhone,
                         Status = l.Status.Status,
                         AdhocLeave = l.AdhocLeave,
                         Date = DateOnly.FromDateTime(l.CreatedAt.Value) 
                     });
-
-
+        if (!string.IsNullOrEmpty(searchQuery))
+        {
+            searchQuery = searchQuery.ToLower();
+            query = query.Where(c => c.ActualDuration.ToString().Contains(searchQuery)
+                         || c.TotalDuration.ToString().Contains(searchQuery)
+                         );
+        }
+       
         if(!string.IsNullOrEmpty(leaveRequestFromDate))
         {
             DateOnly fromDate = DateOnly.Parse(leaveRequestFromDate);
-            query = query.Where(x => x.Date >= fromDate);
+            query = query.Where(x => x.StartDate >= fromDate);
         }
 
         if(!string.IsNullOrEmpty(leaveRequestToDate))
         {
             DateOnly toDate = DateOnly.Parse(leaveRequestToDate);
-            query = query.Where(x => x.Date <= toDate);
+            query = query.Where(x => x.StartDate <= toDate);
         }
         
-        if(!string.IsNullOrEmpty(leaveRequestStatus) && !leaveRequestStatus.Equals("3"))
+        if(!string.IsNullOrEmpty(leaveRequestStatus) && !leaveRequestStatus.Equals("1"))
         {
             query = query.Where(x => x.Status == leaveRequestStatus);
         }
 
         query = sortColumn switch
         {
-            "#StartDate" => sortDirection == "asc" ? query.OrderBy(x => x.StartDate) : query.OrderByDescending(x => x.StartDate),
+            "StartDate" => sortDirection == "asc" ? query.OrderBy(x => x.StartDate) : query.OrderByDescending(x => x.StartDate),
             "EndDate" => sortDirection == "asc" ? query.OrderBy(x => x.EndDate) : query.OrderByDescending(x => x.EndDate),
             "ActualDuration" => sortDirection == "asc" ? query.OrderBy(x => x.ActualDuration) : query.OrderByDescending(x => x.ActualDuration),
             "TotalDuration" => sortDirection == "asc" ? query.OrderBy(x => x.TotalDuration) : query.OrderByDescending(x => x.TotalDuration),
@@ -109,11 +115,9 @@ public class LeaveRepository : ILeaveRepository
         {   
             return new ResponseViewModel{
                 success = false,
-                message = ex.Message
+                message = "Error occur Add Leave Request:" + ex.Message
             };
         }
-        
-
     }
     public async Task<LeaveRequest> GetEditDetails(int requestId)
     {
@@ -122,20 +126,9 @@ public class LeaveRepository : ILeaveRepository
 
     public async Task<ResponseViewModel> EditRequest(LeaveRequest request)
     {
-        LeaveRequest leaveRequest = await _context.LeaveRequests.Where(u => u.LeaveRequestId == request.LeaveRequestId).FirstOrDefaultAsync();
-
-        if(leaveRequest == null)
-        {
-            return new ResponseViewModel{
-                success = false,
-                message = "Leave Request Not Exist."
-            };
-        }
-
         try
         {
-    
-            _context.LeaveRequests.Update(leaveRequest);
+            _context.LeaveRequests.Update(request);
             await _context.SaveChangesAsync();
             return new ResponseViewModel{
                 success = true,
@@ -146,7 +139,7 @@ public class LeaveRepository : ILeaveRepository
         {
             return new ResponseViewModel{
                 success = false,
-                message = ex.Message
+                message = "Error occur update Leave Request:" + ex.Message
             };
         }
     }

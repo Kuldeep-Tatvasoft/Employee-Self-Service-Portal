@@ -16,82 +16,82 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\Employee Self Service Portal\Employee_Self_Service
 build_property._RazorSourceGeneratorDebug = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Home/Index.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Home/Privacy.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/AddLeaveRequest.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/AddLeaveRequest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcQWRkTGVhdmVSZXF1ZXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/EditLeaveRequest.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/EditLeaveRequest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcRWRpdExlYXZlUmVxdWVzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/LeaveRequest.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/LeaveRequest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcTGVhdmVSZXF1ZXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/_LeaveRequestListPartialView.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/_LeaveRequestListPartialView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcX0xlYXZlUmVxdWVzdExpc3RQYXJ0aWFsVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Login/ForgotPassword.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Login/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cRm9yZ290UGFzc3dvcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Login/Index.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Login/LoginRedirect.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Login/LoginRedirect.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cTG9naW5SZWRpcmVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Login/Register.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Login/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUmVnaXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Login/ResetPassword.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Login/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUmVzZXRQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Profile/ChangePassword.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Profile/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Profile/EditProfile.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Profile/EditProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxFZGl0UHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Profile/MyProfile.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Profile/MyProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxNeVByb2ZpbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/Error.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/_Login_Layout.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/_Login_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpbl9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/_TosterPartialView.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/_TosterPartialView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ub3N0ZXJQYXJ0aWFsVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/_ViewImports.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/_ViewStart.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/_Layout.cshtml]
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-3p0re55jfj

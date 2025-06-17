@@ -5,8 +5,8 @@ public class LeaveRequestDetailsViewModel
     public int LeaveRequestId { get; set; }
     public DateOnly StartDate { get; set; }
     public DateOnly EndDate { get; set; }
-    public int ActualDuration { get; set; }
-    public int TotalDuration { get; set; }
+    public decimal ActualDuration { get; set; }
+    public decimal TotalDuration { get; set; }
     public DateOnly ReturnDate { get; set; }
     public bool? AvailableOnPhone { get; set; }
     public DateTime ApprovedDate { get; set; }

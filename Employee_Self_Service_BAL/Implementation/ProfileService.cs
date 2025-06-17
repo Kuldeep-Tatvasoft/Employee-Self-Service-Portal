@@ -2,24 +2,27 @@ using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.Interface;
 using Employee_Self_Service_DAL.Models;
 using Employee_Self_Service_DAL.ViewModel;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Employee_Self_Service_BAL.Implementation;
 
 public class ProfileService : IProfileService
 {
-    private readonly IProfileRepository _profileRepository;
-    private readonly ILoginService _loginService;
-    public ProfileService(IProfileRepository profileRepository, ILoginService loginService)
+    // private readonly IProfileRepository _profileRepository;
+    private readonly IEmployeeRepository _employeeRepository;
+    // private readonly ILoginRepository _loginRepository;
+    public ProfileService(IEmployeeRepository employeeRepository)
     {
-        _profileRepository = profileRepository;
-        _loginService = loginService;
+        // _profileRepository = profileRepository;
+        // _loginRepository = loginRepository;
+        _employeeRepository = employeeRepository;
     }
 
     public async Task<ProfileViewModel> GetUserDetails(string email)
     {
        try
        {
-        Employee details =  await _profileRepository.GetUserDetails(email);
+        Employee details = _employeeRepository.GetUserByEmail(email);
         ProfileViewModel model = new ProfileViewModel
         {   
             EmployeeId = details.EmployeeId,
@@ -44,16 +47,55 @@ public class ProfileService : IProfileService
         }
     }
 
-    public async Task<bool> UpdateProfile(ProfileViewModel model)
+    public async Task<ResponseViewModel> UpdateProfile(ProfileViewModel model)
     {
-        return await _profileRepository.UpdateProfile(model);
+        try
+        {   
+            Employee employee = _employeeRepository.GetUserByEmail(model.Email);
+            {
+                employee.EmployeeId = model.EmployeeId;
+                employee.DateOfBirth = model.DateOfBirth;
+                employee.Gender = model.Gender;
+                employee.Phone = long.Parse(model.ContactNo);
+                employee.BloodGroup = model.BloodGroup;
+                employee.AnyDiseases = model.AnyDiseases;
+            };
+
+            if (model.FormFile != null)
+            {
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string fileName = $"{Guid.NewGuid()}_{model.FormFile.FileName}";
+                string filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                   await model.FormFile.CopyToAsync(fileStream);
+                }
+
+                employee.ProfileImage = $"/uploads/{fileName}"; 
+            }
+            ResponseViewModel response = await _employeeRepository.UpdateProfile(employee);
+            return response;            
+        }
+        catch(Exception ex)
+        {
+            return new ResponseViewModel{
+                success = false,
+                message = "Failed to update profile:" + ex.Message
+            };
+        }
     }
 
     public async Task<ResponseViewModel> ChangePassword(LoginViewModel model)
     {
         try
         {   
-            Employee user = _loginService.GetUserByEmail(model.Email);
+            Employee user = _employeeRepository.GetUserByEmail(model.Email);
             if (user == null)
             {
                 return new ResponseViewModel
@@ -74,14 +116,14 @@ public class ProfileService : IProfileService
             user.Password = model.NewPassword;
             String hashPassword = BCrypt.Net.BCrypt.HashPassword(user.Password); 
             user.Password = hashPassword;
-            ResponseViewModel response = await _profileRepository.ChangePassword(user);
+            ResponseViewModel response = await _employeeRepository.ChangePassword(user);
             return response;
         }
         catch (Exception ex)
         {
             return new ResponseViewModel
             {
-                message = ex.Message,
+                message = "Failed to changed Password:" + ex.Message,
                 success = false
             };
         }

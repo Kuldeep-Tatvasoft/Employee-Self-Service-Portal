@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Mail;
 using Employee_Self_Service_BAL.Interface;
+using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.Extensions.Configuration;
 
 namespace Employee_Self_Service_BAL.Helper;
@@ -25,9 +26,10 @@ public class EmailService : IEmailService
         _FromName = configuration["SmtpSettings:FromName"];
         _EnableSsl = bool.Parse(configuration["SmtpSettings:EnableSsl"]);
     }
-    public async Task SendEmailAsync(string toemail, string subject, string message)
-    {
-        var smtpclient = new SmtpClient(_Host, _port)
+    public async Task<ResponseViewModel> SendEmailAsync(string toEmail, string subject, string message)
+    {  
+       try{
+        var smtpClient = new SmtpClient(_Host, _port)
        {
            Credentials = new NetworkCredential(_UserName, _Password),
            EnableSsl = _EnableSsl
@@ -41,7 +43,20 @@ public class EmailService : IEmailService
             IsBodyHtml = true
         };
 
-        mailMessage.To.Add(toemail);
-        await smtpclient.SendMailAsync(mailMessage);
+        mailMessage.To.Add(toEmail);
+        await smtpClient.SendMailAsync(mailMessage);
+        return new ResponseViewModel{
+            success = true,
+            message = "Email send successfully"
+        };
+       }
+       catch(Exception ex)
+       {
+            return new ResponseViewModel{
+                success = false,
+                message = "Failed to sent Email"
+            };
+       }
+       
     }
 }

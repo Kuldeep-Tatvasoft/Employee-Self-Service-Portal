@@ -15,15 +15,16 @@ public class AddLeaveRequestViewModel
     public string ReasonDescription {get; set;}
     [Required]
     public DateOnly? StartDate { get; set; }   
-    public int LeaveTypeId {get; set;}
+    public int StartLeaveTypeId {get; set;}
     [Required]
     public DateOnly? EndDate { get; set; }
+    public int EndLeaveTypeId {get; set;}
     [Required(ErrorMessage ="ActualDuration is Required")]
-    [Range(1, int.MaxValue, ErrorMessage = "ActualDuration must be at least 1")]    
-    public int? ActualDuration { get; set; }
+    [Range(0.5, double.MaxValue , ErrorMessage = "ActualDuration must be at least 0.5")]    
+    public decimal? ActualDuration { get; set; }
     [Required(ErrorMessage ="TotalDuration is Required")]
-    [Range(1, int.MaxValue, ErrorMessage = "TotalDuration must be at least 1")]
-    public int TotalDuration { get; set; }
+    [Range(0.5, double.MaxValue, ErrorMessage = "TotalDuration must be at least 0.5")]
+    public decimal? TotalDuration { get; set; }
     public DateOnly? ReturnDate { get; set; }
     [Required]
     public bool? AvailableOnPhone { get; set; }

@@ -14,11 +14,12 @@ builder.Services.AddDbContext<EmployeeSelfServiceContext>(q=>q.UseNpgsql(connect
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+// builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+// builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<ILeaveRepository, LeaveRepository>();
 builder.Services.AddScoped<ILeaveService, LeaveService>();

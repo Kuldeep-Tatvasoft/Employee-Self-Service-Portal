@@ -19,6 +19,7 @@
                
             <div class="row">
                 <input type="hidden" asp-for="@Model.EmployeeId">
+                <input type="hidden" asp-for="@Model.Email">
                 <div class="row mb-sm-0 p-2 mb-3">
 
                     <div class="d-flex justify-content-start align-items-center gap-3 img-fluid">
@@ -83,7 +84,7 @@
                                 <tr>
                                     <th class="col-md-5 col-sm-6 col-6">Date Of Birth:</th>
                                     <td>
-                                        <input type="date" class="form-control w-100" id="dateOfBirth" asp-for="@Model.DateOfBirth" value="@Model.DateOfBirth" >
+                                        <input type="date" class="form-control w-100" id="dateOfBirth" asp-for="@Model.DateOfBirth" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" >
                                     </td>
                                 </tr>
                                 <tr>
@@ -112,7 +113,7 @@
                                 </tr>
                                 <tr>
                                     <th class="">Emergency Contact No*:</th>
-                                    <td><input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" asp-for="ContactNo" value="@Model.ContactNo"></td>
+                                    <td><input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone" asp-for="@Model.ContactNo" value="@Model.ContactNo"></td>
                                 </tr>
                             </table>
                         </div>

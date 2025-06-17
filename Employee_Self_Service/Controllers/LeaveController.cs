@@ -26,7 +26,7 @@ public class LeaveController : Controller
     public async Task<IActionResult> GetRequestList(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus)
     {
         var model = await _leaveService.GetRequestData(pageSize, pageNumber, searchQuery, sortColumn, sortDirection, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus);
-        ViewBag.pageSize = pageSize;
+        
         
         return PartialView("_LeaveRequestListPartialView", model);
     }
@@ -35,7 +35,12 @@ public class LeaveController : Controller
     public async Task<ActionResult> AddLeaveRequest(int requestId)
     {   
         var token = _jwtService.ValidateToken(Request.Cookies["token"]);
-        var email = token?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value; 
+        var email = token?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+        if (email == null)
+        {
+           TempData["errorToastr"] = "Email not found.";
+           return RedirectToAction("Index", "Home");
+        } 
         AddLeaveRequestViewModel model = new AddLeaveRequestViewModel();
         if (requestId > 0)
         {
@@ -46,7 +51,6 @@ public class LeaveController : Controller
         model.profile = await _profileService.GetUserDetails(email);
     
         ViewBag.LeaveType = new SelectList(await _leaveService.GetLeaveType(), "TypeId", "Type");
-        ViewBag.Reason = new SelectList(await _leaveService.GetReason(), "ReasonId", "Reason1");
         return View(model);
     }
 
@@ -76,11 +80,6 @@ public class LeaveController : Controller
                 TempData["errorToastr"] = response.message;
             }
         }
-        
         return RedirectToAction("LeaveRequest");
     }
-
-    
-
-
 }

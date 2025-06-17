@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Employee_Self_Service.Controllers;
 
@@ -34,31 +35,16 @@ public class LoginController : Controller
         
         ResponseViewModel? response = await _loginService.Login(HttpContext,model);
 
-        if (response.message == "Email is not valid")
+        if (response.success)
         {   
-            TempData["errorToastr"] = response.message;
-            return View("Index");
-        }
-        else if(response.message == "Password is not valid")
-        {
-            TempData["errorToastr"] = response.message;
-            return View("Index");
-        }
-        else if(response.message == "User is not active")
-        {
-            TempData["errorToastr"] = response.message;
-            return View("Index");
-        }
-        else if  (response.message == "Login Successfully")
-        {
             TempData["successToastr"] = response.message;
             return RedirectToAction("Index", "Home");
         }
-        else 
-        {   
+       else 
+        {  
             TempData["errorToastr"] = response.message;
-            return View("Index");
-            
+            return View("Index"); 
+           
         }      
     } 
 
@@ -75,7 +61,7 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SendMail(LoginViewModel model)
+    public async Task<IActionResult> ForgotPassword(LoginViewModel model)
     {   
         var user = _loginService.GetUserByEmail(model.Email);
         if(user == null)
@@ -86,25 +72,17 @@ public class LoginController : Controller
 
         var token = _jwtService.GenerateJwtToken(model.Email,1, " ");
         
-        string resetLink = Url.Action("ResetPassword", "Login", new { token }, Request.Scheme);
-
-        var textBody = $@"<div style='max-width: 500px; font-family: Arial, sans-serif; border: 1px solid #ddd;'>
-                <div style='background: #006CAC; padding: 10px; text-align: center; height:90px; max-width:100%; display: flex; justify-content: center; align-items: center;'>
-                    <img src='https://images.vexels.com/media/users/3/128437/isolated/preview/2dd809b7c15968cb7cc577b2cb49c84f-pizza-food-restaurant-logo.png' style='max-width: 50px;' />
-                    <span style='color: #fff; font-size: 24px; margin-left: 10px; font-weight: 600;'>Employee Self Service</span>
-                </div>
-                <div style='padding: 20px 5px; background-color: #e8e8e8;'>
-                    <p>Employee Self Service,</p>
-                    <p>Please click <a href='{resetLink}' style='color: #1a73e8; text-decoration: none; font-weight: bold;'>here</a>
-                        to reset your account password.</p>
-                    <p><strong style='color: orange;'>Important Note:</strong> For security reasons, the link will expire in 24 hours.
-                        If you did not request a password reset, please ignore this email or contact our support team immediately.
-                    </p>
-                </div>
-                </div>";
-        
-        await _emailService.SendEmailAsync(model.Email, "Password Reset Request", textBody);
-        TempData["successToastr"] = "Email send successfully";
+        string resetLink = Url.Action("ResetPassword", "Login", new { token }, Request.Scheme);       
+        var templatePath = Path.Combine(Directory.GetCurrentDirectory(), "EmailTemplates", "Mail.html");
+        string htmlBody = await System.IO.File.ReadAllTextAsync(templatePath);
+        htmlBody = htmlBody.Replace("{resetLink}", resetLink);
+        ResponseViewModel response = await _emailService.SendEmailAsync(model.Email, "Password Reset Request", htmlBody);
+        if(response.success){
+            TempData["successToastr"] = response.message;
+        }
+        else{
+            TempData["errorToastr"] = response.message;
+        }
         return RedirectToAction("Index");
     }
     #endregion
@@ -113,13 +91,11 @@ public class LoginController : Controller
     public IActionResult ResetPassword(string token)
     {
         var principal = _jwtService.ValidateToken(token);
-
         var email = principal?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-
         if (email == null)
         {
             TempData["errorToastr"] = "Link is Expired try again";
-            
+            return RedirectToAction("Index");
         }
         LoginViewModel model = new LoginViewModel();
         model.Email = email;
@@ -135,16 +111,18 @@ public class LoginController : Controller
             TempData["errorToastr"] = "Email not found";
             return View(model);
         }
-        employee.Password = model.NewPassword;
-        String hashPassword = BCrypt.Net.BCrypt.HashPassword(employee.Password); 
-        employee.Password = hashPassword;
-        bool confirm = await _loginService.UpdatePassword(employee);   
-        if (confirm)
+        employee.Password = model.NewPassword;        
+        ResponseViewModel response = await _loginService.UpdatePassword(employee);   
+        if (response.success)
         {
-            TempData["successToastr"] = "Password Reset Successfully";
+            TempData["successToastr"] = response.message;
             return RedirectToAction("Index");
         }
-        return RedirectToAction("ResetPassword", new { email = model.Email });
+        else{
+            TempData["errorToastr"] = response.message;
+            return RedirectToAction("ResetPassword", new { email = model.Email });
+        }
+        
     }
     #endregion
     
@@ -157,8 +135,8 @@ public class LoginController : Controller
     [HttpPost]
     public async Task<IActionResult> Register (RegisterViewModel model)
     {   
-        var Email = await _loginService.ExistUserByEmail(model.Email!);
-        if (Email)
+        var employee = _loginService.GetUserByEmail(model.Email);
+        if (employee == null)
         {
             ModelState.AddModelError("Email", "User with same email already exists.");
         }
@@ -167,33 +145,22 @@ public class LoginController : Controller
             return View(model);
         }
        
-        var isRegister = await _loginService.RegisterUser(model);
-        if (isRegister)
+        ResponseViewModel response = await _loginService.RegisterUser(model);
+        if (response.success)
         {    
-            TempData["successToastr"] = "Registration successfully";      
-            var textBody = $@"<div style='max-width: 500px; font-family: Arial, sans-serif; border: 1px solid #ddd;'>
-                <div style='background: #006CAC; padding: 10px; text-align: center; height:90px; max-width:100%; display: flex; justify-content: center; align-items: center;'>
-                    
-                    <span style='color: #fff; font-size: 24px; margin-left: 10px; font-weight: 600;'>Employee Self Service</span>
-                </div>
-                <div style='padding: 20px 5px; background-color: #e8e8e8;'>
-                    <p>Welcome to Employee Self Service</p>
-                    <p>Please find the details below for login into your account.</p>
-                    <p>Login Details:</p> 
-                    <p>Username: {model.Email}</p>
-                    
-                    
-                </div>
-                </div>";
-            await _emailService.SendEmailAsync(model.Email,"User Credential", textBody);     
+            TempData["successToastr"] = response.message;      
+            var templatePath = Path.Combine(Directory.GetCurrentDirectory(), "EmailTemplates", "Registration.html");
+            string htmlBody = await System.IO.File.ReadAllTextAsync(templatePath);  
+            htmlBody = htmlBody.Replace("{Email}", model.Email);  
+            await _emailService.SendEmailAsync(model.Email,"User Credential", htmlBody);     
+           
             return RedirectToAction("Index", "Login");
         }
         else
         {   
-            TempData["errorToastr"] = "Registration Failed, Please try again";
+            TempData["errorToastr"] = response.message;
             return View(model);
         }
-        
     }
     #endregion
 

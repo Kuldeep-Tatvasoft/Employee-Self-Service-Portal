@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "h04eGghE8xOe320zbh0w4L1zpQ/i2aBTgnVWr9HDz1w=",
+  "Hash": "ze+tUwpAG6Bqb/iFa1I4K6Po9Qr/5XS8kFcv6uN1Osc=",
   "Source": "Employee_Self_Service",
   "BasePath": "_content/Employee_Self_Service",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "Employee_Self_Service\\wwwroot",
       "Source": "Employee_Self_Service",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Employee_Self_Service.styles.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Employee_Self_Service.styles.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Computed",
-      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\bundle\\",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\bundle\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "Employee_Self_Service.styles.css",
       "AssetKind": "All",
@@ -31,13 +31,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "d:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Employee_Self_Service.styles.css"
+      "OriginalItemSpec": "D:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Employee_Self_Service.styles.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Employee_Self_Service.bundle.scp.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Employee_Self_Service.bundle.scp.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Computed",
-      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "Employee_Self_Service.bundle.scp.css",
       "AssetKind": "All",
@@ -48,13 +48,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "d:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Employee_Self_Service.bundle.scp.css"
+      "OriginalItemSpec": "D:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Employee_Self_Service.bundle.scp.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\css\\site.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\css\\site.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -68,10 +68,10 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\favicon.ico",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\favicon.ico",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -85,10 +85,10 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\images\\Default_pfp.svg.png",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\images\\Default_pfp.svg.png",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "images/Default_pfp.svg.png",
       "AssetKind": "All",
@@ -102,10 +102,10 @@
       "OriginalItemSpec": "wwwroot\\images\\Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\images\\toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\images\\toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "images/toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -119,10 +119,10 @@
       "OriginalItemSpec": "wwwroot\\images\\toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\js\\site.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\js\\site.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "js/site.js",
       "AssetKind": "All",
@@ -136,10 +136,10 @@
       "OriginalItemSpec": "wwwroot\\js\\site.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css",
       "AssetKind": "All",
@@ -153,10 +153,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "AssetKind": "All",
@@ -170,10 +170,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "AssetKind": "All",
@@ -187,10 +187,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "AssetKind": "All",
@@ -204,10 +204,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
       "AssetKind": "All",
@@ -221,10 +221,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
       "AssetKind": "All",
@@ -238,10 +238,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
       "AssetKind": "All",
@@ -255,10 +255,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
       "AssetKind": "All",
@@ -272,10 +272,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css",
       "AssetKind": "All",
@@ -289,10 +289,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "AssetKind": "All",
@@ -306,10 +306,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "AssetKind": "All",
@@ -323,10 +323,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "AssetKind": "All",
@@ -340,10 +340,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
       "AssetKind": "All",
@@ -357,10 +357,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
       "AssetKind": "All",
@@ -374,10 +374,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
       "AssetKind": "All",
@@ -391,10 +391,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
       "AssetKind": "All",
@@ -408,10 +408,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css",
       "AssetKind": "All",
@@ -425,10 +425,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css.map",
       "AssetKind": "All",
@@ -442,10 +442,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css",
       "AssetKind": "All",
@@ -459,10 +459,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
       "AssetKind": "All",
@@ -476,10 +476,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
       "AssetKind": "All",
@@ -493,10 +493,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
       "AssetKind": "All",
@@ -510,10 +510,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
       "AssetKind": "All",
@@ -527,10 +527,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
       "AssetKind": "All",
@@ -544,10 +544,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
       "AssetKind": "All",
@@ -561,10 +561,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
       "AssetKind": "All",
@@ -578,10 +578,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
       "AssetKind": "All",
@@ -595,10 +595,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -612,10 +612,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css",
       "AssetKind": "All",
@@ -629,10 +629,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css.map",
       "AssetKind": "All",
@@ -646,10 +646,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css",
       "AssetKind": "All",
@@ -663,10 +663,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
       "AssetKind": "All",
@@ -680,10 +680,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js",
       "AssetKind": "All",
@@ -697,10 +697,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "AssetKind": "All",
@@ -714,10 +714,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "AssetKind": "All",
@@ -731,10 +731,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "AssetKind": "All",
@@ -748,10 +748,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js",
       "AssetKind": "All",
@@ -765,10 +765,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js.map",
       "AssetKind": "All",
@@ -782,10 +782,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js",
       "AssetKind": "All",
@@ -799,10 +799,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
       "AssetKind": "All",
@@ -816,10 +816,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js",
       "AssetKind": "All",
@@ -833,10 +833,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js.map",
       "AssetKind": "All",
@@ -850,10 +850,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js",
       "AssetKind": "All",
@@ -867,10 +867,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js.map",
       "AssetKind": "All",
@@ -884,10 +884,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\bootstrap\\LICENSE",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/bootstrap/LICENSE",
       "AssetKind": "All",
@@ -901,10 +901,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\LICENSE"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "AssetKind": "All",
@@ -918,10 +918,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "AssetKind": "All",
@@ -935,10 +935,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery-validation-unobtrusive/LICENSE.txt",
       "AssetKind": "All",
@@ -952,10 +952,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
       "AssetKind": "All",
@@ -969,10 +969,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
       "AssetKind": "All",
@@ -986,10 +986,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
       "AssetKind": "All",
@@ -1003,10 +1003,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
       "AssetKind": "All",
@@ -1020,10 +1020,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery-validation/LICENSE.md",
       "AssetKind": "All",
@@ -1037,10 +1037,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\LICENSE.md"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery/dist/jquery.js",
       "AssetKind": "All",
@@ -1054,10 +1054,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery/dist/jquery.min.js",
       "AssetKind": "All",
@@ -1071,10 +1071,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery/dist/jquery.min.map",
       "AssetKind": "All",
@@ -1088,10 +1088,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "lib/jquery/LICENSE.txt",
       "AssetKind": "All",
@@ -1105,10 +1105,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\126d3c4f-cebe-4a93-af53-c248e17cdd3e_profileimage.jpg",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\126d3c4f-cebe-4a93-af53-c248e17cdd3e_profileimage.jpg",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "uploads/126d3c4f-cebe-4a93-af53-c248e17cdd3e_profileimage.jpg",
       "AssetKind": "All",
@@ -1122,10 +1122,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\126d3c4f-cebe-4a93-af53-c248e17cdd3e_profileimage.jpg"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\1672b88b-da5f-4842-bdbf-7b2dc8bac67c_profileimage2.png",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\1672b88b-da5f-4842-bdbf-7b2dc8bac67c_profileimage2.png",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "uploads/1672b88b-da5f-4842-bdbf-7b2dc8bac67c_profileimage2.png",
       "AssetKind": "All",
@@ -1139,10 +1139,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\1672b88b-da5f-4842-bdbf-7b2dc8bac67c_profileimage2.png"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\80c6a620-013d-44ae-9a73-9584b285f7d9_profileimage.jpg",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\80c6a620-013d-44ae-9a73-9584b285f7d9_profileimage.jpg",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "uploads/80c6a620-013d-44ae-9a73-9584b285f7d9_profileimage.jpg",
       "AssetKind": "All",
@@ -1156,10 +1156,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\80c6a620-013d-44ae-9a73-9584b285f7d9_profileimage.jpg"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\a16ae346-e814-40e2-b0c1-fb42ebc3a0e0_profileimage.jpg",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\a16ae346-e814-40e2-b0c1-fb42ebc3a0e0_profileimage.jpg",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "uploads/a16ae346-e814-40e2-b0c1-fb42ebc3a0e0_profileimage.jpg",
       "AssetKind": "All",
@@ -1173,10 +1173,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\a16ae346-e814-40e2-b0c1-fb42ebc3a0e0_profileimage.jpg"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\b36b4cdf-ca12-49fd-8d80-c162f618c5c8_profileimage2.png",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\b36b4cdf-ca12-49fd-8d80-c162f618c5c8_profileimage2.png",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "uploads/b36b4cdf-ca12-49fd-8d80-c162f618c5c8_profileimage2.png",
       "AssetKind": "All",
@@ -1190,10 +1190,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\b36b4cdf-ca12-49fd-8d80-c162f618c5c8_profileimage2.png"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\b4699d53-65c1-42ea-82f4-7b4471ce910b_profileimage.jpg",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\b4699d53-65c1-42ea-82f4-7b4471ce910b_profileimage.jpg",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "uploads/b4699d53-65c1-42ea-82f4-7b4471ce910b_profileimage.jpg",
       "AssetKind": "All",
@@ -1207,10 +1207,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\b4699d53-65c1-42ea-82f4-7b4471ce910b_profileimage.jpg"
     },
     {
-      "Identity": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\be902ada-7976-4a1f-a84d-5d25cdc90d00_profileimage.jpg",
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\be902ada-7976-4a1f-a84d-5d25cdc90d00_profileimage.jpg",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "ContentRoot": "d:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
       "BasePath": "_content/Employee_Self_Service",
       "RelativePath": "uploads/be902ada-7976-4a1f-a84d-5d25cdc90d00_profileimage.jpg",
       "AssetKind": "All",

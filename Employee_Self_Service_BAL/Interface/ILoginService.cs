@@ -8,7 +8,6 @@ public interface ILoginService
 {
     Task<ResponseViewModel> Login(HttpContext httpContext, LoginViewModel model);
     Employee GetUserByEmail(string email);
-    Task<bool> UpdatePassword(Employee employee);
-    Task<bool> ExistUserByEmail(string Email);
-    Task<bool> RegisterUser (RegisterViewModel model);
+    Task<ResponseViewModel> UpdatePassword(Employee employee);
+    Task<ResponseViewModel> RegisterUser(RegisterViewModel model);
 }

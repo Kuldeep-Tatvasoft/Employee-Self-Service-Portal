@@ -10,39 +10,32 @@ namespace Employee_Self_Service_BAL.Implementation;
 
 public class LoginService : ILoginService
 {
-    private readonly ILoginRepository _loginRepository;
+    // private readonly ILoginRepository _loginRepository;
+    private readonly IEmployeeRepository _employeeRepository;
 
     private readonly IJwtService _jwtService;
-    // private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public LoginService(ILoginRepository loginRepository, IJwtService jwtService)
+    public LoginService( IJwtService jwtService, IEmployeeRepository employeeRepository)
     {
-        _loginRepository = loginRepository;
+        // _loginRepository = loginRepository;
         _jwtService = jwtService;
-        // _httpContextAccessor = httpContextAccessor;
+        _employeeRepository = employeeRepository;
     }
 
 
     #region Login
-    // public LoginViewModel GetUserById(long employeeId)
-    // {   
-    //     return _loginRepository.GetUserById(employeeId);
-
-    // }
-
     public Employee GetUserByEmail(string email)
     {
-        return _loginRepository.GetUserByEmail(email);
+        return _employeeRepository.GetUserByEmail(email);
     }
 
     public async Task<ResponseViewModel> Login(HttpContext httpContext, LoginViewModel model)
     {
         try
         {
-            var user = _loginRepository.GetUserByEmail(model.Email);
+            var user = _employeeRepository.GetUserByEmail(model.Email);
             if (user == null)
             {
-
                 return new ResponseViewModel
                 {
                     success = false,
@@ -54,7 +47,8 @@ public class LoginService : ILoginService
             if (!isPasswordValid)
             {
                 return new ResponseViewModel
-                {
+                {   
+                    success = false,
                     message = "Password is not valid"
                 };
             }
@@ -63,6 +57,7 @@ public class LoginService : ILoginService
             {
                 return new ResponseViewModel
                 {
+                    success = false,
                     message = "User is not active"
                 };
             }
@@ -72,51 +67,47 @@ public class LoginService : ILoginService
                 option.Expires = DateTime.Now.AddHours(24);
                 httpContext.Response.Cookies.Append("email", model.Email, option);
             }
-
             var token = _jwtService.GenerateJwtToken(model.Email, 24, user.Role.Role1);
-
             httpContext.Response.Cookies.Append("token", token);
             httpContext.Response.Cookies.Append("role", user.Role.Role1);
             httpContext.Response.Cookies.Append("profileImage", user.ProfileImage ?? "/images/Default_pfp.svg.png");
             httpContext.Response.Cookies.Append("employeeName", user.Name);
             httpContext.Response.Cookies.Append("EmployeeId", user.EmployeeId.ToString());
-
             return new ResponseViewModel
-            {
+            {   
+                success = true,
                 message = "Login Successfully"
             };
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
             return new ResponseViewModel
-            {
-                message = "Internal error."
+            {   
+                success = false,
+                message = "Internal error." + ex.Message
             };
         }
     }
     #endregion
 
 
-    public async Task<bool> UpdatePassword(Employee employee)
-    {
-        return await _loginRepository.UpdateEmployee(employee);
-    }
-
-    public async Task<bool> ExistUserByEmail(string Email)
-    {
-        try
-        {
-            return await _loginRepository.ExistUserByEmail(Email);
-
+    public async Task<ResponseViewModel> UpdatePassword(Employee employee)
+    {   try{
+            String hashPassword = BCrypt.Net.BCrypt.HashPassword(employee.Password); 
+            employee.Password = hashPassword;
+            ResponseViewModel response =  await _employeeRepository.UpdateEmployee(employee);
+            return response;
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
-            Console.WriteLine(ex.Message);
-            return false;
+            return new  ResponseViewModel{
+                success = false,
+                message = "Failed to Update password" + ex.Message
+            }; 
         }
+        
     }
-    public async Task<bool> RegisterUser(RegisterViewModel model)
+    public async Task<ResponseViewModel> RegisterUser(RegisterViewModel model)
     {
         try
         {
@@ -150,13 +141,16 @@ public class LoginService : ILoginService
                 employee.ProfileImage = $"/uploads/{fileName}";
             }
 
-            return await _loginRepository.RegisterUser(employee);
-
+            ResponseViewModel response =  await _employeeRepository.RegisterUser(employee);
+            return response;
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
-            return false;
+            return new ResponseViewModel{
+                success = false,
+                message = "Registration Failed, Please try again" + ex.Message
+            };
+            
         }
     }
 }

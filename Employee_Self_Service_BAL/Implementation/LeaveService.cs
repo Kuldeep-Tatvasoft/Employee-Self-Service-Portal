@@ -2,6 +2,7 @@ using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.Interface;
 using Employee_Self_Service_DAL.Models;
 using Employee_Self_Service_DAL.ViewModel;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Employee_Self_Service_BAL.Implementation;
 
@@ -30,14 +31,12 @@ public class LeaveService : ILeaveService
     public async Task<List<Reason>> GetReason()
     {
         var data = await _leaveRepository.GetReason();
-
         return data;
     }
 
     public async Task<List<LeaveType>> GetLeaveType()
     {
         var data = await _leaveRepository.GetLeaveType();
-
         return data;
     }
 
@@ -51,8 +50,9 @@ public class LeaveService : ILeaveService
             Reason = model.ReasonId,
             ReasonDescription = model.ReasonDescription,
             StartDate = model.StartDate,
-            LeaveType = model.LeaveTypeId,
+            StartLeaveType = model.StartLeaveTypeId,
             EndDate = model.EndDate,
+            EndLeaveType = model.EndLeaveTypeId,
             ActualLeaveDuration = model.ActualDuration,
             TotalLeaveDuration = model.TotalDuration,
             ReturnDate = model.ReturnDate,
@@ -60,7 +60,6 @@ public class LeaveService : ILeaveService
             AvailableOnPhone = model.AvailableOnPhone,
             AdhocLeave = model.AdhocLeave
         };
-
         ResponseViewModel response = await _leaveRepository.AddRequest(request);
         return response;
         }
@@ -82,10 +81,11 @@ public class LeaveService : ILeaveService
             ReasonId = (int)details.Reason,
             ReasonDescription = details.ReasonDescription,
             StartDate = (DateOnly)details.StartDate,
-            LeaveTypeId = (int)details.LeaveType,
+            StartLeaveTypeId = (int)details.StartLeaveType,
             EndDate = (DateOnly)details.EndDate,
+            EndLeaveTypeId = (int)details.EndLeaveType,
             ActualDuration = details.ActualLeaveDuration,
-            TotalDuration = (int)details.TotalLeaveDuration,
+            TotalDuration = details.TotalLeaveDuration,
             ReturnDate = details.ReturnDate,
             AlternatePhoneNo = details.AlternatePhoneMo,
             AvailableOnPhone = details.AvailableOnPhone,
@@ -98,21 +98,22 @@ public class LeaveService : ILeaveService
     {
         try
         {
-        LeaveRequest request = new LeaveRequest
+
+        LeaveRequest request = await _leaveRepository.GetEditDetails(model.LeaveRequestId);
         {   
-            LeaveRequestId = model.LeaveRequestId,
-            EmployeeId = model.EmployeeId,
-            Reason = model.ReasonId,
-            ReasonDescription = model.ReasonDescription,
-            StartDate = model.StartDate,
-            LeaveType = model.LeaveTypeId,
-            EndDate = model.EndDate,
-            ActualLeaveDuration = model.ActualDuration,
-            TotalLeaveDuration = model.TotalDuration,
-            ReturnDate = model.ReturnDate,
-            AlternatePhoneMo = model.AlternatePhoneNo,
-            AvailableOnPhone = model.AvailableOnPhone,
-            AdhocLeave = model.AdhocLeave
+            request.EmployeeId = model.EmployeeId;
+            request.Reason = model.ReasonId;
+            request.ReasonDescription = model.ReasonDescription;
+            request.StartDate = model.StartDate;
+            request.StartLeaveType = model.StartLeaveTypeId;
+            request.EndDate = model.EndDate;
+            request.EndLeaveType = model.EndLeaveTypeId;
+            request.ActualLeaveDuration = model.ActualDuration;
+            request.TotalLeaveDuration = model.TotalDuration;
+            request.ReturnDate = model.ReturnDate;
+            request.AlternatePhoneMo = model.AlternatePhoneNo;
+            request.AvailableOnPhone = model.AvailableOnPhone;
+            request.AdhocLeave = model.AdhocLeave;
         };
 
         ResponseViewModel response = await _leaveRepository.EditRequest(request);

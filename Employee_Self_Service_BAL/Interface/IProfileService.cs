@@ -6,6 +6,6 @@ namespace Employee_Self_Service_BAL.Interface;
 public interface IProfileService
 {
     Task<ProfileViewModel> GetUserDetails(string email);
-    Task<bool> UpdateProfile(ProfileViewModel model);
+    Task<ResponseViewModel> UpdateProfile(ProfileViewModel model);
     Task<ResponseViewModel> ChangePassword(LoginViewModel model);
 }
