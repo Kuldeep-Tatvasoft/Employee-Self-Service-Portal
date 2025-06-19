@@ -5,7 +5,13 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th class="d-flex align-items-center">
+                <th>
+                    <span class="heading">Employee Name</span>
+                    
+                    <a href="javascript:void(0)" onclick="sortBy('EndDate')" class="text-decoration-none text-dark ">
+                        <i class="bi bi-arrow-down-up fs-6" id="sort-by-role" data-direction="asc"></i></a>
+                </th>
+                <th class="">
                     Start Date
                     <a href="javascript:void(0)" onclick="sortBy('StartDate')" class="text-decoration-none text-dark">
 
@@ -17,7 +23,7 @@
                 </th>
                 <th class="text-center">
                     <a href="javascript:void(0)" onclick="sortBy('AvailableOnPhone')"
-                        class="text-decoration-none text-dark">Reason<i class="bi bi-arrow-down-up" id="sort-by-role"
+                        class="text-decoration-none text-dark ">Reason<i class="bi bi-arrow-down-up" id="sort-by-role"
                             data-direction="asc"></i> </a>
                 </th>
                 <th class="text-center">
@@ -36,11 +42,11 @@
                         class="text-decoration-none text-dark">Return Date<i class="bi bi-arrow-down-up"
                             id="sort-by-role" data-direction="asc"></i> </a>
                 </th>
-                <th class="text-center">
+                @* <th class="text-center">
                     <a href="javascript:void(0)" onclick="sortBy('AvailableOnPhone')"
                         class="text-decoration-none text-dark">Available On Phone<i class="bi bi-arrow-down-up"
                             id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
+                </th> *@
                 <th class="">
                     <a href="javascript:void(0)" onclick="sortBy('ApprovedDate')"
                         class="text-decoration-none text-dark">Response Date<i class="bi bi-arrow-down-up"
@@ -72,6 +78,7 @@
                             count++;
                         }
                     </td>
+                    <td>@data.EmployeeName</td>
                     <td>@data.StartDate</td>
                     <td class=" ">
                         @data.EndDate
@@ -88,7 +95,7 @@
                     <td class="">
                         @data.ReturnDate
                     </td>
-                    <td class="text-center">
+                    @* <td class="text-center">
 
                         @if (data.AvailableOnPhone.GetValueOrDefault())
                         {
@@ -98,7 +105,7 @@
                         {
                             <div>No</div>
                         }
-                    </td>
+                    </td> *@
                     <td>
 
                         <span class="@data.ApprovedDate"></span>
@@ -130,7 +137,11 @@
                     </td>
                     <td>
                         <div class="d-flex align-items-center">
-                            <a asp-action="AddEditLeaveRequest" asp-controller="Leave"
+                            <a asp-action="ResponseLeaveRequest" asp-controller="Leave"
+                                asp-route-requestId="@data.LeaveRequestId" asp-route-email="@data.EmployeeEmail" class="btn " type="button">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            @* <a asp-action="AddEditLeaveRequest" asp-controller="Leave"
                                 asp-route-requestId="@data.LeaveRequestId" class="btn " type="button">
                                 <i class="bi bi-pen"></i>
                             </a>
@@ -140,8 +151,8 @@
                             </a>
                             <a class="btn deleteLeaveBtn p-0" data-id="@data.LeaveRequestId" data-bs-toggle="modal"
                                 data-bs-target="#deleteLeaveModal">
-                                <i class=" bi bi-trash text-black"></i>
-                            </a>
+                                <i class=" bi bi-trash text-black"></i> *@
+                            @* </a> *@
                         </div>
                     </td>
                 </tr>
@@ -156,7 +167,7 @@
 <div class="d-flex flex-row justify-content-end  gap-2 mb-3 align-items-center">
     <p class="pt-3 text-black">Items per page</p>
     <div class="dropdown">
-        <select class="form-select w-auto " onchange="LeaveRequestPaginationAjax(@Model.Page.CurrentPage)"
+        <select class="form-select w-auto " onchange="ResponseRequestPaginationAjax(@Model.Page.CurrentPage)"
             aria-label="Default select example" id="leaveRequestPageSize">
             @if (Model.Page.PageSize != null)
             {
@@ -170,11 +181,11 @@
     <p class="pt-3 text-black">Showing @Model.Page!.FromRec - @Model.Page.ToRec of @Model.Page.TotalRecord</p>
 
     <!-- Previous Button -->
-    <button class="btn btn-outline-primary col-auto" onclick="LeaveRequestPaginationAjax(@Model.Page.CurrentPage - 1)"
+    <button class="btn btn-outline-primary col-auto" onclick="ResponseRequestPaginationAjax(@Model.Page.CurrentPage - 1)"
     @(Model.Page.CurrentPage > 1 ? "" : "disabled")> &lt; </button>
 
     <!-- Next Button -->
-    <button class="btn btn-outline-primary col-auto" onclick="LeaveRequestPaginationAjax(@Model.Page.CurrentPage + 1)"
+    <button class="btn btn-outline-primary col-auto" onclick="ResponseRequestPaginationAjax(@Model.Page.CurrentPage + 1)"
     @(Model.Page.CurrentPage < Model.Page.TotalPages ? "" : "disabled")> &gt; </button>
 </div>
 

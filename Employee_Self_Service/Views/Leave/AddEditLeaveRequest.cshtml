@@ -3,7 +3,18 @@
     <div class="px-3 d-flex justify-content-between align-items-center">
         <div>
             <h6>Leave</h6>
-            <h4 class=" d-flex align-content-center m-0">Add Leave Request</h4>
+            @{
+                if (@Model.LeaveRequestId == 0)
+                {
+                    
+                    <h4 class=" d-flex align-content-center m-0">Add Leave Request</h4>
+                }
+                else
+                {
+                    <h4 class=" d-flex align-content-center m-0">Edit Leave Request</h4>
+                }
+            }
+            
         </div>
     </div>
     <hr class="dropdown-divider">
@@ -12,11 +23,7 @@
     <form asp-action="AddEditLeaveRequest" asp-controller="Leave">
         <div class="details ">
             <input type="hidden" asp-for="@Model.EmployeeId" value="@Model.profile.EmployeeId">
-            <input type="hidden" asp-for="LeaveRequestId">          
-            @* <input type="hidden" asp-for="@Model.ActualDuration" id="hiddenActualDuration" value="@Model.ActualDuration"> *@
-            @* <input type="hidden" asp-for="TotalDuration" id="hiddenTotalDuration" > *@
-            @* <input type="hidden" asp-for="ReturnDate" id="hiddenReturnDate"> *@
-            
+            <input type="hidden" asp-for="LeaveRequestId">           
 
             <div class="row col col-xxl-6 col-xl-7 col-lg-12 px-4">
                 <!-- First Row -->
@@ -28,7 +35,7 @@
                 <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@Model.ReportingPerson"
                     id="ReportingPerson" value="@Model.profile.ReportingPerson" disabled>
                 <!-- Third Row -->
-                <label class="p-0 mb-1 mt-3"> Leave Reason</label>
+                <label class="p-0 mb-1 mt-3"> Leave Reason*</label>
                 <select asp-for="@Model.ReasonId" class="form-select rounded-0 shadow-none border-2" id="reasonSelect">
                     <option value="">Select a Reason</option>
                     @foreach (var reason in Model.Reasons)
@@ -38,12 +45,12 @@
                 </select>
                 <span asp-validation-for="ReasonId" class="text-danger"></span>
                 <!-- Fourth Row -->
-                <label for="itemName" class="p-0 mb-1 mt-3"> Reason Description</label>
+                <label for="itemName" class="p-0 mb-1 mt-3"> Reason Description*</label>
                 <textarea class="form-control rounded-0 shadow-none border-2" rows="4"
                     asp-for="@Model.ReasonDescription" aria-required="false" aria-invalid="false"> </textarea>
                 <span asp-validation-for="ReasonDescription" class="text-danger"></span>
                 <!-- Fifth Row -->
-                <label for="startDate" class="p-0 mt-3 mb-1"> Leave Start Date</label>
+                <label for="startDate" class="p-0 mt-3 mb-1"> Leave Start Date*</label>
                 <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap  p-0">
                     <div class=" col">
                         <div>
@@ -60,7 +67,7 @@
                     </div>
                 </div>
                 <!-- Sixth Row -->
-                <label for="endDate" class="p-0 mt-3 mb-1"> Leave End Date</label>
+                <label for="endDate" class="p-0 mt-3 mb-1"> Leave End Date*</label>
                 <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap  p-0">
                     <div class=" col">
                         <div>
@@ -118,28 +125,28 @@
                 <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap mt-3 mb-1  p-0">
                     <div class=" col">
                         <div>
-                            <label for="itemName" class="p-0 mb-1">Phone No*</label>
+                            <label for="itemName" class="p-0 mb-1">Phone No.*</label>
                             <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone"
                                 asp-for="@Model.PhoneNo" value="@Model.profile.ContactNo">
                         </div>
                         <span asp-validation-for="PhoneNo" class="text-danger"></span>
                     </div>
                     <div class="col ">
-                        <label for="itemName" class="p-0 mb-1 ">Alternate Phone No* </label>
+                        <label for="itemName" class="p-0 mb-1 ">Alternate Phone No. </label>
                         <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone"
                             asp-for="@Model.AlternatePhoneNo" value="@Model.AlternatePhoneNo">
-                        <span asp-validation-for="AlternatePhoneNo" class="text-danger"></span>
+                        
                     </div>
                 </div>
                 <!-- Ten Row -->
-                <label for="itemName" class="p-0 mb-1 mt-3"> Available On Phone?</label>
+                <label for="itemName" class="p-0 mb-1 mt-3"> Available On Phone</label>
                 <select class="form-select d-flex align-content-end align-items-end justify-content-end rounded-0 shadow-none border-2"
                     asp-for="AvailableOnPhone" id="Reason">
                     <option value="true" selected="@(Model.AvailableOnPhone)">Yes</option>
                     <option value="false" selected="@(!Model.AvailableOnPhone)">No</option>
                 </select>
                 <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" id="flexCheckDefault" asp-for="@Model.AdhocLeave">
+                    <input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault" asp-for="@Model.AdhocLeave">
                     <label class="form-check-label">Adhoc Leave?</label>
                 </div>
                 <div class="d-flex justify-content-start mt-4 gap-2 p-0">
@@ -172,8 +179,6 @@
             if (val.includes('half')) return 0.5;
             return 1;
         }
-
-        
 
         function calculateDurations() {
             var startVal = $('#startDate').val();
@@ -299,10 +304,8 @@
                 }
                 totalDays = totalDays - 1 + getDayTypeValue(startType) + getDayTypeValue(endType);
             }
-            $actualDurationInput.val(actualDays)
+            $actualDurationInput.val(actualDays);
             $totalDurationInput.val(totalDays);
-            @* updateHiddenFields(); *@
-            @* $returnDate.prop('disabled', true); *@
         }
         // Initial calculation
         calculateDurations();
@@ -341,13 +344,7 @@
             $('#endDayTypeValidation').remove();
         }
     }
-    function updateHiddenFields() {
-            $('#hiddenActualDuration').val($('#actualDuration').val());
-            $('#hiddenTotalDuration').val($('#totalDuration').val());
-            $('#hiddenReturnDate').val($('#returnDate').val());
-        }
-   
-
+    
     $(document).ready(function () {
         var today = new Date().toISOString().split("T")[0];
         $("#startDate, #endDate").attr("min", today);

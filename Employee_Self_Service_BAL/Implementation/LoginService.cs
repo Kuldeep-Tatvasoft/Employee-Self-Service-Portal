@@ -141,7 +141,7 @@ public class LoginService : ILoginService
                 employee.ProfileImage = $"/uploads/{fileName}";
             }
 
-            ResponseViewModel response =  await _employeeRepository.RegisterUser(employee);
+            ResponseViewModel response =  await _employeeRepository.RegisterEmployee(employee);
             return response;
         }
         catch (Exception ex)

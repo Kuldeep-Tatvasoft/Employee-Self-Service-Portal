@@ -8,53 +8,55 @@ namespace Employee_Self_Service_BAL.Implementation;
 
 public class ProfileService : IProfileService
 {
-    // private readonly IProfileRepository _profileRepository;
     private readonly IEmployeeRepository _employeeRepository;
-    // private readonly ILoginRepository _loginRepository;
     public ProfileService(IEmployeeRepository employeeRepository)
     {
-        // _profileRepository = profileRepository;
-        // _loginRepository = loginRepository;
         _employeeRepository = employeeRepository;
     }
 
     public async Task<ProfileViewModel> GetUserDetails(string email)
     {
-       try
-       {
-        Employee details = _employeeRepository.GetUserByEmail(email);
-        ProfileViewModel model = new ProfileViewModel
-        {   
-            EmployeeId = details.EmployeeId,
-            ProfileImage = details.ProfileImage,
-            Name = details.Name,
-            Email = details.Email,
-            StartingDate = DateOnly.FromDateTime((DateTime)details.CreatedAt),
-            Experience = DateTime.Now.Year - DateTime.Parse(details.CreatedAt.ToString()).Year,
-            Department = details.Department,
-            Designation = details.Designation,
-            ContactNo = details.Phone.ToString() ?? null,
-            DateOfBirth = (DateOnly)details.DateOfBirth,
-            BloodGroup = details.BloodGroup,
-            AnyDiseases = details.AnyDiseases ?? null
-        };
-        return model;
-       }
-       catch (Exception ex)
+        try
         {
-            Console.WriteLine(ex.Message);
-            return null;    
+            Employee details = _employeeRepository.GetUserByEmail(email);
+            if(details == null)
+            {
+                return null;
+            }
+            ProfileViewModel model = new ProfileViewModel
+            {
+                EmployeeId = details.EmployeeId,
+                ProfileImage = details.ProfileImage,
+                Name = details.Name,
+                Email = details.Email,
+                StartingDate = DateOnly.FromDateTime((DateTime)details.CreatedAt),
+                Experience = DateTime.Now.Year - DateTime.Parse(details.CreatedAt.ToString()).Year,
+                Department = details.Department,
+                Designation = details.Designation,
+                ContactNo = details.Phone.ToString(),
+                DateOfBirth = details.DateOfBirth?.ToString("yyyy-MM-dd") ?? string.Empty,
+                Gender = details.Gender,
+                BloodGroup = details.BloodGroup ?? string.Empty,
+                AnyDiseases = details.AnyDiseases ?? null
+            };
+            return model;
+        }
+        catch (Exception ex)
+        {
+            return null;
         }
     }
 
     public async Task<ResponseViewModel> UpdateProfile(ProfileViewModel model)
     {
         try
-        {   
+        {
             Employee employee = _employeeRepository.GetUserByEmail(model.Email);
             {
                 employee.EmployeeId = model.EmployeeId;
-                employee.DateOfBirth = model.DateOfBirth;
+                employee.DateOfBirth = string.IsNullOrWhiteSpace(model.DateOfBirth)
+                    ? null
+                    : DateOnly.Parse(model.DateOfBirth);
                 employee.Gender = model.Gender;
                 employee.Phone = long.Parse(model.ContactNo);
                 employee.BloodGroup = model.BloodGroup;
@@ -74,17 +76,33 @@ public class ProfileService : IProfileService
 
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                   await model.FormFile.CopyToAsync(fileStream);
+                    await model.FormFile.CopyToAsync(fileStream);
                 }
 
-                employee.ProfileImage = $"/uploads/{fileName}"; 
+                employee.ProfileImage = $"/uploads/{fileName}";
             }
-            ResponseViewModel response = await _employeeRepository.UpdateProfile(employee);
-            return response;            
+            ResponseViewModel response = await _employeeRepository.UpdateEmployee(employee);
+            if (response.success)
+            {
+                return new ResponseViewModel
+                {
+                    success = response.success,
+                    message = "Profile updated successfully."
+                };
+            }
+            else
+            {
+                return new ResponseViewModel
+                {
+                    success = response.success,
+                    message = "Error occur deleting request:" + response.message
+                };
+            }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            return new ResponseViewModel{
+            return new ResponseViewModel
+            {
                 success = false,
                 message = "Failed to update profile:" + ex.Message
             };
@@ -94,7 +112,7 @@ public class ProfileService : IProfileService
     public async Task<ResponseViewModel> ChangePassword(LoginViewModel model)
     {
         try
-        {   
+        {
             Employee user = _employeeRepository.GetUserByEmail(model.Email);
             if (user == null)
             {
@@ -114,10 +132,25 @@ public class ProfileService : IProfileService
                 };
             }
             user.Password = model.NewPassword;
-            String hashPassword = BCrypt.Net.BCrypt.HashPassword(user.Password); 
+            String hashPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
             user.Password = hashPassword;
-            ResponseViewModel response = await _employeeRepository.ChangePassword(user);
-            return response;
+            ResponseViewModel response = await _employeeRepository.UpdateEmployee(user);
+            if (response.success)
+            {
+                return new ResponseViewModel
+                {
+                    success = response.success,
+                    message = "Password changes successfully"
+                };
+            }
+            else
+            {
+                return new ResponseViewModel
+                {
+                    success = response.success,
+                    message = "Error occur deleting request:" + response.message
+                };
+            }
         }
         catch (Exception ex)
         {
@@ -127,6 +160,39 @@ public class ProfileService : IProfileService
                 success = false
             };
         }
-    } 
+    }
 
+    public async Task<ProfileViewModel> GetEmployeeById(int employeeId)
+    {
+        try
+        {
+            Employee details = _employeeRepository.GetEmployeeById(employeeId);
+            if(details == null)
+            {
+                return null;
+            }
+            ProfileViewModel model = new ProfileViewModel
+            {
+                EmployeeId = details.EmployeeId,
+                ProfileImage = details.ProfileImage,
+                Name = details.Name,
+                Email = details.Email,
+                // ReportingPerson = details.ReportiingPerson,
+                StartingDate = DateOnly.FromDateTime((DateTime)details.CreatedAt),
+                Experience = DateTime.Now.Year - DateTime.Parse(details.CreatedAt.ToString()).Year,
+                Department = details.Department,
+                Designation = details.Designation,
+                ContactNo = details.Phone.ToString(),
+                DateOfBirth = details.DateOfBirth?.ToString("yyyy-MM-dd") ?? string.Empty,
+                Gender = details.Gender,
+                BloodGroup = details.BloodGroup ?? string.Empty,
+                AnyDiseases = details.AnyDiseases ?? null
+            };
+            return model;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
 }

@@ -19,25 +19,28 @@ public class EmployeeRepository : IEmployeeRepository
         return  _context.Employees.Include(u => u.Role).FirstOrDefault(u => u.Email == email );
     }
 
+    public Employee GetEmployeeById(int employeeId)
+    {
+        return _context.Employees.Include(u => u.Role).FirstOrDefault(u => u.EmployeeId == employeeId);
+    }
     public async Task<ResponseViewModel> UpdateEmployee(Employee employee)
     {   
         try{
             _context.Employees.Update(employee);
             await _context.SaveChangesAsync();
             return new ResponseViewModel{
-                success = true,
-                message = "Password Reset Successfully"
+                success = true
             };
         }
         catch (Exception ex)
         {
             return new ResponseViewModel{
                 success = false,
-                message = "Error Occur Reset Password" + ex.Message
+                message =  ex.Message
             };
         }
     }
-    public async Task<ResponseViewModel> RegisterUser(Employee employee)
+    public async Task<ResponseViewModel> RegisterEmployee(Employee employee)
     {
         try
         {   
@@ -57,46 +60,5 @@ public class EmployeeRepository : IEmployeeRepository
 
         }
     }
-    public async Task<ResponseViewModel> UpdateProfile(Employee employee)
-    {
-        try
-        {   
-            _context.Employees.Update(employee);
-            await _context.SaveChangesAsync();
-            return new ResponseViewModel
-            {
-                success = true,
-                message = "Profile updated successfully."
-            };
-        }
-        catch (Exception ex)
-        {
-            return new ResponseViewModel{
-                success = false,
-                message = "Error updating profile:" + ex.Message
-            };
-        }
-    }
-    public async Task<ResponseViewModel> ChangePassword(Employee employee)
-    {   
-        try{
-        _context.Employees.Update(employee);
-        await _context.SaveChangesAsync();
-
-        return new ResponseViewModel
-        {
-            success = true,
-            message = "Password changes successfully"
-        };
-        }
-        catch (Exception ex)
-        {
-            return new ResponseViewModel
-            {
-                success = false,
-                message = "Error occur changed password:" + ex.Message
-            };
-        }
-    }
-
+   
 }

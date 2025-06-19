@@ -11,34 +11,39 @@ public class AddLeaveRequestViewModel
     public string ReportingPerson {get; set;}
     [Required(ErrorMessage = "Reason is required")]
     public int ReasonId {get; set;}
-    [Required]
+    public string ReasonName{ get; set;}
+    [Required(ErrorMessage ="Reason Description is Required")]
     public string ReasonDescription {get; set;}
-    [Required]
+    [Required (ErrorMessage ="Start Date is Required")]
     public DateOnly? StartDate { get; set; }   
     public int StartLeaveTypeId {get; set;}
-    [Required]
+    public string StartLeaveType {get; set;}
+    [Required (ErrorMessage ="End Date is Required")]
     public DateOnly? EndDate { get; set; }
     public int EndLeaveTypeId {get; set;}
-    [Required(ErrorMessage ="ActualDuration is Required")]
-    [Range(0.5, double.MaxValue , ErrorMessage = "ActualDuration must be at least 0.5")]    
+    public string EndLeaveType {get; set;}
+    [Required(ErrorMessage ="Actual Duration is Required")]
+    [Range(0.5, double.MaxValue , ErrorMessage = "Actual Duration must be at least 0.5")]    
     public decimal? ActualDuration { get; set; }
-    [Required(ErrorMessage ="TotalDuration is Required")]
-    [Range(0.5, double.MaxValue, ErrorMessage = "TotalDuration must be at least 0.5")]
+    [Required(ErrorMessage ="Total Duration is Required")]
+    [Range(0.5, double.MaxValue, ErrorMessage = "Total Duration must be at least 0.5")]
     public decimal? TotalDuration { get; set; }
     public DateOnly? ReturnDate { get; set; }
+    
     [Required]
     public bool? AvailableOnPhone { get; set; }
     [Required]
     public DateOnly RequestedDate {get; set;}
-    [Required (ErrorMessage = "PhoneNo is Required")]
+    [Required (ErrorMessage = "Phone No is Required")]
     [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
     public string PhoneNo {get; set;} 
-    [Required (ErrorMessage = "AlternatePhoneNo is Required")]
+    
     [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
     public string AlternatePhoneNo {get; set;} 
     [Required]
     public bool AdhocLeave { get; set; }
     public ProfileViewModel profile { get; set; }
+    public virtual Reason? ReasonNavigation { get; set; }
     public List<Reason> Reasons { get; set;} = new List<Reason>();
 
 }

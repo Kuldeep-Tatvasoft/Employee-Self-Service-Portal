@@ -1,0 +1,101 @@
+@model Employee_Self_Service_DAL.ViewModel.AddLeaveRequestViewModel
+<div class="modal-header ">
+    <div class=" d-flex justify-content-between align-items-center">
+        <div>
+            <h6>Leave</h6>
+            <h4 class=" d-flex align-content-center m-0">Leave View</h4>
+        </div>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="addItemModelCancel"></button>
+</div>
+
+<div class="modal-body">
+    <div class="row ">
+        <div class="row col-lg-9 col-12 ">
+            <table class="table col table-bordered  ms-4 ">
+                <tr>
+                    <th class="heading col-lg- col-md-5 col-sm-6 col-6 ">Name:</th>
+                    <td class="">@Model.profile.Name</td>
+                </tr>
+                <tr>
+                    <th>Reporting Person:</th>
+                    <td>@Model.profile.ReportingPerson</td>
+                </tr>
+                <tr>
+                    <th>Leave Reason:</th>
+                    <td>@Model.ReasonName
+                    </td>
+                </tr>
+                <tr>
+                    <th>Reason Description:</th>
+                    <td>@Model.ReasonDescription</td>
+                </tr>
+                <tr>
+                    <th>Leave Start Date:</th>
+                    <td>@Model.StartDate
+                    </td>
+                </tr>
+                <tr>
+                    <th>Start Leave Type:</th>
+                    <td>@Model.StartLeaveType </td>
+                </tr>
+                <tr>
+                    <th>Leave End Date:</th>
+                    <td>@Model.EndDate </td>
+
+                </tr>
+                <tr>
+                    <th> End Leave Type:</th>
+                    <td>@Model.EndLeaveType</td>
+                </tr>
+                <tr>
+                    <th>Actual Leave Duration:</th>
+                    <td>@Model.ActualDuration</td>
+                </tr>
+                <tr>
+                    <th>Total Leave Duration:</th>
+                    <td>@Model.TotalDuration</td>
+                </tr>
+                <tr>
+                    <th>Return Date:</th>
+                    <td>@Model.ReturnDate</td>
+                </tr>
+                <tr>
+                    <th>Requested Date:</th>
+                    <td>@Model.RequestedDate</td>
+                </tr>
+                <tr>
+                    <th>Phone No:</th>
+                    <td>@Model.profile.ContactNo</td>
+                </tr>
+                <tr>
+                    <th>Alternate Phone No:</th>
+                    <td>@Model.AlternatePhoneNo</td>
+                </tr>
+                <tr>
+                    <th>Available On Phone:</th>
+                    <td>@if (Model.AvailableOnPhone.GetValueOrDefault())
+                        {
+                            <div>Yes</div>
+                        }
+                        else
+                        {
+                            <div>No</div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th>Adhoc Leave:</th>
+                    <td><input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault" value="@(Model.AdhocLeave ? "true" : "false")" 
+                        @(Model.AdhocLeave? "checked" : "") disabled>
+                       </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer d-flex justify-content-start ">
+    <button type="button" class="btn cancle_btn  border-secondary" data-bs-dismiss="modal"
+        id="addItemModelCancel">Cancel</button>
+</div>

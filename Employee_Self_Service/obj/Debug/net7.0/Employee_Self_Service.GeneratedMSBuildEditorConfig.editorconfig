@@ -24,20 +24,32 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/AddLeaveRequest.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcQWRkTGVhdmVSZXF1ZXN0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/EditLeaveRequest.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcRWRpdExlYXZlUmVxdWVzdC5jc2h0bWw=
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/AddEditLeaveRequest.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcQWRkRWRpdExlYXZlUmVxdWVzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/LeaveRequest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcTGVhdmVSZXF1ZXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/ResponseLeaveRequest.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcUmVzcG9uc2VMZWF2ZVJlcXVlc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/ResponseRequest.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcUmVzcG9uc2VSZXF1ZXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/_LeaveRequestListPartialView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcX0xlYXZlUmVxdWVzdExpc3RQYXJ0aWFsVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/_LeaveViewPartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcX0xlYXZlVmlld1BhcnRpYWxWaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/_ResponseLeaveRequestList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcX1Jlc3BvbnNlTGVhdmVSZXF1ZXN0TGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Login/ForgotPassword.cshtml]

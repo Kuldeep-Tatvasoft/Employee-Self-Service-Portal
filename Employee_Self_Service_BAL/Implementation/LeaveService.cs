@@ -2,6 +2,7 @@ using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.Interface;
 using Employee_Self_Service_DAL.Models;
 using Employee_Self_Service_DAL.ViewModel;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Employee_Self_Service_BAL.Implementation;
@@ -15,11 +16,24 @@ public class LeaveService : ILeaveService
         _leaveRepository = leaveRepository;
     }
 
-    public async Task<LeaveRequestPaginationViewModel> GetRequestData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus)
+    public async Task<LeaveRequestPaginationViewModel> GetRequestData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
     {
         try
         {
-            var List = await _leaveRepository.GetPaginatedRequest(pageSize, pageNumber, search, sort, sortDirection, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus);
+            var List = await _leaveRepository.GetPaginatedRequest(pageSize, pageNumber, search, sort, sortDirection, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
+            return List;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
+
+    public async Task<LeaveRequestPaginationViewModel> GetResponseData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
+    {
+        try
+        {
+            var List = await _leaveRepository.GetPaginatedResponse(pageSize, pageNumber, search, sort, sortDirection, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
             return List;
         }
         catch (Exception ex)
@@ -41,30 +55,33 @@ public class LeaveService : ILeaveService
     }
 
     public async Task<ResponseViewModel> AddRequest(AddLeaveRequestViewModel model)
-    {   
+    {
         try
         {
-        LeaveRequest request = new LeaveRequest
-        {
-            EmployeeId = model.EmployeeId,
-            Reason = model.ReasonId,
-            ReasonDescription = model.ReasonDescription,
-            StartDate = model.StartDate,
-            StartLeaveType = model.StartLeaveTypeId,
-            EndDate = model.EndDate,
-            EndLeaveType = model.EndLeaveTypeId,
-            ActualLeaveDuration = model.ActualDuration,
-            TotalLeaveDuration = model.TotalDuration,
-            ReturnDate = model.ReturnDate,
-            AlternatePhoneMo = model.AlternatePhoneNo,
-            AvailableOnPhone = model.AvailableOnPhone,
-            AdhocLeave = model.AdhocLeave
-        };
-        ResponseViewModel response = await _leaveRepository.AddRequest(request);
-        return response;
+            LeaveRequest request = new LeaveRequest
+            {
+                EmployeeId = model.EmployeeId,
+                Reason = model.ReasonId,
+                ReasonDescription = model.ReasonDescription,
+                StartDate = model.StartDate,
+                StartLeaveType = model.StartLeaveTypeId,
+                EndDate = model.EndDate,
+                EndLeaveType = model.EndLeaveTypeId,
+                ActualLeaveDuration = model.ActualDuration,
+                TotalLeaveDuration = model.TotalDuration,
+                ReturnDate = model.ReturnDate,
+                AlternatePhoneMo = model.AlternatePhoneNo,
+                AvailableOnPhone = model.AvailableOnPhone,
+                AdhocLeave = model.AdhocLeave,
+                StatusId = 3
+            };
+            ResponseViewModel response = await _leaveRepository.AddRequest(request);
+            return response;
         }
-        catch{
-            return new ResponseViewModel{
+        catch
+        {
+            return new ResponseViewModel
+            {
                 success = false,
                 message = "Request Failed to Add"
             };
@@ -73,25 +90,34 @@ public class LeaveService : ILeaveService
 
     public async Task<AddLeaveRequestViewModel> GetEditDetails(int requestId)
     {
-        LeaveRequest details = await _leaveRepository.GetEditDetails(requestId);
+
+        LeaveRequest details = await _leaveRepository.GetDetails(requestId);
+        if (details == null)
+        {
+            return null;
+        }
         AddLeaveRequestViewModel model = new AddLeaveRequestViewModel
         {
             LeaveRequestId = details.LeaveRequestId,
             EmployeeId = details.EmployeeId,
             ReasonId = (int)details.Reason,
+            ReasonName = details.ReasonNavigation.Reason1,
             ReasonDescription = details.ReasonDescription,
             StartDate = (DateOnly)details.StartDate,
             StartLeaveTypeId = (int)details.StartLeaveType,
+            StartLeaveType = details.StartLeaveTypeNavigation.Type,
             EndDate = (DateOnly)details.EndDate,
+            EndLeaveType = details.EndLeaveTypeNavigation.Type,
             EndLeaveTypeId = (int)details.EndLeaveType,
             ActualDuration = details.ActualLeaveDuration,
             TotalDuration = details.TotalLeaveDuration,
             ReturnDate = details.ReturnDate,
+            RequestedDate = DateOnly.FromDateTime(details.CreatedAt.Value),
             AlternatePhoneNo = details.AlternatePhoneMo,
             AvailableOnPhone = details.AvailableOnPhone,
             AdhocLeave = (bool)details.AdhocLeave
         };
-        return model;   
+        return model;
     }
 
     public async Task<ResponseViewModel> EditRequest(AddLeaveRequestViewModel model)
@@ -99,31 +125,93 @@ public class LeaveService : ILeaveService
         try
         {
 
-        LeaveRequest request = await _leaveRepository.GetEditDetails(model.LeaveRequestId);
-        {   
-            request.EmployeeId = model.EmployeeId;
-            request.Reason = model.ReasonId;
-            request.ReasonDescription = model.ReasonDescription;
-            request.StartDate = model.StartDate;
-            request.StartLeaveType = model.StartLeaveTypeId;
-            request.EndDate = model.EndDate;
-            request.EndLeaveType = model.EndLeaveTypeId;
-            request.ActualLeaveDuration = model.ActualDuration;
-            request.TotalLeaveDuration = model.TotalDuration;
-            request.ReturnDate = model.ReturnDate;
-            request.AlternatePhoneMo = model.AlternatePhoneNo;
-            request.AvailableOnPhone = model.AvailableOnPhone;
-            request.AdhocLeave = model.AdhocLeave;
-        };
+            LeaveRequest request = await _leaveRepository.GetDetails(model.LeaveRequestId);
+            {
+                request.EmployeeId = model.EmployeeId;
+                request.Reason = model.ReasonId;
+                request.ReasonDescription = model.ReasonDescription;
+                request.StartDate = model.StartDate;
+                request.StartLeaveType = model.StartLeaveTypeId;
+                request.EndDate = model.EndDate;
+                request.EndLeaveType = model.EndLeaveTypeId;
+                request.ActualLeaveDuration = model.ActualDuration;
+                request.TotalLeaveDuration = model.TotalDuration;
+                request.ReturnDate = model.ReturnDate;
+                request.AlternatePhoneMo = model.AlternatePhoneNo;
+                request.AvailableOnPhone = model.AvailableOnPhone;
+                request.AdhocLeave = model.AdhocLeave;
+                request.UpdatedAt = DateTime.Now;
+            };
 
-        ResponseViewModel response = await _leaveRepository.EditRequest(request);
-        return response;
+            ResponseViewModel response = await _leaveRepository.EditRequest(request);
+            return response;
         }
-        catch{
-            return new ResponseViewModel{
+        catch
+        {
+            return new ResponseViewModel
+            {
                 success = false,
                 message = "Request Failed to Add"
             };
         }
+    }
+
+    public async Task<ResponseViewModel> DeleteLeaveRequest(int requestId)
+    {
+        try
+        {
+            LeaveRequest request = await _leaveRepository.GetDetails(requestId);
+            {
+                request.IsDeleted = true;
+                request.DeletedAt = DateTime.Now;
+            };
+
+            ResponseViewModel response = await _leaveRepository.EditRequest(request);
+            if (response.success)
+            {
+                return new ResponseViewModel
+                {
+                    success = response.success,
+                    message = "Request Deleted Successfully"
+                };
+            }
+            else
+            {
+                return new ResponseViewModel
+                {
+                    success = response.success,
+                    message = "Error occur deleting request:" + response.message
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                success = false,
+                message = "Request Failed to Deleted:" + ex.Message
+            };
+        }
+
+    }
+
+    public async Task<ResponseViewModel> ResponseLeaveRequest(int requestId, int statusId, int approvedBy, string comment)
+    {
+        try
+        {
+            LeaveRequest request = await _leaveRepository.GetDetails(requestId);
+            {
+                request.StatusId = statusId;
+                request.ApprovedAt = DateTime.Now;
+                request.ApprovedBy = approvedBy;
+                request.Comment = comment;
+            }
+            ResponseViewModel response = await _leaveRepository.ResponseLeaveRequest(request);
+        }
+        catch(Exception ex)
+        {
+
+        }
+
     }
 }

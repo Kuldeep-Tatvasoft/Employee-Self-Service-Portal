@@ -53,6 +53,19 @@ button.accept-policy {
   
 }
 
+.accordion-item{
+  background-color: #f5f5f8;
+}
+.accordion-button{
+  background-color: #f5f5f8;
+  color: gray !important;
+  
+}
+.accordion-button:not(.collabsed)::after{
+  color: #000;
+  color: gray !important;
+}
+
 .sidebar {
   background-color: #f5f5f8;
 }

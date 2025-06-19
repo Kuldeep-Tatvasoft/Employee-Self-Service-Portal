@@ -136,7 +136,7 @@ public class LoginController : Controller
     public async Task<IActionResult> Register (RegisterViewModel model)
     {   
         var employee = _loginService.GetUserByEmail(model.Email);
-        if (employee == null)
+        if (employee != null)
         {
             ModelState.AddModelError("Email", "User with same email already exists.");
         }

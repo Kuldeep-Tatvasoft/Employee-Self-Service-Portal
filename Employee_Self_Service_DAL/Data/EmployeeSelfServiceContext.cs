@@ -32,6 +32,8 @@ public partial class EmployeeSelfServiceContext : DbContext
 
             entity.ToTable("employee");
 
+            entity.HasIndex(e => e.Email, "employee_email_key").IsUnique();
+
             entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
             entity.Property(e => e.AnyDiseases)
                 .HasColumnType("character varying")
@@ -104,6 +106,9 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasColumnName("approved_at");
             entity.Property(e => e.ApprovedBy).HasColumnName("approved_by");
             entity.Property(e => e.AvailableOnPhone).HasColumnName("available_on_phone");
+            entity.Property(e => e.Comment)
+                .HasColumnType("character varying")
+                .HasColumnName("comment");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")

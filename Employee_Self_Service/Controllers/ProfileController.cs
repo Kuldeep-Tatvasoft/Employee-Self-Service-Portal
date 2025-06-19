@@ -11,21 +11,22 @@ public class ProfileController : Controller
     private readonly IProfileService _profileService;
     private readonly IJwtService _jwtService;
     private readonly ILoginService _loginService;
-    public ProfileController(IProfileService profileService, IJwtService jwtService,ILoginService loginService)
+    public ProfileController(IProfileService profileService, IJwtService jwtService, ILoginService loginService)
     {
         _profileService = profileService;
         _jwtService = jwtService;
         _loginService = loginService;
     }
     public async Task<IActionResult> MyProfile()
-    {   
+    {
         var token = _jwtService.ValidateToken(Request.Cookies["token"]);
         var email = token?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-        if(email == null)
+        if (email == null)
         {
             TempData["errorToastr"] = "Email not found.";
+            return RedirectToAction("Index", "Login");
         }
-        var details = await  _profileService.GetUserDetails(email);
+        var details = await _profileService.GetUserDetails(email);
         if (details == null)
         {
             TempData["errorToastr"] = "User details not found.";
@@ -35,13 +36,14 @@ public class ProfileController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> EditProfile()
+    public async Task<IActionResult> EditProfile(int employeeId)
     {
         var token = _jwtService.ValidateToken(Request.Cookies["token"]);
         var email = token?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-        if(email == null)
+        if (email == null)
         {
             TempData["errorToastr"] = "Email not found.";
+            return RedirectToAction("Index", "Login");
         }
         var details = await _profileService.GetUserDetails(email);
         if (details == null)
@@ -55,19 +57,17 @@ public class ProfileController : Controller
     [HttpPost]
     public async Task<IActionResult> EditProfile(ProfileViewModel model)
     {
-        
         ResponseViewModel response = await _profileService.UpdateProfile(model);
         if (response.success)
         {
             TempData["successToastr"] = response.message;
+            return RedirectToAction("MyProfile");
         }
         else
         {
             TempData["errorToastr"] = response.message;
             return RedirectToAction("EditProfile");
         }
-        return RedirectToAction("MyProfile");
-
     }
 
     [HttpGet]
@@ -86,9 +86,10 @@ public class ProfileController : Controller
         }
         var token = _jwtService.ValidateToken(Request.Cookies["token"]);
         var email = token?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-        if(email == null)
-        {   
+        if (email == null)
+        {
             TempData["errorToastr"] = "Email Not Found";
+            return RedirectToAction("Index","Login");
         }
         model.Email = email;
 
@@ -96,7 +97,7 @@ public class ProfileController : Controller
         if (response.success)
         {
             TempData["successToastr"] = response.message;
-            
+
             return RedirectToAction("Index", "Login");
         }
         else
@@ -104,6 +105,6 @@ public class ProfileController : Controller
             TempData["errorToastr"] = response.message;
             return View("ChangePassword", model);
         }
-        
+
     }
 }

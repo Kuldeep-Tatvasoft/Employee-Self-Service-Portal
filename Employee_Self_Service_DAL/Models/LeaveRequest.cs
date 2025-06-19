@@ -47,6 +47,8 @@ public partial class LeaveRequest
 
     public int? EndLeaveType { get; set; }
 
+    public string? Comment { get; set; }
+
     public virtual Employee? ApprovedByNavigation { get; set; }
 
     public virtual Employee Employee { get; set; } = null!;

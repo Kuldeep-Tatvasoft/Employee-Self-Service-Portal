@@ -8,4 +8,5 @@ public interface IProfileService
     Task<ProfileViewModel> GetUserDetails(string email);
     Task<ResponseViewModel> UpdateProfile(ProfileViewModel model);
     Task<ResponseViewModel> ChangePassword(LoginViewModel model);
+    Task<ProfileViewModel> GetEmployeeById(int employeeId);
 }
