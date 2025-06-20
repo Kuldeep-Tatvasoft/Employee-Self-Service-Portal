@@ -2,23 +2,27 @@
 using Microsoft.AspNetCore.Mvc;
 using Employee_Self_Service.Models;
 using Employee_Self_Service.Authorization;
+using Employee_Self_Service_BAL.Interface;
 
 namespace Employee_Self_Service.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILeaveService _leaveService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILeaveService leaveService)
     {
-        _logger = logger;
+        _leaveService = leaveService;
     }
 
     
-    public IActionResult Index()
-    {
-        return View();
+    public async Task<IActionResult> Index()
+    {   
+        var todayOnLeave = await _leaveService.GetTodayOnLeave();
+        return View(todayOnLeave);
     }
+
+
 
     [CustomAuthorize ("Employee")]
     public IActionResult Privacy()

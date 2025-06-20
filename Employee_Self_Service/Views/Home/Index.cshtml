@@ -1,8 +1,49 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using Employee_Self_Service_DAL.ViewModel;
+@model List<LeaveRequestDetailsViewModel>
 
-@* <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div> *@
+<div class="container-fluid p-4">
+    <div class=" row row-cols-1 row-cols-lg-2 mb-0 d-flex">
+        <div class="dashboard-leave shadow col p-0 ">
+            <div class=" bg-white  rounded-0  ">
+                <div class=" w-100 h-100">
+                    <div class="member p-2">
+                        <span class="fw-semibold">Member on Leave Today</span>
+                    </div>
+                    <table class="table table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <td class="col-lg-8">
+                                    <span class="heading">Name</span>
+                                </td>
+                                <td class="text-center">
+                                    <span>Duration</span>
+                                </td>
+    
+                                <td class="text-center">
+                                    <span>Days</span>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody class="">
+                            @foreach (var data in Model)
+                            {
+                            <tr>
+                                <td>@data.EmployeeName</td>
+                                <td>
+                                    @data.StartDate.ToString("dd/MM") - @data.EndDate.ToString("dd/MM")
+                                </td>
+                                <td class="text-center">
+                                    @data.ActualDuration
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

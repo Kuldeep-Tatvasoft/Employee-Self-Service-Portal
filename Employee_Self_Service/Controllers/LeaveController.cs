@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Employee_Self_Service.Authorization;
 using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -30,10 +31,6 @@ public class LeaveController : Controller
         var model = await _leaveService.GetRequestData(pageSize, pageNumber, searchQuery, sortColumn, sortDirection, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
         return PartialView("_LeaveRequestListPartialView", model);
     }
-
-    
-
-
     [HttpGet]
     public async Task<ActionResult> AddEditLeaveRequest(int requestId)
     {   
@@ -116,6 +113,7 @@ public class LeaveController : Controller
         return PartialView("_LeaveViewPartialView", model);
     }
 
+    [CustomAuthorize ("HR")]
     public IActionResult ResponseRequest()
     {
         return View();
@@ -143,11 +141,16 @@ public class LeaveController : Controller
     public async Task<IActionResult> ResponseLeaveRequest(int requestId, int statusId, int approvedBy, string comment)
     {
         ResponseViewModel response = await _leaveService.ResponseLeaveRequest(requestId, statusId, approvedBy,comment);
-        // if (response.success)
-        // {
-
-        // }
-
+        if(response.success)
+        {
+            TempData["successToastr"] = response.message;
+            return Json(new { success = true });
+        }
+        else
+        {
+            TempData["errorToastr"] = response.message;
+            return Json(new { success = false});
+        }
 
     }
 }

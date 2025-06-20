@@ -115,7 +115,8 @@ public class LeaveService : ILeaveService
             RequestedDate = DateOnly.FromDateTime(details.CreatedAt.Value),
             AlternatePhoneNo = details.AlternatePhoneMo,
             AvailableOnPhone = details.AvailableOnPhone,
-            AdhocLeave = (bool)details.AdhocLeave
+            AdhocLeave = (bool)details.AdhocLeave,
+            StatusId = (int)details.StatusId,
         };
         return model;
     }
@@ -162,7 +163,7 @@ public class LeaveService : ILeaveService
         {
             LeaveRequest request = await _leaveRepository.GetDetails(requestId);
             {
-                request.IsDeleted = true;
+                request.StatusId = 4;
                 request.DeletedAt = DateTime.Now;
             };
 
@@ -206,12 +207,34 @@ public class LeaveService : ILeaveService
                 request.ApprovedBy = approvedBy;
                 request.Comment = comment;
             }
-            ResponseViewModel response = await _leaveRepository.ResponseLeaveRequest(request);
+            ResponseViewModel response = await _leaveRepository.EditRequest(request);
+            if(response.success)
+            {
+                return new ResponseViewModel{
+                    success = true,
+                    message = "Status Changed Successfully"
+                };
+            }
+            else
+            {
+                return new ResponseViewModel{
+                    success = true,
+                    message = "Error occur status change " + response.message
+                };
+            }
         }
         catch(Exception ex)
         {
-
+            return new ResponseViewModel{
+                success = false,
+                message = "Failed to update status" + ex.Message
+            };
         }
+    }
+
+    public async Task<List<LeaveRequestDetailsViewModel>> GetTodayOnLeave()
+    {
+        return await _leaveRepository.GetTodayOnLeave();
 
     }
 }

@@ -95,7 +95,6 @@
                                 </button></a>
                         </li>
                         <li>
-
                             <button
                                 class="dropdown-item p-0 mt-2  fw-bold text-secondary d-flex align-items-center justify-content-start "
                                 data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -141,15 +140,15 @@
                                     <div id="flush-collapseTwo" class="accordion-collapse collapse"
                                         data-bs-parent="#accordionFlushExample">
                                         <div class="accordion-body d-flex  p-0 ms-5  flex-column gap-2 ">
-                                            <a
-                                                href="/Leave/LeaveRequest"
+                                            <a href="/Leave/LeaveRequest"
                                                 class="d-flex text-decoration-none text-dark  ">
                                                 <span class="icon-name icon-name-inner ">Self</span></a>
-                                             @if (userRole == "HR")
-                                                {  <a href="/Leave/ResponseRequest"
+                                            @if (userRole == "HR")
+                                            {
+                                                <a href="/Leave/ResponseRequest"
                                                     class="d-flex text-decoration-none text-dark  ">
                                                     <span class="icon-name icon-name-inner ">Response</span></a>
-                                                }
+                                            }
                                         </div>
                                     </div>
                                 </div>

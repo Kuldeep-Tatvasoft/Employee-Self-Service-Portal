@@ -18,9 +18,10 @@ public class LeaveRepository : ILeaveRepository
 
     public async Task<LeaveRequestPaginationViewModel> GetPaginatedRequest(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
     {
+        
         var query = _context.LeaveRequests
                     .Include(l => l.Status)
-                    .Where(l => !l.IsDeleted && l.EmployeeId == employeeId)
+                    .Where(l => !l.IsDeleted && l.EmployeeId == employeeId )
                     .Select(l => new LeaveRequestDetailsViewModel 
                     {   
                         LeaveRequestId = l.LeaveRequestId,
@@ -29,8 +30,11 @@ public class LeaveRepository : ILeaveRepository
                         ActualDuration = (decimal)l.ActualLeaveDuration,
                         TotalDuration = (decimal)l.TotalLeaveDuration,
                         ReturnDate = (DateOnly)l.ReturnDate,
+                        ApprovedDate = l.ApprovedAt.HasValue ? DateOnly.FromDateTime(l.ApprovedAt.Value).ToString("yyyy-MM-dd") : string.Empty,
+                        ApprovedBy = l.ApprovedByNavigation.Name,
                         AvailableOnPhone = (bool)l.AvailableOnPhone,
                         StatusId = (int)l.StatusId,
+                        Status = l.Status.Status,
                         ReasonName = l.ReasonNavigation.Reason1,
                         AdhocLeave = (bool)l.AdhocLeave,
                         Date = DateOnly.FromDateTime(l.CreatedAt.Value) 
@@ -42,7 +46,7 @@ public class LeaveRepository : ILeaveRepository
             query = query.Where(c => c.ActualDuration.ToString().Contains(searchQuery)
                                     || c.ReasonName.ToLower().Contains(searchQuery));
         }
-       
+        
         if(!string.IsNullOrEmpty(leaveRequestFromDate))
         {
             DateOnly fromDate = DateOnly.Parse(leaveRequestFromDate);
@@ -72,6 +76,7 @@ public class LeaveRepository : ILeaveRepository
             "ReturnDate" => sortDirection == "asc" ? query.OrderBy(x => x.ReturnDate) : query.OrderByDescending(x => x.ReturnDate),
             "AvailableOnPhone" => sortDirection == "asc" ? query.OrderBy(x => x.AvailableOnPhone) : query.OrderByDescending(x => x.AvailableOnPhone),
             "ApprovedDate" => sortDirection == "asc" ? query.OrderBy(x => x.ApprovedDate) : query.OrderByDescending(x => x.ApprovedDate),
+            "ApprovedBy" => sortDirection == "asc" ? query.OrderBy(x => x.ApprovedBy) : query.OrderByDescending(x => x.ApprovedBy),
             "Status" => sortDirection == "asc" ? query.OrderBy(x => x.Status) : query.OrderByDescending(x => x.Status),
             "AdhocLeave" => sortDirection == "asc" ? query.OrderBy(x => x.AdhocLeave) : query.OrderByDescending(x => x.AdhocLeave),
             _ => query.OrderBy(x => x.LeaveRequestId)
@@ -150,7 +155,6 @@ public class LeaveRepository : ILeaveRepository
             };
         }
     }
-
     public async Task<LeaveRequestPaginationViewModel> GetPaginatedResponse(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
     {
         var query = _context.LeaveRequests
@@ -168,12 +172,16 @@ public class LeaveRepository : ILeaveRepository
                         ActualDuration = (decimal)l.ActualLeaveDuration,
                         TotalDuration = (decimal)l.TotalLeaveDuration,
                         ReturnDate = (DateOnly)l.ReturnDate,
+                        ApprovedDate = l.ApprovedAt.HasValue ? DateOnly.FromDateTime(l.ApprovedAt.Value).ToString("yyyy-MM-dd") : string.Empty,
+                        ApprovedBy = l.ApprovedByNavigation.Name,
                         AvailableOnPhone = (bool)l.AvailableOnPhone,
                         StatusId = (int)l.StatusId,
+                        Status = l.Status.Status,
                         ReasonName = l.ReasonNavigation.Reason1,
                         AdhocLeave = (bool)l.AdhocLeave,
                         Date = DateOnly.FromDateTime(l.CreatedAt.Value) 
                     });
+
 
         if (!string.IsNullOrEmpty(searchQuery))
         {
@@ -233,4 +241,22 @@ public class LeaveRepository : ILeaveRepository
         return model;
     }
 
+    public async Task<List<LeaveRequestDetailsViewModel>> GetTodayOnLeave()
+    {   
+        var today = DateOnly.FromDateTime(DateTime.Now);
+        List<LeaveRequestDetailsViewModel>? model = await _context.LeaveRequests
+                                                    .Include(l => l.Employee)
+                                                    .Include(l => l.Status)
+                                                    .Where(l => !l.IsDeleted && l.StartDate <= today && l.EndDate >= today && l.StatusId == 2)
+                                                    .Select(l => new LeaveRequestDetailsViewModel 
+                                                    {   
+                                                       
+                                                        EmployeeName = l.Employee.Name,
+                                                        StartDate = (DateOnly)l.StartDate,
+                                                        EndDate = (DateOnly)l.EndDate,
+                                                        ActualDuration = (decimal)l.ActualLeaveDuration,
+                                                        
+                                                    }).ToListAsync();
+                                                    return model;
+    }
 }

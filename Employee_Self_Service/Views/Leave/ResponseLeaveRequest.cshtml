@@ -145,49 +145,73 @@
                     <input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault" asp-for="@Model.AdhocLeave" disabled>
                     <label class="form-check-label">Adhoc Leave?</label>
                 </div>
-
+                <Form id="response" >
                 <label for="itemName" class="p-0 mb-1 mt-3"> Comment</label>
                 <textarea class="form-control rounded-0 shadow-none border-2" rows="4" id = "comment"
-                     aria-required="false" aria-invalid="false"  > </textarea>
+                     aria-required="true" aria-invalid="false" asp-for="Comment"> </textarea>
+                     <span asp-validation-for="Comment" class="text-danger"></span>
                 
                 <div class="d-flex justify-content-start mt-4 gap-2 p-0">
-                    <button type="submit" id="response" class="btn btn-primary rounded-0"  data-requestId = "LeaveRequestId" value="2" >Approve</button>
-                    <button type="submit" id="response" class="btn btn-primary rounded-0" data-requestId = "LeaveRequestId" value="3">Reject</button>
+                    @if(Model.StatusId == 2){
+                        
+                        <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId" value="5">Reject</button>
+                    }
+                    else if(Model.StatusId == 5){
+                        <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId"   value="2" >Approve</button>
+                    } 
+                    else{
+                        <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId"   value="2" >Approve</button>
+                        <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId" value="5">Reject</button>
+                    }
+                    
                     <a href="/Leave/LeaveRequest"><button type="button"
                             class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
                 </div>
+                </Form>
             </div>
         </div>
     </div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@await Html.PartialAsync("_TosterPartialView")
+
+<script>
+    $(document).ready(function () {
+        $('.response').on('click', function () {
+            statusId = $(this).val();
+        });
+    });
+</script>
 <script>
     let approvedBy;
-    $(document).on('click','#response', function () {
+    $(document).on('submit','#response', function (e) {
+             e.preventDefault();
             let comment = $('#comment').val();
+            if(!$(this).valid()) return;
             $.ajax({
-                url: '/Leave/ApproveLeaveRequest',
+                url: '/Leave/ResponseLeaveRequest',
                 type: 'POST',
-                data: { 'leaveRequestId': $(this).data("requestId"),
-                        'statusId': $(this).val(),
+                data: { 'requestId': $('.response').data("requestid"),
+                        'statusId': statusId,
                         'approvedBy': @approvedBy,
-                        'comment': comment
+                        'comment': comment,
+                        
                       },
-                success: function (response) {
-                    if (response.success) {
-                        toastr.success(response.massage);
-                        window.location.href = '/Leave/ResponseRequest';
-                    } else {
-                        toastr.error(response.massage);
+                success: (response) => {
+                    if(response.success == true)
+                    {
+                        window.location.href = ("/Leave/ResponseRequest");
+                    }
+                    else
+                    {
                         location.reload();
                     }
                 },
-                error: function () {
-                    alert('An error occurred .');
+                error: (error) => {
+                    toastr.error("Eroor response request");
+                    location.reload();
                 }
             });
         });
-    
-
 </script>

@@ -13,7 +13,9 @@ public class LeaveRequestDetailsViewModel
     public decimal TotalDuration { get; set; }
     public DateOnly ReturnDate { get; set; }
     public bool? AvailableOnPhone { get; set; }
-    public DateTime ApprovedDate { get; set; }
+    // public DateTime ApprovedDate { get; set; }
+    public string ApprovedDate { get; set;}
+    public string ApprovedBy {get ; set;}
     public int StatusId { get; set;}
     public string Status { get; set; }
     public bool AdhocLeave { get; set; }

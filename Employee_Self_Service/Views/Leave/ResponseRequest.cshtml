@@ -75,7 +75,7 @@
     $(document).ready(function () {
         ResponseRequestPaginationAjax(1);
     });
-    
+
     function ResponseRequestPaginationAjax(pageNumber) {
         let pageSize = $("#leaveRequestPageSize").val();
         if (pageSize == 0 || pageSize == null) pageSize = 3;
@@ -128,7 +128,7 @@
         ResponseRequestPaginationAjax(1);
     });
 
-    
+
     function changePageSize(size) {
         $("#leaveRequestPageSize").val(size);
         ResponseRequestPaginationAjax(1);

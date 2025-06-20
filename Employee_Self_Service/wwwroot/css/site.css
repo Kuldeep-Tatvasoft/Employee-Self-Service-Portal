@@ -138,6 +138,14 @@ form i{
  background-color: #f5f5f8;
 }
 
+.member{
+  background-color: #f5f5f8;
+}
+
+.dashboard-leave{
+  border : 1px solid #dee2e6
+}
+
 .changePassword{
   margin-left: 200px !important;
 }
@@ -151,18 +159,39 @@ form i{
   {
     width: 100px;
     padding: 3px;
-    background-color: rgb(7, 133, 7);
+    background-color: rgb(107, 189, 107);
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
+  .rejected
+  {
+    width: 100px;
+    padding: 3px;
+    border-radius: 0px;
+    background-color: #dc3545;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .pending
   {
     width: 100px;
     padding: 3px;
     border-radius: 0px;
     background-color: #eef077;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .rejected
+  {
+    width: 100px;
+    padding: 3px;
+    border-radius: 0px;
+    background-color: #dc3545;
     display: flex;
     justify-content: center;
     align-items: center;

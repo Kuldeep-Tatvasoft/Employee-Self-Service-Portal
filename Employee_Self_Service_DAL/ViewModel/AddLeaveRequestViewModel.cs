@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography.X509Certificates;
 using Employee_Self_Service_DAL.Models;
 
 namespace Employee_Self_Service_DAL.ViewModel;
@@ -45,5 +46,8 @@ public class AddLeaveRequestViewModel
     public ProfileViewModel profile { get; set; }
     public virtual Reason? ReasonNavigation { get; set; }
     public List<Reason> Reasons { get; set;} = new List<Reason>();
+    [Required (ErrorMessage = "Comment is Required")]
+    public string Comment { get; set;}
+    public int StatusId {get; set;}
 
 }

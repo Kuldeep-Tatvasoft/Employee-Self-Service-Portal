@@ -14,6 +14,8 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<Employee> Employees { get; set; }
 
+    public virtual DbSet<Event> Events { get; set; }
+
     public virtual DbSet<LeaveRequest> LeaveRequests { get; set; }
 
     public virtual DbSet<LeaveType> LeaveTypes { get; set; }
@@ -87,6 +89,27 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.Employees)
                 .HasForeignKey(d => d.RoleId)
                 .HasConstraintName("employee_role_id");
+        });
+
+        modelBuilder.Entity<Event>(entity =>
+        {
+            entity.HasKey(e => e.EventId).HasName("event_pkey");
+
+            entity.ToTable("event");
+
+            entity.Property(e => e.EventId).HasColumnName("event_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Description)
+                .HasColumnType("character varying")
+                .HasColumnName("description");
+            entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.Name)
+                .HasColumnType("character varying")
+                .HasColumnName("name");
+            entity.Property(e => e.StartDate).HasColumnName("start_date");
         });
 
         modelBuilder.Entity<LeaveRequest>(entity =>
