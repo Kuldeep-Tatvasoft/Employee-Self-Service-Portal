@@ -9,17 +9,19 @@ namespace Employee_Self_Service.Controllers;
 public class HomeController : Controller
 {
     private readonly ILeaveService _leaveService;
+    private readonly IDashboardService _dashboardService;
 
-    public HomeController(ILeaveService leaveService)
+    public HomeController(ILeaveService leaveService, IDashboardService dashboardService)
     {
         _leaveService = leaveService;
+        _dashboardService = dashboardService;
     }
 
     
     public async Task<IActionResult> Index()
     {   
-        var todayOnLeave = await _leaveService.GetTodayOnLeave();
-        return View(todayOnLeave);
+        var dashboardData = await _dashboardService.GetDashboardData();
+        return View(dashboardData);
     }
 
 

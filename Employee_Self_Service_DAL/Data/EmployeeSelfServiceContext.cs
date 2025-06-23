@@ -12,6 +12,8 @@ public partial class EmployeeSelfServiceContext : DbContext
     {
     }
 
+    public virtual DbSet<Document> Documents { get; set; }
+
     public virtual DbSet<Employee> Employees { get; set; }
 
     public virtual DbSet<Event> Events { get; set; }
@@ -28,6 +30,23 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Document>(entity =>
+        {
+            entity.HasKey(e => e.DocumentId).HasName("documents_pkey");
+
+            entity.ToTable("documents");
+
+            entity.Property(e => e.DocumentId).HasColumnName("document_id");
+            entity.Property(e => e.Documents)
+                .HasColumnType("character varying")
+                .HasColumnName("documents");
+            entity.Property(e => e.EventId).HasColumnName("event_id");
+
+            entity.HasOne(d => d.Event).WithMany(p => p.Documents)
+                .HasForeignKey(d => d.EventId)
+                .HasConstraintName("event_id");
+        });
+
         modelBuilder.Entity<Employee>(entity =>
         {
             entity.HasKey(e => e.EmployeeId).HasName("employee_pkey");

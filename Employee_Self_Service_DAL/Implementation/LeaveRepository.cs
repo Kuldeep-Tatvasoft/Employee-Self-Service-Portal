@@ -241,22 +241,5 @@ public class LeaveRepository : ILeaveRepository
         return model;
     }
 
-    public async Task<List<LeaveRequestDetailsViewModel>> GetTodayOnLeave()
-    {   
-        var today = DateOnly.FromDateTime(DateTime.Now);
-        List<LeaveRequestDetailsViewModel>? model = await _context.LeaveRequests
-                                                    .Include(l => l.Employee)
-                                                    .Include(l => l.Status)
-                                                    .Where(l => !l.IsDeleted && l.StartDate <= today && l.EndDate >= today && l.StatusId == 2)
-                                                    .Select(l => new LeaveRequestDetailsViewModel 
-                                                    {   
-                                                       
-                                                        EmployeeName = l.Employee.Name,
-                                                        StartDate = (DateOnly)l.StartDate,
-                                                        EndDate = (DateOnly)l.EndDate,
-                                                        ActualDuration = (decimal)l.ActualLeaveDuration,
-                                                        
-                                                    }).ToListAsync();
-                                                    return model;
-    }
+    
 }

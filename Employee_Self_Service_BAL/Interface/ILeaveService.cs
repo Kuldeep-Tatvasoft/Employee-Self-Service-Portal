@@ -14,5 +14,6 @@ public interface ILeaveService
     Task<ResponseViewModel> DeleteLeaveRequest(int requestId);
     Task<LeaveRequestPaginationViewModel> GetResponseData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId);
     Task<ResponseViewModel> ResponseLeaveRequest(int requestId, int statusId, int approvedBy, string comment);
-    Task<List<LeaveRequestDetailsViewModel>> GetTodayOnLeave();
+    // Task<List<LeaveRequestDetailsViewModel>> GetTodayOnLeave();
+    
 }

@@ -94,16 +94,28 @@
                         <span asp-validation-for="Designation" class="text-danger"></span>
                     </div>
                 </div>
-                
+
                 <div class="form-floating col ">
-                <div class="upload-div w-100 mt-4 p-3 d-flex flex-column justify-content-center align-items-center">
+                    @* <div class="upload-div w-100 mt-4 p-3 d-flex flex-column justify-content-center
+                    align-items-center">
                     <i class="bi bi-cloud-arrow-up"></i>
-                    @* <input type="file"  id="file" asp-for="ProfileImage"> *@
                     <input type="file" id="file" asp-for="@Model.ProfileImage">
                     <a href="" class="file text-secondary">Browse file</a>
-                    
+
                     <label fw-semibold" for="floatingPassword">Profile Image</label>
-                </div>
+                    </div> *@
+                    <div class="col-auto border-1 mt-4 py-2 d-flex justify-content-center"
+                        style="border: 1px dashed gray;">
+                        <input type="file" asp-for="ProfileImage" id="actual-btn" hidden
+                            accept="image/png, image/jpeg" />
+                        <label for="actual-btn" asp-for="ProfileImage"
+                            class="btn  fw-semibold d-flex flex-column align-items-center">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                            <span class="text-secondary">Browse file</span>
+                            <label fw-semibold" for="floatingPassword">Profile Image</label>
+                        </label>
+                        <p id="file-chosen" class="text-danger my-auto px-2"></p>
+                    </div>
                 </div>
 
                 <div class="d-flex align-items-center  gap-2 mt-4">
@@ -120,7 +132,7 @@
     </div>
 </div>
 
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
     const togglePassword = document.getElementById("toggle-password");
@@ -149,5 +161,20 @@
             toggleConfirmPassword.classList.remove("bi-eye-slash-fill");
             toggleConfirmPassword.classList.add("bi-eye-fill");
         }
+    });
+
+    $('#actual-btn').change(function () {
+        var file = $('#actual-btn')[0].files[0];
+        if (file) {
+            var fileType = file.type;
+            var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/webp"];
+            if ($.inArray(fileType, validImageTypes) < 0) {
+                callToastify("Please select a valid image file (GIF, JPEG, PNG, WEBP).", "error");
+                $(this).val('');
+            } else {
+                $('#file-chosen').text(file.name);
+            }
+        }
+
     });
 </script>

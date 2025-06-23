@@ -16,4 +16,6 @@ public partial class Event
     public DateOnly? EndDate { get; set; }
 
     public DateTime CreatedAt { get; set; }
+
+    public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
 }

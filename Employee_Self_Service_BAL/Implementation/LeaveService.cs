@@ -232,9 +232,10 @@ public class LeaveService : ILeaveService
         }
     }
 
-    public async Task<List<LeaveRequestDetailsViewModel>> GetTodayOnLeave()
-    {
-        return await _leaveRepository.GetTodayOnLeave();
+    // public async Task<List<LeaveRequestDetailsViewModel>> GetTodayOnLeave()
+    // {
+    //     return await _leaveRepository.GetTodayOnLeave();
 
-    }
+    // }
+    
 }
