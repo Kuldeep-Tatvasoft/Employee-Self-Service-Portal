@@ -55,12 +55,13 @@ public class ProfileController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> EditProfile(ProfileViewModel model)
+    public async Task<IActionResult> EditProfile([FromForm]ProfileViewModel model)
     {
-        ResponseViewModel response = await _profileService.UpdateProfile(model);
+        ResponseViewModel response = await _profileService.UpdateProfile(model,HttpContext);
         if (response.success)
         {
             TempData["successToastr"] = response.message;
+            
             return RedirectToAction("MyProfile");
         }
         else

@@ -7,5 +7,7 @@ namespace Employee_Self_Service_DAL.Interface;
 public interface IEventRepository
 {
     Task<ResponseViewModel> AddEvent(Event newEvent, List<IFormFile> Documents);
+    Task<Event> GetEventDetails(long eventId);
+    Task<List<Document>> GetEventDocuments(long eventId);
     
 }

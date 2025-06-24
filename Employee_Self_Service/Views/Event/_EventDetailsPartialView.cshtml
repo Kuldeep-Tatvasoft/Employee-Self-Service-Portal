@@ -1,0 +1,83 @@
+@model Employee_Self_Service_DAL.ViewModel.AddEventViewModel
+<div class="modal-header ">
+        <div class=" d-flex justify-content-between align-items-center">
+            <div>
+                @* <h6>Leave</h6> *@
+                <h4 class=" d-flex align-content-center m-0">@Model.EventName</h4>
+            </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="addItemModelCancel"></button>
+</div>
+
+<div class="modal-body">
+    <div class="row ">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h2 class="fs-5 fw-bold mb-3">Event Summary </h2>
+                    </div>
+                    
+                </div>
+                <p>@Model.EventDescription</p>
+                <div class="d-flex flex-lg-row flex-column gap-lg-3 gap-1">
+                    @* <div class="d-flex justify-content-lg-start justify-content-between gap-3">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis voluptates perspiciatis nesciunt expedita adipisci autem quod, totam maiores nobis quae rerum? Sit doloribus fugiat, mollitia quae reprehenderit et expedita magnam?</p>
+                        
+                        
+                    </div> *@
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row col-lg-9 col-12 mt-3">
+            <table class="table col table-bordered  ms-4 ">
+                <tr>
+                    <th class="heading col-lg- col-md-5 col-sm-6 col-6 ">Name:</th>
+                    <td class="">Name</td>
+                </tr>
+                <tr>
+                    <th>Event StartDate:</th>
+                    <td>@Model.StartDate</td>
+                </tr>
+                <tr>
+                    <th>Event end date:</th>
+                    <td>@Model.EndDate</td>
+                </tr>
+                <tr>
+                    <th>Documents:</th>
+                    <td>
+                        @if (Model.EventDocuments != null && Model.EventDocuments.Any())
+                        {
+                            foreach (var document in Model.EventDocuments)
+                            {   
+                               
+                                @* <a href="@document.Documents" target="_blank" class="text-decoration-none ">  <i class="fa-regular fa-file-pdf" >@document.Documents</i></a><br /> *@
+                                
+                                <a href="@document.Documents" target="_blank" class="text-decoration-none">
+                                    <i class="fa-regular fa-file-pdf"></i> @document.Documents.Split('_').Last()
+                                </a><br />
+                            }
+                        }
+                        else
+                        {
+                            <span>No documents available</span>
+                        }
+                    </td>
+                </tr>
+                @* <tr>
+                    <th>Event Card:</th>
+                    <td>card
+                    </td>
+                </tr> *@
+                
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer d-flex justify-content-start ">
+    <button type="button" class="btn cancle_btn  border-secondary" data-bs-dismiss="modal"
+        id="addItemModelCancel">Cancel</button>
+</div>

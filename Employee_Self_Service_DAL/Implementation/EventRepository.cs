@@ -3,6 +3,7 @@ using Employee_Self_Service_DAL.Interface;
 using Employee_Self_Service_DAL.Models;
 using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Self_Service_DAL.Implementation;
 
@@ -41,7 +42,7 @@ public class EventRepository : IEventRepository
                 await file.CopyToAsync(fileStream);
             }
             
-            document.Documents = $"/uploads/events{fileName}";
+            document.Documents = $"/uploads/events/{fileName}";
             document.EventId = newEvent.EventId;
             await _context.Documents.AddAsync(document);
             await _context.SaveChangesAsync();
@@ -65,5 +66,25 @@ public class EventRepository : IEventRepository
                 message = "Error occur while adding event:" + ex.Message
             };
         }
+    }
+
+    public async Task<Event> GetEventDetails(long eventId)
+    {
+        Event? eventDetails = await _context.Events.FirstOrDefaultAsync(u => u.EventId == eventId );
+        
+        if (eventDetails == null)
+        {
+            return null;
+        }
+        return eventDetails;
+    }
+
+    public async Task<List<Document>> GetEventDocuments(long eventId)
+    {
+        List<Document>? documents = await _context.Documents
+                                    .Where(d => d.EventId == eventId)
+                                    .ToListAsync();
+        
+        return documents;
     }
 }

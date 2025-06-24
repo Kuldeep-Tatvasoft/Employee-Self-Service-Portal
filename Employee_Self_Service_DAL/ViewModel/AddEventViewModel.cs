@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Employee_Self_Service_DAL.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace Employee_Self_Service_DAL.ViewModel;
@@ -14,6 +15,10 @@ public class AddEventViewModel
     public DateOnly StartDate { get; set; }
     [Required(ErrorMessage = "End Date is required")]
     public DateOnly EndDate { get; set; }
+    
     [Required(ErrorMessage = "At least one document is required")]
     public List<IFormFile> Documents { get; set; } = new List<IFormFile>();
+
+    public List<Document> EventDocuments { get; set;} = new List<Document>();
+
 }

@@ -2,6 +2,7 @@ using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.Interface;
 using Employee_Self_Service_DAL.Models;
 using Employee_Self_Service_DAL.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Employee_Self_Service_BAL.Implementation;
@@ -47,13 +48,14 @@ public class ProfileService : IProfileService
         }
     }
 
-    public async Task<ResponseViewModel> UpdateProfile(ProfileViewModel model)
+    public async Task<ResponseViewModel> UpdateProfile(ProfileViewModel model, HttpContext httpContext)
     {
         try
         {
             Employee employee = _employeeRepository.GetUserByEmail(model.Email);
             {
-                employee.EmployeeId = model.EmployeeId;
+                
+                if(model.EmployeeId !=0){
                 employee.DateOfBirth = string.IsNullOrWhiteSpace(model.DateOfBirth)
                     ? null
                     : DateOnly.Parse(model.DateOfBirth);
@@ -61,6 +63,7 @@ public class ProfileService : IProfileService
                 employee.Phone = long.Parse(model.ContactNo);
                 employee.BloodGroup = model.BloodGroup;
                 employee.AnyDiseases = model.AnyDiseases;
+                }
             };
 
             if (model.FormFile != null)
@@ -80,8 +83,11 @@ public class ProfileService : IProfileService
                 }
 
                 employee.ProfileImage = $"/uploads/{fileName}";
+                httpContext.Response.Cookies.Append("profileImage", employee.ProfileImage ?? "/images/Default_pfp.svg.png");
+                
             }
             ResponseViewModel response = await _employeeRepository.UpdateEmployee(employee);
+            
             if (response.success)
             {
                 return new ResponseViewModel

@@ -1,0 +1,151 @@
+@{
+    Layout = "_Layout";
+}
+<div class="container-fluid ">
+    <div class="row  p-0 justify-content-sm-between orders col ">
+        <div class="d-flex flex-column py-4 px-1">
+            <div class="px-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class=" d-flex align-content-center m-0">Events</h4>
+                </div>
+
+                <a href="/Event/AddEvent" class="btn btn-primary d-flex text-decoration-none text-white align-items-center gap-2 bg-"><i class="bi bi-plus-square-fill "></i><span
+                                                    class="icon-name fw-bold d-flex justify-content-center ">Add Event</span></a>
+            </div>
+            <hr class="dropdown-divider">
+        </div>
+
+        <div class="d-flex flex-column flex-xl-row gap-3 justify-content-start align-content-end mb-3">
+            <div class="row col ">
+                <div class="dateSelection  px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-6 col-xl-2  col-12">
+                    <label for="itemName" class=" mb-1"> Date From</label>
+                    <input type="date" class="form-control rounded-0" id="leaveRequestFromDate">
+                </div>
+
+                <div class="dateSelection re px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-6 col-xl-2 ">
+                    <label for="itemName" class=" mb-1 "> Date To</label>
+                    <input type="date" class="form-control rounded-0 " id="leaveRequestToDate">
+                </div>
+
+                
+
+                <div class="d-flex align-items-end  col-12 col-xl-3 col-lg-6 col-xl-2 mt-3 ">
+                    <a class="btn btn-primary rounded-0  px-4" style="background-color:#0066a7"
+                        id="searchEvents">
+                        Search
+                    </a>
+                    <a class="btn cancle_btn clear rounded-0 ms-2 px-4 border-primary text-primary fw-semibold">
+                        Reset
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex  col-md-auto col-12 col-lg-3  mb-3 ">
+            <div class="input-group d-flex ">
+                <input type="text" class="search form-control border-end-0 outline:none" id="eventSearchInput"
+                    aria-label="Amount (to the nearest dollar)" oninput="ResponseRequestPaginationAjax(1)">
+                <span onclick="clearSearch()" class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+            </div>
+        </div>
+
+        <div id="eventTableList" class="table_container">
+
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    let sortColumn = '';
+    let sortDirection = 'asc';
+    let employeeId;
+
+    $(document).ready(function () {
+        EventPaginationAjax(1);
+    });
+
+    function EventPaginationAjax(pageNumber) {
+        let pageSize = $("#leaveRequestPageSize").val();
+        if (pageSize == 0 || pageSize == null) pageSize = 3;
+        if (pageNumber === 0) pageNumber = 1;
+        var searchQuery = $('#leaveSearchInput').val() || '';
+        if (pageNumber === 0) {
+            pageNumber = @((Model?.Page!.CurrentPage ?? 1));
+        }
+        let eventFromDate = $('#eventFromDate').val();
+        let eventToDate = $('#eventToDate').val();
+        
+
+
+        $.ajax({
+            url: "/Event/GetEventList",
+            data: {
+                pageSize: pageSize,
+                pageNumber: pageNumber,
+                searchQuery: searchQuery,
+                sortColumn: sortColumn,
+                sortDirection: sortDirection,
+                leaveRequestFromDate: leaveRequestFromDate,
+                leaveRequestToDate: leaveRequestToDate,
+                leaveRequestStatus: leaveRequestStatus,
+               
+            },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#eventTableList").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#eventTableList").html('An error has occurred');
+            }
+        });
+    }
+
+    function sortBy(column) {
+        if (sortColumn === column) {
+            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            sortDirection = 'asc';
+        }
+        sortColumn = column;
+        EventPaginationAjax(1);
+    }
+
+    $('#searchEvents').click(function () {
+        EventPaginationAjax(1);
+    });
+
+
+    function changePageSize(size) {
+        $("#leaveRequestPageSize").val(size);
+        EventPaginationAjax(1);
+    }
+
+    function clearSearch() {
+        $('#eventSearchInput').val('');
+        EventPaginationAjax(1);
+    }
+
+    $(document).ready(function () {
+        var today = new Date().toISOString().split("T")[0];
+        $("#leaveRequestFromDate, #leaveRequestToDate").attr("max", today);
+
+        $("#leaveRequestFromDate").on("change", function () {
+            var leaveRequestFromDate = $(this).val();
+            $("#leaveRequestToDate").attr("min", leaveRequestFromDate);
+        });
+
+        $("#leaveRequestToDate").on("change", function () {
+            var leaveRequestToDate = $(this).val();
+            $("#leaveRequestFromDate").attr("max", leaveRequestToDate);
+        });
+    });
+
+    $(document).on("click", ".cancle_btn", function () {
+        $("#leaveRequestFromDate").val("");
+        $("#leaveRequestToDate").val("");
+       
+    })
+</script>

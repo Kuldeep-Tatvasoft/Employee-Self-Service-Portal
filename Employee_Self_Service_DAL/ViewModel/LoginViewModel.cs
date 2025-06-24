@@ -13,7 +13,7 @@ public class LoginViewModel
 
     [Required(ErrorMessage = "New Password is Required")]
     [DataType(DataType.Password)]
-    [RegularExpression("([a-z]|[A-Z]|[0-9]|[\\W]){4}[a-zA-Z0-9\\W]{3,11}", ErrorMessage = "Password Must contain Special Symbol, Number,Alphabet")]
+    [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{6,14}$", ErrorMessage = "Password must contain at least one letter, one number, and one special character")]
     public string NewPassword { get; set; } = null!;
 
     [Required (ErrorMessage = "Confirm Password is Required")]

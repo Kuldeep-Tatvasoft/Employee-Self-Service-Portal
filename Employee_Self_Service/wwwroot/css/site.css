@@ -235,3 +235,13 @@ form i{
 .events{
   background-color: #CAE7D9;
 }
+
+.eventDetails:active, .eventDetails:hover{
+  color: #0F67B1 !important;
+  text-decoration: underline !important;
+}
+
+.dashboard-card{
+  height: 300px;
+  overflow: auto;
+}

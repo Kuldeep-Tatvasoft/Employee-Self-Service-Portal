@@ -1,0 +1,212 @@
+@model Employee_Self_Service_DAL.ViewModel.LeaveRequestPaginationViewModel
+@using Employee_Self_Service_BAL.Helpers
+<div class="table-responsive px-0">
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>
+                    <span class="heading">Employee Name</span>
+
+                    <a href="javascript:void(0)" onclick="sortBy('EndDate')" class="text-decoration-none text-dark ">
+                        <i class="bi bi-arrow-down-up fs-6" id="sort-by-role" data-direction="asc"></i></a>
+                </th>
+                <th class="">
+                    Start Date
+                    <a href="javascript:void(0)" onclick="sortBy('StartDate')" class="text-decoration-none text-dark">
+
+                        <i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
+                </th>
+                <th>
+                    <a href="javascript:void(0)" onclick="sortBy('EndDate')" class="text-decoration-none text-dark">End
+                        Date<i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i></a>
+                </th>
+                <th class="text-center">
+                    <a href="javascript:void(0)" onclick="sortBy('AvailableOnPhone')"
+                        class="text-decoration-none text-dark ">Reason<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('ReturnDate')"
+                        class="text-decoration-none text-dark">Return Date<i class="bi bi-arrow-down-up"
+                            id="sort-by-role" data-direction="asc"></i> </a>
+                </th>
+                <th class="text-center">
+                    <a href="javascript:void(0)" onclick="sortBy('ActualDuration')"
+                        class="text-decoration-none text-dark">Actual Duration<i class="bi bi-arrow-down-up"
+                            id="sort-by-role" data-direction="asc"></i> </a>
+                </th>
+                @if (Model.RequestList.All(x => x.Status == "Approved"))
+                {
+                    <th class="text-center">
+                        <a href="javascript:void(0)" onclick="sortBy('ApprovedBy')"
+                            class="text-decoration-none text-dark">ApprovedBy<i class="bi bi-arrow-down-up"
+                                id="sort-by-role" data-direction="asc"></i> </a>
+                    </th>
+                }
+                else if (Model.RequestList.All(x => x.Status == "Rejected"))
+                {
+                    <th class="text-center">
+                        <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
+                            class="text-decoration-none text-dark">RejectedBy<i class="bi bi-arrow-down-up"
+                                id="sort-by-role" data-direction="asc"></i> </a>
+                    </th>
+                }
+                else if (Model.RequestList.All(x => x.Status == "Pending" || x.Status == "Cancelled"))
+                {
+                    <th class="text-center">
+                        <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
+                            class="text-decoration-none text-dark">Total Duration<i class="bi bi-arrow-down-up"
+                                id="sort-by-role" data-direction="asc"></i> </a>
+                    </th>
+                }
+                else
+                {
+                    <th class="text-center">
+                        <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
+                            class="text-decoration-none text-dark">ResponseBy<i class="bi bi-arrow-down-up"
+                                id="sort-by-role" data-direction="asc"></i> </a>
+                    </th>
+                }                
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('ApprovedDate')"
+                        class="text-decoration-none text-dark">Response Date<i class="bi bi-arrow-down-up"
+                            id="sort-by-role" data-direction="asc"></i> </a>
+                </th>
+                <th class="">
+                    <a href="javascript:void(0)" onclick="sortBy('Status')"
+                        class="text-decoration-none text-dark">Status<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th class="text-center">
+                    <a href="javascript:void(0)" onclick="sortBy('AdhocLeave')"
+                        class="text-decoration-none text-dark">Adhoc Leave?<i class="bi bi-arrow-down-up"
+                            id="sort-by-role" data-direction="asc"></i> </a>
+                </th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var count = 1;
+            }
+            @foreach (var data in Model.RequestList)
+            {
+                <tr>
+                    <td>
+                        @count
+                        @{
+                            count++;
+                        }
+                    </td>
+                    <td>@data.EmployeeName</td>
+                    <td>@data.StartDate</td>
+                    <td class=" ">
+                        @data.EndDate
+                    </td>
+                    <td class="text-center">
+                        @data.ReasonName
+                    </td>
+                    <td class="">
+                        @data.ReturnDate
+                    </td>
+                    <td class="text-center">
+                        @data.ActualDuration
+                    </td>
+                    @if (Model.RequestList.All(x => x.Status == "Approved"))
+                    {
+                        <td class="text-center">
+                            @data.ApprovedBy
+                        </td>
+                    }
+                    else if (Model.RequestList.All(x => x.Status == "Rejected"))
+                    {
+                        <td class="text-center">
+                            @data.ApprovedBy
+                        </td>
+                    }
+                    else if (Model.RequestList.All(x => x.Status == "Pending" || x.Status == "Cancelled"))
+                    {
+                        <td class="text-center">
+                            @data.TotalDuration
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-center">
+                            @data.ApprovedBy
+                        </td>
+                    }
+                    <td>
+                        @data.ApprovedDate
+                    </td>
+                    <td class="">
+                        @if (@data.StatusId == 2)
+                        {
+                            <div class="approved d-flex align-items-center">
+                                @data.Status
+                            </div>
+                        }
+                        else if (@data.StatusId == 5)
+                        {
+                            <div class="rejected d-flex align-items-center">
+                                @data.Status
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="pending d-flex align-items-center">
+                                @data.Status
+                            </div>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault"
+                            value="@(data.AdhocLeave ? "true" : "false")" @(data.AdhocLeave ? "checked" : "") disabled>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <a asp-action="ResponseLeaveRequest" asp-controller="Leave"
+                                asp-route-requestId="@data.LeaveRequestId" asp-route-email="@data.EmployeeEmail"
+                                class="btn " type="button">
+                                <i class="bi bi-pen"></i>
+                            </a>                               
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<!-- Pagination Section -->
+<div class="d-flex flex-row justify-content-end  gap-2 mb-3 align-items-center">
+    <p class="pt-3 text-black">Items per page</p>
+    <div class="dropdown">
+        <select class="form-select w-auto " onchange="ResponseRequestPaginationAjax(@Model.Page.CurrentPage)"
+            aria-label="Default select example" id="leaveRequestPageSize">
+            @if (Model.Page.PageSize != null)
+            {
+                <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option>
+                <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false)">5</option>
+                <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
+                <option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>
+            }
+        </select>
+    </div>
+    <p class="pt-3 text-black">Showing @Model.Page!.FromRec - @Model.Page.ToRec of @Model.Page.TotalRecord</p>
+
+    <!-- Previous Button -->
+    <button class="btn btn-outline-primary col-auto"
+        onclick="ResponseRequestPaginationAjax(@Model.Page.CurrentPage - 1)" @(Model.Page.CurrentPage > 1 ? "" :
+        "disabled")> &lt; </button>
+
+    <!-- Next Button -->
+    <button class="btn btn-outline-primary col-auto"
+        onclick="ResponseRequestPaginationAjax(@Model.Page.CurrentPage + 1)" @(Model.Page.CurrentPage <
+        Model.Page.TotalPages ? "" : "disabled")> &gt; </button>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>

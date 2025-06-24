@@ -7,5 +7,6 @@ public class ResponseViewModel
 
     public string  message {get; set;}
     public bool success { get; set;}
+    
 }
 

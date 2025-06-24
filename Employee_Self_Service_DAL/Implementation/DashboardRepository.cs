@@ -31,7 +31,7 @@ public class DashboardRepository : IDashboardRepository
                                                     }).ToListAsync();
         
         List<AddEventViewModel>? upcomingEvents = await _context.Events
-                                                    .Include(e => e.Documents)
+                                                    
                                                     .Where(e => e.EndDate >= today)
                                                     .Select(e => new AddEventViewModel
                                                     {   
@@ -40,7 +40,7 @@ public class DashboardRepository : IDashboardRepository
                                                         StartDate = (DateOnly)e.StartDate,
                                                         EndDate = (DateOnly)e.EndDate,
                                                     }).ToListAsync();
-                                                    // return model;
+                                                    
                                                     return new DashboardViewModel
                                                     {
                                                         TodayOnLeave = todayOnLeave,

@@ -20,8 +20,16 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcQWRkRXZlbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Event/Events.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcRXZlbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Event/_EventDetailsPartialView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcX0V2ZW50RGV0YWlsc1BhcnRpYWxWaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Event/_EventList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcX0V2ZW50TGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Home/Index.cshtml]

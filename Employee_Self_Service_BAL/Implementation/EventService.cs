@@ -27,9 +27,6 @@ public class EventService : IEventService
                 EndDate = model.EndDate,
            };
            
-        
-            
-
             ResponseViewModel response = await _eventRepository.AddEvent(newEvent, model.Documents);
             return response;
         }
@@ -41,5 +38,26 @@ public class EventService : IEventService
                 message = "Failed to add event:" + ex.Message
             };
         }   
+    }
+
+    public async Task<AddEventViewModel> EventDetails(long eventId)
+    {
+       
+            Event eventDetails = await _eventRepository.GetEventDetails(eventId);
+            if(eventDetails == null)
+            {
+                return null;
+            }
+            AddEventViewModel model = new AddEventViewModel
+            {
+                EventId = eventDetails.EventId,
+                EventName = eventDetails.Name,
+                EventDescription = eventDetails.Description,
+                StartDate = (DateOnly)eventDetails.StartDate,
+                EndDate = (DateOnly)eventDetails.EndDate,
+                EventDocuments = await _eventRepository.GetEventDocuments(eventId)
+            };
+            return model;
+        
     }
 }

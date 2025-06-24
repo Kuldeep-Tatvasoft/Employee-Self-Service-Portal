@@ -12,6 +12,12 @@ public class EventController : Controller
     {
         _eventService = eventService;
     }
+
+    public IActionResult Events()
+    {
+        return View();
+    }
+
     public IActionResult AddEvent()
     {
         return View();
@@ -20,11 +26,7 @@ public class EventController : Controller
     [HttpPost]
     public async Task<IActionResult> AddEvent([FromForm] AddEventViewModel model)
     {   
-        if (!ModelState.IsValid)
-        {
-            TempData["errorToastr"] = "Please fill all required fields.";
-            return View(model);
-        }
+       
 
         ResponseViewModel response = await _eventService.AddEvent(model);
         if (response.success)
@@ -44,6 +46,6 @@ public class EventController : Controller
     public async Task<IActionResult> EventDetails(long eventId)
     {
         var model = await _eventService.EventDetails(eventId);
-         return PartialView("_EventDetailsPartialView", model);
+        return PartialView("_EventDetailsPartialView", model);
     }
 }

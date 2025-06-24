@@ -27,7 +27,7 @@
                         <img src=" @(!string.IsNullOrEmpty(Model.ProfileImage) ? Model.ProfileImage : "../images/Default_pfp.svg.png")" alt="User Avatar" class="rounded-circle "
                             onclick="document.getElementById('profile-chooser').click()" width="120" />
                             <input type="file" class="form-control d-none" id="profile-chooser" placeholder="First Name" asp-for="@Model.FormFile">
-                            @* <input type="file"  id="file"  asp-for="@Model.ProfileImage2"> *@
+                            
                         <div>
                             <h2 class="">@Model.Name</h2>
                             
