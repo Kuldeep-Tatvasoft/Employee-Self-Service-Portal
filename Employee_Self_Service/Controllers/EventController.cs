@@ -17,7 +17,11 @@ public class EventController : Controller
     {
         return View();
     }
-
+    public async Task<IActionResult> GetEventList(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string eventFromDate, string eventToDate, string eventCategory)
+    {   
+        var model = await _eventService.GetEventData(pageSize, pageNumber, searchQuery, sortColumn, sortDirection, eventFromDate, eventToDate, eventCategory);
+        return PartialView("_EventList", model);
+    }
     public IActionResult AddEvent()
     {
         return View();
@@ -48,4 +52,6 @@ public class EventController : Controller
         var model = await _eventService.EventDetails(eventId);
         return PartialView("_EventDetailsPartialView", model);
     }
+
+
 }

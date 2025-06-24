@@ -17,5 +17,13 @@ public partial class Event
 
     public DateTime CreatedAt { get; set; }
 
+    public int? CategoryId { get; set; }
+
+    public bool IsDeleted { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
+
+    public virtual EventCategory? Category { get; set; }
+
     public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
 }

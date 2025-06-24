@@ -15,6 +15,18 @@ public class EventService : IEventService
         _eventRepository = eventRepository;
     }
 
+    public async Task<EventPaginationViewModel> GetEventData(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string eventFromDate, string eventToDate, string eventCategory)
+    {
+        try
+        {
+            var List = await _eventRepository.GetPaginatedEvent(pageSize, pageNumber, searchQuery, sortColumn, sortDirection, eventFromDate, eventToDate, eventCategory);
+            return List;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
     public async Task<ResponseViewModel> AddEvent(AddEventViewModel model)
     {
         try

@@ -1,3 +1,4 @@
+using Employee_Self_Service_BAL.Helpers;
 using Employee_Self_Service_DAL.Data;
 using Employee_Self_Service_DAL.Interface;
 using Employee_Self_Service_DAL.Models;
@@ -16,6 +17,81 @@ public class EventRepository : IEventRepository
         _context = context;
     }
 
+    public async Task<EventPaginationViewModel> GetPaginatedEvent(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string eventFromDate, string eventToDate, string eventCategory)
+    {
+        
+        var query = _context.Events
+                    .Include(e => e.Category)
+                    .Where(e => !e.IsDeleted)
+                    .Select(e => new AddEventViewModel 
+                    {   
+                        EventId = e.EventId,
+                        EventName = e.Name,
+                        EventDescription = e.Description,
+                        StartDate = (DateOnly)e.StartDate,
+                        EndDate = (DateOnly)e.EndDate,
+                        CategoryId = (int)e.CategoryId,
+                        CategoryName = e.Category.Category
+                        
+                    });
+
+        if (!string.IsNullOrEmpty(searchQuery))
+        {
+            searchQuery = searchQuery.ToLower();
+            query = query.Where(c => c.EventName.ToString().Contains(searchQuery));
+        }
+        
+        if(!string.IsNullOrEmpty(eventFromDate))
+        {
+            DateOnly fromDate = DateOnly.Parse(eventFromDate);
+            query = query.Where(x => x.StartDate >= fromDate);
+        }
+
+        if(!string.IsNullOrEmpty(eventToDate))
+        {
+            DateOnly toDate = DateOnly.Parse(eventToDate);
+            query = query.Where(x => x.StartDate <= toDate);
+        }
+        
+        if(!string.IsNullOrEmpty(eventCategory) && !eventCategory.Equals("0"))
+        {
+            if (int.TryParse(eventCategory, out int categoryId))
+            {
+                query = query.Where(x => x.CategoryId == categoryId);
+            }
+        }
+
+        // query = sortColumn switch
+        // {
+        //     "StartDate" => sortDirection == "asc" ? query.OrderBy(x => x.StartDate) : query.OrderByDescending(x => x.StartDate),
+        //     "EndDate" => sortDirection == "asc" ? query.OrderBy(x => x.EndDate) : query.OrderByDescending(x => x.EndDate),
+        //     "ActualDuration" => sortDirection == "asc" ? query.OrderBy(x => x.ActualDuration) : query.OrderByDescending(x => x.ActualDuration),
+        //     "TotalDuration" => sortDirection == "asc" ? query.OrderBy(x => x.TotalDuration) : query.OrderByDescending(x => x.TotalDuration),
+        //     "ReturnDate" => sortDirection == "asc" ? query.OrderBy(x => x.ReturnDate) : query.OrderByDescending(x => x.ReturnDate),
+        //     "AvailableOnPhone" => sortDirection == "asc" ? query.OrderBy(x => x.AvailableOnPhone) : query.OrderByDescending(x => x.AvailableOnPhone),
+        //     "ApprovedDate" => sortDirection == "asc" ? query.OrderBy(x => x.ApprovedDate) : query.OrderByDescending(x => x.ApprovedDate),
+        //     "ApprovedBy" => sortDirection == "asc" ? query.OrderBy(x => x.ApprovedBy) : query.OrderByDescending(x => x.ApprovedBy),
+        //     "Status" => sortDirection == "asc" ? query.OrderBy(x => x.Status) : query.OrderByDescending(x => x.Status),
+        //     "AdhocLeave" => sortDirection == "asc" ? query.OrderBy(x => x.AdhocLeave) : query.OrderByDescending(x => x.AdhocLeave),
+        //     _ => query.OrderBy(x => x.LeaveRequestId)
+        // };
+
+        var totalRecords = await query.CountAsync();
+
+        var list = await query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+        EventPaginationViewModel model = new()
+        {
+            Page = new(),
+            EventList = list
+        };
+        model.Page.SetPagination(totalRecords, pageSize, pageNumber);
+
+        return model;
+    }
     public async Task<ResponseViewModel> AddEvent(Event newEvent, List<IFormFile> Documents)
     {
         try

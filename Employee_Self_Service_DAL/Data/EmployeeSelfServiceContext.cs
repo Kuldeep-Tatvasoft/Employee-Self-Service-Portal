@@ -18,6 +18,8 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<Event> Events { get; set; }
 
+    public virtual DbSet<EventCategory> EventCategories { get; set; }
+
     public virtual DbSet<LeaveRequest> LeaveRequests { get; set; }
 
     public virtual DbSet<LeaveType> LeaveTypes { get; set; }
@@ -117,18 +119,42 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.ToTable("event");
 
             entity.Property(e => e.EventId).HasColumnName("event_id");
+            entity.Property(e => e.CategoryId).HasColumnName("category_id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("created_at");
+            entity.Property(e => e.DeletedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.Description)
                 .HasColumnType("character varying")
                 .HasColumnName("description");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValueSql("false")
+                .HasColumnName("is_deleted");
             entity.Property(e => e.Name)
                 .HasColumnType("character varying")
                 .HasColumnName("name");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Events)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("event_category_id_fkey");
+        });
+
+        modelBuilder.Entity<EventCategory>(entity =>
+        {
+            entity.HasKey(e => e.CategoryId).HasName("event_category_pkey");
+
+            entity.ToTable("event_category");
+
+            entity.Property(e => e.CategoryId).HasColumnName("category_id");
+            entity.Property(e => e.Category)
+                .HasColumnType("character varying")
+                .HasColumnName("category");
         });
 
         modelBuilder.Entity<LeaveRequest>(entity =>

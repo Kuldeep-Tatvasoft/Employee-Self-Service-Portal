@@ -36,38 +36,13 @@
                         class="text-decoration-none text-dark">Actual Duration<i class="bi bi-arrow-down-up"
                             id="sort-by-role" data-direction="asc"></i> </a>
                 </th>
-                @if (Model.RequestList.All(x => x.Status == "Approved"))
-                {
-                    <th class="text-center">
-                        <a href="javascript:void(0)" onclick="sortBy('ApprovedBy')"
-                            class="text-decoration-none text-dark">ApprovedBy<i class="bi bi-arrow-down-up"
-                                id="sort-by-role" data-direction="asc"></i> </a>
-                    </th>
-                }
-                else if (Model.RequestList.All(x => x.Status == "Rejected"))
-                {
-                    <th class="text-center">
-                        <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
-                            class="text-decoration-none text-dark">RejectedBy<i class="bi bi-arrow-down-up"
-                                id="sort-by-role" data-direction="asc"></i> </a>
-                    </th>
-                }
-                else if (Model.RequestList.All(x => x.Status == "Pending" || x.Status == "Cancelled"))
-                {
-                    <th class="text-center">
-                        <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
-                            class="text-decoration-none text-dark">Total Duration<i class="bi bi-arrow-down-up"
-                                id="sort-by-role" data-direction="asc"></i> </a>
-                    </th>
-                }
-                else
-                {
+                
                     <th class="text-center">
                         <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
                             class="text-decoration-none text-dark">ResponseBy<i class="bi bi-arrow-down-up"
                                 id="sort-by-role" data-direction="asc"></i> </a>
                     </th>
-                }                
+                              
                 <th class="">
                     <a href="javascript:void(0)" onclick="sortBy('ApprovedDate')"
                         class="text-decoration-none text-dark">Response Date<i class="bi bi-arrow-down-up"
@@ -113,30 +88,11 @@
                     <td class="text-center">
                         @data.ActualDuration
                     </td>
-                    @if (Model.RequestList.All(x => x.Status == "Approved"))
-                    {
+                   
                         <td class="text-center">
                             @data.ApprovedBy
                         </td>
-                    }
-                    else if (Model.RequestList.All(x => x.Status == "Rejected"))
-                    {
-                        <td class="text-center">
-                            @data.ApprovedBy
-                        </td>
-                    }
-                    else if (Model.RequestList.All(x => x.Status == "Pending" || x.Status == "Cancelled"))
-                    {
-                        <td class="text-center">
-                            @data.TotalDuration
-                        </td>
-                    }
-                    else
-                    {
-                        <td class="text-center">
-                            @data.ApprovedBy
-                        </td>
-                    }
+                    
                     <td>
                         @data.ApprovedDate
                     </td>
@@ -185,8 +141,8 @@
 <div class="d-flex flex-row justify-content-end  gap-2 mb-3 align-items-center">
     <p class="pt-3 text-black">Items per page</p>
     <div class="dropdown">
-        <select class="form-select w-auto " onchange="ResponseRequestPaginationAjax(@Model.Page.CurrentPage)"
-            aria-label="Default select example" id="leaveRequestPageSize">
+        <select class="form-select w-auto " onchange="EventPaginationAjax(@Model.Page.CurrentPage)"
+            aria-label="Default select example" id="eventPageSize">
             @if (Model.Page.PageSize != null)
             {
                 <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option>
@@ -200,12 +156,12 @@
 
     <!-- Previous Button -->
     <button class="btn btn-outline-primary col-auto"
-        onclick="ResponseRequestPaginationAjax(@Model.Page.CurrentPage - 1)" @(Model.Page.CurrentPage > 1 ? "" :
+        onclick="EventPaginationAjax(@Model.Page.CurrentPage - 1)" @(Model.Page.CurrentPage > 1 ? "" :
         "disabled")> &lt; </button>
 
     <!-- Next Button -->
     <button class="btn btn-outline-primary col-auto"
-        onclick="ResponseRequestPaginationAjax(@Model.Page.CurrentPage + 1)" @(Model.Page.CurrentPage <
+        onclick="EventPaginationAjax(@Model.Page.CurrentPage + 1)" @(Model.Page.CurrentPage <
         Model.Page.TotalPages ? "" : "disabled")> &gt; </button>
 </div>
 
