@@ -27,7 +27,7 @@ public class EventRepository : IEventRepository
                     {   
                         EventId = e.EventId,
                         EventName = e.Name,
-                        EventDescription = e.Description,
+                        // EventDescription = e.Description,
                         StartDate = (DateOnly)e.StartDate,
                         EndDate = (DateOnly)e.EndDate,
                         CategoryId = (int)e.CategoryId,
@@ -38,7 +38,7 @@ public class EventRepository : IEventRepository
         if (!string.IsNullOrEmpty(searchQuery))
         {
             searchQuery = searchQuery.ToLower();
-            query = query.Where(c => c.EventName.ToString().Contains(searchQuery));
+            query = query.Where(c => c.EventName.ToLower().Contains(searchQuery));
         }
         
         if(!string.IsNullOrEmpty(eventFromDate))
@@ -61,20 +61,20 @@ public class EventRepository : IEventRepository
             }
         }
 
-        // query = sortColumn switch
-        // {
-        //     "StartDate" => sortDirection == "asc" ? query.OrderBy(x => x.StartDate) : query.OrderByDescending(x => x.StartDate),
-        //     "EndDate" => sortDirection == "asc" ? query.OrderBy(x => x.EndDate) : query.OrderByDescending(x => x.EndDate),
-        //     "ActualDuration" => sortDirection == "asc" ? query.OrderBy(x => x.ActualDuration) : query.OrderByDescending(x => x.ActualDuration),
-        //     "TotalDuration" => sortDirection == "asc" ? query.OrderBy(x => x.TotalDuration) : query.OrderByDescending(x => x.TotalDuration),
-        //     "ReturnDate" => sortDirection == "asc" ? query.OrderBy(x => x.ReturnDate) : query.OrderByDescending(x => x.ReturnDate),
-        //     "AvailableOnPhone" => sortDirection == "asc" ? query.OrderBy(x => x.AvailableOnPhone) : query.OrderByDescending(x => x.AvailableOnPhone),
-        //     "ApprovedDate" => sortDirection == "asc" ? query.OrderBy(x => x.ApprovedDate) : query.OrderByDescending(x => x.ApprovedDate),
-        //     "ApprovedBy" => sortDirection == "asc" ? query.OrderBy(x => x.ApprovedBy) : query.OrderByDescending(x => x.ApprovedBy),
-        //     "Status" => sortDirection == "asc" ? query.OrderBy(x => x.Status) : query.OrderByDescending(x => x.Status),
-        //     "AdhocLeave" => sortDirection == "asc" ? query.OrderBy(x => x.AdhocLeave) : query.OrderByDescending(x => x.AdhocLeave),
-        //     _ => query.OrderBy(x => x.LeaveRequestId)
-        // };
+        query = sortColumn switch
+        {
+            "StartDate" => sortDirection == "asc" ? query.OrderBy(x => x.StartDate) : query.OrderByDescending(x => x.StartDate),
+            "EndDate" => sortDirection == "asc" ? query.OrderBy(x => x.EndDate) : query.OrderByDescending(x => x.EndDate),
+            "EventName" => sortDirection == "asc" ? query.OrderBy(x => x.EventName) : query.OrderByDescending(x => x.EventName),
+            // "CategoryName" => sortDirection == "asc" ? query.OrderBy(x => x.CategoryName) : query.OrderByDescending(x => x.CategoryName),
+            "CategoryName" => sortDirection == "asc" ? query.OrderBy(x => x.CategoryName) : query.OrderByDescending(x => x.CategoryName),
+            // "AvailableOnPhone" => sortDirection == "asc" ? query.OrderBy(x => x.AvailableOnPhone) : query.OrderByDescending(x => x.AvailableOnPhone),
+            // "ApprovedDate" => sortDirection == "asc" ? query.OrderBy(x => x.ApprovedDate) : query.OrderByDescending(x => x.ApprovedDate),
+            // "ApprovedBy" => sortDirection == "asc" ? query.OrderBy(x => x.ApprovedBy) : query.OrderByDescending(x => x.ApprovedBy),
+            // "Status" => sortDirection == "asc" ? query.OrderBy(x => x.Status) : query.OrderByDescending(x => x.Status),
+            // "AdhocLeave" => sortDirection == "asc" ? query.OrderBy(x => x.AdhocLeave) : query.OrderByDescending(x => x.AdhocLeave),
+            _ => query.OrderBy(x => x.EventId)
+        };
 
         var totalRecords = await query.CountAsync();
 
@@ -91,6 +91,10 @@ public class EventRepository : IEventRepository
         model.Page.SetPagination(totalRecords, pageSize, pageNumber);
 
         return model;
+    }
+    public async Task<List<EventCategory>> GetCategories()
+    {
+        return _context.EventCategories.ToList();
     }
     public async Task<ResponseViewModel> AddEvent(Event newEvent, List<IFormFile> Documents)
     {
@@ -146,21 +150,75 @@ public class EventRepository : IEventRepository
 
     public async Task<Event> GetEventDetails(long eventId)
     {
-        Event? eventDetails = await _context.Events.FirstOrDefaultAsync(u => u.EventId == eventId );
-        
-        if (eventDetails == null)
-        {
-            return null;
-        }
+        Event? eventDetails = await _context.Events
+                                    .Include(e => e.Documents)
+                                    .Where(e => e.EventId == eventId)
+                                    .FirstOrDefaultAsync();
         return eventDetails;
     }
 
-    public async Task<List<Document>> GetEventDocuments(long eventId)
-    {
-        List<Document>? documents = await _context.Documents
-                                    .Where(d => d.EventId == eventId)
-                                    .ToListAsync();
+    // public async Task<List<Document>> GetEventDocuments(long eventId)
+    // {
+    //     List<Document>? documents = await _context.Documents
+    //                                 .Where(d => d.EventId == eventId)
+    //                                 .ToListAsync();
         
-        return documents;
+    //     return documents;
+    // }
+
+    public async Task<ResponseViewModel> EditEvent(Event update,List<IFormFile> Documents)
+    {
+        try
+        {
+            _context.Events.Update(update);
+            await _context.SaveChangesAsync();
+
+            List<Document>? documents = await _context.Documents
+                                .Where(d => d.EventId == update.EventId)
+                                .ToListAsync();
+            for(int i = 0; i < documents.Count; i++)
+            {
+                _context.Documents.Remove(documents[i]);
+            }                    
+            foreach (var file in Documents)
+            {
+            if (file.Length > 0)
+            {
+            Document document = new ();
+            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/events");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            string fileName = $"{Guid.NewGuid()}_{file.FileName}";
+            string filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+            
+            document.Documents = $"/uploads/events/{fileName}";
+            document.EventId = update.EventId;
+            await _context.Documents.AddAsync(document);
+            await _context.SaveChangesAsync();
+            }
+            
+            };
+            return new ResponseViewModel
+            {
+                success = true,
+                message = "Event updated successfully."
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                success = false,
+                message = "Error updating event: " + ex.Message
+            };
+        }
     }
 }

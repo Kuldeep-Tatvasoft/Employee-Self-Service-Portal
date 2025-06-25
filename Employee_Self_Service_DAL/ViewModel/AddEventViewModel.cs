@@ -15,6 +15,8 @@ public class AddEventViewModel
     public DateOnly StartDate { get; set; }
     [Required(ErrorMessage = "End Date is required")]
     public DateOnly EndDate { get; set; }
+
+    [Required (ErrorMessage = "Select a category")]
     public int CategoryId { get; set; }
 
     public string CategoryName { get; set;}    
@@ -22,5 +24,7 @@ public class AddEventViewModel
     public List<IFormFile> Documents { get; set; } = new List<IFormFile>();
 
     public List<Document> EventDocuments { get; set;} = new List<Document>();
+
+    public List<EventCategory> Categories { get; set;} = new List<EventCategory>();
 
 }

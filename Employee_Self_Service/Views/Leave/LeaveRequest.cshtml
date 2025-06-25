@@ -173,8 +173,8 @@
     }
 
     $(document).ready(function () {
-        var today = new Date().toISOString().split("T")[0];
-        $("#leaveRequestFromDate, #leaveRequestToDate").attr("max", today);
+        @* var today = new Date().toISOString().split("T")[0]; *@
+        @* $("#leaveRequestFromDate, #leaveRequestToDate").attr("max", today); *@
 
         $("#leaveRequestFromDate").on("change", function () {
             var leaveRequestFromDate = $(this).val();

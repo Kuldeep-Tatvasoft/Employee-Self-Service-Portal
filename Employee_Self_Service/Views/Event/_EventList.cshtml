@@ -1,4 +1,4 @@
-@model Employee_Self_Service_DAL.ViewModel.LeaveRequestPaginationViewModel
+@model Employee_Self_Service_DAL.ViewModel.EventPaginationViewModel
 @using Employee_Self_Service_BAL.Helpers
 <div class="table-responsive px-0">
     <table class="table table-light">
@@ -6,9 +6,9 @@
             <tr>
                 <th>No</th>
                 <th>
-                    <span class="heading">Employee Name</span>
+                    <span class="">Event Name</span>
 
-                    <a href="javascript:void(0)" onclick="sortBy('EndDate')" class="text-decoration-none text-dark ">
+                    <a href="javascript:void(0)" onclick="sortBy('EventName')" class="text-decoration-none text-dark ">
                         <i class="bi bi-arrow-down-up fs-6" id="sort-by-role" data-direction="asc"></i></a>
                 </th>
                 <th class="">
@@ -22,41 +22,12 @@
                         Date<i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i></a>
                 </th>
                 <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('AvailableOnPhone')"
-                        class="text-decoration-none text-dark ">Reason<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
-                <th class="">
-                    <a href="javascript:void(0)" onclick="sortBy('ReturnDate')"
-                        class="text-decoration-none text-dark">Return Date<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('ActualDuration')"
-                        class="text-decoration-none text-dark">Actual Duration<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                
-                    <th class="text-center">
-                        <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
-                            class="text-decoration-none text-dark">ResponseBy<i class="bi bi-arrow-down-up"
-                                id="sort-by-role" data-direction="asc"></i> </a>
-                    </th>
-                              
-                <th class="">
-                    <a href="javascript:void(0)" onclick="sortBy('ApprovedDate')"
-                        class="text-decoration-none text-dark">Response Date<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th class="">
-                    <a href="javascript:void(0)" onclick="sortBy('Status')"
-                        class="text-decoration-none text-dark">Status<i class="bi bi-arrow-down-up" id="sort-by-role"
+                    <a href="javascript:void(0)" onclick="sortBy('CategoryName')"
+                        class="text-decoration-none text-dark ">Category<i class="bi bi-arrow-down-up" id="sort-by-role"
                             data-direction="asc"></i> </a>
                 </th>
                 <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('AdhocLeave')"
-                        class="text-decoration-none text-dark">Adhoc Leave?<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
+                    Status
                 </th>
                 <th class="text-center">Action</th>
             </tr>
@@ -65,7 +36,7 @@
             @{
                 var count = 1;
             }
-            @foreach (var data in Model.RequestList)
+            @foreach (var data in Model.EventList)
             {
                 <tr>
                     <td>
@@ -74,59 +45,40 @@
                             count++;
                         }
                     </td>
-                    <td>@data.EmployeeName</td>
+                    <td>@data.EventName</td>
                     <td>@data.StartDate</td>
                     <td class=" ">
                         @data.EndDate
                     </td>
                     <td class="text-center">
-                        @data.ReasonName
-                    </td>
-                    <td class="">
-                        @data.ReturnDate
+                        @data.CategoryName
                     </td>
                     <td class="text-center">
-                        @data.ActualDuration
-                    </td>
-                   
-                        <td class="text-center">
-                            @data.ApprovedBy
-                        </td>
-                    
-                    <td>
-                        @data.ApprovedDate
-                    </td>
-                    <td class="">
-                        @if (@data.StatusId == 2)
+                        @if(data.EndDate < DateOnly.FromDateTime(DateTime.Now))
                         {
-                            <div class="approved d-flex align-items-center">
-                                @data.Status
-                            </div>
+                            <span class="badge bg-danger p-2">Expired</span>
                         }
-                        else if (@data.StatusId == 5)
+                        else if (data.StartDate > DateOnly.FromDateTime(DateTime.Now))
                         {
-                            <div class="rejected d-flex align-items-center">
-                                @data.Status
-                            </div>
+                            <span class="badge bg-secondary p-2">Upcoming</span>
                         }
                         else
                         {
-                            <div class="pending d-flex align-items-center">
-                                @data.Status
-                            </div>
+                            <span class="badge bg-success p-2">Ongoing</span>
                         }
                     </td>
                     <td class="text-center">
-                        <input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault"
-                            value="@(data.AdhocLeave ? "true" : "false")" @(data.AdhocLeave ? "checked" : "") disabled>
-                    </td>
-                    <td>
                         <div class="d-flex align-items-center">
-                            <a asp-action="ResponseLeaveRequest" asp-controller="Leave"
-                                asp-route-requestId="@data.LeaveRequestId" asp-route-email="@data.EmployeeEmail"
+                            <a asp-action="AddEditEvent" asp-controller="Event"
+                                asp-route-eventId="@data.EventId" 
                                 class="btn " type="button">
                                 <i class="bi bi-pen"></i>
-                            </a>                               
+                            </a>   
+
+                            <a class="btn deleteEventBtn p-0" data-id="@data.EventId" data-bs-toggle="modal"
+                                data-bs-target="#deleteEventModal">
+                                <i class=" bi bi-trash text-black"></i>
+                            </a>                            
                         </div>
                     </td>
                 </tr>

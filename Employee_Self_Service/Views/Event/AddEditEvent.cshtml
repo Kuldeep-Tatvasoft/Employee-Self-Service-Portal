@@ -1,0 +1,203 @@
+@model Employee_Self_Service_DAL.ViewModel.AddEventViewModel
+<div class="d-flex flex-column py-3">
+    <div class="px-3 d-flex justify-content-between align-items-center">
+        <div>
+            @if (@Model.EventId == 0)
+            {
+                <h4 class="d-flex align-content-center m-0">Add Event</h4>
+            }
+            else
+            {
+                <h4 class="d-flex align-content-center m-0">Edit Event</h4>
+            }
+        </div>
+    </div>
+    <hr class="dropdown-divider">
+
+    <form id="eventForm" enctype="multipart/form-data">
+        <input type="hidden" asp-for="EventId">
+        <div class="details">
+            <div class="row col col-xxl-6 col-xl-7 col-lg-12 px-4">
+                <!-- Event Name -->
+                <label for="itemName" class="p-0 mb-1">Event Name</label>
+                <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="EventName" id="EventName">
+                <span asp-validation-for="EventName" class="text-danger"></span>
+
+                <!-- Category -->
+                <label class="p-0 mb-1 mt-3">Category</label>
+                <select asp-for="CategoryId" class="form-select rounded-0 shadow-none border-2">
+                    <option value="">Select a Category</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.CategoryId">@category.Category</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+                <!-- Event Description -->
+                <label for="itemName" class="p-0 mb-1 mt-3">Event Description</label>
+                <textarea class="form-control rounded-0 shadow-none border-2" rows="4" asp-for="EventDescription"></textarea>
+                <span asp-validation-for="EventDescription" class="text-danger"></span>
+
+                <!-- Event Dates -->
+                <label for="startDate" class="p-0 mt-3 mb-1">Event Start Date</label>
+                <input type="date" class="form-control rounded-0 shadow-none border-2" asp-for="StartDate" id="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")">
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+
+                <label for="endDate" class="p-0 mt-3 mb-1">Event End Date</label>
+                <input type="date" class="form-control rounded-0 shadow-none border-2" asp-for="EndDate" id="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")">
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+
+                <!-- Documents -->
+                <div class="upload-div w-100 mt-4 p-3 d-flex flex-column justify-content-center align-items-center" style="border: 1px dashed gray;">
+                    <input type="file" id="actual" class="form-control mt-4 d-none" multiple>
+                    <label for="actual" class="fw-semibold d-flex flex-column align-items-center">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        <span class="text-secondary">Browse file</span>
+                        <label class="fw-semibold" for="floatingPassword">Add Documents</label>
+                    </label>
+                </div>
+                <span id="documentValidation" class="text-danger"></span>
+                <ul id="fileList" class="list-group mt-3">
+                    @if (Model.EventDocuments != null && Model.EventDocuments.Any())
+                    {
+                        foreach (var document in Model.EventDocuments)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @System.IO.Path.GetFileName(document.Documents?.Split('_').Last())
+                                <button type="button" class="btn btn-danger btn-sm remove-existing-document" data-document="@document.Documents">Remove</button>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+
+            <!-- Save and Cancel Buttons -->
+            <div class="d-flex justify-content-start mt-4 gap-2 p-0">
+                <button type="submit" id="saveButton" class="btn btn-primary rounded-0">Save</button>
+                <a href="/Event/Events"><button type="button" class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        const fileInput = document.getElementById('actual');
+        const fileList = document.getElementById('fileList');
+        const selectedFiles = [];
+        const removedDocuments = [];
+        const documentValidation = document.getElementById('documentValidation');
+
+        
+
+        // Push existing documents into selectedFiles
+        const existingDocuments = @Html.Raw(Json.Serialize(Model.EventDocuments.Select(d => d.Documents)));
+        existingDocuments.forEach(doc => selectedFiles.push(doc));
+
+        // Display existing documents in the list
+        @* existingDocuments.forEach((fileName) => {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+            listItem.textContent = fileName;
+
+            const removeButton = document.createElement('button');
+            removeButton.className = 'btn btn-danger btn-sm';
+            removeButton.textContent = 'Remove';
+            removeButton.addEventListener('click', function () {
+                removedDocuments.push(fileName);
+                selectedFiles.splice(selectedFiles.indexOf(fileName), 1);
+                listItem.remove();
+            });
+
+            listItem.appendChild(removeButton);
+            fileList.appendChild(listItem);
+        }); *@
+
+        // Handle new file input changes
+        fileInput.addEventListener('change', function () {
+            const files = Array.from(fileInput.files);
+            files.forEach((file) => {
+                selectedFiles.push(file);
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                listItem.textContent = file.name;
+
+                const removeButton = document.createElement('button');
+                removeButton.className = 'btn btn-danger btn-sm';
+                removeButton.textContent = 'Remove';
+                removeButton.addEventListener('click', function () {
+                    selectedFiles.splice(selectedFiles.indexOf(file), 1);
+                    listItem.remove();
+                });
+
+                listItem.appendChild(removeButton);
+                fileList.appendChild(listItem);
+            });
+            documentValidation.textContent = ''; 
+        });
+
+        $(document).off('submit').on("submit", "#eventForm", function (e) {
+            e.preventDefault();
+            if (!$(this).valid()) return;
+
+            if (selectedFiles.length === 0 && removedDocuments.length === 0) {
+                documentValidation.textContent = 'Please select at least one document.';
+                return;
+            }
+
+            const formData = new FormData(this);
+            console.log(selectedFiles);
+            selectedFiles.forEach(file => {
+                if (typeof file === 'string') {
+                    // Convert existing file paths to IFormFile-like objects
+                    const blob = new Blob([], { type: 'application/octet-stream' });
+                    formData.append('Documents', blob, file);
+                } else {
+                    formData.append('Documents', file); // Add new documents
+                }
+            });
+            console.log(formData.getAll('Documents'));
+
+            removedDocuments.forEach(doc => {
+                formData.append('RemovedDocuments', doc); // Add removed documents
+            });
+
+            $.ajax({
+                url: '/Event/AddEditEvent',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = '/Event/Events';
+                    } else {
+                        alert('Error updating event.');
+                    }
+                },
+                error: function (error) {
+                    alert('Error adding event. Please try again.');
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        const today = new Date().toISOString().split("T")[0];
+        $("#StartDate, #EndDate").attr("min", today);
+
+        $("#StartDate").on("change", function () {
+            const eventStart = $(this).val();
+            $("#EndDate").attr("min", eventStart);
+        });
+
+        $("#EndDate").on("change", function () {
+            const eventEnd = $(this).val();
+            $("#StartDate").attr("max", eventEnd);
+        });
+    });
+</script>
+

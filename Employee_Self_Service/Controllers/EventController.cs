@@ -17,22 +17,37 @@ public class EventController : Controller
     {
         return View();
     }
+
     public async Task<IActionResult> GetEventList(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string eventFromDate, string eventToDate, string eventCategory)
     {   
         var model = await _eventService.GetEventData(pageSize, pageNumber, searchQuery, sortColumn, sortDirection, eventFromDate, eventToDate, eventCategory);
         return PartialView("_EventList", model);
     }
-    public IActionResult AddEvent()
+
+    public async Task<IActionResult> AddEditEvent(long eventId)
     {
-        return View();
+        AddEventViewModel model = new AddEventViewModel();
+        if (eventId > 0)
+        {
+            model = await _eventService.EventDetails(eventId); 
+        }
+        model.Categories = await _eventService.GetCategories(); 
+        return View(model);
     }
     
     [HttpPost]
-    public async Task<IActionResult> AddEvent([FromForm] AddEventViewModel model)
+    public async Task<IActionResult> AddEditEvent([FromForm] AddEventViewModel model)
     {   
-       
+        ResponseViewModel response;
+        if (model.EventId == 0)
+        {
+            response = await _eventService.AddEvent(model); 
+        }
+        else
+        {
+            response = await _eventService.EditEvent(model); 
+        }
 
-        ResponseViewModel response = await _eventService.AddEvent(model);
         if (response.success)
         {
             TempData["successToastr"] = response.message;
@@ -41,9 +56,8 @@ public class EventController : Controller
         else
         {
             TempData["errorToastr"] = response.message;
-            return Json(new { success = false});
+            return Json(new { success = false });
         }
-        
     }
 
     [HttpGet]
@@ -53,5 +67,18 @@ public class EventController : Controller
         return PartialView("_EventDetailsPartialView", model);
     }
 
-
+    [HttpPost]
+    public async Task<IActionResult> DeleteEvent(long eventId)
+    {
+        ResponseViewModel response = await _eventService.DeleteEvent(eventId);
+        if (response.success)
+        {
+            TempData["successToastr"] = response.message;
+        }
+        else
+        {
+            TempData["errorToastr"] = response.message;
+        }
+        return RedirectToAction("Events");
+    }
 }
