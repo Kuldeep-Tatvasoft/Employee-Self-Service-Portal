@@ -15,6 +15,7 @@ public class ProfileService : IProfileService
         _employeeRepository = employeeRepository;
     }
 
+    #region  My Profile
     public async Task<ProfileViewModel> GetUserDetails(string email)
     {
         try
@@ -114,7 +115,9 @@ public class ProfileService : IProfileService
             };
         }
     }
+    #endregion
 
+    #region Change Password
     public async Task<ResponseViewModel> ChangePassword(LoginViewModel model)
     {
         try
@@ -167,6 +170,7 @@ public class ProfileService : IProfileService
             };
         }
     }
+    #endregion
 
     public async Task<ProfileViewModel> GetEmployeeById(int employeeId)
     {

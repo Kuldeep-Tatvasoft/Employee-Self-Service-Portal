@@ -128,6 +128,7 @@ public class LeaveRepository : ILeaveRepository
             };
         }
     }
+    
     public async Task<LeaveRequest> GetDetails(int requestId)
     {
         LeaveRequest? leaveRequest =  await _context.LeaveRequests.Include(u => u.ReasonNavigation)
@@ -155,6 +156,7 @@ public class LeaveRepository : ILeaveRepository
             };
         }
     }
+    
     public async Task<LeaveRequestPaginationViewModel> GetPaginatedResponse(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
     {
         var query = _context.LeaveRequests

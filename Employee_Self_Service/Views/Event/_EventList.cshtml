@@ -4,7 +4,7 @@
     <table class="table table-light">
         <thead>
             <tr>
-                <th>No</th>
+                
                 <th>
                     <span class="">Event Name</span>
 
@@ -33,18 +33,11 @@
             </tr>
         </thead>
         <tbody>
-            @{
-                var count = 1;
-            }
+           
             @foreach (var data in Model.EventList)
             {
                 <tr>
-                    <td>
-                        @count
-                        @{
-                            count++;
-                        }
-                    </td>
+                    
                     <td>@data.EventName</td>
                     <td>@data.StartDate</td>
                     <td class=" ">
@@ -69,17 +62,18 @@
                     </td>
                     <td class="text-center">
                         <div class="d-flex align-items-center justify-content-center">
-                            @if(data.EndDate < DateOnly.FromDateTime(DateTime.Now)){
+                            @if(data.EndDate > DateOnly.FromDateTime(DateTime.Now)){
                             <a asp-action="AddEditEvent" asp-controller="Event"
                                 asp-route-eventId="@data.EventId" 
                                 class="btn " type="button">
                                 <i class="bi bi-pen"></i>
                             </a>   
-                            }
+                            
                             <a class="btn deleteEventBtn p-0" data-id="@data.EventId" data-bs-toggle="modal"
                                 data-bs-target="#deleteEventModal">
                                 <i class=" bi bi-trash text-black"></i>
-                            </a>                            
+                            </a> 
+                            }                           
                         </div>
                     </td>
                 </tr>
@@ -99,7 +93,7 @@
             @if (Model.Page.PageSize != null)
             {
                 <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option>
-                <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false)">5</option>
+                <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false) selected">5</option>
                 <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
                 <option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>
             }

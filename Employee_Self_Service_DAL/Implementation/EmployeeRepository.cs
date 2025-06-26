@@ -23,23 +23,7 @@ public class EmployeeRepository : IEmployeeRepository
     {
         return _context.Employees.Include(u => u.Role).FirstOrDefault(u => u.EmployeeId == employeeId);
     }
-    public async Task<ResponseViewModel> UpdateEmployee(Employee employee)
-    {   
-        try{
-            _context.Employees.Update(employee);
-            await _context.SaveChangesAsync();
-            return new ResponseViewModel{
-                success = true
-            };
-        }
-        catch (Exception ex)
-        {
-            return new ResponseViewModel{
-                success = false,
-                message =  ex.Message
-            };
-        }
-    }
+    
     public async Task<ResponseViewModel> RegisterEmployee(Employee employee)
     {
         try
@@ -60,6 +44,25 @@ public class EmployeeRepository : IEmployeeRepository
 
         }
     }
+    
+    public async Task<ResponseViewModel> UpdateEmployee(Employee employee)
+    {   
+        try{
+            _context.Employees.Update(employee);
+            await _context.SaveChangesAsync();
+            return new ResponseViewModel{
+                success = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseViewModel{
+                success = false,
+                message =  ex.Message
+            };
+        }
+    }
+    
    
 }
 

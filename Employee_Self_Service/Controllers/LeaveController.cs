@@ -20,7 +20,7 @@ public class LeaveController : Controller
         _jwtService = jwtService;
     }
 
-
+    #region Employee Side Leave 
     public IActionResult LeaveRequest()
     {
         return View();
@@ -112,7 +112,10 @@ public class LeaveController : Controller
         model.profile = await _profileService.GetUserDetails(email);        
         return PartialView("_LeaveViewPartialView", model);
     }
+    
+    #endregion
 
+    #region Response  
     [CustomAuthorize ("HR")]
     public IActionResult ResponseRequest()
     {
@@ -153,4 +156,5 @@ public class LeaveController : Controller
         }
 
     }
+    #endregion
 }

@@ -20,10 +20,6 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcQWRkRWRpdEV2ZW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Employee Self Service Portal/Employee_Self_Service/Views/Event/AddEvent.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcQWRkRXZlbnQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Event/Events.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcRXZlbnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -46,10 +42,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/AddEditLeaveRequest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcQWRkRWRpdExlYXZlUmVxdWVzdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/AddLeaveRequest.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhdmVcQWRkTGVhdmVSZXF1ZXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Leave/LeaveRequest.cshtml]

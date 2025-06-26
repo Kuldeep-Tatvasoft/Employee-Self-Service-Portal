@@ -6,8 +6,8 @@
             <tr>
                 <th>No</th>
                 <th class="d-flex align-items-center">
-                    Start Date
-                    <a href="javascript:void(0)" onclick="sortBy('StartDate')" class="text-decoration-none text-dark">
+                   
+                    <a href="javascript:void(0)" onclick="sortBy('StartDate')" class="text-decoration-none text-dark"> Start Date
 
                         <i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
                 </th>
@@ -54,11 +54,7 @@
                             id="sort-by-role" data-direction="asc"></i> </a>
                 </th>
                 }
-                @* <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('AvailableOnPhone')"
-                        class="text-decoration-none text-dark">Available On Phone<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th> *@
+            
                 <th class="text-center">
                     <a href="javascript:void(0)" onclick="sortBy('ApprovedDate')"
                         class="text-decoration-none text-dark">Response Date<i class="bi bi-arrow-down-up"
@@ -187,7 +183,7 @@
             @if (Model.Page.PageSize != null)
             {
                 <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option>
-                <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false)">5</option>
+                <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false) selected">5</option>
                 <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
                 <option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>
             }

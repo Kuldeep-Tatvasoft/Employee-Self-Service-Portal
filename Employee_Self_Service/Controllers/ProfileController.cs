@@ -17,6 +17,8 @@ public class ProfileController : Controller
         _jwtService = jwtService;
         _loginService = loginService;
     }
+
+    #region My Profile
     public async Task<IActionResult> MyProfile()
     {
         var token = _jwtService.ValidateToken(Request.Cookies["token"]);
@@ -70,7 +72,9 @@ public class ProfileController : Controller
             return RedirectToAction("EditProfile");
         }
     }
+    #endregion
 
+    #region  Change Password
     [HttpGet]
     public IActionResult ChangePassword()
     {
@@ -106,6 +110,6 @@ public class ProfileController : Controller
             TempData["errorToastr"] = response.message;
             return View("ChangePassword", model);
         }
-
     }
+    #endregion
 }

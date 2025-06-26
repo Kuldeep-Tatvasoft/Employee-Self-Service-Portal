@@ -84,10 +84,12 @@ public class EventRepository : IEventRepository
 
         return model;
     }
+   
     public async Task<List<EventCategory>> GetCategories()
     {
         return _context.EventCategories.ToList();
     }
+   
     public async Task<ResponseViewModel> AddEvent(Event newEvent, List<IFormFile> Documents)
     {
         try
@@ -141,7 +143,7 @@ public class EventRepository : IEventRepository
     public async Task<Event> GetEventDetails(long eventId)
     {
         Event? eventDetails = await _context.Events
-                                    .Include(e => e.Documents.Where(d => (bool)d.IsActive))
+                                    .Include(e => e.Documents.Where(d => d.IsActive == true))
                                     .Where(e => e.EventId == eventId )
                                     .FirstOrDefaultAsync();
         return eventDetails;
@@ -154,12 +156,10 @@ public class EventRepository : IEventRepository
             _context.Events.Update(update);
             await _context.SaveChangesAsync();
 
-            
             List<Document>? documents = await _context.Documents
                                 .Where(d => d.EventId == update.EventId)
                                 .ToListAsync();
 
-            
             foreach (var doc in documents)
             {
                 doc.IsActive = false;
@@ -189,10 +189,8 @@ public class EventRepository : IEventRepository
                     {
                         Directory.CreateDirectory(uploadsFolder);
                     }
-
                     string fileName = $"{Guid.NewGuid()}_{file.FileName}";
                     string filePath = Path.Combine(uploadsFolder, fileName);
-
                     using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(fileStream);
@@ -204,7 +202,6 @@ public class EventRepository : IEventRepository
                     await _context.Documents.AddAsync(newDocument);
                 }
             }
-
             await _context.SaveChangesAsync();
 
             return new ResponseViewModel

@@ -16,24 +16,12 @@ public class LeaveService : ILeaveService
         _leaveRepository = leaveRepository;
     }
 
+    #region Employee Side Leave
     public async Task<LeaveRequestPaginationViewModel> GetRequestData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
     {
         try
         {
             var List = await _leaveRepository.GetPaginatedRequest(pageSize, pageNumber, search, sort, sortDirection, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
-            return List;
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
-    }
-
-    public async Task<LeaveRequestPaginationViewModel> GetResponseData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
-    {
-        try
-        {
-            var List = await _leaveRepository.GetPaginatedResponse(pageSize, pageNumber, search, sort, sortDirection, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
             return List;
         }
         catch (Exception ex)
@@ -94,7 +82,6 @@ public class LeaveService : ILeaveService
 
     public async Task<AddLeaveRequestViewModel> GetEditDetails(int requestId)
     {
-
         LeaveRequest details = await _leaveRepository.GetDetails(requestId);
         if (details == null)
         {
@@ -131,7 +118,6 @@ public class LeaveService : ILeaveService
     {
         try
         {
-
             LeaveRequest request = await _leaveRepository.GetDetails(model.LeaveRequestId);
             {
                 request.EmployeeId = model.EmployeeId;
@@ -201,6 +187,21 @@ public class LeaveService : ILeaveService
         }
 
     }
+    #endregion
+
+    #region Response Side
+    public async Task<LeaveRequestPaginationViewModel> GetResponseData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
+    {
+        try
+        {
+            var List = await _leaveRepository.GetPaginatedResponse(pageSize, pageNumber, search, sort, sortDirection, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
+            return List;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
 
     public async Task<ResponseViewModel> ResponseLeaveRequest(int requestId, int statusId, int approvedBy, string comment)
     {
@@ -236,12 +237,6 @@ public class LeaveService : ILeaveService
                 message = "Failed to update status" + ex.Message
             };
         }
-    }
-
-    // public async Task<List<LeaveRequestDetailsViewModel>> GetTodayOnLeave()
-    // {
-    //     return await _leaveRepository.GetTodayOnLeave();
-
-    // }
-    
+    } 
+    #endregion   
 }

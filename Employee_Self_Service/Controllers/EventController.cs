@@ -1,3 +1,4 @@
+using Employee_Self_Service.Authorization;
 using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ public class EventController : Controller
         _eventService = eventService;
     }
 
+    [CustomAuthorize ("HR")]
     public IActionResult Events()
     {
         return View();
