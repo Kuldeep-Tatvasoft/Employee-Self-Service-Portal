@@ -165,7 +165,7 @@
                             value="@(data.AdhocLeave ? "true" : "false")" @(data.AdhocLeave ? "checked" : "") disabled>
                     </td>
                     <td>
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center justify-content-center">
                             <a asp-action="ResponseLeaveRequest" asp-controller="Leave"
                                 asp-route-requestId="@data.LeaveRequestId" asp-route-email="@data.EmployeeEmail"
                                 class="btn " type="button">

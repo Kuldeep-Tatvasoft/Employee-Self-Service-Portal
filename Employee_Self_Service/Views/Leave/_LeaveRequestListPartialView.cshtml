@@ -120,17 +120,7 @@
                         @data.ApprovedBy
                     </td>
                 }
-                    @* <td class="text-center">
-
-                        @if (data.AvailableOnPhone.GetValueOrDefault())
-                        {
-                            <div>Yes</div>
-                        }
-                        else
-                        {
-                            <div>No</div>
-                        }
-                    </td> *@
+                   
                     <td class="text-center">
 
                         @data.ApprovedDate
@@ -160,20 +150,24 @@
                         <input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault"
                             value="@(data.AdhocLeave ? "true" : "false")" @(data.AdhocLeave ? "checked" : "") disabled>
                     </td>
-                    <td>
-                        <div class="d-flex align-items-center">
+                    <td class="text-center">
+                        <div class="d-flex align-items-center justify-content-center">
+                            @if(data.StatusId == 3){
                             <a asp-action="AddEditLeaveRequest" asp-controller="Leave"
                                 asp-route-requestId="@data.LeaveRequestId" class="btn " type="button">
                                 <i class="bi bi-pen"></i>
                             </a>
+                            }
                             <a class="btn leaveViewBtn" data-id="@data.LeaveRequestId" data-bs-toggle="modal"
                                 data-bs-target="#leaveViewModal">
                                 <i class="bi   bi-eye"></i>
                             </a>
+                            @if(data.StatusId == 3){
                             <a class="btn deleteLeaveBtn p-0" data-id="@data.LeaveRequestId" data-bs-toggle="modal"
                                 data-bs-target="#deleteLeaveModal">
                                 <i class=" bi bi-trash text-black"></i>
                             </a>
+                            }
                         </div>
                     </td>
                 </tr>

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "4OeykTyEQ43LOsF3fp7Ks/Cc5m6QeRFWAvJWP3e/KFc=",
+  "Hash": "+tcPJFTkWKgDTl738CWPZdkB9E4BAFTyIlj0hnVuc3Y=",
   "Source": "Employee_Self_Service",
   "BasePath": "_content/Employee_Self_Service",
   "Mode": "Default",
@@ -1751,6 +1751,23 @@
       "OriginalItemSpec": "wwwroot\\uploads\\events\\1d901c8a-8ad8-4f33-8e8c-a93f6839cc24_profileimage2.png"
     },
     {
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\24239dad-1237-44ed-961f-0ce389f1e20a_event.pdf",
+      "SourceId": "Employee_Self_Service",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "BasePath": "_content/Employee_Self_Service",
+      "RelativePath": "uploads/events/24239dad-1237-44ed-961f-0ce389f1e20a_event.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\events\\24239dad-1237-44ed-961f-0ce389f1e20a_event.pdf"
+    },
+    {
       "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\283d3e1b-0c3e-45a9-a078-27c36ea6699e_event.pdf",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
@@ -1800,6 +1817,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\events\\36ce27ef-d33c-4962-8156-8fb2e39291d4_profileimage.jpg"
+    },
+    {
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\4bab4c95-0a90-493f-b75c-254857ece8b0_event.pdf",
+      "SourceId": "Employee_Self_Service",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "BasePath": "_content/Employee_Self_Service",
+      "RelativePath": "uploads/events/4bab4c95-0a90-493f-b75c-254857ece8b0_event.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\events\\4bab4c95-0a90-493f-b75c-254857ece8b0_event.pdf"
     },
     {
       "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\512a4d1b-56c0-4bbb-815f-0a06f3467439_event.pdf",

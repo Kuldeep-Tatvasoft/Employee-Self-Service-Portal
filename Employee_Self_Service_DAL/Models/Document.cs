@@ -11,5 +11,7 @@ public partial class Document
 
     public long? EventId { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public virtual Event? Event { get; set; }
 }

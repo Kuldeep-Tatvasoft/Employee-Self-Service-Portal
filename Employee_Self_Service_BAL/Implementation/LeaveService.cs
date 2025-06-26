@@ -75,6 +75,10 @@ public class LeaveService : ILeaveService
                 AdhocLeave = model.AdhocLeave,
                 StatusId = 3
             };
+            if(model.AdhocLeave == true)
+            {
+                request.StatusId = 2;
+            }
             ResponseViewModel response = await _leaveRepository.AddRequest(request);
             return response;
         }
@@ -116,8 +120,10 @@ public class LeaveService : ILeaveService
             AlternatePhoneNo = details.AlternatePhoneMo,
             AvailableOnPhone = details.AvailableOnPhone,
             AdhocLeave = (bool)details.AdhocLeave,
+            
             StatusId = (int)details.StatusId,
         };
+        
         return model;
     }
 

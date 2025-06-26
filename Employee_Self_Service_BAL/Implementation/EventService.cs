@@ -79,8 +79,6 @@ public class EventService : IEventService
                 CategoryId = (int)eventDetails.CategoryId,
                 EventDocuments = (List<Document>)eventDetails.Documents,
                 Documents = new List<IFormFile>()
-                // EventDocuments = await _eventRepository.GetEventDocuments(eventId)
-
             };
             return model;
         

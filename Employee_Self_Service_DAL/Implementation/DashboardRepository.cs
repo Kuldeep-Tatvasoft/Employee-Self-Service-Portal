@@ -40,11 +40,26 @@ public class DashboardRepository : IDashboardRepository
                                                         StartDate = (DateOnly)e.StartDate,
                                                         EndDate = (DateOnly)e.EndDate,
                                                     }).ToListAsync();
-                                                    
+        
+        List<LeaveRequestDetailsViewModel>? onLeave = await _context.LeaveRequests
+                                                    .Include(l => l.Employee)
+                                                    .Include(l => l.Status)
+                                                    .Where(l => !l.IsDeleted && l.StartDate <= today  && l.StatusId == 2)
+                                                    .Select(l => new LeaveRequestDetailsViewModel 
+                                                    {   
+                                                       
+                                                        EmployeeName = l.Employee.Name,
+                                                        StartDate = (DateOnly)l.StartDate,
+                                                        EndDate = (DateOnly)l.EndDate,
+                                                        ActualDuration = (decimal)l.ActualLeaveDuration,
+                                                        
+                                                    }).ToListAsync();
+
                                                     return new DashboardViewModel
                                                     {
                                                         TodayOnLeave = todayOnLeave,
-                                                        UpcomingEvents = upcomingEvents
+                                                        UpcomingEvents = upcomingEvents,
+                                                        OnLeave = onLeave
                                                     };
     }
 }

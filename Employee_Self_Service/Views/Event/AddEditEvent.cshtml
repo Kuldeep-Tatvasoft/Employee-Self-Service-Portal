@@ -59,16 +59,7 @@
                 </div>
                 <span id="documentValidation" class="text-danger"></span>
                 <ul id="fileList" class="list-group mt-3">
-                    @if (Model.EventDocuments != null && Model.EventDocuments.Any())
-                    {
-                        foreach (var document in Model.EventDocuments)
-                        {
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @System.IO.Path.GetFileName(document.Documents?.Split('_').Last())
-                                <button type="button" class="btn btn-danger btn-sm remove-existing-document" data-document="@document.Documents">Remove</button>
-                            </li>
-                        }
-                    }
+                    
                 </ul>
             </div>
 
@@ -85,20 +76,17 @@
 
 <script>
     $(document).ready(function () {
+        
         const fileInput = document.getElementById('actual');
         const fileList = document.getElementById('fileList');
         const selectedFiles = [];
         const removedDocuments = [];
         const documentValidation = document.getElementById('documentValidation');
 
-        
-
-        // Push existing documents into selectedFiles
-        const existingDocuments = @Html.Raw(Json.Serialize(Model.EventDocuments.Select(d => d.Documents)));
+        const existingDocuments = @Html.Raw(Json.Serialize(Model.EventDocuments.Select(d => d.Documents.Split('_').Last())));
         existingDocuments.forEach(doc => selectedFiles.push(doc));
 
-        // Display existing documents in the list
-        @* existingDocuments.forEach((fileName) => {
+        existingDocuments.forEach((fileName) => {
             const listItem = document.createElement('li');
             listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
             listItem.textContent = fileName;
@@ -114,9 +102,9 @@
 
             listItem.appendChild(removeButton);
             fileList.appendChild(listItem);
-        }); *@
-
-        // Handle new file input changes
+        });
+        
+        
         fileInput.addEventListener('change', function () {
             const files = Array.from(fileInput.files);
             files.forEach((file) => {
@@ -129,7 +117,10 @@
                 removeButton.className = 'btn btn-danger btn-sm';
                 removeButton.textContent = 'Remove';
                 removeButton.addEventListener('click', function () {
-                    selectedFiles.splice(selectedFiles.indexOf(file), 1);
+                    const index = selectedFiles.indexOf(file);
+                    if (index > -1) {
+                        selectedFiles.splice(index, 1);
+}
                     listItem.remove();
                 });
 
@@ -152,17 +143,17 @@
             console.log(selectedFiles);
             selectedFiles.forEach(file => {
                 if (typeof file === 'string') {
-                    // Convert existing file paths to IFormFile-like objects
+                    
                     const blob = new Blob([], { type: 'application/octet-stream' });
                     formData.append('Documents', blob, file);
                 } else {
-                    formData.append('Documents', file); // Add new documents
+                    formData.append('Documents', file); 
                 }
             });
             console.log(formData.getAll('Documents'));
 
             removedDocuments.forEach(doc => {
-                formData.append('RemovedDocuments', doc); // Add removed documents
+                formData.append('RemovedDocuments', doc); 
             });
 
             $.ajax({
@@ -186,8 +177,16 @@
     });
 
     $(document).ready(function () {
+
+        if(@Model.EventId == 0) {
+            $("#StartDate").val(new Date().toISOString().split("T")[0]);
+            $("#EndDate").val(new Date().toISOString().split("T")[0]);
+        }
+        
+        if(@Model.EventId == 0) {
         const today = new Date().toISOString().split("T")[0];
         $("#StartDate, #EndDate").attr("min", today);
+        }
 
         $("#StartDate").on("change", function () {
             const eventStart = $(this).val();

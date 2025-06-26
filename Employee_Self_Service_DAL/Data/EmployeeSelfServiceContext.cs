@@ -43,6 +43,7 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasColumnType("character varying")
                 .HasColumnName("documents");
             entity.Property(e => e.EventId).HasColumnName("event_id");
+            entity.Property(e => e.IsActive).HasColumnName("is_active");
 
             entity.HasOne(d => d.Event).WithMany(p => p.Documents)
                 .HasForeignKey(d => d.EventId)
@@ -132,9 +133,7 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasColumnType("character varying")
                 .HasColumnName("description");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.IsDeleted)
-                .HasDefaultValueSql("false")
-                .HasColumnName("is_deleted");
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
             entity.Property(e => e.Name)
                 .HasColumnType("character varying")
                 .HasColumnName("name");

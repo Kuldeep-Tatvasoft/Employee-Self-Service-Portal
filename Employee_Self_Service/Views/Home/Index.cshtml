@@ -72,6 +72,50 @@
             </div>
         </div>
     </div>
+
+    <div class="row row-cols-1 row-cols-lg-2 mt-0 g-4 d-flex">
+        <div class="col ">
+            
+            <div class=" bg-white shadow  rounded-0 dashboard-leave dashboard-card">
+                <div class=" w-100 h-100">
+                    <div class="member p-2">
+                        <span class="fw-semibold">Member On Leave</span>
+                    </div>
+                    <table class="table table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <td class="col-lg-8">
+                                    <span class="heading">Name</span>
+                                </td>
+                                <td class="text-center">
+                                    <span>Duration</span>
+                                </td>
+    
+                                <td class="text-center">
+                                    <span>Days</span>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody class="">
+                            @foreach (var data in Model.OnLeave)
+                            {
+                            <tr>
+                                <td>@data.EmployeeName</td>
+                                <td>
+                                    @data.StartDate.ToString("dd/MM") - @data.EndDate.ToString("dd/MM")
+                                </td>
+                                <td class="text-center">
+                                    @data.ActualDuration
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
 </div>
 
 

@@ -1,4 +1,4 @@
-@model Employee_Self_Service_DAL.ViewModel.AddLeaveRequestViewModel
+@* @model Employee_Self_Service_DAL.ViewModel.AddLeaveRequestViewModel
 <div class=" d-flex flex-column py-3 ">
     <div class="px-3 d-flex justify-content-between align-items-center">
         <div>
@@ -13,10 +13,7 @@
         <div class="details ">
             <input type="hidden" asp-for="@Model.EmployeeId" value="@Model.profile.EmployeeId">
             <input type="hidden" asp-for="LeaveRequestId">          
-            @* <input type="hidden" asp-for="@Model.ActualDuration" id="hiddenActualDuration" value="@Model.ActualDuration"> *@
-            @* <input type="hidden" asp-for="TotalDuration" id="hiddenTotalDuration" > *@
-            @* <input type="hidden" asp-for="ReturnDate" id="hiddenReturnDate"> *@
-            
+           
 
             <div class="row col col-xxl-6 col-xl-7 col-lg-12 px-4">
                 <!-- First Row -->
@@ -302,8 +299,7 @@
             }
             $actualDurationInput.val(actualDays)
             $totalDurationInput.val(totalDays);
-            @* updateHiddenFields(); *@
-            @* $returnDate.prop('disabled', true); *@
+           
         }
         // Initial calculation
         calculateDurations();
@@ -364,4 +360,4 @@
         });
     });
 
-</script>
+</script> *@
