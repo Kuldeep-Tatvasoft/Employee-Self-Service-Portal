@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "r2nI3seWQLbttupNKEgxi5wfToPvNQYyi/HBxkpVLNI=",
+  "Hash": "vE8Mak51tmJb6CJjpGWXlvkdWMgjXa8QN+4fKlxnyd8=",
   "Source": "Employee_Self_Service",
   "BasePath": "_content/Employee_Self_Service",
   "Mode": "Default",
@@ -1936,6 +1936,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\events\\67bc0cce-2dab-4086-bfd6-8f496e3a1485_profileimage.jpg"
+    },
+    {
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\6cbd358e-8ad9-4a7a-a6dc-16bbd41e277d_OrderInvoice (53).pdf",
+      "SourceId": "Employee_Self_Service",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "BasePath": "_content/Employee_Self_Service",
+      "RelativePath": "uploads/events/6cbd358e-8ad9-4a7a-a6dc-16bbd41e277d_OrderInvoice (53).pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\events\\6cbd358e-8ad9-4a7a-a6dc-16bbd41e277d_OrderInvoice (53).pdf"
     },
     {
       "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\729f6eca-d3d6-494e-b7fd-5efefd1bb0b4_somnath.jpg",

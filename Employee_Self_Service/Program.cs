@@ -1,3 +1,4 @@
+using Employee_Self_Service.Hubs;
 using Employee_Self_Service_BAL.Helper;
 using Employee_Self_Service_BAL.Implementation;
 using Employee_Self_Service_BAL.Interface;
@@ -25,6 +26,8 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR(); 
 
 var app = builder.Build();
 
@@ -47,4 +50,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");
 
+app.MapHub<NotificationHub>("/notificationHub");
 app.Run();

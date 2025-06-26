@@ -235,8 +235,9 @@
             const renderBody = document.querySelector('.sub');
 
             toggleSidebarButton.addEventListener('click', function () {
-                sidebar.classList.toggle('hidden');
                 renderBody.classList.toggle('full');
+                sidebar.classList.toggle('hidden');
+                
             });
             toggleSidebarButton.addEventListener('click', function () {
                 sidebar.classList.toggle('visible');

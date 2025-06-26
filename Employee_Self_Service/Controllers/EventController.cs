@@ -1,16 +1,20 @@
 using Employee_Self_Service.Authorization;
+using Employee_Self_Service.Hubs;
 using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Employee_Self_Service.Controllers;
 
 public class EventController : Controller
 {   
+    private readonly IHubContext<NotificationHub> _hubContext;
     private readonly IEventService _eventService;
 
-    public EventController(IEventService eventService)
-    {
+    public EventController(IEventService eventService,IHubContext<NotificationHub> hubContext)
+    {   
+        _hubContext = hubContext;
         _eventService = eventService;
     }
 
@@ -51,8 +55,10 @@ public class EventController : Controller
         }
 
         if (response.success)
-        {
+        {   
             TempData["successToastr"] = response.message;
+            string notificationMessage = $"New Event Added: {model.EventName} starting on {model.StartDate.ToString("dd/MM/yyyy")}";
+            await _hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);
             return Json(new { success = true });
         }
         else

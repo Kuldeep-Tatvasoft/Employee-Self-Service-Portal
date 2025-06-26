@@ -61,12 +61,9 @@ public class LeaveService : ILeaveService
                 AlternatePhoneMo = model.AlternatePhoneNo,
                 AvailableOnPhone = model.AvailableOnPhone,
                 AdhocLeave = model.AdhocLeave,
-                StatusId = 3
+                StatusId = model.AdhocLeave ? 2 : 3 
             };
-            if(model.AdhocLeave == true)
-            {
-                request.StatusId = 2;
-            }
+            
             ResponseViewModel response = await _leaveRepository.AddRequest(request);
             return response;
         }

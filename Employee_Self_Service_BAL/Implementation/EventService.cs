@@ -5,6 +5,7 @@ using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
+
 namespace Employee_Self_Service_BAL.Implementation;
 
 public class EventService : IEventService
@@ -15,7 +16,7 @@ public class EventService : IEventService
     public EventService(IEventRepository eventRepository)
     {
         _eventRepository = eventRepository;
-        
+       
     }
 
     public async Task<EventPaginationViewModel> GetEventData(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string eventFromDate, string eventToDate, string eventCategory)
@@ -49,6 +50,7 @@ public class EventService : IEventService
            };
            
             ResponseViewModel response = await _eventRepository.AddEvent(newEvent, model.Documents);
+
             return response;
         }
         catch(Exception ex)
