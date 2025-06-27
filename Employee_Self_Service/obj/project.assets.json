@@ -2493,7 +2493,7 @@
           "BCrypt.Net-Next": "4.0.3",
           "Employee_Self_Service_DAL": "1.0.0",
           "Microsoft.AspNetCore.DataProtection": "7.0.20",
-          "Microsoft.AspNetCore.Http": "1.0.0",
+          "Microsoft.AspNetCore.Http": "2.3.0",
           "System.IdentityModel.Tokens.Jwt": "7.7.1"
         },
         "compile": {
@@ -2508,10 +2508,10 @@
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
           "Microsoft.AspNetCore.DataProtection": "7.0.20",
-          "Microsoft.AspNetCore.Http": "1.0.0",
+          "Microsoft.AspNetCore.Http": "2.3.0",
           "Microsoft.EntityFrameworkCore": "7.0.20",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.18",
-          "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "1.0.1",
+          "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "1.1.0",
           "System.Data.SqlClient": "4.9.0"
         },
         "compile": {
@@ -7417,6 +7417,7 @@
       "packagesPath": "C:\\Users\\pca179\\.nuget\\packages\\",
       "outputPath": "D:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\",
       "projectStyle": "PackageReference",
+      "centralPackageVersionsManagementEnabled": true,
       "configFilePaths": [
         "C:\\Users\\pca179\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
@@ -7451,32 +7452,51 @@
         "dependencies": {
           "Microsoft.AspNetCore.Http": {
             "target": "Package",
-            "version": "[2.3.0, )"
+            "version": "[2.3.0, )",
+            "versionCentrallyManaged": true
           },
           "Microsoft.AspNetCore.SignalR": {
             "target": "Package",
-            "version": "[1.2.0, )"
+            "version": "[1.2.0, )",
+            "versionCentrallyManaged": true
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
             "target": "Package",
-            "version": "[7.0.20, )"
+            "version": "[7.0.20, )",
+            "versionCentrallyManaged": true
           },
           "Microsoft.EntityFrameworkCore.Tools": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
             "target": "Package",
-            "version": "[7.0.20, )"
+            "version": "[7.0.20, )",
+            "versionCentrallyManaged": true
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
-            "version": "[7.0.18, )"
+            "version": "[7.0.18, )",
+            "versionCentrallyManaged": true
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL.Design": {
             "target": "Package",
-            "version": "[1.1.0, )"
+            "version": "[1.1.0, )",
+            "versionCentrallyManaged": true
           }
+        },
+        "centralPackageVersions": {
+          "BCrypt.Net-Next": "[4.0.3, )",
+          "Microsoft.AspNetCore.DataProtection": "[7.0.20, )",
+          "Microsoft.AspNetCore.Http": "[2.3.0, )",
+          "Microsoft.AspNetCore.SignalR": "[1.2.0, )",
+          "Microsoft.EntityFrameworkCore": "[7.0.20, )",
+          "Microsoft.EntityFrameworkCore.Design": "[7.0.20, )",
+          "Microsoft.EntityFrameworkCore.Tools": "[7.0.20, )",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "[7.0.18, )",
+          "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "[1.1.0, )",
+          "System.Data.SqlClient": "[4.9.0, )",
+          "System.IdentityModel.Tokens.Jwt": "[7.7.1, )"
         },
         "imports": [
           "net461",

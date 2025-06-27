@@ -54,11 +54,13 @@ public class EventController : Controller
             response = await _eventService.EditEvent(model); 
         }
 
+        string notificationMessage = $"New Event Added: {model.EventName} starting on {model.StartDate.ToString("dd/MM/yyyy")}";
+        await _hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);
         if (response.success)
         {   
+            
+            
             TempData["successToastr"] = response.message;
-            string notificationMessage = $"New Event Added: {model.EventName} starting on {model.StartDate.ToString("dd/MM/yyyy")}";
-            await _hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);
             return Json(new { success = true });
         }
         else

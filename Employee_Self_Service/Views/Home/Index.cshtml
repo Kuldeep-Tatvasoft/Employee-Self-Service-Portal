@@ -129,7 +129,34 @@
 </div>
 
 
+@* <div id="notificationArea" class="alert alert-info" style="display:none;">
+    <span id="notificationMessage"></span>
+</div> *@
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+<!-- SignalR JavaScript -->
+@* <script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script>
+    // Connect to SignalR Hub
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notificationHub")
+        .build();
+
+    // Handle incoming notifications
+    connection.on("ReceiveNotification", (message) => {
+        const notificationArea = document.getElementById("notificationArea");
+        const notificationMessage = document.getElementById("notificationMessage");
+        notificationMessage.textContent = message;
+        notificationArea.style.display = "block";
+        // Optional: Auto-hide after 5 seconds
+        setTimeout(() => { notificationArea.style.display = "none"; }, 5000);
+    });
+
+    // Start the connection
+    connection.start().catch(err => console.error(err.toString()));
+</script> *@
 
 <script>
     $(document).on("click", ".eventDetails", function () {
