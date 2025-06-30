@@ -3,20 +3,28 @@ $(document).ready(function () {
         .withUrl("/notificationHub")
         .build();
 
-    // Handle incoming notifications
+    
     connection.on("ReceiveNotification", (message) => {
-        // const notificationArea = document.getElementById("notificationArea");
-        // const notificationMessage = document.getElementById("notificationMessage");
-        // notificationMessage.textContent = message;
-        // alert(message);
-        toastr.success(message);
-        console.log(message);
-        // notificationArea.style.display = "block";
-
-
-        // setTimeout(() => { notificationArea.style.display = "none"; }, 5000);
        
-
+        console.log(message);
+        toastr.success(message);
+        
+        // $(document).ready( function () {             
+        //             $.ajax({
+        //                 url: '/Event/GetNotifications',
+        //                 type: "GET",
+        //                 success: function (data) {
+        //                     $("#notificationContent").html(data);
+        //                 },
+        //                 error: function () {
+        //                     $("#notificationContent").html('<li>An error has occurred</li>');
+        //                 }
+        //             });
+        // });
     });
+
+    
+
+
     connection.start().catch(err => console.error(err.toString()));
 });

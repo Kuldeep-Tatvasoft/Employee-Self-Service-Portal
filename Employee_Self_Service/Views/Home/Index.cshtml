@@ -65,7 +65,6 @@
                                 <P class="">@data.EventName - @data.StartDate.ToString("dd/MM/yyyy")</P>
                                 
                         </a>
-                       
                     }
                    
                 </div>
@@ -137,8 +136,8 @@
 
 
 <!-- SignalR JavaScript -->
-@* <script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script>
+
+@* <script>
     // Connect to SignalR Hub
     const connection = new signalR.HubConnectionBuilder()
         .withUrl("/notificationHub")
@@ -150,8 +149,9 @@
         const notificationMessage = document.getElementById("notificationMessage");
         notificationMessage.textContent = message;
         notificationArea.style.display = "block";
-        // Optional: Auto-hide after 5 seconds
+    
         setTimeout(() => { notificationArea.style.display = "none"; }, 5000);
+        toastr.success(message);
     });
 
     // Start the connection

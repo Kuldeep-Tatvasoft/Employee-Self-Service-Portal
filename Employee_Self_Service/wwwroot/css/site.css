@@ -304,3 +304,12 @@ form i{
   height: 300px;
   overflow: auto;
 }
+
+/* Notification Css */
+.notification{
+  min-width: 20rem !important;
+}
+
+.read-icon:hover{
+  cursor: pointer;  
+}

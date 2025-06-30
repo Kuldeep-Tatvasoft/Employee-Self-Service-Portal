@@ -140,6 +140,26 @@ public class EventRepository : IEventRepository
         }
     }
 
+    public async Task<ResponseViewModel> AddNotification (Notification addNotification)
+    {   try{
+        addNotification.CatrgoryId = (int?)((await _context.Events.OrderByDescending(e => e.EventId).FirstOrDefaultAsync())?.EventId);
+        await _context.AddAsync(addNotification);
+        await _context.SaveChangesAsync();
+        return new ResponseViewModel
+        {
+            success = true
+        };
+        }
+        catch(Exception ex)
+        {
+            return new ResponseViewModel{
+                success = false
+
+            };
+        }
+        
+    }
+
     public async Task<Event> GetEventDetails(long eventId)
     {
         Event? eventDetails = await _context.Events
@@ -218,5 +238,30 @@ public class EventRepository : IEventRepository
                 message = "Error updating event: " + ex.Message
             };
         }
+    }
+
+    public async Task<List<NotificationViewModel>> GetNotifications()
+    {
+        return await _context.Notifications
+            .Include(c => c.NotificationCategory)
+            .Where(n => n.IsRead == false)
+            .OrderByDescending(n => n.CreatedAt)
+            .Select(n => new NotificationViewModel
+            {   
+                NotificationId = n.NotificationId,
+                Message = n.Notification1,
+                NotificationCategory = n.NotificationCategory.Category,
+                CategoryId = (int)n.CatrgoryId
+            }).ToListAsync();
+    }
+
+    public async Task<bool> MarkRead(long notificationId)
+    {
+        var notification = await _context.Notifications.FindAsync(notificationId);
+
+        notification.IsRead = true;
+        _context.Notifications.Update(notification);
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

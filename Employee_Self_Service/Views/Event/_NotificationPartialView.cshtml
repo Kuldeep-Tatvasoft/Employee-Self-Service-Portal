@@ -1,0 +1,51 @@
+@model List<Employee_Self_Service_DAL.ViewModel.NotificationViewModel>
+
+<li class="d-flex align-items-center justify-content-between align-items-center fw-bold text-secondary p-2">
+    <span>Notifications(@Model.Select(u => u.NotificationId).Count())</span>
+    <button type="button" class="btn-close fs-6" data-bs-dismiss="dropdown" aria-label="Close"
+        id="addItemModelCancel"></button>
+</li>
+<hr class="dropdown-divider">
+@foreach (var notification in Model)
+{
+    <li class="">
+        <h6 class="px-2">@notification.NotificationCategory</h6>
+        <div class="d-flex p-2 gap-2 ">
+            @if (notification.NotificationCategory == "Event")
+            {
+                <a class="eventDetails d-flex align-items-center text-decoration-none text-black" href=""
+                    data-id=@notification.CategoryId data-bs-toggle="modal" data-bs-target="#eventDetailsModal">
+
+                    <span>@notification.Message</span>
+                </a>
+            }
+            <a class=" pb-1 " ><i class="read-icon bi bi-circle" data-notificationid="@notification.NotificationId" ></i>
+            </a>
+        </div>
+        <hr class="dropdown-divider">
+    </li>
+}
+
+<script>
+    $(".read-icon").on('click', function (e) {
+        e.stopPropagation();
+        
+        $.ajax({
+            url: '/Event/MarkRead',
+            type: 'POST',
+            data: {
+                'notificationId': $(this).data("notificationid")
+            },
+            success: (response) => {
+                NotificationDropdown()
+            },
+            error: (error) => {
+                alert('Error read mark notification. Please try again.');
+            }
+        })
+    });
+
+    $(".read-icon").hover( function (e) {
+        $(this).hasClass("bi-circle") ? $(this).addClass("bi-check-circle text-primary").removeClass("bi-circle") : $(this).removeClass("bi-check-circle text-primary").addClass("bi-circle");
+        });
+</script>

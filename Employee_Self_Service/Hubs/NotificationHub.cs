@@ -4,8 +4,8 @@ namespace Employee_Self_Service.Hubs;
 
 public class NotificationHub : Hub
 {
-public async Task SendNotification(string message)
-{
-    await Clients.All.SendAsync("ReceiveNotification", message);
-}
+    public async Task SendNotificationToOthers(string connectionId, string message)
+    {
+        await Clients.AllExcept(connectionId).SendAsync("ReceiveNotification", message);
+    }
 }

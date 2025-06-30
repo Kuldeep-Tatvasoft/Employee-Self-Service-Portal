@@ -8,7 +8,10 @@ public interface IEventService
     Task<EventPaginationViewModel> GetEventData(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string eventFromDate, string eventToDate, string eventCategory);
     Task<List<EventCategory>> GetCategories();
     Task<ResponseViewModel> AddEvent(AddEventViewModel model);
+    Task<ResponseViewModel> AddNotification(string notification);
     Task<AddEventViewModel> EventDetails(long eventId);
     Task<ResponseViewModel> EditEvent(AddEventViewModel model);
     Task<ResponseViewModel> DeleteEvent(long eventId);
+    Task<List<NotificationViewModel>> GetNotifications();
+    Task<bool> MarkRead(long notificationId);
 }

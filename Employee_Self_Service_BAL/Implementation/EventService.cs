@@ -48,6 +48,8 @@ public class EventService : IEventService
                 EndDate = model.EndDate,
                 CategoryId = model.CategoryId
            };
+
+           
            
             ResponseViewModel response = await _eventRepository.AddEvent(newEvent, model.Documents);
 
@@ -61,6 +63,19 @@ public class EventService : IEventService
                 message = "Failed to add event:" + ex.Message
             };
         }   
+    }
+
+    public async Task<ResponseViewModel> AddNotification(string notification)
+    {
+        Notification addNotification = new Notification
+        {
+            Notification1 = notification,
+            NotificationCategoryId = 1,
+            
+        };
+
+        ResponseViewModel response =  await _eventRepository.AddNotification(addNotification);
+        return response;
     }
 
     public async Task<AddEventViewModel> EventDetails(long eventId)
@@ -148,6 +163,16 @@ public class EventService : IEventService
             };
         }
 
+    }
+
+    public async Task<List<NotificationViewModel>> GetNotifications()
+    {
+        return await _eventRepository.GetNotifications(); 
+    }
+
+    public async Task<bool> MarkRead(long notificationId)
+    {
+        return await _eventRepository.MarkRead(notificationId);
     }
 
 }

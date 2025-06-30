@@ -68,6 +68,28 @@
                         id="searchInput" placeholder="Search" aria-label="Amount (to the nearest dollar)">
                     <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
                 </div>
+                @* @if(userRole != "HR"){ *@
+                <div class="dropdown">
+                    
+                    <button class="btn shadow-none border-none" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <div class="d-flex align-items-center">
+
+                        <div id="" class="px-2 text-white">
+                            <i class="bi bi-bell fs-4"></i>
+                        </div>
+                    </div>
+                        @* <img src="@(!string.IsNullOrEmpty(profileImage) ? profileImage : "/images/Default_pfp.svg.png")"
+                            alt="" class="user-img rounded-circle"> *@
+                    </button >
+                    
+                    <ul class="dropdown-menu mt-2 rounded-0 notification " id="notificationContent">
+                        
+                    </ul>
+                </div>
+
+                
+                @* } *@
 
                 <div class="dropdown">
                     <button class="btn shadow-none border-none" type="button" data-bs-toggle="dropdown"
@@ -199,17 +221,14 @@
 
             <!-- RenderBody Content -->
             <div class="sub">
-                 @* <div id="notificationArea" class="alert alert-info" style="display:none;">
+                <div id="notificationArea" class="alert alert-info" style="display:none;">
                     <span id="notificationMessage"></span>
-                </div> *@
+                </div>
                 @RenderBody()
             </div>
         </div>
     </div>
 
-    
-
-    <!-- SignalR JavaScript -->
 
 
 
@@ -266,25 +285,27 @@
                 renderBody.classList.toggle('full');
             });
         });
-    </script>
-    <script>
-        // Connect to SignalR Hub
+
+        function NotificationDropdown(){
+                    $.ajax({
+                        url: '/Event/GetNotifications',
+                        type: "GET",
+                        success: function (data) {
+                            $("#notificationContent").html(data);
+                        },
+                        error: function () {
+                            $("#notificationContent").html('<li>An error has occurred</li>');
+                        }
+                    });
+        }
+
+        $(document).on("click",".dropdown", function () {
+            NotificationDropdown()            
+        });
+
         
     </script>
-
-    @* <script>
-    const connection = new signalR.HubConnectionBuilder()
-    .withUrl("/notificationHub")
-    .build();
-
-    connection.on("ReceiveNotification", function (message) {
-    alert(message);
-    });
-
-    connection.start().catch(function (err) {
-    console.error(err.toString());
-    });
-    </script> *@
+    
 </body>
 
 </html>

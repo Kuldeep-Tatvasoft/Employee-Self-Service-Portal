@@ -20,9 +20,15 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<EventCategory> EventCategories { get; set; }
 
+    public virtual DbSet<Helpdesk> Helpdesks { get; set; }
+
     public virtual DbSet<LeaveRequest> LeaveRequests { get; set; }
 
     public virtual DbSet<LeaveType> LeaveTypes { get; set; }
+
+    public virtual DbSet<Notification> Notifications { get; set; }
+
+    public virtual DbSet<NotificationCategory> NotificationCategories { get; set; }
 
     public virtual DbSet<Reason> Reasons { get; set; }
 
@@ -156,6 +162,17 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasColumnName("category");
         });
 
+        modelBuilder.Entity<Helpdesk>(entity =>
+        {
+            entity.HasKey(e => e.HelpdeskId).HasName("HelpDesk_pkey");
+
+            entity.ToTable("helpdesk");
+
+            entity.Property(e => e.HelpdeskId)
+                .HasDefaultValueSql("nextval('\"HelpDesk_helpdesk_id_seq\"'::regclass)")
+                .HasColumnName("helpdesk_id");
+        });
+
         modelBuilder.Entity<LeaveRequest>(entity =>
         {
             entity.HasKey(e => e.LeaveRequestId).HasName("leave_request_pkey");
@@ -238,6 +255,43 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.Property(e => e.Type)
                 .HasColumnType("character varying")
                 .HasColumnName("type");
+        });
+
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasKey(e => e.NotificationId).HasName("notification_pkey");
+
+            entity.ToTable("notification");
+
+            entity.Property(e => e.NotificationId).HasColumnName("notification_id");
+            entity.Property(e => e.CatrgoryId).HasColumnName("catrgory_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+            entity.Property(e => e.IsRead)
+                .HasDefaultValueSql("false")
+                .HasColumnName("is_read");
+            entity.Property(e => e.Notification1)
+                .HasColumnType("character varying")
+                .HasColumnName("notification");
+            entity.Property(e => e.NotificationCategoryId).HasColumnName("notification_category_id");
+
+            entity.HasOne(d => d.NotificationCategory).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.NotificationCategoryId)
+                .HasConstraintName("notification_notification_category_id");
+        });
+
+        modelBuilder.Entity<NotificationCategory>(entity =>
+        {
+            entity.HasKey(e => e.NotificationCategoryId).HasName("notification_category_pkey");
+
+            entity.ToTable("notification_category");
+
+            entity.Property(e => e.NotificationCategoryId).HasColumnName("notification_category_id");
+            entity.Property(e => e.Category)
+                .HasColumnType("character varying")
+                .HasColumnName("category");
         });
 
         modelBuilder.Entity<Reason>(entity =>
