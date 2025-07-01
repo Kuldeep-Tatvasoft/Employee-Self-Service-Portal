@@ -8,4 +8,6 @@ public class NotificationHub : Hub
     {
         await Clients.AllExcept(connectionId).SendAsync("ReceiveNotification", message);
     }
+
+    
 }

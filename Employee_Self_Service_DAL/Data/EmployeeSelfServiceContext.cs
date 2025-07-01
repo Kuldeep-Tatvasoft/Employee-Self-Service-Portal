@@ -30,6 +30,8 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<NotificationCategory> NotificationCategories { get; set; }
 
+    public virtual DbSet<NotificationMapping> NotificationMappings { get; set; }
+
     public virtual DbSet<Reason> Reasons { get; set; }
 
     public virtual DbSet<RequestStatus> RequestStatuses { get; set; }
@@ -264,7 +266,7 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.ToTable("notification");
 
             entity.Property(e => e.NotificationId).HasColumnName("notification_id");
-            entity.Property(e => e.CatrgoryId).HasColumnName("catrgory_id");
+            entity.Property(e => e.CategoryId).HasColumnName("category_id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
@@ -292,6 +294,30 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.Property(e => e.Category)
                 .HasColumnType("character varying")
                 .HasColumnName("category");
+        });
+
+        modelBuilder.Entity<NotificationMapping>(entity =>
+        {
+            entity.HasKey(e => e.NotificationMappingId).HasName("notification_mapping_pkey");
+
+            entity.ToTable("notification_mapping");
+
+            entity.Property(e => e.NotificationMappingId).HasColumnName("notification_mapping_id");
+            entity.Property(e => e.NotificationId).HasColumnName("notification_id");
+            entity.Property(e => e.RoleId).HasColumnName("role_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Notification).WithMany(p => p.NotificationMappings)
+                .HasForeignKey(d => d.NotificationId)
+                .HasConstraintName("notification_mapping_notification_id_fkey");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.NotificationMappings)
+                .HasForeignKey(d => d.RoleId)
+                .HasConstraintName("notification_mapping_role_id_fkey");
+
+            entity.HasOne(d => d.User).WithMany(p => p.NotificationMappings)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("notification_mapping_employee_id_fkey");
         });
 
         modelBuilder.Entity<Reason>(entity =>

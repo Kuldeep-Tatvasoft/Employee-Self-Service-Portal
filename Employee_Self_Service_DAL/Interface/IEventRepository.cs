@@ -13,6 +13,5 @@ public interface IEventRepository
     Task<Event> GetEventDetails(long eventId);
     // Task<List<Document>> GetEventDocuments(long eventId);
     Task<ResponseViewModel> EditEvent(Event update,List<IFormFile> Documents);
-    Task<List<NotificationViewModel>> GetNotifications();
-    Task<bool> MarkRead(long notificationId);
+    
 }

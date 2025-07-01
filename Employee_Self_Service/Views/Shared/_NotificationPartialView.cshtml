@@ -27,17 +27,23 @@
 }
 
 <script>
+    
+    
     $(".read-icon").on('click', function (e) {
         e.stopPropagation();
         
         $.ajax({
-            url: '/Event/MarkRead',
+            url: '/Notification/MarkRead',
             type: 'POST',
             data: {
                 'notificationId': $(this).data("notificationid")
             },
             success: (response) => {
-                NotificationDropdown()
+                if(!response.success){
+                    alert('Error in read mark');
+                }
+                NotificationDropdown();
+                updateNotificationCount();
             },
             error: (error) => {
                 alert('Error read mark notification. Please try again.');
@@ -47,5 +53,8 @@
 
     $(".read-icon").hover( function (e) {
         $(this).hasClass("bi-circle") ? $(this).addClass("bi-check-circle text-primary").removeClass("bi-circle") : $(this).removeClass("bi-check-circle text-primary").addClass("bi-circle");
-        });
+        });  
+    $(document).ready(function () {
+        updateNotificationCount();        
+    });  
 </script>

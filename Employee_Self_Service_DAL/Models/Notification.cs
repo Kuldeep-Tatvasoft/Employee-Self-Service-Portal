@@ -15,7 +15,9 @@ public partial class Notification
 
     public DateTime? CreatedAt { get; set; }
 
-    public int? CatrgoryId { get; set; }
+    public int? CategoryId { get; set; }
 
     public virtual NotificationCategory? NotificationCategory { get; set; }
+
+    public virtual ICollection<NotificationMapping> NotificationMappings { get; set; } = new List<NotificationMapping>();
 }

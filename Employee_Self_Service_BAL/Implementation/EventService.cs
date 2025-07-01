@@ -11,12 +11,12 @@ namespace Employee_Self_Service_BAL.Implementation;
 public class EventService : IEventService
 {
     private readonly IEventRepository _eventRepository;
-    
+
 
     public EventService(IEventRepository eventRepository)
     {
         _eventRepository = eventRepository;
-       
+
     }
 
     public async Task<EventPaginationViewModel> GetEventData(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string eventFromDate, string eventToDate, string eventCategory)
@@ -40,29 +40,29 @@ public class EventService : IEventService
     {
         try
         {
-           Event newEvent = new Event
-           {
+            Event newEvent = new Event
+            {
                 Name = model.EventName,
                 Description = model.EventDescription,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
                 CategoryId = model.CategoryId
-           };
+            };
 
-           
-           
+
+
             ResponseViewModel response = await _eventRepository.AddEvent(newEvent, model.Documents);
 
             return response;
         }
-        catch(Exception ex)
-        {   
+        catch (Exception ex)
+        {
             return new ResponseViewModel
             {
                 success = false,
                 message = "Failed to add event:" + ex.Message
             };
-        }   
+        }
     }
 
     public async Task<ResponseViewModel> AddNotification(string notification)
@@ -71,34 +71,39 @@ public class EventService : IEventService
         {
             Notification1 = notification,
             NotificationCategoryId = 1,
-            
-        };
 
-        ResponseViewModel response =  await _eventRepository.AddNotification(addNotification);
+        };
+        //  var RoleId = 2;
+
+        // var user = await 
+
+        
+        
+        ResponseViewModel response = await _eventRepository.AddNotification(addNotification);
         return response;
     }
 
     public async Task<AddEventViewModel> EventDetails(long eventId)
     {
-       
-            Event eventDetails = await _eventRepository.GetEventDetails(eventId);
-            if(eventDetails == null)
-            {
-                return null;
-            }
-            AddEventViewModel model = new AddEventViewModel
-            {
-                EventId = eventDetails.EventId,
-                EventName = eventDetails.Name,
-                EventDescription = eventDetails.Description,
-                StartDate = (DateOnly)eventDetails.StartDate,
-                EndDate = (DateOnly)eventDetails.EndDate,
-                CategoryId = (int)eventDetails.CategoryId,
-                EventDocuments = (List<Document>)eventDetails.Documents,
-                Documents = new List<IFormFile>()
-            };
-            return model;
-        
+
+        Event eventDetails = await _eventRepository.GetEventDetails(eventId);
+        if (eventDetails == null)
+        {
+            return null;
+        }
+        AddEventViewModel model = new AddEventViewModel
+        {
+            EventId = eventDetails.EventId,
+            EventName = eventDetails.Name,
+            EventDescription = eventDetails.Description,
+            StartDate = (DateOnly)eventDetails.StartDate,
+            EndDate = (DateOnly)eventDetails.EndDate,
+            CategoryId = (int)eventDetails.CategoryId,
+            EventDocuments = (List<Document>)eventDetails.Documents,
+            Documents = new List<IFormFile>()
+        };
+        return model;
+
     }
 
     public async Task<ResponseViewModel> EditEvent(AddEventViewModel model)
@@ -116,7 +121,7 @@ public class EventService : IEventService
             ResponseViewModel response = await _eventRepository.EditEvent(update, model.Documents);
             return response;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return new ResponseViewModel
             {
@@ -162,17 +167,5 @@ public class EventService : IEventService
                 message = "Event Failed to Deleted:" + ex.Message
             };
         }
-
     }
-
-    public async Task<List<NotificationViewModel>> GetNotifications()
-    {
-        return await _eventRepository.GetNotifications(); 
-    }
-
-    public async Task<bool> MarkRead(long notificationId)
-    {
-        return await _eventRepository.MarkRead(notificationId);
-    }
-
 }

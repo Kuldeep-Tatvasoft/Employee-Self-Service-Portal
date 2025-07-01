@@ -23,6 +23,8 @@ public class EmployeeRepository : IEmployeeRepository
     {
         return _context.Employees.Include(u => u.Role).FirstOrDefault(u => u.EmployeeId == employeeId);
     }
+
+    
     
     public async Task<ResponseViewModel> RegisterEmployee(Employee employee)
     {

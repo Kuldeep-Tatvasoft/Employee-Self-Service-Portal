@@ -9,4 +9,6 @@ public class NotificationViewModel
     public bool? IsRead { get; set; }
     public string NotificationCategory { get; set;}
     public int CategoryId {get; set;}
+    public int NotificationCategoryId { get; set;}
+    
 }

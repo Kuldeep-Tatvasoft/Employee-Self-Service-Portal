@@ -13,6 +13,7 @@ public class EventRepository : IEventRepository
 {
     private readonly EmployeeSelfServiceContext _context;
 
+
     public EventRepository(EmployeeSelfServiceContext context)
     {
         _context = context;
@@ -142,9 +143,25 @@ public class EventRepository : IEventRepository
 
     public async Task<ResponseViewModel> AddNotification (Notification addNotification)
     {   try{
-        addNotification.CatrgoryId = (int?)((await _context.Events.OrderByDescending(e => e.EventId).FirstOrDefaultAsync())?.EventId);
+        addNotification.CategoryId = (int?)((await _context.Events.OrderByDescending(e => e.EventId).FirstOrDefaultAsync())?.EventId);
         await _context.AddAsync(addNotification);
+        await _context.SaveChangesAsync(); 
+
+        
+        List<Employee> employee = await _context.Employees.Include(u => u.Role).Where(u => u.RoleId == 2).ToListAsync();
+        foreach (var user in employee)
+        {
+                
+        NotificationMapping mapping = new NotificationMapping
+        {
+            NotificationId = addNotification.NotificationId,
+            UserId = user.EmployeeId
+        };
+        await _context.AddAsync(mapping);
         await _context.SaveChangesAsync();
+        }
+        
+
         return new ResponseViewModel
         {
             success = true
@@ -240,28 +257,83 @@ public class EventRepository : IEventRepository
         }
     }
 
-    public async Task<List<NotificationViewModel>> GetNotifications()
-    {
-        return await _context.Notifications
-            .Include(c => c.NotificationCategory)
-            .Where(n => n.IsRead == false)
-            .OrderByDescending(n => n.CreatedAt)
-            .Select(n => new NotificationViewModel
-            {   
-                NotificationId = n.NotificationId,
-                Message = n.Notification1,
-                NotificationCategory = n.NotificationCategory.Category,
-                CategoryId = (int)n.CatrgoryId
-            }).ToListAsync();
-    }
+    // public async Task<List<NotificationViewModel>> GetNotifications()
+    // {   
 
-    public async Task<bool> MarkRead(long notificationId)
-    {
-        var notification = await _context.Notifications.FindAsync(notificationId);
+    //     return await _context.Notifications
+    //         .Include(c => c.NotificationCategory)
+    //         .Where(n => n.IsRead == false)
+    //         .OrderByDescending(n => n.CreatedAt)
+    //         .Select(n => new NotificationViewModel
+    //         {   
+    //             NotificationCategoryId = (int)n.NotificationCategoryId,
+    //             NotificationId = n.NotificationId,
+    //             Message = n.Notification1,
+    //             NotificationCategory = n.NotificationCategory.Category,
+    //             CategoryId = (int)n.CatrgoryId,
+                
+    //         }).ToListAsync();
+    // }
 
-        notification.IsRead = true;
-        _context.Notifications.Update(notification);
-        await _context.SaveChangesAsync();
-        return true;
-    }
+    
+    // public async Task<List<NotificationViewModel>> GetNotifications()
+    // {   
+
+    //     return await _context.Notifications
+    //         .Include(c => c.NotificationCategory)
+    //         .Where(n => n.IsRead == false)
+    //         .OrderByDescending(g => g.CreatedAt)
+    //         .GroupBy(n => n.NotificationCategoryId)
+            
+    //         .Select(g => new NotificationViewModel
+    //         {   
+    //             NotificationCategoryId = (int)g.Key,
+
+    //             // NotificationCategoryId = (int).NotificationCategoryId,
+    //             NotificationId = g.Select(n => n.NotificationId).FirstOrDefault(),
+    //             Message = g.Select(n => n.Notification1).FirstOrDefault(),
+    //             NotificationCategory =g.Select(n => n.NotificationCategory.Category).FirstOrDefault() ,
+    //             CategoryId = (int)g.Select(n => n.CatrgoryId).FirstOrDefault(),
+                
+                
+    //         })
+            
+    //         .ToListAsync();
+    // }
+    
+    // public async Task<List<NotificationGroupViewModel>> GetGroupedNotifications()
+    // {
+    //     var groupedNotifications = await _context.Notifications
+    //         .Include(c => c.NotificationCategory)
+    //         .Where(n => n.IsRead == false)
+    //         .GroupBy(n => n.NotificationCategoryId)
+    //         .Select(group => new NotificationGroupViewModel
+    //         {
+    //             NotificationCategoryId = (int)group.Key,
+    //             NotificationCategoryName = group.FirstOrDefault().NotificationCategory.Category,
+    //             Notifications = group.OrderByDescending(n => n.CreatedAt)
+    //                                  .Select(n => new NotificationViewModel
+    //                                  {
+    //                                      NotificationId = n.NotificationId,
+    //                                      Message = n.Notification1,
+    //                                     //  CreatedAt = n.CreatedAt
+    //                                  }).ToList()
+    //         }).ToListAsync();
+
+    //     return groupedNotifications;
+    // }
+
+
+    // public async Task<List<Notification>> GetNotifications()
+    // {   
+        
+    //     return await _context.Notifications
+    //         .Include(c => c.NotificationCategory)
+    //         .Where(n => n.IsRead == false)
+    //         .OrderByDescending(n => n.CreatedAt)
+    //         .ToListAsync();
+            
+    // }
+
+    
 }

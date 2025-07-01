@@ -1,9 +1,11 @@
 using System.Security.Claims;
 using Employee_Self_Service.Authorization;
+using Employee_Self_Service.Hubs;
 using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Employee_Self_Service.Controllers;
 
@@ -12,12 +14,14 @@ public class LeaveController : Controller
     private readonly ILeaveService _leaveService;
     private readonly IProfileService _profileService;
     private readonly IJwtService _jwtService;
+    private readonly IHubContext<NotificationHub> _hubContext;
 
-    public LeaveController(ILeaveService leaveService,IProfileService profileService,IJwtService jwtService)
+    public LeaveController(ILeaveService leaveService,IProfileService profileService,IJwtService jwtService,IHubContext<NotificationHub> hubContext)
     {
         _leaveService = leaveService;
         _profileService = profileService;
         _jwtService = jwtService;
+        _hubContext = hubContext;
     }
 
     #region Employee Side Leave 
@@ -56,30 +60,61 @@ public class LeaveController : Controller
 
     [HttpPost]
     public async Task<IActionResult> AddEditLeaveRequest(AddLeaveRequestViewModel model)
-    {
-        if(model.LeaveRequestId == 0){
-            ResponseViewModel response =  await _leaveService.AddRequest(model);
-            if (response.success)
-            {
-            TempData["successToastr"] = response.message;
-            }
-            else
-            {
-             TempData["errorToastr"] = response.message;
-            }
+    {   
+        ResponseViewModel response;
+        if (model.LeaveRequestId == 0)
+        {
+            response = await _leaveService.AddRequest(model);
         }
         else
         {
-            ResponseViewModel response = await _leaveService.EditRequest(model);
-            if (response.success)
-            {
-                TempData["successToastr"] = response.message;
-            }
-            else
-            {
-                TempData["errorToastr"] = response.message;
-            }
+            response = await _leaveService.EditRequest(model);
         }
+
+
+        
+        var connectionId = Request.Cookies["EmployeeId"];
+        
+        
+        string notificationMessage = $"Add leave Request: {model.profile.Name} leave starting on {model.StartDate:dd/MM/yyyy}";
+        // response = await _leaveService.AddNotification(notificationMessage);
+        // await _hubContext.Clients.User(model.).SendAsync("ReceiveNotification", notificationMessage);
+        // await _hubContext.Clients.AllExcept(connectionId).SendAsync("ReceiveNotification", notificationMessage);
+        
+
+        if (response.success)
+        {
+            TempData["successToastr"] = response.message;
+            
+        }
+        else
+        {
+            TempData["errorToastr"] = response.message;
+            
+        }
+        // if(model.LeaveRequestId == 0){
+        //     ResponseViewModel response =  await _leaveService.AddRequest(model);
+        //     if (response.success)
+        //     {
+        //     TempData["successToastr"] = response.message;
+        //     }
+        //     else
+        //     {
+        //      TempData["errorToastr"] = response.message;
+        //     }
+        // }
+        // else
+        // {
+        //     ResponseViewModel response = await _leaveService.EditRequest(model);
+        //     if (response.success)
+        //     {
+        //         TempData["successToastr"] = response.message;
+        //     }
+        //     else
+        //     {
+        //         TempData["errorToastr"] = response.message;
+        //     }
+        // }
         return RedirectToAction("LeaveRequest");
     }
 

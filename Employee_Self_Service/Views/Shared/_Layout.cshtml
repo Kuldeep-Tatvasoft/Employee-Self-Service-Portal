@@ -2,6 +2,8 @@
     string? userRole = Context.Request.Cookies["role"];
     var profileImage = Context.Request.Cookies["profileImage"];
     var username = Context.Request.Cookies["employeeName"];
+    var notification = TempData.Peek("Notification");
+    string? roleId = Context.Request.Cookies["roleId"];
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -75,12 +77,12 @@
                         aria-expanded="false">
                         <div class="d-flex align-items-center">
 
-                        <div id="" class="px-2 text-white">
+                        <div id="" class="px-2 text-white position-relative">
                             <i class="bi bi-bell fs-4"></i>
+                            <span id="notificationCount" class="position-absolute top-47 start-130 translate-middle badge rounded-pill bg-danger" style="display:none ;">0</span>
                         </div>
                     </div>
-                        @* <img src="@(!string.IsNullOrEmpty(profileImage) ? profileImage : "/images/Default_pfp.svg.png")"
-                            alt="" class="user-img rounded-circle"> *@
+        
                     </button >
                     
                     <ul class="dropdown-menu mt-2 rounded-0 notification " id="notificationContent">
@@ -265,6 +267,7 @@
     <script src="~/js/signalR.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script>
+        let roleId;
         $(document).ready(function () {
             const toggleSidebarButton = document.getElementById('toggleSidebar');
             const renderBody = document.querySelector('.sub');
@@ -288,10 +291,14 @@
 
         function NotificationDropdown(){
                     $.ajax({
-                        url: '/Event/GetNotifications',
+                        url: '/Notification/GetNotifications',
+                        data: {
+                            roleId: @roleId
+                        },
                         type: "GET",
                         success: function (data) {
                             $("#notificationContent").html(data);
+                            updateNotificationCount();
                         },
                         error: function () {
                             $("#notificationContent").html('<li>An error has occurred</li>');
@@ -303,6 +310,31 @@
             NotificationDropdown()            
         });
 
+        function updateNotificationCount() {
+            $.ajax({
+                url: '/Notification/GetNotificationCount',
+                type: "GET",
+                data:{
+                            roleId:@roleId
+                        },
+                success: function (count) {
+                    const notificationCountElement = $("#notificationCount");
+                    if (count > 0) {
+                        notificationCountElement.text(count).show();
+                    } else {
+                        notificationCountElement.hide();
+                    }
+                },
+                error: function () {
+                    console.error('Failed to fetch notification count');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            updateNotificationCount();
+            setInterval(updateNotificationCount, 60000); 
+        });
         
     </script>
     

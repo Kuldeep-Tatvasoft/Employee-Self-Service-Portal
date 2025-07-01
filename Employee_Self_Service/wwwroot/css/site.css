@@ -313,3 +313,8 @@ form i{
 .read-icon:hover{
   cursor: pointer;  
 }
+
+.btn .badge {
+  /* position: relative; */
+  top: 5px !important;
+}

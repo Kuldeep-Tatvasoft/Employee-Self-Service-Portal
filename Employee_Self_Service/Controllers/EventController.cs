@@ -57,9 +57,10 @@ public class EventController : Controller
 
 
         var role = Request.Cookies["role"];
-        var connectionId = HttpContext.Connection.Id;
-        // var connectionId = Request.Cookies["userId"];
-        // var role = Request.Cookies["role"];
+        var connectionId = Request.Cookies["EmployeeId"];
+        // var connectionId = long.Parse(employeeId);
+        // var connectionId = HttpContext.Connection.Id;
+        
        if (role == "HR")
         {
             string notificationMessage = $"New Event: {model.EventName} Added  starting on {model.StartDate.ToString("dd/MM/yyyy")}";
@@ -78,7 +79,6 @@ public class EventController : Controller
             return Json(new { success = false });
         }
     }
-
 
     [HttpGet]
     public async Task<IActionResult> EventDetails(long eventId)
@@ -100,17 +100,5 @@ public class EventController : Controller
             TempData["errorToastr"] = response.message;
         }
         return RedirectToAction("Events");
-    }
-
-    public async Task<IActionResult> GetNotifications()
-    {
-        var notifications = await _eventService.GetNotifications(); 
-        return PartialView("_NotificationPartialView", notifications);
-    }
-
-    public async Task<bool> MarkRead(long notificationId)
-    {
-        return await _eventService.MarkRead(notificationId);
-        
-    }
+    }    
 }

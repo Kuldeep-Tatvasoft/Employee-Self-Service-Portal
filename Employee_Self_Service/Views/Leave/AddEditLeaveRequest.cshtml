@@ -29,11 +29,11 @@
                 <!-- First Row -->
                 <label for="itemName" class="p-0 mb-1">Name</label>
                 <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@Model.Name" id="Name"
-                    value="@Model.profile.Name" disabled>
+                    value="@Model.profile.Name" readonly>
                 <!-- Second Row -->
                 <label for="itemName" class="p-0 mb-1 mt-3"> Reporting Person</label>
                 <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@Model.ReportingPerson"
-                    id="ReportingPerson" value="@Model.profile.ReportingPerson" disabled>
+                    id="ReportingPerson" value="@Model.profile.ReportingPerson" readonly>
                 <!-- Third Row -->
                 <label class="p-0 mb-1 mt-3"> Leave Reason*</label>
                 <select asp-for="@Model.ReasonId" class="form-select rounded-0 shadow-none border-2" id="reasonSelect">

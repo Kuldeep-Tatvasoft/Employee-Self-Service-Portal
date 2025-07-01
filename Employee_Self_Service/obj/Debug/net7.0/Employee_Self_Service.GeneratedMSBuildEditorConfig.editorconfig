@@ -9,11 +9,11 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Employee_Self_Service
 build_property.RootNamespace = Employee_Self_Service
-build_property.ProjectDir = D:\Employee Self Service Portal\Employee_Self_Service\
+build_property.ProjectDir = d:\Employee Self Service Portal\Employee_Self_Service\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Employee Self Service Portal\Employee_Self_Service
+build_property.MSBuildProjectDirectory = d:\Employee Self Service Portal\Employee_Self_Service
 build_property._RazorSourceGeneratorDebug = 
 
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Event/AddEditEvent.cshtml]
@@ -30,10 +30,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Event/_EventList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcX0V2ZW50TGlzdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Employee Self Service Portal/Employee_Self_Service/Views/Event/_NotificationPartialView.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcX05vdGlmaWNhdGlvblBhcnRpYWxWaWV3LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Home/Index.cshtml]
@@ -110,6 +106,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/_Login_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpbl9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/_NotificationPartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ob3RpZmljYXRpb25QYXJ0aWFsVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Employee Self Service Portal/Employee_Self_Service/Views/Shared/_TosterPartialView.cshtml]

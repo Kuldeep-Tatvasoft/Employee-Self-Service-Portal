@@ -70,15 +70,10 @@ public class LoginService : ILoginService
             var token = _jwtService.GenerateJwtToken(model.Email, 24, user.Role.Role1);
             httpContext.Response.Cookies.Append("token", token);
             httpContext.Response.Cookies.Append("role", user.Role.Role1);
+            httpContext.Response.Cookies.Append("roleId", user.RoleId?.ToString());
             httpContext.Response.Cookies.Append("profileImage", user.ProfileImage ?? "/images/Default_pfp.svg.png");
             httpContext.Response.Cookies.Append("employeeName", user.Name);
             httpContext.Response.Cookies.Append("EmployeeId", user.EmployeeId.ToString());
-
-        //     TempData["Image"] = Login.Image;
-        // var JsonObj = _roleAndPermission.SetJsonDataBaseOnRole(Login.RoleId);
-        // JsonObject userinfo = new(){
-        //     {"username", Login.UserName},{"image", Login.Image},{"userid", Login.UserId},{"role", Login.Role}
-        // };
             return new ResponseViewModel
             {   
                 success = true,

@@ -12,6 +12,6 @@ public interface IEventService
     Task<AddEventViewModel> EventDetails(long eventId);
     Task<ResponseViewModel> EditEvent(AddEventViewModel model);
     Task<ResponseViewModel> DeleteEvent(long eventId);
-    Task<List<NotificationViewModel>> GetNotifications();
-    Task<bool> MarkRead(long notificationId);
+    
+    // Task<List<NotificationGroupViewModel>> GetGroupedNotifications();
 }
