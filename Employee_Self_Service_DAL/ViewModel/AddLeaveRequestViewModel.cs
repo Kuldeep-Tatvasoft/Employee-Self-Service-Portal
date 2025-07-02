@@ -7,6 +7,7 @@ namespace Employee_Self_Service_DAL.ViewModel;
 public class AddLeaveRequestViewModel
 {   
     public int EmployeeId {get; set;}
+    public string EmployeeEmail {get; set;}
     public int LeaveRequestId { get; set; }
     public string Name { get; set; }
     public string ReportingPerson {get; set;}
@@ -49,5 +50,6 @@ public class AddLeaveRequestViewModel
     [Required (ErrorMessage = "Comment is Required")]
     public string Comment { get; set;}
     public int StatusId {get; set;}
-
+    public string LeaveStatus  { get; set; }
+    public string? ApprovedBy {get;set;}
 }

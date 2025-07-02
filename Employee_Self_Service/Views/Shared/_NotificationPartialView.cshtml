@@ -21,6 +21,15 @@
                     <span>@notification.Message</span>
                 </a>
             }
+            else if(notification.NotificationCategory == "Leave Request")
+            {
+                <a class="eventDetails d-flex align-items-center text-decoration-none text-black"  asp-action="ResponseLeaveRequest" asp-controller="Leave"
+                                asp-route-requestId="@notification.CategoryId" 
+                    >
+
+                    <span>@notification.Message</span>
+                </a>
+            }
             <a class=" pb-1 " ><i class="read-icon bi bi-circle" data-notificationid="@notification.NotificationId" ></i>
             </a>
         </div>

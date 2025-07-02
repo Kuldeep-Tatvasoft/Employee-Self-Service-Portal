@@ -73,11 +73,6 @@ public class EventService : IEventService
             NotificationCategoryId = 1,
 
         };
-        //  var RoleId = 2;
-
-        // var user = await 
-
-        
         
         ResponseViewModel response = await _eventRepository.AddNotification(addNotification);
         return response;

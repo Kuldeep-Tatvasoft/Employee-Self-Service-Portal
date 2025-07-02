@@ -5,6 +5,7 @@ using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Builder;
 
 namespace Employee_Self_Service_BAL.Implementation;
 
@@ -67,7 +68,7 @@ public class LoginService : ILoginService
                 option.Expires = DateTime.Now.AddHours(24);
                 httpContext.Response.Cookies.Append("email", model.Email, option);
             }
-            var token = _jwtService.GenerateJwtToken(model.Email, 24, user.Role.Role1);
+            var token = _jwtService.GenerateJwtToken(model.Email,user.EmployeeId,user.Name, 24, user.Role.Role1);
             httpContext.Response.Cookies.Append("token", token);
             httpContext.Response.Cookies.Append("role", user.Role.Role1);
             httpContext.Response.Cookies.Append("roleId", user.RoleId?.ToString());

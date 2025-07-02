@@ -5,6 +5,7 @@ using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.Data;
 using Employee_Self_Service_DAL.Implementation;
 using Employee_Self_Service_DAL.Interface;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,7 +30,9 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 // builder.Services.AddControllersWithViews();
+
 builder.Services.AddSignalR(); 
+builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
 
 var app = builder.Build();
 

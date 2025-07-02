@@ -129,9 +129,47 @@ public class LeaveRepository : ILeaveRepository
         }
     }
     
+    public async Task<ResponseViewModel> AddNotification (Notification addNotification)
+    {   try{
+        addNotification.CategoryId = (int?)((await _context.LeaveRequests.OrderByDescending(e => e.LeaveRequestId).FirstOrDefaultAsync())?.LeaveRequestId);
+        await _context.AddAsync(addNotification);
+        await _context.SaveChangesAsync(); 
+
+        
+        List<Employee> employee = await _context.Employees.Include(u => u.Role).Where(u => u.RoleId == 3).ToListAsync();
+        foreach (var user in employee)
+        {
+                
+        NotificationMapping mapping = new NotificationMapping
+        {
+            NotificationId = addNotification.NotificationId,
+            UserId = user.EmployeeId
+        };
+        await _context.AddAsync(mapping);
+        await _context.SaveChangesAsync();
+        }
+        
+
+        return new ResponseViewModel
+        {
+            success = true
+        };
+        }
+        catch(Exception ex)
+        {
+            return new ResponseViewModel{
+                success = false
+
+            };
+        }
+        
+    }
     public async Task<LeaveRequest> GetDetails(int requestId)
     {
         LeaveRequest? leaveRequest =  await _context.LeaveRequests.Include(u => u.ReasonNavigation)
+                                            .Include(u => u.Employee)
+                                            .Include(u => u.Status)
+                                            .Include(u => u.ApprovedByNavigation)
                                             .Include(u => u.StartLeaveTypeNavigation)
                                             .Include(u => u.EndLeaveTypeNavigation)
                                             .FirstOrDefaultAsync(u => u.LeaveRequestId == requestId);

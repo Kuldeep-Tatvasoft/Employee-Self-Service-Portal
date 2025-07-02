@@ -6326,11 +6326,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
+      "projectUniqueName": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
       "projectName": "Employee_Self_Service_BAL",
-      "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
+      "projectPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
       "packagesPath": "C:\\Users\\pca179\\.nuget\\packages\\",
-      "outputPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\obj\\",
+      "outputPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\obj\\",
       "projectStyle": "PackageReference",
       "centralPackageVersionsManagementEnabled": true,
       "configFilePaths": [

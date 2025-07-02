@@ -4,6 +4,7 @@ using System.Text;
 using Employee_Self_Service_BAL.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure.Internal;
 
 namespace Employee_Self_Service_BAL.Implementation;
 
@@ -20,7 +21,7 @@ public class JwtService : IJwtService
         _audience = configuration["Jwt:Audience"];
     }
 
-    public string GenerateJwtToken( string email,int timeToLive,  string role)
+    public string GenerateJwtToken(string email, int employeeId, string name, int timeToLive, string role)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_key); 
@@ -30,8 +31,9 @@ public class JwtService : IJwtService
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role, role),
-                
+                new Claim(ClaimTypes.NameIdentifier, employeeId.ToString()),
+                new Claim(ClaimTypes.Name, name),
+                new Claim(ClaimTypes.Role, role)
             }),
             Expires = DateTime.UtcNow.AddHours(timeToLive),
             Issuer = _issuer,

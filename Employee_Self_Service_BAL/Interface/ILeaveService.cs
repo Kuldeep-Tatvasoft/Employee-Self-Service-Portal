@@ -9,6 +9,7 @@ public interface ILeaveService
     Task<List<Reason>> GetReason();
     Task<List<LeaveType>> GetLeaveType();
     Task<ResponseViewModel> AddRequest(AddLeaveRequestViewModel model);
+    Task<ResponseViewModel> AddNotification(string notification);
     Task<AddLeaveRequestViewModel> GetEditDetails(int requestId);
     Task<ResponseViewModel> EditRequest(AddLeaveRequestViewModel model);
     Task<ResponseViewModel> DeleteLeaveRequest(int requestId);

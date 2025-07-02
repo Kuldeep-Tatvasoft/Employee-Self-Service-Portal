@@ -144,17 +144,17 @@
                     <label class="form-check-label">Adhoc Leave?</label>
                 </div>
                 <Form id="response" >
-                @if(Model.StartDate > DateOnly.FromDateTime(DateTime.Now)){
+                @if(Model.StartDate >= DateOnly.FromDateTime(DateTime.Now)){
                 <label for="itemName" class="p-0 mb-1 mt-3"> Comment</label>
                 <textarea class="form-control rounded-0 shadow-none border-2" rows="4" id = "comment"
                      aria-required="true" aria-invalid="false" asp-for="Comment"> </textarea>
                      <span asp-validation-for="Comment" class="text-danger"></span>
                 }
                 <div class="d-flex justify-content-start mt-4 gap-2 p-0">
-                    @if(Model.StartDate > DateOnly.FromDateTime(DateTime.Now)){
+                    @if(Model.StartDate >= DateOnly.FromDateTime(DateTime.Now)){
                     @if(Model.StatusId == 2){
                         
-                        <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId" value="5">Reject</button>
+                        <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId"  value="5">Reject</button>
                     }
                     else if(Model.StatusId == 5){
                         <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId"   value="2" >Approve</button>
@@ -193,6 +193,7 @@
                 url: '/Leave/ResponseLeaveRequest',
                 type: 'POST',
                 data: { 'requestId': $('.response').data("requestid"),
+
                         'statusId': statusId,
                         'approvedBy': @approvedBy,
                         'comment': comment,

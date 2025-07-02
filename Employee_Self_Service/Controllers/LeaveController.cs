@@ -16,9 +16,9 @@ public class LeaveController : Controller
     private readonly ILeaveService _leaveService;
     private readonly IProfileService _profileService;
     private readonly IJwtService _jwtService;
-    private readonly IHubContext _hubContext;
+    private readonly IHubContext<NotificationHub> _hubContext;
 
-    public LeaveController(ILeaveService leaveService,IProfileService profileService,IJwtService jwtService,IHubContext hubContext)
+    public LeaveController(ILeaveService leaveService,IProfileService profileService,IJwtService jwtService,IHubContext<NotificationHub> hubContext)
     {
         _leaveService = leaveService;
         _profileService = profileService;
@@ -73,57 +73,19 @@ public class LeaveController : Controller
             response = await _leaveService.EditRequest(model);
         }
 
-
-        
-        var connectionId = Request.Cookies["EmployeeId"];
-        var roleId = "3";
-
-        
-        
-        string notificationMessage = $"Add leave Request: {model.profile.Name} leave starting on {model.StartDate:dd/MM/yyyy}";
-        // response = await _leaveService.AddNotification(notificationMessage);
-        // await _hubContext.Clients.Group("Role_3").SendAsync("ReceiveNotification", notificationMessage);
-        // Removed invalid method call as SendNotificationToRole3 is not defined in IHubContext.
-        await _hubContext.Clients.Group("Role_3").SendAsync("ReceiveNotification", notificationMessage);
-        // Removed invalid method call as SendNotificationToRole3 is not defined in IHubContext<NotificationHub>.
-        // await _hubContext.Clients.User(roleId).SendAsync("ReceiveNotification", notificationMessage);
-        // await _hubContext.Clients.User(roleId).SendAsync("ReceiveNotification", notificationMessage);
-        // await _hubContext.Clients.AllExcept(connectionId).SendAsync("ReceiveNotification", notificationMessage);
-        
-
         if (response.success)
         {
+            string notificationMessage = $"Add leave Request: {model.profile.Name} leave starting on {model.StartDate:dd/MM/yyyy}";
+            response = await _leaveService.AddNotification(notificationMessage);
+            await _hubContext.Clients.Group("Role_3").SendAsync("ReceiveNotification", notificationMessage);
+
             TempData["successToastr"] = response.message;
-            
         }
         else
         {
             TempData["errorToastr"] = response.message;
-            
         }
-        // if(model.LeaveRequestId == 0){
-        //     ResponseViewModel response =  await _leaveService.AddRequest(model);
-        //     if (response.success)
-        //     {
-        //     TempData["successToastr"] = response.message;
-        //     }
-        //     else
-        //     {
-        //      TempData["errorToastr"] = response.message;
-        //     }
-        // }
-        // else
-        // {
-        //     ResponseViewModel response = await _leaveService.EditRequest(model);
-        //     if (response.success)
-        //     {
-        //         TempData["successToastr"] = response.message;
-        //     }
-        //     else
-        //     {
-        //         TempData["errorToastr"] = response.message;
-        //     }
-        // }
+
         return RedirectToAction("LeaveRequest");
     }
 
@@ -173,12 +135,12 @@ public class LeaveController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> ResponseLeaveRequest(int requestId, string email)
+    public async Task<IActionResult> ResponseLeaveRequest(int requestId)
     {
         AddLeaveRequestViewModel model = new AddLeaveRequestViewModel();
         model= await _leaveService.GetEditDetails(requestId);
         model.Reasons = await _leaveService.GetReason();
-        model.profile = await _profileService.GetUserDetails(email);
+        model.profile = await _profileService.GetUserDetails(model.EmployeeEmail);
     
         ViewBag.LeaveType = new SelectList(await _leaveService.GetLeaveType(), "TypeId", "Type");
         return View(model);
@@ -187,8 +149,30 @@ public class LeaveController : Controller
     [HttpPost]
     public async Task<IActionResult> ResponseLeaveRequest(int requestId, int statusId, int approvedBy, string comment)
     {
-        ResponseViewModel response = await _leaveService.ResponseLeaveRequest(requestId, statusId, approvedBy,comment);
-        if(response.success)
+        ResponseViewModel response = await _leaveService.ResponseLeaveRequest(requestId, statusId, approvedBy, comment);
+
+        var model = await _leaveService.GetEditDetails(requestId);
+
+        if (string.IsNullOrEmpty(model.EmployeeId.ToString()))
+        {
+            TempData["errorToastr"] = "EmployeeId is missing.";
+            return Json(new { success = false });
+        }
+
+        string notificationMessage = $"Your leave request has been {model.LeaveStatus} by {model.ApprovedBy}.";
+
+        try
+        {
+            await _hubContext.Clients.User(model.EmployeeId.ToString()).SendAsync("ReceiveNotification", notificationMessage);
+            
+            // await _hubContext.Clients.Group("employee_3").SendAsync("ReceiveNotification", notificationMessage);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error sending notification: {ex.Message}");
+        }
+
+        if (response.success)
         {
             TempData["successToastr"] = response.message;
             return Json(new { success = true });
@@ -196,9 +180,8 @@ public class LeaveController : Controller
         else
         {
             TempData["errorToastr"] = response.message;
-            return Json(new { success = false});
+            return Json(new { success = false });
         }
-
     }
     #endregion
 }

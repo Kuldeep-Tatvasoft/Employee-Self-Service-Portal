@@ -70,7 +70,7 @@ public class LoginController : Controller
             return RedirectToAction("ForgotPassword");
         }
 
-        var token = _jwtService.GenerateJwtToken(model.Email,1, " ");
+        var token = _jwtService.GenerateJwtToken(model.Email,user.EmployeeId,user.Name,1, " ");
         
         string resetLink = Url.Action("ResetPassword", "Login", new { token }, Request.Scheme);       
         var templatePath = Path.Combine(Directory.GetCurrentDirectory(), "EmailTemplates", "Mail.html");

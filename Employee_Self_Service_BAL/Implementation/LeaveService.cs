@@ -77,6 +77,19 @@ public class LeaveService : ILeaveService
         }
     }
 
+    public async Task<ResponseViewModel> AddNotification(string notification)
+    {
+        Notification addNotification = new Notification
+        {
+            Notification1 = notification,
+            NotificationCategoryId = 2,
+
+        };
+        
+        ResponseViewModel response = await _leaveRepository.AddNotification(addNotification);
+        return response;
+    }
+
     public async Task<AddLeaveRequestViewModel> GetEditDetails(int requestId)
     {
         LeaveRequest details = await _leaveRepository.GetDetails(requestId);
@@ -88,6 +101,7 @@ public class LeaveService : ILeaveService
         {
             LeaveRequestId = details.LeaveRequestId,
             EmployeeId = details.EmployeeId,
+            EmployeeEmail = details.Employee.Email,
             ReasonId = (int)details.Reason,
             ReasonName = details.ReasonNavigation.Reason1,
             ReasonDescription = details.ReasonDescription,
@@ -106,6 +120,8 @@ public class LeaveService : ILeaveService
             AdhocLeave = (bool)details.AdhocLeave,
             
             StatusId = (int)details.StatusId,
+            LeaveStatus = details.Status.Status,
+            ApprovedBy = details.ApprovedByNavigation.Name
         };
         
         return model;

@@ -3,14 +3,10 @@ $(document).ready(function () {
         .withUrl("/notificationHub")
         .build();
 
-    
     connection.on("ReceiveNotification", (message) => {
         console.log(message);
         toastr.success(message);
-        
-        $(document).ready( function () {
-            updateNotificationCount();
-        });
+        updateNotificationCount();
     });
 
     connection.start().catch(err => console.error(err.toString()));
