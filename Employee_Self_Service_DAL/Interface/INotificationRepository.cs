@@ -4,7 +4,7 @@ namespace Employee_Self_Service_DAL.Interface;
 
 public interface INotificationRepository
 {
-    Task<List<NotificationViewModel>> GetNotifications(long roleId);
-    Task<ResponseViewModel> MarkRead(long notificationId);
-    Task<int> GetUnreadNotificationCount(long roleId);
+    Task<List<NotificationViewModel>> GetNotifications(int employeeId);
+    Task<ResponseViewModel> MarkRead(int employeeId);
+    Task<int> GetUnreadNotificationCount(int employeeId);
 }

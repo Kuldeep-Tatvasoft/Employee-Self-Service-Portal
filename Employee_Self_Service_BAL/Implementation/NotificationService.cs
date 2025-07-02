@@ -14,19 +14,19 @@ public class NotificationService : INotificationService
        
     }
 
-    public async Task<List<NotificationViewModel>> GetNotifications(long roleId)
+    public async Task<List<NotificationViewModel>> GetNotifications(int employeeId)
     {
-        return await _notificationRepository.GetNotifications(roleId);
+        return await _notificationRepository.GetNotifications(employeeId);
     }
 
-    public async Task<ResponseViewModel> MarkRead(long notificationId)
+    public async Task<ResponseViewModel> MarkRead(int employeeId)
     {
-        return await _notificationRepository.MarkRead(notificationId);
+        return await _notificationRepository.MarkRead(employeeId);
     }
 
-    public async Task<int> GetNotificationCount(long roleId)
+    public async Task<int> GetNotificationCount(int employeeId)
     {
         
-        return await _notificationRepository.GetUnreadNotificationCount(roleId);
+        return await _notificationRepository.GetUnreadNotificationCount(employeeId);
     }
 }

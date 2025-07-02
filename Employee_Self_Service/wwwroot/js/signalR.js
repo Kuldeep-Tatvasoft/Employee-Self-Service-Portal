@@ -5,6 +5,7 @@ $(document).ready(function () {
 
     
     connection.on("ReceiveNotification", (message) => {
+        console.log(message);
         toastr.success(message);
         
         $(document).ready( function () {

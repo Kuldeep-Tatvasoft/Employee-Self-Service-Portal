@@ -13,6 +13,8 @@ public partial class NotificationMapping
 
     public int? UserId { get; set; }
 
+    public bool? ReadMark { get; set; }
+
     public virtual Notification? Notification { get; set; }
 
     public virtual Role? Role { get; set; }

@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using Employee_Self_Service.Authorization;
 using Employee_Self_Service.Hubs;
 using Employee_Self_Service_BAL.Interface;
@@ -6,6 +7,7 @@ using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Self_Service.Controllers;
 
@@ -14,9 +16,9 @@ public class LeaveController : Controller
     private readonly ILeaveService _leaveService;
     private readonly IProfileService _profileService;
     private readonly IJwtService _jwtService;
-    private readonly IHubContext<NotificationHub> _hubContext;
+    private readonly IHubContext _hubContext;
 
-    public LeaveController(ILeaveService leaveService,IProfileService profileService,IJwtService jwtService,IHubContext<NotificationHub> hubContext)
+    public LeaveController(ILeaveService leaveService,IProfileService profileService,IJwtService jwtService,IHubContext hubContext)
     {
         _leaveService = leaveService;
         _profileService = profileService;
@@ -74,11 +76,18 @@ public class LeaveController : Controller
 
         
         var connectionId = Request.Cookies["EmployeeId"];
+        var roleId = "3";
+
         
         
         string notificationMessage = $"Add leave Request: {model.profile.Name} leave starting on {model.StartDate:dd/MM/yyyy}";
         // response = await _leaveService.AddNotification(notificationMessage);
-        // await _hubContext.Clients.User(model.).SendAsync("ReceiveNotification", notificationMessage);
+        // await _hubContext.Clients.Group("Role_3").SendAsync("ReceiveNotification", notificationMessage);
+        // Removed invalid method call as SendNotificationToRole3 is not defined in IHubContext.
+        await _hubContext.Clients.Group("Role_3").SendAsync("ReceiveNotification", notificationMessage);
+        // Removed invalid method call as SendNotificationToRole3 is not defined in IHubContext<NotificationHub>.
+        // await _hubContext.Clients.User(roleId).SendAsync("ReceiveNotification", notificationMessage);
+        // await _hubContext.Clients.User(roleId).SendAsync("ReceiveNotification", notificationMessage);
         // await _hubContext.Clients.AllExcept(connectionId).SendAsync("ReceiveNotification", notificationMessage);
         
 

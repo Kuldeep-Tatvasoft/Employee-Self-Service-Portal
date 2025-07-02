@@ -4,7 +4,7 @@ namespace Employee_Self_Service_BAL.Interface;
 
 public interface INotificationService
 {
-    Task<List<NotificationViewModel>> GetNotifications(long roleId);
-    Task<ResponseViewModel> MarkRead(long notificationId);
-    Task<int> GetNotificationCount(long roleId);
+    Task<List<NotificationViewModel>> GetNotifications(int employeeId);
+    Task<ResponseViewModel> MarkRead(int employeeId);
+    Task<int> GetNotificationCount(int employeeId);
 }

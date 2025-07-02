@@ -1,5 +1,7 @@
 @model List<Employee_Self_Service_DAL.ViewModel.NotificationViewModel>
-
+@{
+    string? employeeId = Context.Request.Cookies["EmployeeId"];
+}
 <li class="d-flex align-items-center justify-content-between align-items-center fw-bold text-secondary p-2">
     <span>Notifications(@Model.Select(u => u.NotificationId).Count())</span>
     <button type="button" class="btn-close fs-6" data-bs-dismiss="dropdown" aria-label="Close"
@@ -28,7 +30,6 @@
 
 <script>
     
-    
     $(".read-icon").on('click', function (e) {
         e.stopPropagation();
         
@@ -36,7 +37,8 @@
             url: '/Notification/MarkRead',
             type: 'POST',
             data: {
-                'notificationId': $(this).data("notificationid")
+                employeeId : @employeeId,
+                @* 'notificationId': $(this).data("notificationid") *@
             },
             success: (response) => {
                 if(!response.success){
@@ -53,7 +55,8 @@
 
     $(".read-icon").hover( function (e) {
         $(this).hasClass("bi-circle") ? $(this).addClass("bi-check-circle text-primary").removeClass("bi-circle") : $(this).removeClass("bi-check-circle text-primary").addClass("bi-circle");
-        });  
+    }); 
+
     $(document).ready(function () {
         updateNotificationCount();        
     });  

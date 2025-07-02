@@ -304,6 +304,9 @@ public partial class EmployeeSelfServiceContext : DbContext
 
             entity.Property(e => e.NotificationMappingId).HasColumnName("notification_mapping_id");
             entity.Property(e => e.NotificationId).HasColumnName("notification_id");
+            entity.Property(e => e.ReadMark)
+                .HasDefaultValueSql("false")
+                .HasColumnName("read_mark");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 

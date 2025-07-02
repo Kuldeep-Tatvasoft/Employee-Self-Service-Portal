@@ -58,7 +58,6 @@ public class EventController : Controller
 
         var role = Request.Cookies["role"];
         var connectionId = Request.Cookies["EmployeeId"];
-        // var connectionId = long.Parse(employeeId);
         // var connectionId = HttpContext.Connection.Id;
         
        if (role == "HR")

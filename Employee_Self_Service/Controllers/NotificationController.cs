@@ -14,18 +14,17 @@ public class NotificationController : Controller
         _notificationService = notificationService;
     }
 
-    // var role = Request.Cookies["role"];
     [HttpGet]
-    public async Task<IActionResult> GetNotifications(long roleId)
+    public async Task<IActionResult> GetNotifications(int employeeId)
     {   
         
-        var notifications = await _notificationService.GetNotifications(roleId); 
+        var notifications = await _notificationService.GetNotifications(employeeId); 
        
         return PartialView("_NotificationPartialView", notifications);
     }
-    public async Task<IActionResult> MarkRead(long notificationId)
+    public async Task<IActionResult> MarkRead(int employeeId)
     {
-        ResponseViewModel response =  await _notificationService.MarkRead(notificationId);
+        ResponseViewModel response =  await _notificationService.MarkRead(employeeId);
         if (response.success)
         {
             return Json(new { success = true });
@@ -36,9 +35,9 @@ public class NotificationController : Controller
         }
     }
 
-    public async Task<IActionResult> GetNotificationCount(long roleId)
+    public async Task<IActionResult> GetNotificationCount(int employeeId)
     {
-        var count = await _notificationService.GetNotificationCount(roleId);
+        var count = await _notificationService.GetNotificationCount(employeeId);
         return Json(count);
     }
 }

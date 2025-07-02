@@ -4,6 +4,7 @@
     var username = Context.Request.Cookies["employeeName"];
     var notification = TempData.Peek("Notification");
     string? roleId = Context.Request.Cookies["roleId"];
+    string? employeeId = Context.Request.Cookies["EmployeeId"];
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -268,6 +269,7 @@
     @await RenderSectionAsync("Scripts", required: false)
     <script>
         let roleId;
+        let employeeId;
         $(document).ready(function () {
             const toggleSidebarButton = document.getElementById('toggleSidebar');
             const renderBody = document.querySelector('.sub');
@@ -293,7 +295,8 @@
                     $.ajax({
                         url: '/Notification/GetNotifications',
                         data: {
-                            roleId: @roleId
+                            @* roleId: @roleId *@
+                            employeeId: @employeeId
                         },
                         type: "GET",
                         success: function (data) {
@@ -315,7 +318,8 @@
                 url: '/Notification/GetNotificationCount',
                 type: "GET",
                 data:{
-                            roleId:@roleId
+                            @* roleId:@roleId *@
+                            employeeId: @employeeId
                         },
                 success: function (count) {
                     const notificationCountElement = $("#notificationCount");

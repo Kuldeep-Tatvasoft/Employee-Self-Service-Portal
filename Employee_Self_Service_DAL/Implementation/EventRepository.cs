@@ -161,17 +161,16 @@ public class EventRepository : IEventRepository
         await _context.SaveChangesAsync();
         }
         
-
         return new ResponseViewModel
         {
             success = true
         };
         }
+
         catch(Exception ex)
         {
             return new ResponseViewModel{
                 success = false
-
             };
         }
         

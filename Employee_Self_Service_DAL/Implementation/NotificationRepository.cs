@@ -16,14 +16,14 @@ public class NotificationRepository : INotificationRepository
 
     
 
-    public async Task<List<NotificationViewModel>> GetNotifications(long roleId)
+    public async Task<List<NotificationViewModel>> GetNotifications(int employeeId)
     {   
         
         return await _context.NotificationMappings
             .Include(n => n.Notification)
             .Include(n => n.Role)
             .Include(n => n.User)
-            .Where(n => n.Notification.IsRead == false && n.RoleId == roleId)
+            .Where(n => n.ReadMark == false && n.UserId == employeeId)
             .OrderByDescending(n => n.Notification.CreatedAt)
             .Select(n => new NotificationViewModel
             {   
@@ -36,12 +36,12 @@ public class NotificationRepository : INotificationRepository
             }).ToListAsync();
     }
 
-    public async Task<ResponseViewModel> MarkRead(long notificationId)
+    public async Task<ResponseViewModel> MarkRead(int employeeId)
     {   try{
-        var notification = await _context.Notifications.FindAsync(notificationId);
+        var notification = await _context.NotificationMappings.Where(u => u.UserId == employeeId).FirstOrDefaultAsync();
 
-        notification.IsRead = true;
-        _context.Notifications.Update(notification);
+        notification.ReadMark = true;
+        _context.NotificationMappings.Update(notification);
         await _context.SaveChangesAsync();
         return new ResponseViewModel{
             success = true
@@ -55,9 +55,9 @@ public class NotificationRepository : INotificationRepository
         
     }
 
-    public async Task<int> GetUnreadNotificationCount(long roleId)
+    public async Task<int> GetUnreadNotificationCount(int employeeId)
     {   
         
-        return await _context.NotificationMappings.Include(n => n.Notification).CountAsync(n => n.Notification.IsRead == false && n.RoleId == roleId);
+        return await _context.NotificationMappings.Include(n => n.Notification).CountAsync(n => n.ReadMark == false && n.UserId == employeeId);
     }
 }
