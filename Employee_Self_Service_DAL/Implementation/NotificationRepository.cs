@@ -36,9 +36,9 @@ public class NotificationRepository : INotificationRepository
             }).ToListAsync();
     }
 
-    public async Task<ResponseViewModel> MarkRead(int employeeId)
+    public async Task<ResponseViewModel> MarkRead(int employeeId,long notificationId)
     {   try{
-        var notification = await _context.NotificationMappings.Where(u => u.UserId == employeeId).FirstOrDefaultAsync();
+        var notification = await _context.NotificationMappings.Include(u => u.Notification).Where(u => u.UserId == employeeId && u.NotificationId == notificationId && u.ReadMark == false ).FirstOrDefaultAsync();
 
         notification.ReadMark = true;
         _context.NotificationMappings.Update(notification);
@@ -57,7 +57,6 @@ public class NotificationRepository : INotificationRepository
 
     public async Task<int> GetUnreadNotificationCount(int employeeId)
     {   
-        
         return await _context.NotificationMappings.Include(n => n.Notification).CountAsync(n => n.ReadMark == false && n.UserId == employeeId);
     }
 }

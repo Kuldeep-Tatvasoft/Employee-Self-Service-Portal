@@ -19,18 +19,21 @@ public class EventController : Controller
         _eventService = eventService;
     }
 
-    [CustomAuthorize("HR")]
+    // [CustomAuthorize("HR")]
+
     public IActionResult Events()
     {
         return View();
     }
 
+    // [HttpGet]
     public async Task<IActionResult> GetEventList(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string eventFromDate, string eventToDate, string eventCategory)
     {
         var model = await _eventService.GetEventData(pageSize, pageNumber, searchQuery, sortColumn, sortDirection, eventFromDate, eventToDate, eventCategory);
         return PartialView("_EventList", model);
     }
 
+    // [HttpGet]
     public async Task<IActionResult> AddEditEvent(long eventId)
     {
         AddEventViewModel model = new AddEventViewModel();
@@ -55,21 +58,13 @@ public class EventController : Controller
             response = await _eventService.EditEvent(model);
         }
 
-
         var role = Request.Cookies["role"];
-        // var connectionId = Request.Cookies["EmployeeId"];
-        // var connectionId = long.Parse(employeeId);
-        var connectionId = HttpContext.Connection.Id;
-        
-       if (role == "HR")
+        if (role == "HR" && response.success)
         {
             string notificationMessage = $"New Event: {model.EventName} Added  starting on {model.StartDate.ToString("dd/MM/yyyy")}";
             response = await _eventService.AddNotification(notificationMessage);
-            await _hubContext.Clients.AllExcept(connectionId).SendAsync("ReceiveNotification", notificationMessage);
-        }
+            await _hubContext.Clients.Group("Role_2").SendAsync("ReceiveNotification", notificationMessage);
 
-        if (response.success)
-        {
             TempData["successToastr"] = response.message;
             return Json(new { success = true });
         }
@@ -100,5 +95,5 @@ public class EventController : Controller
             TempData["errorToastr"] = response.message;
         }
         return RedirectToAction("Events");
-    }    
+    }
 }

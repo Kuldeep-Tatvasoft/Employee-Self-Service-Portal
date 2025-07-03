@@ -17,14 +17,12 @@ public class NotificationController : Controller
     [HttpGet]
     public async Task<IActionResult> GetNotifications(int employeeId)
     {   
-        
         var notifications = await _notificationService.GetNotifications(employeeId); 
-       
         return PartialView("_NotificationPartialView", notifications);
     }
-    public async Task<IActionResult> MarkRead(int employeeId)
+    public async Task<IActionResult> MarkRead(int employeeId, long notificationId)
     {
-        ResponseViewModel response =  await _notificationService.MarkRead(employeeId);
+        ResponseViewModel response =  await _notificationService.MarkRead(employeeId,notificationId);
         if (response.success)
         {
             return Json(new { success = true });

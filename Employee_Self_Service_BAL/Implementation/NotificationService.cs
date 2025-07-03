@@ -19,9 +19,9 @@ public class NotificationService : INotificationService
         return await _notificationRepository.GetNotifications(employeeId);
     }
 
-    public async Task<ResponseViewModel> MarkRead(int employeeId)
+    public async Task<ResponseViewModel> MarkRead(int employeeId,long notificationId)
     {
-        return await _notificationRepository.MarkRead(employeeId);
+        return await _notificationRepository.MarkRead(employeeId,notificationId);
     }
 
     public async Task<int> GetNotificationCount(int employeeId)

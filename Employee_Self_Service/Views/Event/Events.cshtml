@@ -1,6 +1,7 @@
 @{
     Layout = "_Layout";
 }
+
 <div class="container-fluid ">
     <div class="row  p-0 justify-content-sm-between orders col ">
         <div class="d-flex flex-column py-4 px-1">
@@ -9,8 +10,10 @@
                     <h4 class=" d-flex align-content-center m-0">Events</h4>
                 </div>
 
-                <a href="/Event/AddEditEvent" class="btn btn-primary d-flex text-decoration-none text-white align-items-center gap-2 bg-"><i class="bi bi-plus-square-fill "></i><span
-                                                    class="icon-name fw-bold d-flex justify-content-center ">Add Event</span></a>
+                <a href="/Event/AddEditEvent"
+                    class="btn btn-primary d-flex text-decoration-none text-white align-items-center gap-2 bg-"><i
+                        class="bi bi-plus-square-fill "></i><span
+                        class="icon-name fw-bold d-flex justify-content-center ">Add Event</span></a>
             </div>
             <hr class="dropdown-divider">
         </div>
@@ -30,17 +33,16 @@
                 <div class="col-md-6 col-12 col-xl-3 col-lg-6 col-xl-2 ">
                     <label for="itemName" class=" mb-1 ">Category</label>
                     <select class="form-select  rounded-0 " id="eventCategory">
-                        <option value="0"selected>All </option>
+                        <option value="0" selected>All </option>
                         <option value="1">Social Service</option>
-                        <option value="2" >Games</option>
+                        <option value="2">Games</option>
                         <option value="3">Patriotism</option>
                         <option value="4">Educational</option>
                     </select>
                 </div>
 
                 <div class="d-flex align-items-end  col-12 col-xl-3 col-lg-6 col-xl-2 mt-3 ">
-                    <a class="btn btn-primary rounded-0  px-4" style="background-color:#0066a7"
-                        id="searchEvents">
+                    <a class="btn btn-primary rounded-0  px-4" style="background-color:#0066a7" id="searchEvents">
                         Search
                     </a>
                     <a class="btn cancle_btn clear rounded-0 ms-2 px-4 border-primary text-primary fw-semibold">
@@ -53,7 +55,8 @@
             <div class=" d-flex ">
                 <input type="text" class="search form-control border-end-0 rounded-0 outline:none" id="eventSearchInput"
                     aria-label="Amount (to the nearest dollar)" oninput="EventPaginationAjax(1)">
-                <span onclick="clearSearch()" class="input-group-text bg-white rounded-0 border-start-0"><i class="bi bi-search"></i></span>
+                <span onclick="clearSearch()" class="input-group-text bg-white rounded-0 border-start-0"><i
+                        class="bi bi-search"></i></span>
             </div>
         </div>
 
@@ -62,6 +65,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="modal fade " id="deleteEventModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered text-secondary">
@@ -87,11 +91,10 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 <script>
     let sortColumn = '';
     let sortDirection = 'asc';
-    let employeeId;
+
 
     $(document).ready(function () {
         EventPaginationAjax(1);
@@ -121,7 +124,7 @@
                 eventFromDate: eventFromDate,
                 eventToDate: eventToDate,
                 eventCategory: eventCategory
-               
+
             },
             type: "GET",
             dataType: "html",
@@ -150,40 +153,40 @@
     });
 
 
-    @* function changePageSize(size) {
-        $("#leaveRequestPageSize").val(size);
-        EventPaginationAjax(1);
-    } *@
+
 
     function clearSearch() {
         $('#searchInput').val('');
         EventPaginationAjax(1);
     }
 
-    $(document).ready(function () {
-        @* var today = new Date().toISOString().split("T")[0]; *@
-        @* $("#eventFromDate, #eventToDate").attr("min", today); *@
 
-        $("#eventFromDate").on("change", function () {
-            var eventFromDate = $(this).val();
-            $("#eventToDate").attr("min", eventFromDate);
-        });
+    
+$(document).ready(function () {
 
-        $("#eventToDate").on("change", function () {
-            var eventToDate = $(this).val();
-            $("#eventFromDate").attr("max", eventToDate);
-        });
-    });
+$("#eventFromDate").on("change", function () {
+var eventFromDate = $(this).val();
+$("#eventToDate").attr("min", eventFromDate);
+});
 
-    $(document).on("click", ".cancle_btn", function () {
-        $("#eventFromDate").val("");
-        $("#eventToDate").val("");
-       
-    })
+$("#eventToDate").on("change", function () {
+var eventToDate = $(this).val();
+$("#eventFromDate").attr("max", eventToDate);
+});
+});
 
-    /* -------------------------------------------------------------------------------------Delete Event Script --------------------------------------------------------*/
-    $(document).on("click", ".deleteEventBtn", function () {
-        let eventId = $(this).data("id");
-        $('#EventId').val(eventId);
-    });
+$(document).on("click", ".cancle_btn", function () {
+$("#eventFromDate").val("");
+$("#eventToDate").val("");
+
+})
+
+/* -------------------------------------------------------------------------------------Delete Event Script
+--------------------------------------------------------*/
+$(document).on("click", ".deleteEventBtn", function () {
+let eventId = $(this).data("id");
+$('#EventId').val(eventId);
+});
 </script>
+
+

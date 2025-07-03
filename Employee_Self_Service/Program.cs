@@ -8,6 +8,7 @@ using Employee_Self_Service_DAL.Interface;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 var  connectionstring = builder.Configuration.GetConnectionString("DefaultConnnection");
@@ -29,10 +30,9 @@ builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-// builder.Services.AddControllersWithViews();
-
 builder.Services.AddSignalR(); 
 builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
+// builder.Services.AddScoped<ExcelExportService>();
 
 var app = builder.Build();
 
@@ -56,5 +56,4 @@ app.MapControllerRoute(
     pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.MapHub<NotificationHub>("/notificationHub");
-// app.MapHub<NotificationHub>("/notificationHub");
 app.Run();

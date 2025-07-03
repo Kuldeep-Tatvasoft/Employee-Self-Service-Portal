@@ -51,5 +51,5 @@ public class AddLeaveRequestViewModel
     public string Comment { get; set;}
     public int StatusId {get; set;}
     public string LeaveStatus  { get; set; }
-    public string? ApprovedBy {get;set;}
+    public string ApprovedBy {get;set;}
 }

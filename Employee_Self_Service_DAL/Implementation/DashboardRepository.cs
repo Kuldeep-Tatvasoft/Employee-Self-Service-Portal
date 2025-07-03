@@ -44,7 +44,7 @@ public class DashboardRepository : IDashboardRepository
         List<LeaveRequestDetailsViewModel>? onLeave = await _context.LeaveRequests
                                                     .Include(l => l.Employee)
                                                     .Include(l => l.Status)
-                                                    .Where(l => !l.IsDeleted && l.StartDate <= today  && l.StatusId == 2)
+                                                    .Where(l => !l.IsDeleted && l.StartDate >= today  && l.StatusId == 2)
                                                     .Select(l => new LeaveRequestDetailsViewModel 
                                                     {   
                                                        

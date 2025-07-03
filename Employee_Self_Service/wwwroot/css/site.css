@@ -209,9 +209,9 @@ form i{
   margin-left: 200px !important;
 }
 
-.leave{
+/* .leave{
   overflow-y: scroll; 
-}
+} */
 
 /* Leave Table Css */
 .approved
@@ -306,6 +306,13 @@ form i{
 }
 
 /* Notification Css */
+#notificationContent{
+  overflow: auto;
+}
+
+/* .notificationEventDetails{
+  cursor: pointer;
+} */
 .notification{
   min-width: 20rem !important;
 }

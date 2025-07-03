@@ -203,19 +203,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if (userRole == "HR")
-                                {
-                                    <div class="accordion-item border-0">
-                                        <li class="Dashboard list-active d-flex align-items-center gap-2 p-3 ms-1">
+                                   <div class="accordion-item border-0">
+                                     @if (userRole == "HR")
+                                { 
+                                 
+                                        <li class="list-active d-flex align-items-center gap-2 p-3 ms-1">
                                             <div class="d-flex align-items-center gap-2">
+
                                                 <a href="/Event/Events"
                                                     class="d-flex text-decoration-none text-dark align-items-center gap-2">
                                                     <i class="bi bi-calendar-event"></i><span
                                                         class="icon-name fw-bold d-flex justify-content-center">Event</span></a>
                                             </div>
                                         </li>
-                                    </div>
                                 }
+                                    </div>
                             </div>
                         </ul>
                     </nav>

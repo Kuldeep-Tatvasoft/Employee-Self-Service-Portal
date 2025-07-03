@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageVersion Include="EPPlus" Version="7.0.7" />
     <PackageVersion Include="Microsoft.AspNetCore.DataProtection" Version="7.0.20" />
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
     <PackageVersion Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />

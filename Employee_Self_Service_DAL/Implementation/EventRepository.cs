@@ -119,6 +119,7 @@ public class EventRepository : IEventRepository
             
             document.Documents = $"/uploads/events/{fileName}";
             document.EventId = newEvent.EventId;
+            document.IsActive = true;
             await _context.Documents.AddAsync(document);
             await _context.SaveChangesAsync();
             }

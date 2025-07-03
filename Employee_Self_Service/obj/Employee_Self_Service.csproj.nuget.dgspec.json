@@ -83,6 +83,7 @@
           },
           "centralPackageVersions": {
             "BCrypt.Net-Next": "[4.0.3, )",
+            "EPPlus": "[7.0.7, )",
             "Microsoft.AspNetCore.DataProtection": "[7.0.20, )",
             "Microsoft.AspNetCore.Http": "[2.3.0, )",
             "Microsoft.AspNetCore.SignalR": "[1.2.0, )",
@@ -179,6 +180,7 @@
           },
           "centralPackageVersions": {
             "BCrypt.Net-Next": "[4.0.3, )",
+            "EPPlus": "[7.0.7, )",
             "Microsoft.AspNetCore.DataProtection": "[7.0.20, )",
             "Microsoft.AspNetCore.Http": "[2.3.0, )",
             "Microsoft.AspNetCore.SignalR": "[1.2.0, )",
@@ -245,6 +247,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[7.0.7, )",
+              "versionCentrallyManaged": true
+            },
             "Microsoft.AspNetCore.DataProtection": {
               "target": "Package",
               "version": "[7.0.20, )",
@@ -285,6 +292,7 @@
           },
           "centralPackageVersions": {
             "BCrypt.Net-Next": "[4.0.3, )",
+            "EPPlus": "[7.0.7, )",
             "Microsoft.AspNetCore.DataProtection": "[7.0.20, )",
             "Microsoft.AspNetCore.Http": "[2.3.0, )",
             "Microsoft.AspNetCore.SignalR": "[1.2.0, )",

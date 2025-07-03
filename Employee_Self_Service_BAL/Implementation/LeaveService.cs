@@ -90,6 +90,9 @@ public class LeaveService : ILeaveService
         return response;
     }
 
+    
+
+
     public async Task<AddLeaveRequestViewModel> GetEditDetails(int requestId)
     {
         LeaveRequest details = await _leaveRepository.GetDetails(requestId);
@@ -121,7 +124,7 @@ public class LeaveService : ILeaveService
             
             StatusId = (int)details.StatusId,
             LeaveStatus = details.Status.Status,
-            ApprovedBy = details.ApprovedByNavigation.Name
+            ApprovedBy = details.ApprovedByNavigation?.Name
         };
         
         return model;
@@ -227,6 +230,8 @@ public class LeaveService : ILeaveService
                 request.ApprovedBy = approvedBy;
                 request.Comment = comment;
             }
+
+            
             ResponseViewModel response = await _leaveRepository.EditRequest(request);
             if(response.success)
             {
@@ -251,5 +256,18 @@ public class LeaveService : ILeaveService
             };
         }
     } 
+
+    public async Task<ResponseViewModel> AddResponseNotification(string notification,int employeeId)
+    {
+        Notification addNotification = new Notification
+        {
+            Notification1 = notification,
+            NotificationCategoryId = 3,
+
+        };
+        
+        ResponseViewModel response = await _leaveRepository.AddResponseNotification(addNotification,employeeId);
+        return response;
+    }
     #endregion   
 }
