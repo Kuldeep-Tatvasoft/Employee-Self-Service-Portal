@@ -33,7 +33,7 @@
                 <div class="col-md-6 col-12 col-xl-3 col-lg-6 col-xl-2 ">
                     <label for="itemName" class=" mb-1 ">Category</label>
                     <select class="form-select  rounded-0 " id="eventCategory">
-                        <option value="0" selected>All </option>
+                        <option value="0" selected>All</option>
                         <option value="1">Social Service</option>
                         <option value="2">Games</option>
                         <option value="3">Patriotism</option>
@@ -47,6 +47,14 @@
                     </a>
                     <a class="btn cancle_btn clear rounded-0 ms-2 px-4 border-primary text-primary fw-semibold">
                         Reset
+                    </a>
+                </div>
+
+                <div class="col-md-auto col-12 justify-content-center justify-content-md-end">
+                    <a class="btn w-auto my-1 my-lg-0 ms-1 d-flex align-items-center justify-content-center text-white"
+                        id="exportEventBtn" style="background-color:#0066a7">
+                        <i class="fa-solid fa-share-from-square me-2"></i>
+                        Export
                     </a>
                 </div>
             </div>
@@ -161,32 +169,79 @@
     }
 
 
-    
-$(document).ready(function () {
 
-$("#eventFromDate").on("change", function () {
-var eventFromDate = $(this).val();
-$("#eventToDate").attr("min", eventFromDate);
-});
+    $(document).ready(function () {
 
-$("#eventToDate").on("change", function () {
-var eventToDate = $(this).val();
-$("#eventFromDate").attr("max", eventToDate);
-});
-});
+        $("#eventFromDate").on("change", function () {
+            var eventFromDate = $(this).val();
+            $("#eventToDate").attr("min", eventFromDate);
+        });
 
-$(document).on("click", ".cancle_btn", function () {
-$("#eventFromDate").val("");
-$("#eventToDate").val("");
+        $("#eventToDate").on("change", function () {
+            var eventToDate = $(this).val();
+            $("#eventFromDate").attr("max", eventToDate);
+        });
+    });
 
-})
+    $(document).on("click", ".cancle_btn", function () {
+        $("#eventFromDate").val("");
+        $("#eventToDate").val("");
 
-/* -------------------------------------------------------------------------------------Delete Event Script
---------------------------------------------------------*/
-$(document).on("click", ".deleteEventBtn", function () {
-let eventId = $(this).data("id");
-$('#EventId').val(eventId);
-});
+    })
+
+    /* -------------------------------------------------------------------------------------Delete Event Script
+    --------------------------------------------------------*/
+    $(document).on("click", ".deleteEventBtn", function () {
+        let eventId = $(this).data("id");
+        $('#EventId').val(eventId);
+    });
+
+
+    $('#exportEventBtn').on('click', function () {
+        let pageNumber =1;
+        let pageSize = $("#eventPageSize").val();
+        if (pageSize == 0 || pageSize == null) pageSize = 3;
+        if (pageNumber === 0) pageNumber = 1;
+        var searchQuery = $('#eventSearchInput').val() || '';
+        let eventFromDate = $('#eventFromDate').val();
+        let eventToDate = $('#eventToDate').val();
+        let eventCategory = $('#eventCategory').find('option:selected').text();
+        $.ajax({
+            url: "/Event/ExportExcelOfEvent",
+            data: {
+                pageSize: pageSize,
+                pageNumber: pageNumber,
+                searchQuery: searchQuery,
+                eventFromDate: eventFromDate,
+                eventToDate: eventToDate,
+                eventCategory: eventCategory                
+            },
+            xhrFields: {
+                responseType: 'blob'
+            },
+            type: "POST",
+            success: function (data) {
+                
+                let blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+               
+                var isIE = false || !!document.documentMode;
+                if (isIE) {
+                    window.navigator.msSaveBlob(blob, "EventList.xlsx");
+                } else {
+                    var url = window.URL || window.webkitURL;
+                    link = url.createObjectURL(blob);
+                    var a = $("<a />");
+                    a.attr("download", "EventList.xlsx");
+                    a.attr("href", link);
+                    $("body").append(a);
+                    a[0].click();
+                    $("body").remove(a);
+                }
+
+            },
+            error: function () {
+
+            }
+        });
+    });
 </script>
-
-

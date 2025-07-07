@@ -1,25 +1,20 @@
 @model Employee_Self_Service_DAL.ViewModel.AddEventViewModel
 <div class="modal-header ">
-        <div class=" d-flex justify-content-between align-items-center">
-            <div>
-                
-                <h4 class=" d-flex align-content-center m-0">@Model.EventName</h4>
-            </div>
+    <div class=" d-flex justify-content-between align-items-center">
+        <div>
+            <h4 class=" d-flex align-content-center m-0">@Model.EventName</h4>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="addItemModelCancel"></button>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="addItemModelCancel"></button>
 </div>
 
 <div class="modal-body">
     <div class="row ">
         <div class="card shadow-sm">
             <div class="card-body">
-                
-                    <div>
-                        <h2 class="fs-5 fw-bold mb-3">Event Summary </h2>
-                    </div>
-                    
-                
-                
+                <div>
+                    <h2 class="fs-5 fw-bold mb-3">Event Summary </h2>
+                </div>
                 <div class="d-flex flex-lg-row flex-column gap-lg-3 gap-1">
                     @Model.EventDescription
                 </div>
@@ -27,30 +22,26 @@
         </div>
         <div class="row col-lg-9 col-12 mt-3">
             <table class="table col table-bordered  ms-4 ">
-                
+
                 <tr>
                     <th>Documents:</th>
                     <td>
-                       
-                            @foreach (var document in Model.EventDocuments)
-                            {   
-                                <a href="@document.Documents" target="_blank" class="text-decoration-none">
-                                    @if(document.Documents.Split('.').Last() != "pdf")
-                                    {
-                                        <img src="@( document.Documents )" 
-                                        alt="User Avatar" class=" profile-image" width="20" />
-                                    }
-                                    else{
-                                        <i class="fa-regular fa-file-pdf"></i>
-                                    }
-                                     @document.Documents.Split('_').Last()
-                                </a><br />
-                            }
-                        
+                        @foreach (var document in Model.EventDocuments)
+                        {
+                            <a href="@document.Documents" target="_blank" class="text-decoration-none">
+                                @if (document.Documents.Split('.').Last() != "pdf")
+                                {
+                                    <img src="@( document.Documents )" alt="" class="profile-image" width="20" />
+                                }
+                                else
+                                {
+                                    <i class="fa-regular fa-file-pdf"></i>
+                                }
+                                @document.Documents.Split('_').Last()
+                            </a>
+                            <br />
+                        }
                     </td>
-                </tr>
-                
-                
                 </tr>
             </table>
         </div>

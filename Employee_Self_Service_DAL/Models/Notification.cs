@@ -11,8 +11,6 @@ public partial class Notification
 
     public int? NotificationCategoryId { get; set; }
 
-    public bool? IsRead { get; set; }
-
     public DateTime? CreatedAt { get; set; }
 
     public int? CategoryId { get; set; }

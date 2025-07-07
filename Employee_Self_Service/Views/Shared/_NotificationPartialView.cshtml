@@ -53,7 +53,7 @@
             type: 'POST',
             data: {
                 employeeId: @employeeId,
-                'notificationId': $(this).data("notificationid")
+                notificationId: $(this).data("notificationid")
             },
             success: (response) => {
                 if (!response.success) {

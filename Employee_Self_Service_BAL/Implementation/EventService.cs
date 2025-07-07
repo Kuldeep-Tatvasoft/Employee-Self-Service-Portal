@@ -163,4 +163,9 @@ public class EventService : IEventService
             };
         }
     }
+
+    public async Task<byte[]> GetEventDataToExport(int pageSize, int pageNumber, string searchQuery,string eventFromDate, string eventToDate, string eventCategory)
+    {
+        return await _eventRepository.GetEventDataToExport(pageSize, pageNumber, searchQuery, eventFromDate, eventToDate, eventCategory);
+    }
 }

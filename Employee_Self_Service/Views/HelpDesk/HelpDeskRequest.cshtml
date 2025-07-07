@@ -1,0 +1,63 @@
+<div class="container-fluid ">
+    <div class="row  p-0 justify-content-sm-between orders col ">
+        <div class="d-flex flex-column py-3 px-1">
+            <div class="px-1 d-flex justify-content-between align-items-center">
+                <div>
+                    <h6>Helpdesk</h6>
+                    <h4 class=" d-flex align-content-center m-0">Self Requests</h4>
+                </div>
+
+                <a href="/HelpDesk/AddEditHelpdeskRequest" class="text-dark"><i class="bi bi-plus-square-fill fs-2"></i></a>
+
+
+            </div>
+            <hr class="dropdown-divider">
+        </div>
+
+        <div class="d-flex flex-column flex-xl-row gap-2 justify-content-start align-content-end mb-3">
+            <div class="row col ">
+                <div class="ticketSelection  px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-6 col-xl-2  col-12">
+                    <label for="itemName" class=" mb-1">Ticket #</label>
+                    <input type="text" class=" form-control rounded-0 shadow-none border-2" id="leaveSearchInput" oninput="LeaveRequestPaginationAjax(1)">
+                    
+                </div>
+                
+                <div class="groupSelection re px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-6 col-xl-2 ">
+                    <label for="itemName" class=" mb-1 ">Group</label>
+                    <select class="form-select  rounded-0 border-2 shadow-none" id="leaveRequestGroup">
+                        <option  value="0" selected>All</option>
+                        <option value="1">Networking</option>
+    
+                    </select>
+                </div>
+
+                <div class="statusSelection re px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-6 col-xl-2 ">
+                    <label for="itemName" class=" mb-1 ">Status</label>
+                    <select class="form-select  rounded-0 border-2" id="leaveRequestStatus">
+                        <option value="0">All</option>
+                        <option value="1">Acknowledged</option>
+                        <option value="2">Approved</option>
+                        <option value="3">Cancel</option>
+                        <option value="4" >Closed</option>
+                        <option value="5" >Hold</option>
+                        <option value="6" selected>Pending</option>
+                        <option value="7">Rejected</option>
+                    </select>
+                </div>
+
+                <div class="d-flex align-items-end  col-12 col-xl-3 col-lg-6 col-xl-2 mt-3 ">
+                    <a class="btn btn-primary rounded-0  px-4" style="background-color:#0066a7" id="searchSelfLeaveRequest">
+                        Search
+                    </a>
+                    <a class="btn cancle_btn clear rounded-0 ms-2 px-4 border-primary text-primary fw-semibold">
+                        Reset
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="leaveRequestTableList" class="table_container">
+
+        </div>
+    </div>
+</div>

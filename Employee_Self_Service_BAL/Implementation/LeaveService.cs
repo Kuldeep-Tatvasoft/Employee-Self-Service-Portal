@@ -231,7 +231,6 @@ public class LeaveService : ILeaveService
                 request.Comment = comment;
             }
 
-            
             ResponseViewModel response = await _leaveRepository.EditRequest(request);
             if(response.success)
             {
@@ -268,6 +267,16 @@ public class LeaveService : ILeaveService
         
         ResponseViewModel response = await _leaveRepository.AddResponseNotification(addNotification,employeeId);
         return response;
+    }
+    
+    public async Task<byte[]> GetLeaveDataToExport(int pageSize, int pageNumber, string search, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
+    {
+        return await _leaveRepository.GetLeaveRequestToExcel(pageSize, pageNumber, search, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
+    }
+
+    public async Task<byte[]> GetResponseDataToExport(int pageSize, int pageNumber, string search, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
+    {
+        return await _leaveRepository.GetResponseDataToExport(pageSize, pageNumber, search, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
     }
     #endregion   
 }

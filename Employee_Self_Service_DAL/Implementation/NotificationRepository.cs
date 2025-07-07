@@ -21,7 +21,6 @@ public class NotificationRepository : INotificationRepository
         
         return await _context.NotificationMappings
             .Include(n => n.Notification)
-            .Include(n => n.Role)
             .Include(n => n.User)
             .Where(n => n.ReadMark == false && n.UserId == employeeId)
             .OrderByDescending(n => n.Notification.CreatedAt)

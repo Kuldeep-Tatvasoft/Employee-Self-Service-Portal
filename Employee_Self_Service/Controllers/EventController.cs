@@ -19,7 +19,7 @@ public class EventController : Controller
         _eventService = eventService;
     }
 
-    // [CustomAuthorize("HR")]
+    [CustomAuthorize("HR")]
 
     public IActionResult Events()
     {
@@ -95,5 +95,11 @@ public class EventController : Controller
             TempData["errorToastr"] = response.message;
         }
         return RedirectToAction("Events");
+    }
+
+    public async Task<IActionResult> ExportExcelOfEvent(int pageSize, int pageNumber, string searchQuery,string eventFromDate, string eventToDate, string eventCategory)
+    {
+        var fileContent = await _eventService.GetEventDataToExport(pageSize, pageNumber, searchQuery, eventFromDate, eventToDate, eventCategory);
+        return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LeaveRequest.xlsx");
     }
 }

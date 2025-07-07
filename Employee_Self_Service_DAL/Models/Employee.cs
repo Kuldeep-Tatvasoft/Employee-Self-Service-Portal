@@ -41,6 +41,8 @@ public partial class Employee
 
     public string? AnyDiseases { get; set; }
 
+    public virtual ICollection<HelpdeskRequest> HelpdeskRequests { get; set; } = new List<HelpdeskRequest>();
+
     public virtual ICollection<LeaveRequest> LeaveRequestApprovedByNavigations { get; set; } = new List<LeaveRequest>();
 
     public virtual ICollection<LeaveRequest> LeaveRequestEmployees { get; set; } = new List<LeaveRequest>();
@@ -48,4 +50,6 @@ public partial class Employee
     public virtual ICollection<NotificationMapping> NotificationMappings { get; set; } = new List<NotificationMapping>();
 
     public virtual Role? Role { get; set; }
+
+    public virtual ICollection<StatusHistory> StatusHistories { get; set; } = new List<StatusHistory>();
 }

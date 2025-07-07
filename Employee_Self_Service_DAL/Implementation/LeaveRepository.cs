@@ -99,13 +99,14 @@ public class LeaveRepository : ILeaveRepository
         return model;
     }
 
-    public async Task<byte []> GetLeaveRequestToExcel (int employeeId)
+    public async Task<byte []> GetLeaveRequestToExcel (int pageSize, int pageNumber, string searchQuery,string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
     {
 
         var query = _context.LeaveRequests
                     .Include(l => l.Status)
                     .Where(l => !l.IsDeleted && l.EmployeeId == employeeId)
-                    .Select(l => new LeaveRequestDetailsViewModel
+                    .OrderBy(l => l.LeaveRequestId)
+                    .Select(l => new LeaveExcelViewModel
                     {
                         LeaveRequestId = l.LeaveRequestId,
                         StartDate = (DateOnly)l.StartDate,
@@ -115,89 +116,83 @@ public class LeaveRepository : ILeaveRepository
                         ReturnDate = (DateOnly)l.ReturnDate,
                         ApprovedDate = l.ApprovedAt.HasValue ? DateOnly.FromDateTime(l.ApprovedAt.Value).ToString("yyyy-MM-dd") : string.Empty,
                         ApprovedBy = l.ApprovedByNavigation.Name,
-                        AvailableOnPhone = (bool)l.AvailableOnPhone,
                         StatusId = (int)l.StatusId,
                         Status = l.Status.Status,
-                        ReasonName = l.ReasonNavigation.Reason1,
-                        AdhocLeave = (bool)l.AdhocLeave,
-                        Date = DateOnly.FromDateTime(l.CreatedAt.Value)
+                        ReasonName = l.ReasonNavigation.Reason1
                     });
-
-        // if (!string.IsNullOrEmpty(searchQuery))
-        // {
-        //     searchQuery = searchQuery.ToLower();
-        //     query = query.Where(c => c.ActualDuration.ToString().Contains(searchQuery)
-        //                             || c.ReasonName.ToLower().Contains(searchQuery));
-        // }
-
-        // if (!string.IsNullOrEmpty(leaveRequestFromDate))
-        // {
-        //     DateOnly fromDate = DateOnly.Parse(leaveRequestFromDate);
-        //     query = query.Where(x => x.StartDate >= fromDate);
-        // }
-
-        // if (!string.IsNullOrEmpty(leaveRequestToDate))
-        // {
-        //     DateOnly toDate = DateOnly.Parse(leaveRequestToDate);
-        //     query = query.Where(x => x.StartDate <= toDate);
-        // }
-
-        // if (!string.IsNullOrEmpty(leaveRequestStatus) && !leaveRequestStatus.Equals("1"))
-        // {
-        //     if (int.TryParse(leaveRequestStatus, out int statusId))
-        //     {
-        //         query = query.Where(x => x.StatusId == statusId);
-        //     }
-        // }
-
-        // query = sortColumn switch
-        // {
-        //     "StartDate" => sortDirection == "asc" ? query.OrderBy(x => x.StartDate) : query.OrderByDescending(x => x.StartDate),
-        //     "EndDate" => sortDirection == "asc" ? query.OrderBy(x => x.EndDate) : query.OrderByDescending(x => x.EndDate),
-        //     "ActualDuration" => sortDirection == "asc" ? query.OrderBy(x => x.ActualDuration) : query.OrderByDescending(x => x.ActualDuration),
-        //     "TotalDuration" => sortDirection == "asc" ? query.OrderBy(x => x.TotalDuration) : query.OrderByDescending(x => x.TotalDuration),
-        //     "ReturnDate" => sortDirection == "asc" ? query.OrderBy(x => x.ReturnDate) : query.OrderByDescending(x => x.ReturnDate),
-        //     "AvailableOnPhone" => sortDirection == "asc" ? query.OrderBy(x => x.AvailableOnPhone) : query.OrderByDescending(x => x.AvailableOnPhone),
-        //     "ApprovedDate" => sortDirection == "asc" ? query.OrderBy(x => x.ApprovedDate) : query.OrderByDescending(x => x.ApprovedDate),
-        //     "ApprovedBy" => sortDirection == "asc" ? query.OrderBy(x => x.ApprovedBy) : query.OrderByDescending(x => x.ApprovedBy),
-        //     "Status" => sortDirection == "asc" ? query.OrderBy(x => x.Status) : query.OrderByDescending(x => x.Status),
-        //     "AdhocLeave" => sortDirection == "asc" ? query.OrderBy(x => x.AdhocLeave) : query.OrderByDescending(x => x.AdhocLeave),
-        //     _ => query.OrderBy(x => x.LeaveRequestId)
-        // };
-
-        // var totalRecords = await query.CountAsync();
-
-        // var list = await query
-        //             .Skip((pageNumber - 1) * pageSize)
-        //             .Take(pageSize)
-        //             .ToListAsync();
-
-        // LeaveRequestPaginationViewModel model = new()
-        // {
-        //     Page = new(),
-        //     RequestList = list
-        // };
-        // model.Page.SetPagination(totalRecords, pageSize, pageNumber);
-
         
-        List<LeaveRequestDetailsViewModel> model = await query.ToListAsync();
+        
+        if (!string.IsNullOrEmpty(searchQuery))
+        {
+            searchQuery = searchQuery.ToLower();
+            query = query.Where(c => c.ActualDuration.ToString().Contains(searchQuery)
+                                    || c.ReasonName.ToLower().Contains(searchQuery));
+        }
+
+        if (!string.IsNullOrEmpty(leaveRequestFromDate))
+        {
+            DateOnly fromDate = DateOnly.Parse(leaveRequestFromDate);
+            query = query.Where(x => x.StartDate >= fromDate);
+        }
+
+        if (!string.IsNullOrEmpty(leaveRequestToDate))
+        {
+            DateOnly toDate = DateOnly.Parse(leaveRequestToDate);
+            query = query.Where(x => x.StartDate <= toDate);
+        }
+
+        if (!string.IsNullOrEmpty(leaveRequestStatus) && !leaveRequestStatus.Equals("All"))
+        {
+            
+            query = query.Where(x => x.Status == leaveRequestStatus);
+            
+        }
+
+        var list = await query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    
+                    .ToListAsync();
+       
+        var exportData = list.Select(l => new
+        {
+            l.LeaveRequestId,
+            l.StartDate,
+            l.EndDate,
+            l.ReasonName,
+            l.ReturnDate,
+            l.ActualDuration,
+            l.TotalDuration,
+            l.ApprovedDate,
+            l.ApprovedBy,
+            l.StatusId,
+            l.Status       
+        }).ToList();
+
+        List<LeaveExcelViewModel> model = list;
         var columnMappings = new Dictionary<string, string>
             {
                 { "LeaveRequestId", "Request ID" },
-                { "EmployeeId", "Employee ID" },
-                { "EmployeeEmail", "Email" },
                 { "StartDate", "Start Date" },
-                { "LeaveStatus", "Status" },
-                { "ApprovedBy", "Approved By" }
+                { "EndDate", "End Date" },
+                { "ReasonName", "Reason Name" },
+                { "ReturnDate", "Return Date" },
+                { "ActualDuration", "Actual Duration" },
+                { "TotalDuration", "Total Duration" },
+                { "ApprovedDate", "Approved Date" },
+                { "ApprovedBy", "Approved By" },
+                { "Status", "Status" }
             };
-        // return model;
-         var excelExporter = new Excel.ExportExcel();
-         return excelExporter.ExportToExcel(model, "LeaveRequests", columnMappings);
+        
+        var excelExporter = new Excel.ExportExcel();
+        return excelExporter.ExportToExcel(exportData, "LeaveRequest",string.IsNullOrEmpty(leaveRequestStatus) ? "All" : leaveRequestStatus,searchQuery, columnMappings);
     }
+
+
 
     public async Task<List<Reason>> GetReason()
     {
-        return _context.Reasons.ToList();
+        return await _context.Reasons.ToListAsync();
     }
 
     public async Task<List<LeaveType>> GetLeaveType()
@@ -406,5 +401,81 @@ public class LeaveRepository : ILeaveRepository
         return model;
     }
 
+    public async Task<byte []> GetResponseDataToExport (int pageSize, int pageNumber, string searchQuery,string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
+    {
+
+        var query = _context.LeaveRequests
+                    .Include(l => l.Status)
+                    .Where(l => !l.IsDeleted && l.EmployeeId != employeeId)
+                    .OrderBy(l => l.LeaveRequestId)
+                    .Select(l => new LeaveExcelViewModel
+                    {
+                        LeaveRequestId = l.LeaveRequestId,
+                        EmployeeName = l.Employee.Name,
+                        StartDate = (DateOnly)l.StartDate,
+                        EndDate = (DateOnly)l.EndDate,
+                        ActualDuration = (decimal)l.ActualLeaveDuration,
+                        TotalDuration = (decimal)l.TotalLeaveDuration,
+                        ReturnDate = (DateOnly)l.ReturnDate,
+                        ApprovedDate = l.ApprovedAt.HasValue ? DateOnly.FromDateTime(l.ApprovedAt.Value).ToString("yyyy-MM-dd") : string.Empty,
+                        ApprovedBy = l.ApprovedByNavigation.Name,
+                        StatusId = (int)l.StatusId,
+                        Status = l.Status.Status,
+                        ReasonName = l.ReasonNavigation.Reason1
+                    });
+        
+        
+        if (!string.IsNullOrEmpty(searchQuery))
+        {
+            searchQuery = searchQuery.ToLower();
+            query = query.Where(c => c.ActualDuration.ToString().Contains(searchQuery)
+                                    || c.ReasonName.ToLower().Contains(searchQuery));
+        }
+
+        if (!string.IsNullOrEmpty(leaveRequestFromDate))
+        {
+            DateOnly fromDate = DateOnly.Parse(leaveRequestFromDate);
+            query = query.Where(x => x.StartDate >= fromDate);
+        }
+
+        if (!string.IsNullOrEmpty(leaveRequestToDate))
+        {
+            DateOnly toDate = DateOnly.Parse(leaveRequestToDate);
+            query = query.Where(x => x.StartDate <= toDate);
+        }
+
+        if (!string.IsNullOrEmpty(leaveRequestStatus) && !leaveRequestStatus.Equals("All"))
+        {
+            
+            query = query.Where(x => x.Status == leaveRequestStatus);
+            
+        }
+
+        var list = await query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    
+                    .ToListAsync();
+        
+
+        List<LeaveExcelViewModel> model = list;
+        var columnMappings = new Dictionary<string, string>
+            {
+                { "LeaveRequestId", "Request ID" },
+                { "EmployeeName", "Employee Name" },
+                { "StartDate", "Start Date" },
+                { "EndDate", "End Date" },
+                { "ReasonName", "Reason Name" },
+                { "ReturnDate", "Return Date" },
+                { "ActualDuration", "Actual Duration" },
+                { "TotalDuration", "Total Duration" },
+                { "ApprovedDate", "Approved Date" },
+                { "ApprovedBy", "Approved By" },
+                { "Status", "Status" }
+            };
+        // return model;
+         var excelExporter = new Excel.ExportExcel();
+         return excelExporter.ExportToExcel(list, "LeaveRequest",string.IsNullOrEmpty(leaveRequestStatus) ? "All" : leaveRequestStatus,searchQuery, columnMappings);
+    }
 
 }

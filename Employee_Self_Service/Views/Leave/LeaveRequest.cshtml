@@ -37,7 +37,7 @@
                 <div class="col-md-6 col-12 col-xl-3 col-lg-6 col-xl-2 ">
                     <label for="itemName" class=" mb-1 ">Status</label>
                     <select class="form-select  rounded-0 " id="leaveRequestStatus">
-                        <option value="1">All </option>
+                        <option value="1">All</option>
                         <option value="2">Approved</option>
                         <option value="3" selected>Pending</option>
                         <option value="4">Cancelled</option>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-md-auto col-12 justify-content-center justify-content-md-end">
                     <a class="btn w-auto my-1 my-lg-0 ms-1 d-flex align-items-center justify-content-center text-white"
-                        id="exportOrderBtn" style="background-color:#0066a7">
+                        id="exportLeaveBtn" style="background-color:#0066a7">
                         <i class="fa-solid fa-share-from-square me-2"></i>
                         Export
                     </a>
@@ -113,7 +113,6 @@
 <script>
     let sortColumn = '';
     let sortDirection = 'asc';
-    @* let employeeId; *@
 
     function LeaveRequestPaginationAjax(pageNumber) {
         let pageSize = $("#leaveRequestPageSize").val();
@@ -126,8 +125,7 @@
         let leaveRequestFromDate = $('#leaveRequestFromDate').val();
         let leaveRequestToDate = $('#leaveRequestToDate').val();
         let leaveRequestStatus = $('#leaveRequestStatus').val();
-
-
+        
         $.ajax({
             url: "/Leave/GetRequestList",
             data: {
@@ -226,17 +224,26 @@
     });
 
 
-
-    $('#exportOrderBtn').on('click', function () {
-        var searchQuery = $('#orderSearchInput').val() || '';
-        let ordersStatus = $('#ordersStatus').val()
-        let ordersTime = $('#ordersTime').val();
+    /* -------------------------------------------------------------------------------------Export Leave Request Script --------------------------------------------------------*/
+    $('#exportLeaveBtn').on('click', function () {
+        let pageNumber =1;
+        let pageSize = $("#leaveRequestPageSize").val();
+        if (pageSize == 0 || pageSize == null) pageSize = 3;
+        var searchQuery = $('#leaveSearchInput').val() || '';
+        let leaveRequestFromDate = $('#leaveRequestFromDate').val();
+        let leaveRequestToDate = $('#leaveRequestToDate').val();
+        let leaveRequestStatus = $('#leaveRequestStatus').find('option:selected').text();
+        console.log(leaveRequestStatus);
         $.ajax({
             url: "/Leave/ExportExcelOfLeave",
             data: {
+                pageSize: pageSize,
+                pageNumber: pageNumber,
                 searchQuery: searchQuery,
-                ordersStatus: ordersStatus,
-                ordersTime: ordersTime
+                leaveRequestFromDate: leaveRequestFromDate,
+                leaveRequestToDate: leaveRequestToDate,
+                leaveRequestStatus: leaveRequestStatus,
+                employeeId: @employeeId
             },
             xhrFields: {
                 responseType: 'blob'
@@ -248,12 +255,12 @@
                
                 var isIE = false || !!document.documentMode;
                 if (isIE) {
-                    window.navigator.msSaveBlob(blob, "Order_List.xlsx");
+                    window.navigator.msSaveBlob(blob, "LeaveRequest.xlsx");
                 } else {
                     var url = window.URL || window.webkitURL;
                     link = url.createObjectURL(blob);
                     var a = $("<a />");
-                    a.attr("download", "Order_List.xlsx");
+                    a.attr("download", "LeaveRequest.xlsx");
                     a.attr("href", link);
                     $("body").append(a);
                     a[0].click();

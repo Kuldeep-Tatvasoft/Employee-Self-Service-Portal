@@ -160,19 +160,28 @@ public class LeaveController : Controller
             await _hubContext.Clients.User(model.EmployeeId.ToString()).SendAsync("ReceiveNotification", notificationMessage);
 
             TempData["successToastr"] = response.message;
-            return Json(new { success = true });
+            return Json(new { response.success});
         }
         else
         {
             TempData["errorToastr"] = response.message;
-            return Json(new { success = false });
+            return Json(new { response.success });
         }
     }
     #endregion
 
-    // public async Task<IActionResult> ExportExcelOfOrdersData(string searchQuery, string ordersStatus, string ordersTime)
-    // {
-    //     // var fileContent = await _leaveService.Get(searchQuery, ordersStatus, ordersTime);
-    //     // return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Orders.xlsx");
-    // }
+
+    # region Excel
+    public async Task<IActionResult> ExportExcelOfLeave(int pageSize, int pageNumber, string searchQuery, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus, int employeeId)
+    {
+        var fileContent = await _leaveService.GetLeaveDataToExport(pageSize, pageNumber, searchQuery, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
+        return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LeaveRequest.xlsx");
+    }
+
+    public async Task<IActionResult> ExportExcelOfResponse(int pageSize, int pageNumber, string searchQuery, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus, int employeeId)
+    {
+        var fileContent = await _leaveService.GetResponseDataToExport(pageSize, pageNumber, searchQuery, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
+        return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LeaveRequest.xlsx");
+    }
+    #endregion
 }

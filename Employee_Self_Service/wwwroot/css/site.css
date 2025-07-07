@@ -307,6 +307,7 @@ form i{
 
 /* Notification Css */
 #notificationContent{
+  max-height: 500px;
   overflow: auto;
 }
 

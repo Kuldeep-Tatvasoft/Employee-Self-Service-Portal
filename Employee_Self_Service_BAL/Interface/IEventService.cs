@@ -12,6 +12,7 @@ public interface IEventService
     Task<AddEventViewModel> EventDetails(long eventId);
     Task<ResponseViewModel> EditEvent(AddEventViewModel model);
     Task<ResponseViewModel> DeleteEvent(long eventId);
+    Task<byte[]> GetEventDataToExport(int pageSize, int pageNumber, string searchQuery,string eventFromDate, string eventToDate, string eventCategory);
     
     // Task<List<NotificationGroupViewModel>> GetGroupedNotifications();
 }

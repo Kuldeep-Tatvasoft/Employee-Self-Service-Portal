@@ -20,7 +20,13 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<EventCategory> EventCategories { get; set; }
 
-    public virtual DbSet<Helpdesk> Helpdesks { get; set; }
+    public virtual DbSet<Group> Groups { get; set; }
+
+    public virtual DbSet<GroupCategory> GroupCategories { get; set; }
+
+    public virtual DbSet<HelpdeskRequest> HelpdeskRequests { get; set; }
+
+    public virtual DbSet<HelpdeskStatus> HelpdeskStatuses { get; set; }
 
     public virtual DbSet<LeaveRequest> LeaveRequests { get; set; }
 
@@ -38,8 +44,14 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<StatusHistory> StatusHistories { get; set; }
+
+    public virtual DbSet<SubCategory> SubCategories { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasPostgresEnum("priority", new[] { "low", "medium", "high" });
+
         modelBuilder.Entity<Document>(entity =>
         {
             entity.HasKey(e => e.DocumentId).HasName("documents_pkey");
@@ -164,15 +176,94 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasColumnName("category");
         });
 
-        modelBuilder.Entity<Helpdesk>(entity =>
+        modelBuilder.Entity<Group>(entity =>
         {
-            entity.HasKey(e => e.HelpdeskId).HasName("HelpDesk_pkey");
+            entity.HasKey(e => e.GroupId).HasName("group_pkey");
 
-            entity.ToTable("helpdesk");
+            entity.ToTable("group");
 
-            entity.Property(e => e.HelpdeskId)
-                .HasDefaultValueSql("nextval('\"HelpDesk_helpdesk_id_seq\"'::regclass)")
-                .HasColumnName("helpdesk_id");
+            entity.Property(e => e.GroupId).HasColumnName("group_id");
+            entity.Property(e => e.GroupName)
+                .HasMaxLength(20)
+                .HasColumnName("group_name");
+        });
+
+        modelBuilder.Entity<GroupCategory>(entity =>
+        {
+            entity.HasKey(e => e.CategoryId).HasName("category_pkey");
+
+            entity.ToTable("group_category");
+
+            entity.Property(e => e.CategoryId)
+                .HasDefaultValueSql("nextval('category_category_id_seq'::regclass)")
+                .HasColumnName("category_id");
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(20)
+                .HasColumnName("category_name");
+            entity.Property(e => e.GroupId).HasColumnName("group_id");
+
+            entity.HasOne(d => d.Group).WithMany(p => p.GroupCategories)
+                .HasForeignKey(d => d.GroupId)
+                .HasConstraintName("category_group_id_fkey");
+        });
+
+        modelBuilder.Entity<HelpdeskRequest>(entity =>
+        {
+            entity.HasKey(e => e.HelpdeskRequestId).HasName("helpdesk_pkey");
+
+            entity.ToTable("helpdesk_request");
+
+            entity.Property(e => e.HelpdeskRequestId)
+                .HasDefaultValueSql("nextval('helpdesk_helpdesk_id_seq'::regclass)")
+                .HasColumnName("helpdesk_request_id");
+            entity.Property(e => e.CategoryId).HasColumnName("category_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
+            entity.Property(e => e.GroupId).HasColumnName("group_id");
+            entity.Property(e => e.InsertedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("inserted_at");
+            entity.Property(e => e.InsertedBy).HasColumnName("inserted_by");
+            entity.Property(e => e.Priority).HasColumnName("priority");
+            entity.Property(e => e.ServiceDetails)
+                .HasColumnType("character varying")
+                .HasColumnName("service_details");
+            entity.Property(e => e.StatusId).HasColumnName("status_id");
+            entity.Property(e => e.SubCategoryId).HasColumnName("sub_category_id");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.HelpdeskRequests)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("helpdesk_category_id_fkey");
+
+            entity.HasOne(d => d.Group).WithMany(p => p.HelpdeskRequests)
+                .HasForeignKey(d => d.GroupId)
+                .HasConstraintName("helpdesk_group_id_fkey");
+
+            entity.HasOne(d => d.InsertedByNavigation).WithMany(p => p.HelpdeskRequests)
+                .HasForeignKey(d => d.InsertedBy)
+                .HasConstraintName("helpdesk_created_by_fkey");
+
+            entity.HasOne(d => d.Status).WithMany(p => p.HelpdeskRequests)
+                .HasForeignKey(d => d.StatusId)
+                .HasConstraintName("helpdesk_status_id_fkey");
+
+            entity.HasOne(d => d.SubCategory).WithMany(p => p.HelpdeskRequests)
+                .HasForeignKey(d => d.SubCategoryId)
+                .HasConstraintName("helpdesk_sub_catrgory_id_fkey");
+        });
+
+        modelBuilder.Entity<HelpdeskStatus>(entity =>
+        {
+            entity.HasKey(e => e.StatusId).HasName("helpdesk_status_pkey");
+
+            entity.ToTable("helpdesk_status");
+
+            entity.Property(e => e.StatusId).HasColumnName("status_id");
+            entity.Property(e => e.StatusName)
+                .HasMaxLength(50)
+                .HasColumnName("status_name");
         });
 
         modelBuilder.Entity<LeaveRequest>(entity =>
@@ -271,9 +362,6 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("created_at");
-            entity.Property(e => e.IsRead)
-                .HasDefaultValueSql("false")
-                .HasColumnName("is_read");
             entity.Property(e => e.Notification1)
                 .HasColumnType("character varying")
                 .HasColumnName("notification");
@@ -307,16 +395,11 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.Property(e => e.ReadMark)
                 .HasDefaultValueSql("false")
                 .HasColumnName("read_mark");
-            entity.Property(e => e.RoleId).HasColumnName("role_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Notification).WithMany(p => p.NotificationMappings)
                 .HasForeignKey(d => d.NotificationId)
                 .HasConstraintName("notification_mapping_notification_id_fkey");
-
-            entity.HasOne(d => d.Role).WithMany(p => p.NotificationMappings)
-                .HasForeignKey(d => d.RoleId)
-                .HasConstraintName("notification_mapping_role_id_fkey");
 
             entity.HasOne(d => d.User).WithMany(p => p.NotificationMappings)
                 .HasForeignKey(d => d.UserId)
@@ -359,6 +442,52 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.Property(e => e.Role1)
                 .HasMaxLength(16)
                 .HasColumnName("role");
+        });
+
+        modelBuilder.Entity<StatusHistory>(entity =>
+        {
+            entity.HasKey(e => e.StatusHistoryId).HasName("status_history_pkey");
+
+            entity.ToTable("status_history");
+
+            entity.Property(e => e.StatusHistoryId).HasColumnName("status_history_id");
+            entity.Property(e => e.Comment)
+                .HasColumnType("character varying")
+                .HasColumnName("comment");
+            entity.Property(e => e.RequestId).HasColumnName("request_id");
+            entity.Property(e => e.StatusChnageDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("status_chnage_date");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+            entity.HasOne(d => d.Request).WithMany(p => p.StatusHistories)
+                .HasForeignKey(d => d.RequestId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("status_history_request_id_fkey");
+
+            entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.StatusHistories)
+                .HasForeignKey(d => d.UpdatedBy)
+                .HasConstraintName("status_history_updated_by_fkey");
+        });
+
+        modelBuilder.Entity<SubCategory>(entity =>
+        {
+            entity.HasKey(e => e.SubCategoryId).HasName("sub_category_pkey");
+
+            entity.ToTable("sub_category");
+
+            entity.Property(e => e.SubCategoryId).HasColumnName("sub_category_id");
+            entity.Property(e => e.CategoryId).HasColumnName("category_id");
+            entity.Property(e => e.SubCategoryName)
+                .HasMaxLength(50)
+                .HasColumnName("sub_category_name");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.SubCategories)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("sub_category_category_id_fkey");
         });
 
         OnModelCreatingPartial(modelBuilder);

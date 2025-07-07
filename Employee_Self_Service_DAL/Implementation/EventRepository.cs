@@ -258,83 +258,76 @@ public class EventRepository : IEventRepository
         }
     }
 
-    // public async Task<List<NotificationViewModel>> GetNotifications()
-    // {   
+    public async Task<byte []> GetEventDataToExport (int pageSize, int pageNumber, string searchQuery,string eventFromDate, string eventToDate, string eventCategory)
+    {
 
-    //     return await _context.Notifications
-    //         .Include(c => c.NotificationCategory)
-    //         .Where(n => n.IsRead == false)
-    //         .OrderByDescending(n => n.CreatedAt)
-    //         .Select(n => new NotificationViewModel
-    //         {   
-    //             NotificationCategoryId = (int)n.NotificationCategoryId,
-    //             NotificationId = n.NotificationId,
-    //             Message = n.Notification1,
-    //             NotificationCategory = n.NotificationCategory.Category,
-    //             CategoryId = (int)n.CatrgoryId,
-                
-    //         }).ToListAsync();
-    // }
-
-    
-    // public async Task<List<NotificationViewModel>> GetNotifications()
-    // {   
-
-    //     return await _context.Notifications
-    //         .Include(c => c.NotificationCategory)
-    //         .Where(n => n.IsRead == false)
-    //         .OrderByDescending(g => g.CreatedAt)
-    //         .GroupBy(n => n.NotificationCategoryId)
-            
-    //         .Select(g => new NotificationViewModel
-    //         {   
-    //             NotificationCategoryId = (int)g.Key,
-
-    //             // NotificationCategoryId = (int).NotificationCategoryId,
-    //             NotificationId = g.Select(n => n.NotificationId).FirstOrDefault(),
-    //             Message = g.Select(n => n.Notification1).FirstOrDefault(),
-    //             NotificationCategory =g.Select(n => n.NotificationCategory.Category).FirstOrDefault() ,
-    //             CategoryId = (int)g.Select(n => n.CatrgoryId).FirstOrDefault(),
-                
-                
-    //         })
-            
-    //         .ToListAsync();
-    // }
-    
-    // public async Task<List<NotificationGroupViewModel>> GetGroupedNotifications()
-    // {
-    //     var groupedNotifications = await _context.Notifications
-    //         .Include(c => c.NotificationCategory)
-    //         .Where(n => n.IsRead == false)
-    //         .GroupBy(n => n.NotificationCategoryId)
-    //         .Select(group => new NotificationGroupViewModel
-    //         {
-    //             NotificationCategoryId = (int)group.Key,
-    //             NotificationCategoryName = group.FirstOrDefault().NotificationCategory.Category,
-    //             Notifications = group.OrderByDescending(n => n.CreatedAt)
-    //                                  .Select(n => new NotificationViewModel
-    //                                  {
-    //                                      NotificationId = n.NotificationId,
-    //                                      Message = n.Notification1,
-    //                                     //  CreatedAt = n.CreatedAt
-    //                                  }).ToList()
-    //         }).ToListAsync();
-
-    //     return groupedNotifications;
-    // }
-
-
-    // public async Task<List<Notification>> GetNotifications()
-    // {   
+        var query = _context.Events
+                    .Include(e => e.Category)
+                    .Where(e => !e.IsDeleted)
+                    .Select(e => new AddEventViewModel 
+                    {   
+                        EventId = e.EventId,
+                        EventName = e.Name,
+                        StartDate = (DateOnly)e.StartDate,
+                        EndDate = (DateOnly)e.EndDate,
+                        CategoryId = (int)e.CategoryId,
+                        CategoryName = e.Category.Category
+                    });
         
-    //     return await _context.Notifications
-    //         .Include(c => c.NotificationCategory)
-    //         .Where(n => n.IsRead == false)
-    //         .OrderByDescending(n => n.CreatedAt)
-    //         .ToListAsync();
+        
+        if (!string.IsNullOrEmpty(searchQuery))
+        {
+            searchQuery = searchQuery.ToLower();
+            query = query.Where(c => c.EventName.ToLower().Contains(searchQuery));
+        }
+        
+        if(!string.IsNullOrEmpty(eventFromDate))
+        {
+            DateOnly fromDate = DateOnly.Parse(eventFromDate);
+            query = query.Where(x => x.StartDate >= fromDate);
+        }
+
+        if(!string.IsNullOrEmpty(eventToDate))
+        {
+            DateOnly toDate = DateOnly.Parse(eventToDate);
+            query = query.Where(x => x.StartDate <= toDate);
+        }
+        
+        if(!string.IsNullOrEmpty(eventCategory) && !eventCategory.Equals("All"))
+        {
             
-    // }
+            query = query.Where(x => x.CategoryName == eventCategory);
+
+        }
+
+        var list = await query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    
+                    .ToListAsync();
+       
+        var exportData = list.Select(l => new
+        {
+            l.EventId,
+            l.EventName,
+            l.StartDate,
+            l.EndDate,
+            l.CategoryName  
+        }).ToList();
+
+        List<AddEventViewModel> model = list;
+        var columnMappings = new Dictionary<string, string>
+            {
+                { "EventId", "Event Id" },
+                { "EventName", "Event Name" },
+                { "StartDate", "Start Date" },
+                { "EndDate", "End Date" },
+                { "CategoryName", "Category Name" }
+            };
+        
+        var excelExporter = new Excel.ExportExcel();
+        return excelExporter.ExportToExcel(model, "LeaveRequest",string.IsNullOrEmpty(eventCategory) ? "All" : eventCategory,searchQuery, columnMappings);
+    }
 
     
 }

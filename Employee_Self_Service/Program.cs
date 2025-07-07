@@ -32,6 +32,8 @@ builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddSignalR(); 
 builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
+builder.Services.AddScoped<IHelpDeskRepository, HelpDeskRepository>();
+builder.Services.AddScoped<IHelpDeskService, HelpDeskService>();
 // builder.Services.AddScoped<ExcelExportService>();
 
 var app = builder.Build();

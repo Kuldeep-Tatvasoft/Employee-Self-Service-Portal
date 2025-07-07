@@ -13,5 +13,6 @@ public interface IEventRepository
     Task<Event> GetEventDetails(long eventId);
     // Task<List<Document>> GetEventDocuments(long eventId);
     Task<ResponseViewModel> EditEvent(Event update,List<IFormFile> Documents);
+    Task<byte []> GetEventDataToExport (int pageSize, int pageNumber, string searchQuery,string eventFromDate, string eventToDate, string eventCategory);
     
 }

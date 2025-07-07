@@ -9,15 +9,11 @@ public partial class NotificationMapping
 
     public long? NotificationId { get; set; }
 
-    public int? RoleId { get; set; }
-
     public int? UserId { get; set; }
 
     public bool? ReadMark { get; set; }
 
     public virtual Notification? Notification { get; set; }
-
-    public virtual Role? Role { get; set; }
 
     public virtual Employee? User { get; set; }
 }

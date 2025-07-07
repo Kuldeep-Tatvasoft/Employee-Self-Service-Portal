@@ -16,6 +16,8 @@ public interface ILeaveService
     Task<LeaveRequestPaginationViewModel> GetResponseData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId);
     Task<ResponseViewModel> ResponseLeaveRequest(int requestId, int statusId, int approvedBy, string comment);
     Task<ResponseViewModel> AddResponseNotification(string notification,int employeeId);
+    Task<byte[]> GetLeaveDataToExport(int pageSize, int pageNumber, string search, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId);
+    Task<byte[]> GetResponseDataToExport(int pageSize, int pageNumber, string search, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId);
     // Task<List<LeaveRequestDetailsViewModel>> GetTodayOnLeave();
     
 }
