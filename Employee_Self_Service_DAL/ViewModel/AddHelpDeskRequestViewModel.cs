@@ -1,17 +1,27 @@
+using System.ComponentModel.DataAnnotations;
 using Employee_Self_Service_DAL.Constants;
+using static Employee_Self_Service_DAL.Constants.HelpDeskEnum;
 
 namespace Employee_Self_Service_DAL.ViewModel;
 
 public class AddHelpDeskRequestViewModel
 {
-    public int HelpDeskRequestId {get; set;}
+    public long HelpDeskRequestId {get; set;}    
+    [Required(ErrorMessage = "Group is required")]
+    public int EmployeeId {get; set;}
     public int GroupId {get; set;}
+    [Required(ErrorMessage = "Category is required")]
     public int CategoryId { get; set; }
-
+    [Required(ErrorMessage = "Sub Category is required")]
     public int SubCategoryId { get; set; }
-
+    [Required(ErrorMessage = "Service Details is required")]
     public string ServiceDetails { get; set; }
-
     public int StatusId { get; set; }
+    [Required(ErrorMessage = "Priority is required")]
     public Priority Priority {get; set;}
+    public DateTime RequestedDate {get; set;}
+    public string Group {get; set;}
+    public string Category { get; set; }
+    public string SubCategory { get; set; }
+    public string Status { get; set; }
 }

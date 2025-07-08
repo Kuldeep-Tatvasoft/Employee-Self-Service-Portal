@@ -1,4 +1,4 @@
-@model Employee_Self_Service_DAL.ViewModel.AddLeaveRequestViewModel
+@model Employee_Self_Service_DAL.ViewModel.AddHelpDeskRequestViewModel
 @{
     var username = Context.Request.Cookies["employeeName"];
     string? employeeId = Context.Request.Cookies["EmployeeId"];
@@ -8,26 +8,27 @@
         <div>
             <span>Leave/Self</span>
             @{
-                if (@Model.LeaveRequestId == 0)
+                if (@Model.HelpDeskRequestId == 0)
                 {
-                    
-                    <h4 class=" d-flex align-content-center m-0">Add Leave Request</h4>
+
+                    <h4 class=" d-flex align-content-center m-0">Add HelpDesk Request</h4>
                 }
                 else
                 {
-                    <h4 class=" d-flex align-content-center m-0">Edit Leave Request</h4>
+                    <h4 class=" d-flex align-content-center m-0">Edit HelpDesk Request</h4>
                 }
             }
-            
+
         </div>
     </div>
     <hr class="dropdown-divider">
 
-    
-    <form asp-action="AddEditLeaveRequest" asp-controller="Leave">
+
+    <form asp-action="AddEditHelpDeskRequest" asp-controller="HelpDesk" method="post">
         <div class="details ">
-            <input type="hidden" asp-for="@employeeId" value="@employeeId">
-            @* <input type="hidden" asp-for="LeaveRequestId">            *@
+            
+            <input type="hidden" asp-for="@Model.EmployeeId" value="@employeeId">
+            @* <input type="hidden" asp-for="LeaveRequestId"> *@
 
             <div class="row col col-xxl-6 col-xl-7 col-lg-12 px-4">
                 <!-- First Row -->
@@ -35,234 +36,148 @@
                 <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@username" id="Name"
                     value="@username" readonly>
                 <!-- Second Row -->
-                <label for="itemName" class="p-0 mb-1 mt-3"> Reporting Person</label>
-                <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@Model.ReportingPerson"
-                    id="ReportingPerson" value="@Model.profile.ReportingPerson" disabled>
+                <label for="itemName" class="p-0 mb-1"> Requested DateTime</label>
+                <input type="datetime" class="form-control rounded-0" id="requestedDate" asp-for="RequestedDate"
+                    value="" readonly>
+                <span asp-validation-for="RequestedDate" class="text-danger"></span>
                 <!-- Third Row -->
-                <label class="p-0 mb-1 mt-3"> Leave Reason*</label>
-                <select asp-for="@Model.ReasonId" class="form-select rounded-0 shadow-none border-2" id="reasonSelect">
-                    <option value="">Select a Reason</option>
-                    @foreach (var reason in Model.Reasons)
-                    {
-                        <option value="@reason.ReasonId">@reason.Reason1</option>
-                    }
+                <label class="p-0 mb-1 mt-3"> Group*</label>
+                <select asp-for="GroupId" class="form-select rounded-0 shadow-none border-2" id="Groups"
+                    aria-placeholder="Select Group">
+                    <option value="">Select Group</option>
+
                 </select>
-                <span asp-validation-for="ReasonId" class="text-danger"></span>
+                <span asp-validation-for="GroupId" class="text-danger"></span>
                 <!-- Fourth Row -->
-                <label class="p-0 mb-1 mt-3"> Leave Reason*</label>
-                <select asp-for="@Model.ReasonId" class="form-select rounded-0 shadow-none border-2" id="reasonSelect">
-                    <option value="">Select a Reason</option>
-                    @foreach (var reason in Model.Reasons)
+                <label class="p-0 mb-1 mt-3"> Category*</label>
+                <select asp-for="CategoryId" class="form-select rounded-0 shadow-none border-2" id="Categories"
+                    aria-placeholder="Select Category">
+                    @* <option value="">Select Category</option> *@
+                    @* @foreach (var reason in Model.Reasons)
                     {
-                        <option value="@reason.ReasonId">@reason.Reason1</option>
-                    }
+                    <option value="@reason.ReasonId">@reason.Reason1</option>
+                    } *@
                 </select>
-                <span asp-validation-for="ReasonId" class="text-danger"></span>
-                @* <label for="itemName" class="p-0 mb-1 mt-3"> Reason Description*</label>
-                <textarea class="form-control rounded-0 shadow-none border-2" rows="4"
-                    asp-for="@Model.ReasonDescription" aria-required="false" aria-invalid="false"> </textarea>
-                <span asp-validation-for="ReasonDescription" class="text-danger"></span> *@
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+
                 <!-- Fifth Row -->
-                <label class="p-0 mb-1 mt-3"> Leave Reason*</label>
-                <select asp-for="@Model.ReasonId" class="form-select rounded-0 shadow-none border-2" id="reasonSelect">
-                    <option value="">Select a Reason</option>
-                    @foreach (var reason in Model.Reasons)
+                <label class="p-0 mb-1 mt-3"> Sub Category*</label>
+                <select asp-for="SubCategoryId" class="form-select rounded-0 shadow-none border-2" id="SubCategories">
+                    @* <option value="">Select Sub Category</option> *@
+                    @* @foreach (var reason in Model.Reasons)
                     {
-                        <option value="@reason.ReasonId">@reason.Reason1</option>
-                    }
+                    <option value="@reason.ReasonId">@reason.Reason1</option>
+                    } *@
                 </select>
-                <span asp-validation-for="ReasonId" class="text-danger"></span>
-                @* <label for="startDate" class="p-0 mt-3 mb-1"> Leave Start Date*</label>
-                <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap  p-0">
-                    <div class=" col">
-                        <div>
-                            <input type="date" class="form-control rounded-0 shadow-none border-2" id="startDate" asp-for="@Model.StartDate"
-                                value="@(Model.StartDate?.ToString("yyyy-MM-dd") ?? "")">
-                        </div>
-                        <span asp-validation-for="StartDate" class="text-danger"></span>
-                    </div>
-                    <div class="col ">                        
-                        <select asp-for="StartLeaveTypeId" class="form-select dropdown rounded-0 shadow-none border-2 " asp-items="@ViewBag.LeaveType"
-                            id="startDateType">
-                        </select>
-                        <span asp-validation-for="StartLeaveTypeId" class="text-danger"></span>
-                    </div>
-                </div> *@
+                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+
                 <!-- Sixth Row -->
-                <label class="p-0 mb-1 mt-3"> Leave Reason*</label>
-                <select asp-for="@Model.ReasonId" class="form-select rounded-0 shadow-none border-2" id="reasonSelect">
-                    <option value="">Select a Reason</option>
-                    @foreach (var reason in Model.Reasons)
-                    {
-                        <option value="@reason.ReasonId">@reason.Reason1</option>
-                    }
+                <label class="p-0 mb-1 mt-3"> Priority*</label>
+                <select asp-for="Priority" class="form-select rounded-0 shadow-none border-2"
+                    asp-items="ViewBag.PriorityList">
+                    <option value="">Select Priority</option>
                 </select>
-                <span asp-validation-for="ReasonId" class="text-danger"></span>
-                @* <label for="endDate" class="p-0 mt-3 mb-1"> Leave End Date*</label>
-                <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap  p-0">
-                    <div class=" col">
-                        <div>
-                            <input type="date" class="form-control rounded-0 shadow-none border-2" id="endDate" asp-for="EndDate"
-                                value="@(Model.EndDate?.ToString("yyyy-MM-dd") ?? "")">
-                        </div>
-                        <span asp-validation-for="EndDate" class="text-danger"></span>
-                    </div>
-                    <div class="col ">
-                        <select asp-for="EndLeaveTypeId" class="form-select dropdown rounded-0 shadow-none border-2 " asp-items="@ViewBag.LeaveType"
-                            id="endDateType">
-                        </select>
-                        <span asp-validation-for="EndLeaveTypeId" class="text-danger"></span>
-                    </div>
-                </div> *@
+                <span asp-validation-for="Priority" class="text-danger"></span>
+
                 <!-- Seventh Row -->
-                <label class="p-0 mb-1 mt-3"> Leave Reason*</label>
-                <select asp-for="@Model.ReasonId" class="form-select rounded-0 shadow-none border-2" id="reasonSelect">
-                    <option value="">Select a Reason</option>
-                    @foreach (var reason in Model.Reasons)
-                    {
-                        <option value="@reason.ReasonId">@reason.Reason1</option>
-                    }
-                </select>
-                <span asp-validation-for="ReasonId" class="text-danger"></span>
-                @* <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap mt-3 mb-1  p-0">
-                    <div class=" col">
-                        <div>
-                            <label for="actualDuration" class="p-0 mb-1">Actual Leave Duration</label>
-                            <input type="text" class="form-control rounded-0 shadow-none border-2" id="actualDuration"
-                                asp-for="@Model.ActualDuration" readonly>
-                        </div>
-                       
-                        <span asp-validation-for="ActualDuration" class="text-danger"></span>
-                    </div>
-                    <div class="col ">
-                        <label for="totalDuration" class="p-0 mb-1"> Total Leave Duration</label>
-                        <input type="text" class="form-control rounded-0 shadow-none border-2" id="totalDuration"
-                            value="@Model.TotalDuration" asp-for="@Model.TotalDuration" readonly>
-                        
-                    </div>
-                    <span asp-validation-for="TotalDuration" class="text-danger"></span>
-                </div> *@
-                <!-- Eighth Row -->
-                <label for="itemName" class="p-0 mb-1 mt-3"> Reason Description*</label>
-                <textarea class="form-control rounded-0 shadow-none border-2" rows="4"
-                    asp-for="@Model.ReasonDescription" aria-required="false" aria-invalid="false"> </textarea>
-                <span asp-validation-for="ReasonDescription" class="text-danger"></span>
-                @* <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap mt-3 mb-1  p-0">
-                    <div class=" col">
-                        <div>
-                            <label for="itemName" class="p-0 mb-1"> Return Date</label>
-                            <input type="date" class="form-control rounded-0 shadow-none border-2" id="returnDate"
-                                asp-for="ReturnDate" value="@(Model.ReturnDate?.ToString("yyyy-MM-dd") ?? "")" readonly>
-                        </div>
+                <label for="itemName" class="p-0 mb-1 mt-3">Service Details*</label>
+                <textarea class="form-control rounded-0 shadow-none border-2" rows="4" asp-for="@Model.ServiceDetails"
+                    aria-required="false" aria-invalid="false"> </textarea>
+                <span asp-validation-for="ServiceDetails" class="text-danger"></span>
 
-                        <span asp-validation-for="ReturnDate" class="text-danger"></span>
-                    </div>
-                    <div class="col ">
-                        <label for="itemName" class="p-0 mb-1"> Requested Date</label>
-                        <input type="date" class="form-control rounded-0" id="requestedDate" asp-for="RequestedDate"
-                            value="@Model.RequestedDate">
-                        <span asp-validation-for="RequestedDate" class="text-danger"></span>
-                    </div>
-                </div> *@
 
-                @* <!-- Nine Row -->
-                <div class=" d-flex flex-md-row flex-column gap-3 flex-wrap mt-3 mb-1  p-0">
-                    <div class=" col">
-                        <div>
-                            <label for="itemName" class="p-0 mb-1">Phone No.*</label>
-                            <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone"
-                                asp-for="@Model.PhoneNo" value="@Model.profile.ContactNo">
-                        </div>
-                        <span asp-validation-for="PhoneNo" class="text-danger"></span>
-                    </div>
-                    <div class="col ">
-                        <label for="itemName" class="p-0 mb-1 ">Alternate Phone No. </label>
-                        <input type="text" class="form-control rounded-0 shadow-none border-2" id="Phone"
-                            asp-for="@Model.AlternatePhoneNo" value="@Model.AlternatePhoneNo">
-                        
-                    </div>
-                </div>
-                <!-- Ten Row -->
-                <label for="itemName" class="p-0 mb-1 mt-3"> Available On Phone</label>
-                <select class="form-select d-flex align-content-end align-items-end justify-content-end rounded-0 shadow-none border-2"
-                    asp-for="AvailableOnPhone" id="Reason">
-                    <option value="true" selected="@(Model.AvailableOnPhone)">Yes</option>
-                    <option value="false" selected="@(!Model.AvailableOnPhone)">No</option>
-                </select>
-                <div class="form-check mt-3">
-                    <input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault" asp-for="@Model.AdhocLeave">
-                    <label class="form-check-label">Adhoc Leave?</label>
-                </div> *@
+                <!-- Nine Row -->
+
                 <div class="d-flex justify-content-start mt-4 gap-2 p-0">
                     <button type="submit" id="customDateApplyModel" class="btn btn-primary rounded-0">Save</button>
-                    <a href="/Leave/LeaveRequest"><button type="button"
-                            class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
+                    <a href="/HelpDesk/HelpDeskRequest"><button type="button" class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
                 </div>
             </div>
         </div>
     </form>
 </div>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
     $(document).ready(function () {
-            $.getJSON('@Url.Action("GetCountries", "User")', function (countries) {
-                var countriesSelect = $('#Countries');
-                countriesSelect.empty();
-                countriesSelect.append($('<option/>', {
 
-                    text: "Select Country"
+        function formatDateTime(date) {
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            let hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12; // Convert to 12-hour format
+            return `${day}-${month}-${year} ${hours}:${minutes} ${ampm}`;
+        }
+
+        const now = new Date();
+        const formattedDateTime = formatDateTime(now);
+        $('#requestedDate').val(formattedDateTime);
+        @* $('#requestedDate').prop('disabled', true); *@
+
+        $.getJSON('@Url.Action("GetGroups", "HelpDesk")', function (groups) {
+            var groupsSelect = $('#Groups');
+            groupsSelect.empty();
+            $('#Categories').empty().append('<option value="">Select Category</option>');
+            $('#SubCategories').empty().append('<option value="">Select Sub Category</option>');
+            groupsSelect.append($('<option/>', { text: "Select Group" }));
+
+            $.each(groups, function (index, group) {
+                groupsSelect.append($('<option/>', {
+                    value: group.value,
+                    text: group.text
                 }));
-                $.each(countries, function (index, country) {
-                    countriesSelect.append($('<option/>', {
-                        value: country.value,
-                        text: country.text
+            });
+            $('#Groups').valid();
+        });
+
+        @* $('#Categories').prop('disabled', true); *@
+        @* $('#SubCategories').prop('disabled', true); *@
+
+        $('#Groups').change(function () {
+            var groupId = $(this).val();
+            $('#Categories').prop('disabled', false);
+            $.getJSON('@Url.Action("GetCategories")', { groupId: groupId }, function (categories) {
+                var categoriesSelect = $('#Categories');
+                categoriesSelect.empty().append('<option value="">Select Category</option>');
+                $('#SubCategories').empty().append('<option value="">Select Sub Category</option>');
+                $.each(categories, function (index, category) {
+                    categoriesSelect.append($('<option/>', {
+                        value: category.value,
+                        text: category.text
                     }));
                 });
-            });
-            $('#States').prop('disabled', true);
-            $('#Cities').prop('disabled', true);
-            $('#Countries').change(function () {
-                var countryId = $(this).val();
-                $('#States').prop('disabled', false);
-                $.getJSON('@Url.Action("GetStates")', { countryId: countryId }, function (states) {
-                    var statesSelect = $('#States');
-                    statesSelect.empty().append('<option value="">Select State</option>');
-                    $('#Cities').empty().append('<option value="">Select City</option>');
-                    $.each(states, function (index, state) {
-                        statesSelect.append($('<option/>', {
-                            value: state.value,
-                            text: state.text
-                        }));
-                    });
 
-                    // Trigger validation
-                    $('#States').valid();
-                });
-            });
-
-            $('#States').change(function () {
-                $('#Cities').prop('disabled', false);
-
-                var stateId = $(this).val();
-                $.getJSON('@Url.Action("GetCities")', { stateId: stateId }, function (cities) {
-                    var citiesSelect = $('#Cities');
-                    citiesSelect.empty().append('<option value="">Select City</option>');
-                    $.each(cities, function (index, city) {
-                        citiesSelect.append($('<option/>', {
-                            value: city.value,
-                            text: city.text
-                        }));
-                    });
-
-                    // Trigger validation
-                    $('#Cities').valid();
-                });
-            });
-
-            // Revalidate fields on change
-            $("#Countries, #States, #Cities").change(function () {
-                $(this).valid();
+                $('#Categories').valid();
             });
         });
+
+
+        $('#Categories').change(function () {
+            $('#SubCategories').prop('disabled', false);
+
+            var categoryId = $(this).val();
+            $.getJSON('@Url.Action("GetSubCategories")', { categoryId: categoryId }, function (subCategories) {
+                const subCategoriesSelect = $('#SubCategories');
+                subCategoriesSelect.empty().append('<option value="">Select Sub Category</option>');
+                $.each(subCategories, function (index, subcategory) {
+                    subCategoriesSelect.append($('<option/>', {
+                        value: subcategory.value,
+                        text: subcategory.text
+                    }));
+                });
+
+                $('#SubCategories').valid();
+            });
+        });
+
+
+        $("#Groups, #Categories, #SubCategories").change(function () {
+            $(this).valid();
+        });
+    });
 </script>

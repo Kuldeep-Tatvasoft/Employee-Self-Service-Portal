@@ -1,3 +1,10 @@
+@{
+    Layout = "_Layout";
+}
+
+@{
+    string? employeeId = Context.Request.Cookies["EmployeeId"];
+}
 <div class="container-fluid ">
     <div class="row  p-0 justify-content-sm-between orders col ">
         <div class="d-flex flex-column py-3 px-1">
@@ -18,22 +25,21 @@
             <div class="row col ">
                 <div class="ticketSelection  px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-6 col-xl-2  col-12">
                     <label for="itemName" class=" mb-1">Ticket #</label>
-                    <input type="text" class=" form-control rounded-0 shadow-none border-2" id="leaveSearchInput" oninput="LeaveRequestPaginationAjax(1)">
+                    <input type="text" class=" form-control rounded-0 shadow-none border-2" id="helpDeskSearchInput" oninput="HelpDeskRequestPaginationAjax(1)">
                     
                 </div>
                 
                 <div class="groupSelection re px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-6 col-xl-2 ">
                     <label for="itemName" class=" mb-1 ">Group</label>
-                    <select class="form-select  rounded-0 border-2 shadow-none" id="leaveRequestGroup">
-                        <option  value="0" selected>All</option>
+                    <select class="form-select  rounded-0 border-2 shadow-none" id="helpDeskRequestGroup">
+                        <option value="0" selected>All</option>
                         <option value="1">Networking</option>
-    
                     </select>
                 </div>
 
                 <div class="statusSelection re px-2 my-1 my-lg-0 col-sm-6 col-md-5 col-lg-6 col-xl-2 ">
                     <label for="itemName" class=" mb-1 ">Status</label>
-                    <select class="form-select  rounded-0 border-2" id="leaveRequestStatus">
+                    <select class="form-select  rounded-0 border-2" id="helpDeskRequestStatus">
                         <option value="0">All</option>
                         <option value="1">Acknowledged</option>
                         <option value="2">Approved</option>
@@ -46,7 +52,7 @@
                 </div>
 
                 <div class="d-flex align-items-end  col-12 col-xl-3 col-lg-6 col-xl-2 mt-3 ">
-                    <a class="btn btn-primary rounded-0  px-4" style="background-color:#0066a7" id="searchSelfLeaveRequest">
+                    <a class="btn btn-primary rounded-0  px-4" style="background-color:#0066a7" id="searchSelfHelpDeskRequest">
                         Search
                     </a>
                     <a class="btn cancle_btn clear rounded-0 ms-2 px-4 border-primary text-primary fw-semibold">
@@ -56,8 +62,89 @@
             </div>
         </div>
 
-        <div id="leaveRequestTableList" class="table_container">
+        <div id="helpDeskRequestTableList" class="table_container">
 
         </div>
     </div>
 </div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    let sortColumn = '';
+    let sortDirection = 'asc';
+
+    function HelpDeskRequestPaginationAjax(pageNumber) {
+        let pageSize = $("#helpDeskRequestPageSize").val();
+        if (pageSize == 0 || pageSize == null) pageSize = 3;
+        if (pageNumber === 0) pageNumber = 1;
+        var searchQuery = $('#helpDeskSearchInput').val() || '';
+        if (pageNumber === 0) {
+            pageNumber = @((Model?.Page!.CurrentPage ?? 1));
+        }
+        @* let leaveRequestFromDate = $('#leaveRequestFromDate').val(); *@
+        let helpDeskRequestGroup = $('#helpDeskRequestGroup').val();
+        let helpDeskRequestStatus = $('#helpDeskRequestStatus').val();
+        
+        $.ajax({
+            url: "/HelpDesk/GetRequestList",
+            data: {
+                pageSize: pageSize,
+                pageNumber: pageNumber,
+                searchQuery: searchQuery,
+                sortColumn: sortColumn,
+                sortDirection: sortDirection,
+                helpDeskRequestGroup: helpDeskRequestGroup,
+                helpDeskRequestStatus: helpDeskRequestStatus,
+                employeeId: @employeeId
+            },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                console.log("Hello");
+                $("#helpDeskRequestTableList").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#helpDeskRequestTableList").html('An error has occurred');
+            }
+        });
+    }
+
+    function sortBy(column) {
+        if (sortColumn === column) {
+            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            sortDirection = 'asc';
+        }
+        sortColumn = column;
+        HelpDeskRequestPaginationAjax(1);
+    }
+
+    $('#searchSelfHelpDeskRequest').click(function () {
+        HelpDeskRequestPaginationAjax(1);
+    });
+
+    $(document).ready(function () {
+        HelpDeskRequestPaginationAjax(1);
+    });
+    @* function changePageSize(size) {
+        $("#leaveRequestPageSize").val(size);
+        HelpDeskRequestPaginationAjax(1);
+    } *@
+
+    @* function clearSearch() {
+        $('#searchInput').val('');
+        HelpDeskRequestPaginationAjax(1);
+    } *@
+
+   
+
+    $(document).on("click", ".cancle_btn", function () {
+        $("#helpDeskSearchInput").val("");
+        $("#helpDeskRequestGroup").val(0);
+        $('#helpDeskRequestStatus').val(6);
+        HelpDeskRequestPaginationAjax(1);
+    })
+
+</script>

@@ -1,0 +1,134 @@
+@model Employee_Self_Service_DAL.ViewModel.HelpDeskPaginationViewModel
+@using Employee_Self_Service_BAL.Helpers
+<div class="table-responsive px-0">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    <a href="javascript:void(0)" onclick="sortBy('Ticket')"
+                        class="text-decoration-none text-dark">Ticket
+                        <i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
+                </th>
+                <th>
+                    <a href="javascript:void(0)" onclick="sortBy('RequestedDate')"
+                        class="text-decoration-none text-dark">Request DateTime
+                        Date<i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i></a>
+                </th>
+                <th class="text-center">
+                    <a href="javascript:void(0)" onclick="sortBy('Group')"
+                        class="text-decoration-none text-dark">Group<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+
+                <th class="text-center">
+                    <a href="javascript:void(0)" onclick="sortBy('Category')"
+                        class="text-decoration-none text-dark">Category<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+                <th class="text-center">
+                    <a href="javascript:void(0)" onclick="sortBy('SubCategory')"
+                        class="text-decoration-none text-dark">Sub Category<i class="bi bi-arrow-down-up"
+                            id="sort-by-role" data-direction="asc"></i> </a>
+                </th>
+
+                <th class="text-center">
+                    <a href="javascript:void(0)" onclick="sortBy('Priority')"
+                        class="text-decoration-none text-dark">Priority<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+
+                <th class="text-center">
+                    <a href="javascript:void(0)" onclick="sortBy('ServiceDetails')"
+                        class="text-decoration-none text-dark">Service Details<i class="bi bi-arrow-down-up"
+                            id="sort-by-role" data-direction="asc"></i> </a>
+                </th>
+
+                <th class="text-center">
+                    <a href="javascript:void(0)" onclick="sortBy('Status')"
+                        class="text-decoration-none text-dark">Status<i class="bi bi-arrow-down-up" id="sort-by-role"
+                            data-direction="asc"></i> </a>
+                </th>
+
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var data in Model.HelpDeskList)
+            {
+                <tr>
+                    <td class="text-center">
+                        @data.HelpDeskRequestId
+                    </td>
+                    <td>@data.RequestedDate</td>
+                    <td class="text-center">
+                        @data.Group
+                    </td>
+                    <td class="text-center">
+                        @data.Category
+                    </td>
+
+                    <td class="text-center">
+                        @data.SubCategory
+                    </td>
+                    <td class="text-center">
+                        @data.Priority
+                    </td>
+
+                    <td class="text-center">
+                        @data.ServiceDetails
+                    </td>
+
+
+                    <td class="text-center">
+                        @data.Status
+                    </td>
+
+                    <td class="text-center">
+                        <div class="d-flex align-items-center justify-content-center">
+                            @if (data.StatusId == 6)
+                            {
+                                <a asp-action="AddEditHelpdeskRequest" asp-controller="HelpDesk"
+                                    asp-route-requestId="@data.HelpDeskRequestId" class="btn " type="button">
+                                    <i class="bi bi-pen"></i>
+                                </a>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<!-- Pagination Section -->
+<div class="d-flex flex-row justify-content-end  gap-2 mb-3 align-items-center">
+    <p class="pt-3 text-black">Items per page</p>
+    <div class="dropdown">
+        <select class="form-select w-auto " onchange="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage)"
+            aria-label="Default select example" id="helpDeskRequestPageSize">
+            @if (Model.Page.PageSize != null)
+            {
+                @* <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option> *@
+                <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false) selected">5</option>
+                <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
+                <option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>
+            }
+        </select>
+    </div>
+    <p class="pt-3 text-black">Showing @Model.Page!.FromRec - @Model.Page.ToRec of @Model.Page.TotalRecord</p>
+
+    <!-- Previous Button -->
+    <button class="btn btn-outline-primary col-auto"
+        onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage - 1)" @(Model.Page.CurrentPage > 1 ? "" :
+        "disabled")> &lt; </button>
+
+    <!-- Next Button -->
+    <button class="btn btn-outline-primary col-auto"
+        onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage + 1)" @(Model.Page.CurrentPage <
+        Model.Page.TotalPages ? "" : "disabled")> &gt; </button>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
