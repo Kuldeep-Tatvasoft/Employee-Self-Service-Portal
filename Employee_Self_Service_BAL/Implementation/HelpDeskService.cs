@@ -55,7 +55,7 @@ public class HelpDeskService : IHelpDeskService
                 Priority = (int?)model.Priority,
                 ServiceDetails = model.ServiceDetails,
                 StatusId = 6,
-                InsertedAt = DateTime.Now,
+                InsertedAt = model.RequestedDate,
                 InsertedBy = model.EmployeeId
             };
             ResponseViewModel response  = await _helpDeskRepository.AddRequest(request);
@@ -66,6 +66,57 @@ public class HelpDeskService : IHelpDeskService
             return new ResponseViewModel{
                 success = true,
                 message = "Request Failed to Add: " + ex.Message
+            };
+        }
+    }
+
+    public async Task<AddHelpDeskRequestViewModel> GetEditDetails(long requestId)
+    {
+        HelpdeskRequest details = await _helpDeskRepository.GetDetails(requestId);
+        if(details == null)
+        {
+            return null;
+        }
+        AddHelpDeskRequestViewModel model = new AddHelpDeskRequestViewModel
+        {
+            HelpDeskRequestId = details.HelpdeskRequestId,
+            EmployeeId = (int)details.InsertedBy,
+            RequestedDate = (DateTime)details.InsertedAt,
+            GroupId = (int)details.GroupId,
+            CategoryId = (int)details.CategoryId,
+            SubCategoryId = (int)details.SubCategoryId,
+            Group = details.Group.GroupName,
+            Category = details.Category.CategoryName,
+            SubCategory = details.SubCategory.SubCategoryName,
+            Priority = (HelpDeskEnum.Priority)details.Priority,
+            ServiceDetails = details.ServiceDetails,
+            Status = details.Status.StatusName,
+            // StatusId = (int)h.StatusId
+        };
+        return model;
+    }
+
+    public async Task<ResponseViewModel> EditRequest(AddHelpDeskRequestViewModel model)
+    {
+        try
+        {
+            HelpdeskRequest request = await _helpDeskRepository.GetDetails(model.HelpDeskRequestId);
+            {
+                request.GroupId = model.GroupId;
+                request.CategoryId = model.CategoryId;
+                request.SubCategoryId = model.SubCategoryId;
+                request.Priority = (int?)model.Priority;
+                request.ServiceDetails = model.ServiceDetails;
+            }
+            ResponseViewModel response = await _helpDeskRepository.EditRequest(request);
+            return response;
+        }
+        catch(Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                success = true,
+                message = "HelpDesk Request Failed to Edit" + ex.Message
             };
         }
     }

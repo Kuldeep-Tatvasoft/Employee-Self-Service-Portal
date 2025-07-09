@@ -6,7 +6,7 @@
 <div class=" d-flex flex-column py-3 ">
     <div class="px-3 d-flex justify-content-between align-items-center">
         <div>
-            <span>Leave/Self</span>
+            <span>HelpDesk/Self</span>
             @{
                 if (@Model.HelpDeskRequestId == 0)
                 {
@@ -26,7 +26,7 @@
 
     <form asp-action="AddEditHelpDeskRequest" asp-controller="HelpDesk" method="post">
         <div class="details ">
-            
+            <input type="hidden" asp-for="HelpDeskRequestId" >
             <input type="hidden" asp-for="@Model.EmployeeId" value="@employeeId">
             @* <input type="hidden" asp-for="LeaveRequestId"> *@
 
@@ -38,11 +38,11 @@
                 <!-- Second Row -->
                 <label for="itemName" class="p-0 mb-1"> Requested DateTime</label>
                 <input type="datetime" class="form-control rounded-0" id="requestedDate" asp-for="RequestedDate"
-                    value="" readonly>
+                    value="@Model.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")" readonly>
                 <span asp-validation-for="RequestedDate" class="text-danger"></span>
                 <!-- Third Row -->
                 <label class="p-0 mb-1 mt-3"> Group*</label>
-                <select asp-for="GroupId" class="form-select rounded-0 shadow-none border-2" id="Groups"
+                <select asp-for="GroupId" class="form-select rounded-0 shadow-none border-2" id="Groups" asp-items="@ViewBag.Groups"
                     aria-placeholder="Select Group">
                     <option value="">Select Group</option>
 
@@ -50,7 +50,7 @@
                 <span asp-validation-for="GroupId" class="text-danger"></span>
                 <!-- Fourth Row -->
                 <label class="p-0 mb-1 mt-3"> Category*</label>
-                <select asp-for="CategoryId" class="form-select rounded-0 shadow-none border-2" id="Categories"
+                <select asp-for="CategoryId" class="form-select rounded-0 shadow-none border-2" id="Categories" asp-items="@ViewBag.Categories"
                     aria-placeholder="Select Category">
                     @* <option value="">Select Category</option> *@
                     @* @foreach (var reason in Model.Reasons)
@@ -62,7 +62,7 @@
 
                 <!-- Fifth Row -->
                 <label class="p-0 mb-1 mt-3"> Sub Category*</label>
-                <select asp-for="SubCategoryId" class="form-select rounded-0 shadow-none border-2" id="SubCategories">
+                <select asp-for="SubCategoryId" class="form-select rounded-0 shadow-none border-2" id="SubCategories" asp-items="@ViewBag.SubCategories">
                     @* <option value="">Select Sub Category</option> *@
                     @* @foreach (var reason in Model.Reasons)
                     {
@@ -101,8 +101,8 @@
 
 <script>
     $(document).ready(function () {
-
-        function formatDateTime(date) {
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
             const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             const day = date.getDate().toString().padStart(2, '0');
             const month = months[date.getMonth()];
@@ -110,15 +110,23 @@
             let hours = date.getHours();
             const minutes = date.getMinutes().toString().padStart(2, '0');
             const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12 || 12; // Convert to 12-hour format
+            hours = hours % 12 || 12; 
             return `${day}-${month}-${year} ${hours}:${minutes} ${ampm}`;
         }
 
-        const now = new Date();
-        const formattedDateTime = formatDateTime(now);
-        $('#requestedDate').val(formattedDateTime);
-        @* $('#requestedDate').prop('disabled', true); *@
+        
+        const requestedDate = $('#requestedDate').val();
+        console.log(requestedDate);
+        if (requestedDate) {
+            const formattedDateTime = formatDateTime(requestedDate);
+            $('#requestedDate').val(formattedDateTime);
+        }
 
+        if (@Model.HelpDeskRequestId == 0) {
+            const now = new Date();
+            const formattedDateTime = formatDateTime(now);
+            $('#requestedDate').val(formattedDateTime);
+        
         $.getJSON('@Url.Action("GetGroups", "HelpDesk")', function (groups) {
             var groupsSelect = $('#Groups');
             groupsSelect.empty();
@@ -134,7 +142,7 @@
             });
             $('#Groups').valid();
         });
-
+        }
         @* $('#Categories').prop('disabled', true); *@
         @* $('#SubCategories').prop('disabled', true); *@
 

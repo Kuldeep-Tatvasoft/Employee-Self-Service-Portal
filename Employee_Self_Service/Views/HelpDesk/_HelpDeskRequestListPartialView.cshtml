@@ -5,7 +5,7 @@
         <thead>
             <tr>
                 <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('Ticket')"
+                    <a href="javascript:void(0)" onclick="sortBy('HelpDeskRequestId')"
                         class="text-decoration-none text-dark">Ticket
                         <i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
                 </th>
@@ -52,15 +52,15 @@
                 <th class="text-center">Action</th>
             </tr>
         </thead>
-        <tbody>
 
+        <tbody>
             @foreach (var data in Model.HelpDeskList)
             {
                 <tr>
                     <td class="text-center">
                         @data.HelpDeskRequestId
                     </td>
-                    <td>@data.RequestedDate</td>
+                    <td  class="requestedDate">@data.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")</td>
                     <td class="text-center">
                         @data.Group
                     </td>
@@ -79,7 +79,6 @@
                         @data.ServiceDetails
                     </td>
 
-
                     <td class="text-center">
                         @data.Status
                     </td>
@@ -92,6 +91,10 @@
                                     asp-route-requestId="@data.HelpDeskRequestId" class="btn " type="button">
                                     <i class="bi bi-pen"></i>
                                 </a>
+                                <a class="btn deleteHelpDeskBtn p-0" data-id="@data.HelpDeskRequestId" data-bs-toggle="modal"
+                                    data-bs-target="#deleteHelpDeskModal">
+                                    <i class=" bi bi-trash text-black"></i>
+                                </a>
                             }
                         </div>
                     </td>
@@ -101,8 +104,6 @@
     </table>
 </div>
 
-
-
 <!-- Pagination Section -->
 <div class="d-flex flex-row justify-content-end  gap-2 mb-3 align-items-center">
     <p class="pt-3 text-black">Items per page</p>
@@ -111,7 +112,6 @@
             aria-label="Default select example" id="helpDeskRequestPageSize">
             @if (Model.Page.PageSize != null)
             {
-                @* <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option> *@
                 <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false) selected">5</option>
                 <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
                 <option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>
@@ -132,3 +132,4 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+

@@ -67,12 +67,12 @@ public class LeaveService : ILeaveService
             ResponseViewModel response = await _leaveRepository.AddRequest(request);
             return response;
         }
-        catch
+        catch(Exception ex)
         {
             return new ResponseViewModel
             {
                 success = false,
-                message = "Request Failed to Add"
+                message = "Request Failed to Add" + ex.Message
             };
         }
     }
@@ -155,12 +155,12 @@ public class LeaveService : ILeaveService
             ResponseViewModel response = await _leaveRepository.EditRequest(request);
             return response;
         }
-        catch
+        catch(Exception ex)
         {
             return new ResponseViewModel
             {
                 success = false,
-                message = "Request Failed to Add"
+                message = "Request Failed to Edit" + ex.Message
             };
         }
     }

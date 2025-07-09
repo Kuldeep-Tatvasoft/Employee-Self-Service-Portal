@@ -10,4 +10,6 @@ public interface IHelpDeskService
     Task<List<SubCategory>> GetSubCategories(int categoryId);
     Task<HelpDeskPaginationViewModel> GetRequestData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string helpDeskRequestGroup, string helpDeskRequestStatus,int employeeId);
     Task<ResponseViewModel> AddRequest(AddHelpDeskRequestViewModel model);
+    Task<AddHelpDeskRequestViewModel> GetEditDetails(long requestId);
+    Task<ResponseViewModel> EditRequest(AddHelpDeskRequestViewModel model);
 }

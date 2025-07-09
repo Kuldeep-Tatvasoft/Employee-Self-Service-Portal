@@ -28,12 +28,15 @@ public class HelpDeskController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> AddEditHelpdeskRequest(int requestId)
+    public async Task<IActionResult> AddEditHelpdeskRequest(long requestId)
     {
         AddHelpDeskRequestViewModel model = new  AddHelpDeskRequestViewModel();
         if(requestId > 0)
         {
-            
+            model = await _helpDeskService.GetEditDetails(requestId);
+            ViewBag.Groups = new SelectList(await _helpDeskService.GetGroups(), "GroupId", "GroupName");
+            ViewBag.Categories = new SelectList(await _helpDeskService.GetCategories(model.GroupId), "CategoryId", "CategoryName");
+            ViewBag.SubCategories = new SelectList(await _helpDeskService.GetSubCategories(model.CategoryId), "SubCategoryId", "SubCategoryName");
         }
         ViewBag.PriorityList = Enum.GetValues(typeof(Priority))
             .Cast<Priority>()
@@ -45,8 +48,7 @@ public class HelpDeskController : Controller
             .ToList();
 
         return View(model);
-        // var groups = await _helpDeskService.GetGroups();
-        
+     
         // ViewBag.Group = new SelectList(await _helpDeskService.GetGroups(), "GroupId", "GroupName");
         // ViewBag.Categories = new SelectList(await _helpDeskService.GetCategories(), "CategoryId", "CategoryName");
         // ViewBag.Group = new SelectList(await _helpDeskService.GetSubCategories(), "GroupId", "GroupName");
@@ -79,7 +81,14 @@ public class HelpDeskController : Controller
         if(model.HelpDeskRequestId == 0)
         {
             response = await _helpDeskService.AddRequest(model);
-            if(response.success)
+        
+        }
+        else
+        {
+            response = await _helpDeskService.EditRequest(model);
+        }
+
+        if(response.success)
         {
             TempData["successToastr"] = response.message;
         }
@@ -87,24 +96,8 @@ public class HelpDeskController : Controller
         {
             TempData["errorToastr"] = response.message;
         }
-        }
-        else
-        {
-            // response = await _helpDeskService.EditRequest(model);
-        }
-
-        // if(response.success)
-        // {
-        //     TempData["successToastr"] = response.message;
-        // }
-        // else
-        // {
-        //     TempData["errorToastr"] = response.message;
-        // }
         return RedirectToAction("HelpDeskRequest");
     }
-
-
 }
 
 

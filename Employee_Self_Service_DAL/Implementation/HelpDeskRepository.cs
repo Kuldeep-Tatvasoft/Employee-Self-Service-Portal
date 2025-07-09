@@ -52,7 +52,8 @@ public class HelpDeskRepository : IHelpDeskRepository
                         ServiceDetails = h.ServiceDetails,
                         Status = h.Status.StatusName,
                         GroupId = (int)h.GroupId,
-                        StatusId = (int)h.StatusId
+                        StatusId = (int)h.StatusId,
+                        
                         // ApprovedDate = l.ApprovedAt.HasValue ? DateOnly.FromDateTime(l.ApprovedAt.Value).ToString("yyyy-MM-dd") : string.Empty,
                         // Date = DateOnly.FromDateTime(l.CreatedAt.Value)
                     });
@@ -128,6 +129,39 @@ public class HelpDeskRepository : IHelpDeskRepository
             {
                 success = false,
                 message = "Error occur Add HelpDesk Request:" + ex.Message
+            };
+        }
+    }
+
+    public async Task<HelpdeskRequest> GetDetails(long requestId)
+    {
+       HelpdeskRequest? helpdeskRequest = await _context.HelpdeskRequests
+                                        .Include(h => h.Group)
+                                        .Include(h => h.Category)
+                                        .Include(h => h.SubCategory)
+                                        .Include(h => h.Status)
+                                        .Where(h => h.HelpdeskRequestId == requestId)
+                                        .FirstOrDefaultAsync();  
+        return helpdeskRequest ?? new HelpdeskRequest();
+    }
+
+    public async Task<ResponseViewModel> EditRequest(HelpdeskRequest request)
+    {
+        try
+        {
+            _context.Update(request);
+            await _context.SaveChangesAsync();
+            return new ResponseViewModel{
+                success = true,
+                message = "HelpDesk Request Update Successfully"
+            };
+        }
+        catch(Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                success = false,
+                message = "Error occur updating HelpDesk Request: " +ex.Message
             };
         }
     }
