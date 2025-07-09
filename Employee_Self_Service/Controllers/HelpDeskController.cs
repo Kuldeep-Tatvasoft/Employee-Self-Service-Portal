@@ -71,7 +71,7 @@ public class HelpDeskController : Controller
     public async Task<IActionResult> GetSubCategories(int categoryId)
     {
         var subCategories = await _helpDeskService.GetSubCategories(categoryId);
-        return Json(new SelectList(subCategories, "SubCategoryId", "SubCategoryName"));
+        return Json(subCategories.Select(sc => new { value = sc.SubCategoryId, text = sc.SubCategoryName }));
     }
 
     [HttpPost]

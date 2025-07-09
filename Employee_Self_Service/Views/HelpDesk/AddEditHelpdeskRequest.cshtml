@@ -3,76 +3,88 @@
     var username = Context.Request.Cookies["employeeName"];
     string? employeeId = Context.Request.Cookies["EmployeeId"];
 }
-<div class=" d-flex flex-column py-3 ">
+<div class="d-flex flex-column py-3">
     <div class="px-3 d-flex justify-content-between align-items-center">
         <div>
             <span>HelpDesk/Self</span>
-            @{
-                if (@Model.HelpDeskRequestId == 0)
-                {
-
-                    <h4 class=" d-flex align-content-center m-0">Add HelpDesk Request</h4>
-                }
-                else
-                {
-                    <h4 class=" d-flex align-content-center m-0">Edit HelpDesk Request</h4>
-                }
+            @if (@Model.HelpDeskRequestId == 0)
+            {
+                <h4 class="d-flex align-content-center m-0">Add HelpDesk Request</h4>
             }
-
+            else
+            {
+                <h4 class="d-flex align-content-center m-0">Edit HelpDesk Request</h4>
+            }
         </div>
     </div>
     <hr class="dropdown-divider">
 
-
     <form asp-action="AddEditHelpDeskRequest" asp-controller="HelpDesk" method="post">
-        <div class="details ">
-            <input type="hidden" asp-for="HelpDeskRequestId" >
+        <div class="details">
+            <input type="hidden" asp-for="HelpDeskRequestId">
             <input type="hidden" asp-for="@Model.EmployeeId" value="@employeeId">
-            @* <input type="hidden" asp-for="LeaveRequestId"> *@
 
             <div class="row col col-xxl-6 col-xl-7 col-lg-12 px-4">
                 <!-- First Row -->
                 <label for="itemName" class="p-0 mb-1">Name</label>
                 <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@username" id="Name"
                     value="@username" readonly>
+
                 <!-- Second Row -->
-                <label for="itemName" class="p-0 mb-1"> Requested DateTime</label>
+                <label for="itemName" class="p-0 mb-1">Requested DateTime</label>
                 <input type="datetime" class="form-control rounded-0" id="requestedDate" asp-for="RequestedDate"
                     value="@Model.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")" readonly>
                 <span asp-validation-for="RequestedDate" class="text-danger"></span>
+
                 <!-- Third Row -->
-                <label class="p-0 mb-1 mt-3"> Group*</label>
+                <label class="p-0 mb-1 mt-3">Group*</label>
                 <select asp-for="GroupId" class="form-select rounded-0 shadow-none border-2" id="Groups" asp-items="@ViewBag.Groups"
                     aria-placeholder="Select Group">
                     <option value="">Select Group</option>
-
                 </select>
                 <span asp-validation-for="GroupId" class="text-danger"></span>
+
                 <!-- Fourth Row -->
-                <label class="p-0 mb-1 mt-3"> Category*</label>
+                <label class="p-0 mb-1 mt-3">Category*</label>
                 <select asp-for="CategoryId" class="form-select rounded-0 shadow-none border-2" id="Categories" asp-items="@ViewBag.Categories"
                     aria-placeholder="Select Category">
-                    @* <option value="">Select Category</option> *@
-                    @* @foreach (var reason in Model.Reasons)
-                    {
-                    <option value="@reason.ReasonId">@reason.Reason1</option>
-                    } *@
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
 
                 <!-- Fifth Row -->
-                <label class="p-0 mb-1 mt-3"> Sub Category*</label>
-                <select asp-for="SubCategoryId" class="form-select rounded-0 shadow-none border-2" id="SubCategories" asp-items="@ViewBag.SubCategories">
-                    @* <option value="">Select Sub Category</option> *@
-                    @* @foreach (var reason in Model.Reasons)
-                    {
-                    <option value="@reason.ReasonId">@reason.Reason1</option>
-                    } *@
-                </select>
-                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+                <label class="p-0 mb-1 mt-3">Sub Categories*</label>
+                <div class="d-none" id="subCategoryContainer">
+                    
+                        
+                        @* @if (Model.CategoryId == 3)
+                    { *@
+                        <div class="dropdown">
+                            <button class="btn btn-white d-flex justify-content-between align-items-center border-dark dropdown-toggle w-100" type="hidden" id="subCategoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="" id="selectedSubCategories">Select Sub Categories</span>
+                            </button>
+                            
+                            @* <select asp-for="SubCategoryId" class="form-select rounded-0 shadow-none border-2" id="subCategoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" asp-items="@ViewBag.SubCategories"> *@
+                                
+                        </select>
+                            <ul class="dropdown-menu w-100" id="subCategoryDropdownMenu">
+                                <!-- Subcategories will be dynamically populated here -->
+                            </ul>
+                        </div>
+                        @* <input type="hidden" asp-for="SubCategoryId" id="selectedSubCategoryIds" /> *@
+                        <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+                        </div>
+                    @* }
+                    else
+                    { *@
+                        @* <label class="p-0 mb-1 mt-3">Sub Category*</label> *@
+                        <select asp-for="SubCategoryId" class="form-select rounded-0 shadow-none border-2" id="SubCategories" asp-items="@ViewBag.SubCategories">
+                        </select>
+                        @* <span asp-validation-for="SubCategoryId" class="text-danger"></span> *@
+                    @* } *@
+                
 
                 <!-- Sixth Row -->
-                <label class="p-0 mb-1 mt-3"> Priority*</label>
+                <label class="p-0 mb-1 mt-3">Priority*</label>
                 <select asp-for="Priority" class="form-select rounded-0 shadow-none border-2"
                     asp-items="ViewBag.PriorityList">
                     <option value="">Select Priority</option>
@@ -82,12 +94,10 @@
                 <!-- Seventh Row -->
                 <label for="itemName" class="p-0 mb-1 mt-3">Service Details*</label>
                 <textarea class="form-control rounded-0 shadow-none border-2" rows="4" asp-for="@Model.ServiceDetails"
-                    aria-required="false" aria-invalid="false"> </textarea>
+                    aria-required="false" aria-invalid="false"></textarea>
                 <span asp-validation-for="ServiceDetails" class="text-danger"></span>
 
-
-                <!-- Nine Row -->
-
+                <!-- Submit and Cancel Buttons -->
                 <div class="d-flex justify-content-start mt-4 gap-2 p-0">
                     <button type="submit" id="customDateApplyModel" class="btn btn-primary rounded-0">Save</button>
                     <a href="/HelpDesk/HelpDeskRequest"><button type="button" class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
@@ -98,6 +108,7 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/helpdesk.js" asp-append-version="true"></script>
 
 <script>
     $(document).ready(function () {
@@ -164,28 +175,94 @@
             });
         });
 
+        function populateSubCategories(categoryId) {
+            if (categoryId == 3) {
+                $('#SubCategories').addClass('d-none');
+                $('#subCategoryContainer').removeClass('d-none');
+                $.getJSON('@Url.Action("GetSubCategories", "HelpDesk")', { categoryId: categoryId }, function (subCategories) {
+                    const subCategoryDropdownMenu = $('#subCategoryDropdownMenu');
+                    subCategoryDropdownMenu.empty();
+
+                    $.each(subCategories, function (index, subCategory) {
+                        const checkboxItem = `
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input subCategoryCheckbox" type="checkbox" value="${subCategory.value}" id="subCategory_${subCategory.value}">
+                                    <label class="form-check-label" for="subCategory_${subCategory.value}">
+                                        ${subCategory.text}
+                                    </label>
+                                </div>
+                            </li>
+                        `;
+                        subCategoryDropdownMenu.append(checkboxItem);
+                    });
+
+                    // Update selected subcategories when checkboxes are clicked
+                    $('.subCategoryCheckbox').change(function () {
+                        updateSelectedSubCategories();
+                    });
+                });
+            } else {
+                $('#SubCategories').removeClass('d-none');
+                $('#subCategoryContainer').addClass('d-none');
+                $('#SubCategories').prop('disabled', false);
+                $.getJSON('@Url.Action("GetSubCategories", "HelpDesk")', { categoryId: categoryId }, function (subCategories) {
+                    const subCategoriesSelect = $('#SubCategories');
+                    subCategoriesSelect.empty().append('<option value="">Select Sub Category</option>');
+                    $.each(subCategories, function (index, subcategory) {
+                        subCategoriesSelect.append($('<option/>', {
+                            value: subcategory.value,
+                            text: subcategory.text
+                        }));
+                    });
+
+                    $('#SubCategories').valid();
+                });
+            }
+        }
+
+        function updateSelectedSubCategories() {
+            const selectedSubCategories = [];
+            const selectedSubCategoryIds = [];
+
+            $('.subCategoryCheckbox:checked').each(function () {
+                selectedSubCategories.push($(this).next('label').text());
+                selectedSubCategoryIds.push($(this).val());
+            });
+
+            $('#selectedSubCategories').text(selectedSubCategories.length > 0 ? selectedSubCategories.join(', ') : 'Select Sub Categories');
+            $('#selectedSubCategoryIds').val(selectedSubCategoryIds.join(', '));
+        }
 
         $('#Categories').change(function () {
-            $('#SubCategories').prop('disabled', false);
+            const categoryId = $(this).val();
+            populateSubCategories(categoryId);
+        });
 
-            var categoryId = $(this).val();
-            $.getJSON('@Url.Action("GetSubCategories")', { categoryId: categoryId }, function (subCategories) {
-                const subCategoriesSelect = $('#SubCategories');
-                subCategoriesSelect.empty().append('<option value="">Select Sub Category</option>');
-                $.each(subCategories, function (index, subcategory) {
-                    subCategoriesSelect.append($('<option/>', {
-                        value: subcategory.value,
-                        text: subcategory.text
-                    }));
+        if(@Model.CategoryId != 3){
+            $('#Categories').change(function () {
+                $('#SubCategories').prop('disabled', false);
+
+                var categoryId = $(this).val();
+                $.getJSON('@Url.Action("GetSubCategories")', { categoryId: categoryId }, function (subCategories) {
+                    const subCategoriesSelect = $('#SubCategories');
+                    subCategoriesSelect.empty().append('<option value="">Select Sub Category</option>');
+                    $.each(subCategories, function (index, subcategory) {
+                        subCategoriesSelect.append($('<option/>', {
+                            value: subcategory.value,
+                            text: subcategory.text
+                        }));
+                    });
+
+                    $('#SubCategories').valid();
                 });
+            }); 
 
-                $('#SubCategories').valid();
+
+            $("#Groups, #Categories, #SubCategories").change(function () {
+                $(this).valid();
             });
-        });
-
-
-        $("#Groups, #Categories, #SubCategories").change(function () {
-            $(this).valid();
-        });
+        }
     });
+    
 </script>
