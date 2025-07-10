@@ -165,7 +165,7 @@
                             value="@(data.AdhocLeave ? "true" : "false")" @(data.AdhocLeave ? "checked" : "") disabled>
                     </td>
                     <td>
-                        
+                        @if(@data.StatusId != 4){
                         <div class="d-flex align-items-center justify-content-center">
                             <a asp-action="ResponseLeaveRequest" asp-controller="Leave"
                                 asp-route-requestId="@data.LeaveRequestId" 
@@ -173,7 +173,7 @@
                                 <i class="bi bi-pen"></i>
                             </a>                               
                         </div>
-                        
+                        }
                     </td>
                 </tr>
             }
@@ -191,7 +191,6 @@
             aria-label="Default select example" id="leaveRequestPageSize">
             @if (Model.Page.PageSize != null)
             {
-                <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option>
                 <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false) selected">5</option>
                 <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
                 <option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>

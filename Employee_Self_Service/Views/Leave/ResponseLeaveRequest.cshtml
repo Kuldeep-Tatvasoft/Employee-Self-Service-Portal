@@ -144,29 +144,31 @@
                     <label class="form-check-label">Adhoc Leave?</label>
                 </div>
                 <Form id="response" >
-                @if(Model.StartDate >= DateOnly.FromDateTime(DateTime.Now)){
+                @if(Model.StartDate >= DateOnly.FromDateTime(DateTime.Now) && Model.StatusId == 3){
                 <label for="itemName" class="p-0 mb-1 mt-3"> Comment</label>
                 <textarea class="form-control rounded-0 shadow-none border-2" rows="4" id = "comment"
                      aria-required="true" aria-invalid="false" asp-for="Comment"> </textarea>
                      <span asp-validation-for="Comment" class="text-danger"></span>
                 }
                 <div class="d-flex justify-content-start mt-4 gap-2 p-0">
-                    @if(Model.StartDate >= DateOnly.FromDateTime(DateTime.Now)){
-                    @if(Model.StatusId == 2){
+                    @if(Model.StartDate >= DateOnly.FromDateTime(DateTime.Now) && Model.StatusId == 3){
+                    @* @if(Model.StatusId == 3){ *@
+                         <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId"   value="2" >Approve</button>
+                        <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId" value="5">Reject</button>
                         
-                        <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId"  value="5">Reject</button>
-                    }
-                    else if(Model.StatusId == 5){
+                    @* } *@
+                    @* else if(Model.StatusId == 5){
                         <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId"   value="2" >Approve</button>
                     } 
                     else{
                         <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId"   value="2" >Approve</button>
                         <button type="submit" id="" class="btn response btn-primary rounded-0" data-requestid = "@Model.LeaveRequestId" value="5">Reject</button>
-                    }
+                    } *@
                     }
                     <a href="/Leave/ResponseRequest"><button type="button"
                             class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
                 </div>
+                
                 </Form>
             </div>
         </div>

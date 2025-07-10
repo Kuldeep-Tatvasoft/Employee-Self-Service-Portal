@@ -116,7 +116,7 @@
 
     function LeaveRequestPaginationAjax(pageNumber) {
         let pageSize = $("#leaveRequestPageSize").val();
-        if (pageSize == 0 || pageSize == null) pageSize = 3;
+        if (pageSize == 0 || pageSize == null) pageSize = 5;
         if (pageNumber === 0) pageNumber = 1;
         var searchQuery = $('#leaveSearchInput').val() || '';
         if (pageNumber === 0) {

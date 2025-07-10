@@ -5,10 +5,8 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th class="d-flex align-items-center">
-                   
+                <th class="">
                     <a href="javascript:void(0)" onclick="sortBy('StartDate')" class="text-decoration-none text-dark"> Start Date
-
                         <i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
                 </th>
                 <th>
@@ -134,10 +132,16 @@
                                 @data.Status
                             </div>
                         }
+                        else if(@data.StatusId == 4)
+                        {
+                            <div class="cancelled">
+                                @data.Status
+                            </div>
+                        }
                         else
                         {
                             <div class="pending d-flex align-items-center">
-                                Pending
+                               @data.Status
                             </div>
                         }
 
@@ -148,7 +152,7 @@
                     </td>
                     <td class="text-center">
                         <div class="d-flex align-items-center justify-content-center">
-                            @if(data.StatusId == 3){
+                            @if(data.StartDate >= DateOnly.FromDateTime(DateTime.Now) && data.StatusId == 3){
                             <a asp-action="AddEditLeaveRequest" asp-controller="Leave"
                                 asp-route-requestId="@data.LeaveRequestId" class="btn " type="button">
                                 <i class="bi bi-pen"></i>
@@ -182,7 +186,6 @@
             aria-label="Default select example" id="leaveRequestPageSize">
             @if (Model.Page.PageSize != null)
             {
-                <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option>
                 <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false) selected">5</option>
                 <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
                 <option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>

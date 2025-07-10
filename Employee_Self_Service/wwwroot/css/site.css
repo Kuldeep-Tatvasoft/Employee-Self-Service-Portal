@@ -256,6 +256,17 @@ form i{
     align-items: center;
   }
 
+  .cancelled
+  {
+    width: 100px;
+    padding: 3px;
+    border-radius: 0px;
+    background-color: #b4b48f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .accordion-btn {
     margin: 11px !important;
     padding: 4px !important;

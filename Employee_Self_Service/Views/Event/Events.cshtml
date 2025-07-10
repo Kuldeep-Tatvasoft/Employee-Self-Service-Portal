@@ -110,7 +110,7 @@
 
     function EventPaginationAjax(pageNumber) {
         let pageSize = $("#eventPageSize").val();
-        if (pageSize == 0 || pageSize == null) pageSize = 3;
+        if (pageSize == 0 || pageSize == null) pageSize = 5;
         if (pageNumber === 0) pageNumber = 1;
         var searchQuery = $('#eventSearchInput').val() || '';
         if (pageNumber === 0) {
@@ -186,7 +186,8 @@
     $(document).on("click", ".cancle_btn", function () {
         $("#eventFromDate").val("");
         $("#eventToDate").val("");
-
+        $('#eventCategory').val(0);
+        EventPaginationAjax(1);
     })
 
     /* -------------------------------------------------------------------------------------Delete Event Script

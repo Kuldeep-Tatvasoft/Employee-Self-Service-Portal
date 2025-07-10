@@ -84,7 +84,7 @@
 
     function ResponseRequestPaginationAjax(pageNumber) {
         let pageSize = $("#leaveRequestPageSize").val();
-        if (pageSize == 0 || pageSize == null) pageSize = 3;
+        if (pageSize == 0 || pageSize == null) pageSize = 5;
         if (pageNumber === 0) pageNumber = 1;
         var searchQuery = $('#leaveSearchInput').val() || '';
         if (pageNumber === 0) {
@@ -172,7 +172,7 @@
     $('#exportResponseBtn').on('click', function () {
         let pageNumber =1;
         let pageSize = $("#leaveRequestPageSize").val();
-        if (pageSize == 0 || pageSize == null) pageSize = 3;
+        if (pageSize == 0 || pageSize == null) pageSize = 5;
         var searchQuery = $('#leaveSearchInput').val() || '';
         let leaveRequestFromDate = $('#leaveRequestFromDate').val();
         let leaveRequestToDate = $('#leaveRequestToDate').val();
