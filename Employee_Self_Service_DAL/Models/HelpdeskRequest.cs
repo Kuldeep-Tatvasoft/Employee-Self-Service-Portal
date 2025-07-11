@@ -36,4 +36,6 @@ public partial class HelpdeskRequest
     public virtual ICollection<StatusHistory> StatusHistories { get; set; } = new List<StatusHistory>();
 
     public virtual SubCategory? SubCategory { get; set; }
+
+    public virtual ICollection<SubcategoryMapping> SubcategoryMappings { get; set; } = new List<SubcategoryMapping>();
 }

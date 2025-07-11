@@ -48,6 +48,8 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<SubCategory> SubCategories { get; set; }
 
+    public virtual DbSet<SubcategoryMapping> SubcategoryMappings { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresEnum("priority", new[] { "low", "medium", "high" });
@@ -198,7 +200,7 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasDefaultValueSql("nextval('category_category_id_seq'::regclass)")
                 .HasColumnName("category_id");
             entity.Property(e => e.CategoryName)
-                .HasMaxLength(20)
+                .HasMaxLength(50)
                 .HasColumnName("category_name");
             entity.Property(e => e.GroupId).HasColumnName("group_id");
 
@@ -488,6 +490,30 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.HasOne(d => d.Category).WithMany(p => p.SubCategories)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("sub_category_category_id_fkey");
+        });
+
+        modelBuilder.Entity<SubcategoryMapping>(entity =>
+        {
+            entity.HasKey(e => e.SubcategoryMappingId).HasName("subcategory_mapping_pkey");
+
+            entity.ToTable("subcategory_mapping");
+
+            entity.Property(e => e.SubcategoryMappingId).HasColumnName("subcategory_mapping_id");
+            entity.Property(e => e.CategoryId).HasColumnName("category_id");
+            entity.Property(e => e.RequestId).HasColumnName("request_id");
+            entity.Property(e => e.SubCategoryId).HasColumnName("sub_category_id");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.SubcategoryMappings)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("subcategory_mapping_category_id_fkey");
+
+            entity.HasOne(d => d.Request).WithMany(p => p.SubcategoryMappings)
+                .HasForeignKey(d => d.RequestId)
+                .HasConstraintName("subcategory_mapping_request_id_fkey");
+
+            entity.HasOne(d => d.SubCategory).WithMany(p => p.SubcategoryMappings)
+                .HasForeignKey(d => d.SubCategoryId)
+                .HasConstraintName("subcategory_mapping_sub_category_id_fkey");
         });
 
         OnModelCreatingPartial(modelBuilder);

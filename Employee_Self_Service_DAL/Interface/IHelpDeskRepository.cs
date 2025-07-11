@@ -9,7 +9,7 @@ public interface IHelpDeskRepository
     Task<List<GroupCategory>> GetCategories(int groupId);
     Task<List<SubCategory>> GetSubCategories(int categoryId);
     Task<HelpDeskPaginationViewModel> GetPaginatedRequest(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string helpDeskRequestGroup, string helpDeskRequestStatus, int employeeId);
-    Task<ResponseViewModel> AddRequest(HelpdeskRequest request);
+    Task<ResponseViewModel> AddRequest(HelpdeskRequest request, long [] selectedSubCategories);
     Task<HelpdeskRequest> GetDetails(long requestId);
-    Task<ResponseViewModel> EditRequest(HelpdeskRequest request);
+    Task<ResponseViewModel> EditRequest(HelpdeskRequest helpDeskRequest,long [] selectedSubCategories,int categoryId);
 }

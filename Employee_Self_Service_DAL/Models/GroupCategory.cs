@@ -16,4 +16,6 @@ public partial class GroupCategory
     public virtual ICollection<HelpdeskRequest> HelpdeskRequests { get; set; } = new List<HelpdeskRequest>();
 
     public virtual ICollection<SubCategory> SubCategories { get; set; } = new List<SubCategory>();
+
+    public virtual ICollection<SubcategoryMapping> SubcategoryMappings { get; set; } = new List<SubcategoryMapping>();
 }

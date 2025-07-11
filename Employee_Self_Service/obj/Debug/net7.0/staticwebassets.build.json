@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "M8M1H+ArhSHUkeYkCUXCtxKABL93EEcBU4BnUY9JP64=",
+  "Hash": "5YELmKls5TCgDEeTQeqV1q2BiuXkaknuF8lgXWrZ6XQ=",
   "Source": "Employee_Self_Service",
   "BasePath": "_content/Employee_Self_Service",
   "Mode": "Default",
@@ -3213,6 +3213,23 @@
       "OriginalItemSpec": "wwwroot\\uploads\\events\\6d43a61b-babd-4c40-a3dc-cdd4cfc9168f_somnath.jpg"
     },
     {
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\6da8df33-99fc-4bfd-b5ef-a6e43ccb7710_dwarka.jpg",
+      "SourceId": "Employee_Self_Service",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "BasePath": "_content/Employee_Self_Service",
+      "RelativePath": "uploads/events/6da8df33-99fc-4bfd-b5ef-a6e43ccb7710_dwarka.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\events\\6da8df33-99fc-4bfd-b5ef-a6e43ccb7710_dwarka.jpg"
+    },
+    {
       "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\6e27aac8-4aa7-4ca7-b6f1-2205f4516f7f_event.pdf",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
@@ -3381,6 +3398,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\events\\788083d6-bbc2-4526-9576-30b7c6481b1e_somnath.jpg"
+    },
+    {
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\79cc7cc4-c361-458d-92ae-f8cf319294d4_somnath.jpg",
+      "SourceId": "Employee_Self_Service",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "BasePath": "_content/Employee_Self_Service",
+      "RelativePath": "uploads/events/79cc7cc4-c361-458d-92ae-f8cf319294d4_somnath.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\events\\79cc7cc4-c361-458d-92ae-f8cf319294d4_somnath.jpg"
     },
     {
       "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\7a7a1e24-6754-417e-b686-093598c7885e_somnath.jpg",
@@ -4199,6 +4233,23 @@
       "OriginalItemSpec": "wwwroot\\uploads\\events\\b059d5e8-b2da-4ae0-b136-398012f79f87_event.pdf"
     },
     {
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\b1a485d9-d3d6-457a-ac31-8a04ba94f437_be21b3e2-215b-4bdd-a1d1-c60dc1d1269e_Order_List (8).xlsx",
+      "SourceId": "Employee_Self_Service",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "BasePath": "_content/Employee_Self_Service",
+      "RelativePath": "uploads/events/b1a485d9-d3d6-457a-ac31-8a04ba94f437_be21b3e2-215b-4bdd-a1d1-c60dc1d1269e_Order_List (8).xlsx",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\events\\b1a485d9-d3d6-457a-ac31-8a04ba94f437_be21b3e2-215b-4bdd-a1d1-c60dc1d1269e_Order_List (8).xlsx"
+    },
+    {
       "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\b2123008-7d62-40d8-963c-cfab4117f538_somnath.jpg",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
@@ -4641,6 +4692,23 @@
       "OriginalItemSpec": "wwwroot\\uploads\\events\\d353ccde-e20d-488f-ad4d-994642199c84_somnath.jpg"
     },
     {
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\d3da1147-860a-4d4f-9de2-37eebedcbf5a_OrderInvoice (53).pdf",
+      "SourceId": "Employee_Self_Service",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "BasePath": "_content/Employee_Self_Service",
+      "RelativePath": "uploads/events/d3da1147-860a-4d4f-9de2-37eebedcbf5a_OrderInvoice (53).pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\events\\d3da1147-860a-4d4f-9de2-37eebedcbf5a_OrderInvoice (53).pdf"
+    },
+    {
       "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\d3dc9fbd-632d-49c9-a9f3-634c54b44ca0_somnath.jpg",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
@@ -4879,6 +4947,23 @@
       "OriginalItemSpec": "wwwroot\\uploads\\events\\e41a26f1-93d4-4a71-8857-3e0b32c3e2b1_profileimage.jpg"
     },
     {
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\e49e34a5-70a0-4fdd-9ede-b47d3a5e4e8a_EventList (7).xlsx",
+      "SourceId": "Employee_Self_Service",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "BasePath": "_content/Employee_Self_Service",
+      "RelativePath": "uploads/events/e49e34a5-70a0-4fdd-9ede-b47d3a5e4e8a_EventList (7).xlsx",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\events\\e49e34a5-70a0-4fdd-9ede-b47d3a5e4e8a_EventList (7).xlsx"
+    },
+    {
       "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\e57a7539-fe1a-42b6-a7e9-ce65037ebfb4_somnath.jpg",
       "SourceId": "Employee_Self_Service",
       "SourceType": "Discovered",
@@ -4945,6 +5030,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\events\\e7516dac-0b5a-49e5-b472-873909ac2f51_somnath.jpg"
+    },
+    {
+      "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\e7fa87e5-2601-4d73-aa70-3cf8fc98f3a6_LeaveRequest (75).xlsx",
+      "SourceId": "Employee_Self_Service",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\",
+      "BasePath": "_content/Employee_Self_Service",
+      "RelativePath": "uploads/events/e7fa87e5-2601-4d73-aa70-3cf8fc98f3a6_LeaveRequest (75).xlsx",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\events\\e7fa87e5-2601-4d73-aa70-3cf8fc98f3a6_LeaveRequest (75).xlsx"
     },
     {
       "Identity": "D:\\Employee Self Service Portal\\Employee_Self_Service\\wwwroot\\uploads\\events\\ea5c83e3-f5ae-433a-aead-661147ed1c8c_dwarka.jpg",

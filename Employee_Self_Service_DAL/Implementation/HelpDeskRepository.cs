@@ -1,4 +1,5 @@
 // using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 using Employee_Self_Service_BAL.Helpers;
 using Employee_Self_Service_DAL.Data;
 using Employee_Self_Service_DAL.Interface;
@@ -47,7 +48,7 @@ public class HelpDeskRepository : IHelpDeskRepository
                         RequestedDate = (DateTime)h.InsertedAt,
                         Group = h.Group.GroupName,
                         Category = h.Category.CategoryName,
-                        SubCategory = h.SubCategory.SubCategoryName,
+                        SubCategory = h.SubCategory.SubCategoryName?? "",
                         Priority = (Constants.HelpDeskEnum.Priority)h.Priority,
                         ServiceDetails = h.ServiceDetails,
                         Status = h.Status.StatusName,
@@ -111,12 +112,24 @@ public class HelpDeskRepository : IHelpDeskRepository
 
         return model;
     }
-    public async Task<ResponseViewModel> AddRequest(HelpdeskRequest request)
+    public async Task<ResponseViewModel> AddRequest(HelpdeskRequest request, long [] selectedSubCategories)
     {
         try
         {
             _context.Add(request);
             await _context.SaveChangesAsync();
+            if (selectedSubCategories.Any())
+            {
+                foreach (var subCategoryId in selectedSubCategories)
+                {
+                    _context.SubcategoryMappings.Add(new SubcategoryMapping
+                    {
+                        RequestId = request.HelpdeskRequestId,
+                        SubCategoryId = (int)subCategoryId
+                    });
+                }
+                await _context.SaveChangesAsync();
+            }
             return new ResponseViewModel
             {
                 success = true,
@@ -140,16 +153,38 @@ public class HelpDeskRepository : IHelpDeskRepository
                                         .Include(h => h.Category)
                                         .Include(h => h.SubCategory)
                                         .Include(h => h.Status)
+                                        .Include(h => h.SubcategoryMappings)
                                         .Where(h => h.HelpdeskRequestId == requestId)
                                         .FirstOrDefaultAsync();  
         return helpdeskRequest ?? new HelpdeskRequest();
     }
 
-    public async Task<ResponseViewModel> EditRequest(HelpdeskRequest request)
+    public async Task<ResponseViewModel> EditRequest(HelpdeskRequest helpDeskRequest,long [] selectedSubCategories,int categoryId)
     {
         try
-        {
-            _context.Update(request);
+        {   
+            // _context.Update(request);
+           
+            _context.Update(helpDeskRequest);
+            await _context.SaveChangesAsync();
+            if (helpDeskRequest.CategoryId == 3)
+            {
+                var existingLinks =_context.SubcategoryMappings
+                    .Where(l => l.RequestId == helpDeskRequest.HelpdeskRequestId);
+                _context.SubcategoryMappings.RemoveRange(existingLinks);
+
+                foreach (var subCategoryId in selectedSubCategories)
+                {
+                    _context.SubcategoryMappings.Add(new SubcategoryMapping
+                    {
+                        RequestId = helpDeskRequest.HelpdeskRequestId,
+                        SubCategoryId = (int)subCategoryId
+                    });
+                }
+                await _context.SaveChangesAsync();
+            }
+            helpDeskRequest.CategoryId = categoryId;
+            _context.Update(helpDeskRequest);
             await _context.SaveChangesAsync();
             return new ResponseViewModel{
                 success = true,

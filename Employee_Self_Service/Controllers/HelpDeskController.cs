@@ -16,11 +16,13 @@ public class HelpDeskController : Controller
     {
         _helpDeskService = helpDeskService;
     }
+
     public  IActionResult HelpDeskRequest()
     {
         return View();
     }
 
+    [HttpGet]
     public async Task<IActionResult> GetRequestList(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string helpDeskRequestGroup, string helpDeskRequestStatus, string leaveRequestStatus,int employeeId)
     {   
         var model = await _helpDeskService.GetRequestData(pageSize, pageNumber, searchQuery, sortColumn, sortDirection, helpDeskRequestGroup, helpDeskRequestStatus, employeeId);
@@ -29,75 +31,89 @@ public class HelpDeskController : Controller
 
     [HttpGet]
     public async Task<IActionResult> AddEditHelpdeskRequest(long requestId)
-    {
-        AddHelpDeskRequestViewModel model = new  AddHelpDeskRequestViewModel();
-        if(requestId > 0)
         {
-            model = await _helpDeskService.GetEditDetails(requestId);
-            ViewBag.Groups = new SelectList(await _helpDeskService.GetGroups(), "GroupId", "GroupName");
-            ViewBag.Categories = new SelectList(await _helpDeskService.GetCategories(model.GroupId), "CategoryId", "CategoryName");
-            ViewBag.SubCategories = new SelectList(await _helpDeskService.GetSubCategories(model.CategoryId), "SubCategoryId", "SubCategoryName");
-        }
-        ViewBag.PriorityList = Enum.GetValues(typeof(Priority))
-            .Cast<Priority>()
-            .Select(p => new SelectListItem
+            AddHelpDeskRequestViewModel model = new AddHelpDeskRequestViewModel
             {
-                Value = ((int)p).ToString(),
-                Text = p.ToString()
-            })  
-            .ToList();
+                RequestedDate = DateTime.Now 
+            };
+            if (requestId > 0)
+            {
+                model = await _helpDeskService.GetEditDetails(requestId);
+                ViewBag.Groups = new SelectList(await _helpDeskService.GetGroups(), "GroupId", "GroupName", model.GroupId);
+                ViewBag.Categories = new SelectList(await _helpDeskService.GetCategories(model.GroupId), "CategoryId", "CategoryName", model.CategoryId);
+                ViewBag.SubCategories = new SelectList(await _helpDeskService.GetSubCategories(model.CategoryId), "SubCategoryId", "SubCategoryName", model.SubCategoryId);
+            }
+            // else
+            // {
+            //     ViewBag.Groups = new SelectList(await _helpDeskService.GetGroups(), "GroupId", "GroupName");
+            //     ViewBag.Categories = new SelectList(Enumerable.Empty<SelectListItem>());
+            //     ViewBag.SubCategories = new SelectList(Enumerable.Empty<SelectListItem>());
+            // }
 
-        return View(model);
-     
-        // ViewBag.Group = new SelectList(await _helpDeskService.GetGroups(), "GroupId", "GroupName");
-        // ViewBag.Categories = new SelectList(await _helpDeskService.GetCategories(), "CategoryId", "CategoryName");
-        // ViewBag.Group = new SelectList(await _helpDeskService.GetSubCategories(), "GroupId", "GroupName");
+            ViewBag.PriorityList = Enum.GetValues(typeof(Priority))
+                .Cast<Priority>()
+                .Select(p => new SelectListItem
+                {
+                    Value = p.ToString(), // Use enum name for binding
+                    Text = p.ToString()
+                })
+                .ToList();
 
-        // return View(model);
-    }
-
-    public async Task<IActionResult> GetGroups()
-    {
-        var groups = await _helpDeskService.GetGroups();
-        return Json(new SelectList(groups, "GroupId", "GroupName"));
-    }
-   
-    public async Task<IActionResult> GetCategories(int groupId)
-    {
-        var categories = await _helpDeskService.GetCategories(groupId);
-        return Json(new SelectList(categories, "CategoryId", "CategoryName"));
-    }
-    
-    public async Task<IActionResult> GetSubCategories(int categoryId)
-    {
-        var subCategories = await _helpDeskService.GetSubCategories(categoryId);
-        return Json(subCategories.Select(sc => new { value = sc.SubCategoryId, text = sc.SubCategoryName }));
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> AddEditHelpdeskRequest(AddHelpDeskRequestViewModel model)
-    {
-        ResponseViewModel response;
-        if(model.HelpDeskRequestId == 0)
-        {
-            response = await _helpDeskService.AddRequest(model);
-        
-        }
-        else
-        {
-            response = await _helpDeskService.EditRequest(model);
+            return View(model);
         }
 
-        if(response.success)
+        [HttpGet]
+        public async Task<IActionResult> GetGroups()
         {
-            TempData["successToastr"] = response.message;
+            var groups = await _helpDeskService.GetGroups();
+            return Json(groups.Select(g => new { value = g.GroupId, text = g.GroupName }));
         }
-        else
+
+        [HttpGet]
+        public async Task<IActionResult> GetCategories(int groupId)
         {
-            TempData["errorToastr"] = response.message;
+            var categories = await _helpDeskService.GetCategories(groupId);
+            return Json(categories.Select(c => new { value = c.CategoryId, text = c.CategoryName }));
         }
-        return RedirectToAction("HelpDeskRequest");
-    }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSubCategories(int categoryId)
+        {
+            var subCategories = await _helpDeskService.GetSubCategories(categoryId);
+            return Json(subCategories.Select(sc => new { value = sc.SubCategoryId, text = sc.SubCategoryName }));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddEditHelpDeskRequest([FromForm]AddHelpDeskRequestViewModel model)
+        {
+            
+                ResponseViewModel response;
+                if (model.HelpDeskRequestId == 0)
+                {
+                    response = await _helpDeskService.AddRequest(model);
+                }
+                else
+                {
+                    response = await _helpDeskService.EditRequest(model);
+                }
+                if (response.success)
+                {
+                  
+
+                    TempData["successToastr"] = response.message;
+                    return RedirectToAction("HelpDeskRequest");
+                    // return Json(new { success = true });
+                }
+                else
+                {
+                    TempData["errorToastr"] = response.message;
+                    return RedirectToAction("AddEditHelpdeskRequest");
+                    // return Json(new { success = false });
+                }
+                
+                // return Json(response.success);
+        }
 }
+
 
 
