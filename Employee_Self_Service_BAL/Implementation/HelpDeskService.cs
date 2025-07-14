@@ -31,11 +31,11 @@ public class HelpDeskService : IHelpDeskService
     {
         return await _helpDeskRepository.GetSubCategories(categoryId);
     }
-    public async Task<HelpDeskPaginationViewModel> GetRequestData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string helpDeskRequestGroup, string helpDeskRequestStatus,int employeeId)
+    public async Task<HelpDeskPaginationViewModel> GetRequestData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string helpDeskRequestGroup, string helpDeskRequestStatus, int employeeId)
     {
         try
         {
-           return await _helpDeskRepository.GetPaginatedRequest(pageSize, pageNumber, search, sort, sortDirection, helpDeskRequestGroup, helpDeskRequestStatus, employeeId);
+            return await _helpDeskRepository.GetPaginatedRequest(pageSize, pageNumber, search, sort, sortDirection, helpDeskRequestGroup, helpDeskRequestStatus, employeeId);
         }
         catch (Exception ex)
         {
@@ -46,18 +46,18 @@ public class HelpDeskService : IHelpDeskService
     public async Task<ResponseViewModel> AddRequest(AddHelpDeskRequestViewModel model)
     {
         try
-        {   
-            var helpDeskRequest = new HelpdeskRequest
         {
-            InsertedBy = model.EmployeeId,
-            GroupId = model.GroupId,
-            CategoryId = model.CategoryId,
-            // SubCategoryId = model.CategoryId == 3 ? null : model.SubCategoryId,
-            Priority = (int?)model.Priority,
-            ServiceDetails = model.ServiceDetails,
-            InsertedAt = model.RequestedDate,
-            StatusId = model.StatusId > 0 ? model.StatusId : 6 
-        };
+            var helpDeskRequest = new HelpdeskRequest
+            {
+                InsertedBy = model.EmployeeId,
+                GroupId = model.GroupId,
+                CategoryId = model.CategoryId,
+                // SubCategoryId = model.CategoryId == 3 ? null : model.SubCategoryId,
+                Priority = (int?)model.Priority,
+                ServiceDetails = model.ServiceDetails,
+                InsertedAt = model.RequestedDate,
+                StatusId = model.StatusId > 0 ? model.StatusId : 6
+            };
             // HelpdeskRequest request = new HelpdeskRequest
             // {
             //     GroupId = model.GroupId,
@@ -69,16 +69,30 @@ public class HelpDeskService : IHelpDeskService
             //     InsertedAt = model.RequestedDate,
             //     InsertedBy = model.EmployeeId
             // };
-            ResponseViewModel response  = await _helpDeskRepository.AddRequest(helpDeskRequest,model.selectedSubCategories);
+            ResponseViewModel response = await _helpDeskRepository.AddRequest(helpDeskRequest, model.selectedSubCategories);
             return response;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            return new ResponseViewModel{
+            return new ResponseViewModel
+            {
                 success = true,
                 message = "Request Failed to Add: " + ex.Message
             };
         }
+    }
+
+    public async Task<ResponseViewModel> AddNotification(string notification)
+    {
+        Notification addNotification = new Notification
+        {
+            Notification1 = notification,
+            NotificationCategoryId = 4,
+
+        };
+        
+        ResponseViewModel response = await _helpDeskRepository.AddNotification(addNotification);
+        return response;
     }
 
     // public async Task<AddHelpDeskRequestViewModel> GetEditDetails(long requestId)
@@ -108,112 +122,85 @@ public class HelpDeskService : IHelpDeskService
     // }
 
     public async Task<AddHelpDeskRequestViewModel> GetEditDetails(long requestId)
-    {   
-        try{
+    {
+        try
+        {
             HelpdeskRequest details = await _helpDeskRepository.GetDetails(requestId);
-        if(details == null)
-        {
-            return new AddHelpDeskRequestViewModel();
-        }
+            if (details == null)
+            {
+                return new AddHelpDeskRequestViewModel();
+            }
 
-        var model = new AddHelpDeskRequestViewModel
-        {
-            HelpDeskRequestId = details.HelpdeskRequestId,
-            EmployeeId = (int)details.InsertedBy,
-            GroupId = details.Group.GroupId,
-            CategoryId = details.Category.CategoryId,
-            // SubCategoryId = details.SubCategory?.SubCategoryId ,
-            Priority = (HelpDeskEnum.Priority)details.Priority,
-            ServiceDetails = details.ServiceDetails,
-            RequestedDate = (DateTime)details.InsertedAt,
-            StatusId = (int)details.StatusId,
-            Group = details.Group.GroupName,
-            Category = details.Category.CategoryName,
-            // SubCategory = details.SubCategory.SubCategoryName,
-            Status = details.Status.StatusName,
-            selectedSubCategories = details.SubcategoryMappings
-                    .Where(l => l.RequestId == requestId)
-                    .Select(l => (long)l.SubCategoryId)
-                    .ToArray()
-                
-        };
-        return model;
+            var model = new AddHelpDeskRequestViewModel
+            {
+                HelpDeskRequestId = details.HelpdeskRequestId,
+                EmployeeId = (int)details.InsertedBy,
+                GroupId = details.Group.GroupId,
+                CategoryId = details.Category.CategoryId,
+                // SubCategoryId = details.SubCategory?.SubCategoryId ,
+                Priority = (HelpDeskEnum.Priority)details.Priority,
+                ServiceDetails = details.ServiceDetails,
+                RequestedDate = (DateTime)details.InsertedAt,
+                StatusId = (int)details.StatusId,
+                Group = details.Group.GroupName,
+                Category = details.Category.CategoryName,
+                // SubCategory = details.SubCategory.SubCategoryName,
+                Status = details.Status.StatusName,
+                selectedSubCategories = details.SubcategoryMappings
+                        .Where(l => l.RequestId == requestId)
+                        .Select(l => (int)l.SubCategoryId)
+                        .ToArray()
+
+            };
+            return model;
         }
-        catch(Exception ex)
-        {   
+        catch (Exception ex)
+        {
             Console.WriteLine(ex.Message);
             return null;
         }
-        
-
-        
     }
 
     public async Task<ResponseViewModel> EditRequest(AddHelpDeskRequestViewModel model)
     {
         HelpdeskRequest helpDeskRequest = await _helpDeskRepository.GetDetails(model.HelpDeskRequestId);
-        // if(helpDeskRequest.CategoryId == 3)
-        // {
-        //     var existingLinks = helpDeskRequest.SubcategoryMappings
-        //         .Where(l => l.RequestId == model.HelpDeskRequestId);
-        //     helpDeskRequest.SubcategoryMappings.RemoveRange(existingLinks);
-        // }
-        helpDeskRequest.HelpdeskRequestId = model.HelpDeskRequestId;
-        helpDeskRequest.GroupId = model.GroupId;
-        helpDeskRequest.CategoryId = model.CategoryId;
-        helpDeskRequest.SubCategoryId = model.CategoryId == 3 ? null : model.SubCategoryId;
-        helpDeskRequest.Priority = (int?)model.Priority;
-        helpDeskRequest.ServiceDetails = model.ServiceDetails;
-        helpDeskRequest.InsertedAt = model.RequestedDate;
-        helpDeskRequest.StatusId = model.StatusId;
-
+        {
+            // helpDeskRequest.HelpdeskRequestId = model.HelpDeskRequestId;
+            helpDeskRequest.GroupId = model.GroupId;
+            helpDeskRequest.CategoryId = model.CategoryId;
+            helpDeskRequest.SubCategoryId = null;
+            helpDeskRequest.Priority = (int?)model.Priority;
+            helpDeskRequest.ServiceDetails = model.ServiceDetails;
+            helpDeskRequest.InsertedAt = model.RequestedDate;
+            // helpDeskRequest.StatusId = model.StatusId;
+        };
         
-
-        ResponseViewModel response = await _helpDeskRepository.EditRequest(helpDeskRequest,model.selectedSubCategories,model.CategoryId);
+        ResponseViewModel response = await _helpDeskRepository.EditRequest(helpDeskRequest, model.selectedSubCategories);
         return response;
-        // _context.Update(helpDeskRequest);
-
-        // if (model.CategoryId == 3)
-        // {
-        //     var existingLinks = _context.HelpdeskSubCategoryLinks
-        //         .Where(l => l.HelpDeskRequestId == model.HelpDeskRequestId);
-        //     _context.HelpdeskSubCategoryLinks.RemoveRange(existingLinks);
-
-        //     foreach (var subCategoryId in model.selectedSubCategories)
-        //     {
-        //         _context.HelpdeskSubCategoryLinks.Add(new HelpdeskSubCategoryLink
-        //         {
-        //             HelpDeskRequestId = model.HelpDeskRequestId,
-        //             SubCategoryId = (int)subCategoryId
-        //         });
-        //     }
-        // }
-
-        // await _context.SaveChangesAsync();
-        // return new ResponseViewModel { Success = true, Message = "Request updated successfully." };
     }
-    // public async Task<ResponseViewModel> EditRequest(AddHelpDeskRequestViewModel model)
-    // {
-    //     try
-    //     {
-    //         HelpdeskRequest request = await _helpDeskRepository.GetDetails(model.HelpDeskRequestId);
-    //         {
-    //             request.GroupId = model.GroupId;
-    //             request.CategoryId = model.CategoryId;
-    //             request.SubCategoryId = model.SubCategoryId;
-    //             request.Priority = (int?)model.Priority;
-    //             request.ServiceDetails = model.ServiceDetails;
-    //         }
-    //         ResponseViewModel response = await _helpDeskRepository.EditRequest(request);
-    //         return response;
-    //     }
-    //     catch(Exception ex)
-    //     {
-    //         return new ResponseViewModel
-    //         {
-    //             success = true,
-    //             message = "HelpDesk Request Failed to Edit" + ex.Message
-    //         };
-    //     }
-    // }
+
+    public async Task<ResponseViewModel> DeleteHelpDeskRequest(long requestId)
+    {
+        try
+        {
+            HelpdeskRequest request = await _helpDeskRepository.GetDetails(requestId);
+            {
+                request.StatusId = 3;
+                request.DeletedAt = DateTime.Now;
+            };
+
+            ResponseViewModel response = await _helpDeskRepository.EditRequest(request,Array.Empty<int>());
+            return response;
+        }
+        catch (Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                success = false,
+                message = "Request Failed to Canceled:" + ex.Message
+            };
+        }
+
+    }
+
 }

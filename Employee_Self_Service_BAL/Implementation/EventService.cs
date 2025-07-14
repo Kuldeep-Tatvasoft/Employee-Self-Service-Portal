@@ -49,8 +49,6 @@ public class EventService : IEventService
                 CategoryId = model.CategoryId
             };
 
-
-
             ResponseViewModel response = await _eventRepository.AddEvent(newEvent, model.Documents);
 
             return response;

@@ -68,6 +68,29 @@
     </div>
 </div>
 
+<div class="modal fade " id="deleteHelpDeskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered text-secondary">
+        <div class="modal-content">
+            <div class="modal-header border border-0">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Confiremation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center flex-column align-items-center">
+                <img src="../images/toppng.com-warning-icon-2400x2400.png" alt="" style="width: 70px">
+                <p>Are you sure you want to cancel this HelpDesk Request?</p>
+            </div>
+            <div class="modal-footer border border-0 d-flex justify-content-center">
+                <form asp-action="DeleteHelpDeskRequest" asp-controller="HelpDesk">
+                    <input type="hidden" name="helpDeskRequestId" id="HelpDeskRequestId" value="">
+                    <button type="submit" class="confirmLeaveDeleteBtn btn btn-primary"
+                        id="confirmLeaveDeleteBtn">YES</button>
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">NO</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
@@ -146,5 +169,11 @@
         $('#helpDeskRequestStatus').val(6);
         HelpDeskRequestPaginationAjax(1);
     })
+
+    /* -------------------------------------------------------------------------------------Delete HelpDesk Request Script --------------------------------------------------------*/
+    $(document).on("click", ".deleteHelpDeskBtn", function () {
+        let helpDeskRequestId = $(this).data("id");
+        $('#HelpDeskRequestId').val(helpDeskRequestId);
+    });
 
 </script>

@@ -283,6 +283,7 @@ alert('An error occurred while submitting the request.');
     var username = Context.Request.Cookies["employeeName"];
     string? employeeId = Context.Request.Cookies["EmployeeId"];
 }
+
 <div class="d-flex flex-column py-3">
     <div class="px-3 d-flex justify-content-between align-items-center">
         <div>
@@ -299,26 +300,31 @@ alert('An error occurred while submitting the request.');
     </div>
     <hr class="dropdown-divider">
 
-    <form   id="helpDeskForm">
+    <form asp-action="AddEditHelpDeskRequest" asp-controller="HelpDesk" method="post" id="helpDeskForm">
         <div class="details">
             <input type="hidden" asp-for="HelpDeskRequestId">
             <input type="hidden" asp-for="EmployeeId" value="@employeeId">
-
+            <input type="hidden" asp-for="Group" id="selectedGroupText" />
             <div class="row col col-xxl-6 col-xl-7 col-lg-12 px-4">
                 <!-- First Row: Name -->
                 <label for="Name" class="p-0 mb-1">Name</label>
-                <input type="text" class="form-control rounded-0 shadow-none border-2" id="Name" value="@username" readonly>
+                <input type="text" class="form-control rounded-0 shadow-none border-2"  id="Name" asp-for="EmployeeName"  value="@username"
+                    readonly>
 
                 <!-- Second Row: Requested DateTime -->
                 <label for="requestedDate" class="p-0 mb-1 mt-3">Requested DateTime</label>
-                <input type="datetime-local" class="form-control rounded-0 shadow-none border-2 d-none" id="requestedDate" asp-for="RequestedDate">
-                <input type="text" class="form-control rounded-0 shadow-none border-2" id="requestedDateDisplay" readonly>
+                <input type="datetime-local" class="form-control rounded-0 shadow-none border-2 d-none"
+                    id="requestedDate" asp-for="RequestedDate">
+                <input type="text" class="form-control rounded-0 shadow-none border-2" id="requestedDateDisplay"
+                    readonly>
                 <span asp-validation-for="RequestedDate" class="text-danger"></span>
 
                 <!-- Third Row: Group -->
                 <label class="p-0 mb-1 mt-3">Group*</label>
-                <select asp-for="GroupId" class="form-select rounded-0 shadow-none border-2" id="Groups" asp-items="@ViewBag.Groups">
+                <select asp-for="GroupId" class="form-select rounded-0 shadow-none border-2" id="Groups"
+                    asp-items="@ViewBag.Groups">
                     <option value="">Select Group</option>
+                    
                 </select>
                 <span asp-validation-for="GroupId" class="text-danger"></span>
 
@@ -332,27 +338,32 @@ alert('An error occurred while submitting the request.');
                 <!-- Fifth Row: Sub Categories -->
                 <label class="p-0 mb-1 mt-3">Sub Categories*</label>
                 <!-- Single Dropdown for both single and multi-select, always named selectedSubCategories -->
-                <select asp-for="SubCategoryId" class="form-select rounded-0 shadow-none border-2" id="SubCategories" name="selectedSubCategories" >
+                <select asp-for="selectedSubCategories" class="form-select rounded-0 shadow-none border-2 " id="SubCategories"
+                    name="selectedSubCategories">
                     <option value="">Select Sub Category</option>
                 </select>
-                <span class="text-danger" id="subCategoryValidation"></span>
+                @* <span class="text-danger" id="subCategoryValidation"></span> *@
+                <span asp-validation-for="selectedSubCategories" class="text-danger" id="subCategoryValidation"></span>
 
                 <!-- Sixth Row: Priority -->
                 <label class="p-0 mb-1 mt-3">Priority*</label>
-                <select asp-for="Priority" class="form-select rounded-0 shadow-none border-2" id="Priority" asp-items="ViewBag.PriorityList">
+                <select asp-for="Priority" class="form-select rounded-0 shadow-none border-2" id="Priority"
+                    asp-items="ViewBag.PriorityList">
                     <option value="">Select Priority</option>
                 </select>
                 <span asp-validation-for="Priority" class="text-danger"></span>
 
                 <!-- Seventh Row: Service Details -->
                 <label for="ServiceDetails" class="p-0 mb-1 mt-3">Service Details*</label>
-                <textarea class="form-control rounded-0 shadow-none border-2" rows="4" asp-for="ServiceDetails"></textarea>
+                <textarea class="form-control rounded-0 shadow-none border-2" rows="4"
+                    asp-for="ServiceDetails"></textarea>
                 <span asp-validation-for="ServiceDetails" class="text-danger"></span>
 
                 <!-- Submit and Cancel Buttons -->
                 <div class="d-flex justify-content-start mt-4 gap-2 p-0">
                     <button type="submit" id="customDateApplyModel" class="btn btn-primary rounded-0">Save</button>
-                    <a href="/HelpDesk/HelpDeskRequest"><button type="button" class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
+                    <a href="/HelpDesk/HelpDeskRequest"><button type="button"
+                            class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
                 </div>
             </div>
         </div>
@@ -364,18 +375,23 @@ alert('An error occurred while submitting the request.');
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@@coreui/coreui@5.15.0/dist/js/coreui.bundle.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@@coreui/coreui-pro@5.15.0/dist/js/coreui.bundle.min.js"></script>
     <script>
+        
         $(document).ready(function () {
-            
-            var selectedSubCategoryIdsForCategory3 = @Html.Raw(Json.Serialize(Model.selectedSubCategories ?? Array.Empty<long>()));
+            const selectedSubCategoryIds = [];
+            let selectedSubCategories = [];
+            var selectedSubCategoryIdsForCategory3 = @Html.Raw(Json.Serialize(Model.selectedSubCategories ?? Array.Empty<int>()));
+            selectedSubCategoryIdsForCategory3.forEach(sub => selectedSubCategoryIds.push(sub));
             console.log(selectedSubCategoryIdsForCategory3);
-            @* selectedSubCategoryIds.push(...multiSelectInstance.getValue().map(Number));
+            console.log(selectedSubCategoryIds);
+        @* selectedSubCategoryIds.push(...multiSelectInstance.getValue().map(Number));
                 selectedSubCategories = $('#SubCategories option:selected').map(function () {
                     return $(this).text();
                 }).get(); *@
-            var subCategoriesSelect = $('#SubCategories');
-            
-            let multiSelectInstance = null; 
+                var subCategoriesSelect = $('#SubCategories');
+
+            let multiSelectInstance = null;
 
             function formatDateTime(date) {
                 if (!date) return '';
@@ -393,13 +409,14 @@ alert('An error occurred while submitting the request.');
 
             if (@Model.HelpDeskRequestId === 0) {
                 const now = new Date();
-                $('#requestedDate').val(now.toISOString().slice(0, 16)); 
-                $('#requestedDateDisplay').val(formatDateTime(now)); 
-            } else if ($('#requestedDate').val()) {
+                $('#requestedDate').val(now.toISOString().slice(0, 16));
+                $('#requestedDateDisplay').val(formatDateTime(now));
+                }
+            @* } else if ($('#requestedDate').val()) {
                 const dateVal = new Date($('#requestedDate').val());
                 $('#requestedDate').val(dateVal.toISOString().slice(0, 16));
                 $('#requestedDateDisplay').val(formatDateTime(dateVal));
-            }
+            } *@
 
             $.getJSON('@Url.Action("GetGroups", "HelpDesk")', function (groups) {
                 const groupsSelect = $('#Groups');
@@ -418,15 +435,18 @@ alert('An error occurred while submitting the request.');
 
             $('#Groups').change(function () {
                 const groupId = $(this).val();
+                console.log(groupId);
+                var group = $('#Groups option:selected').text();
+                $('#selectedGroupText').val(group);
                 const categoriesSelect = $('#Categories');
                 categoriesSelect.empty().append('<option value="">Select Category</option>');
-                
-                @* $('#SubCategories').empty().append('<option value="">Select Sub Category</option>').removeClass('form-multi-select').addClass('form-select').removeAttr('multiple'); *@
-                @* $('#subCategoryValidation').text(''); *@
-                @* selectedSubCategoryIdsForCategory3 = [];  *@
-                
-                if (multiSelectInstance) {
-                    multiSelectInstance = null; 
+
+        @* $('#SubCategories').empty().append('<option value="">Select Sub Category</option>').removeClass('form-multi-select').addClass('form-select').removeAttr('multiple'); *@
+        @* $('#subCategoryValidation').text(''); *@
+        @* selectedSubCategoryIdsForCategory3 = [];  *@
+
+                    if (multiSelectInstance) {
+                    multiSelectInstance = null;
                 }
 
                 if (groupId) {
@@ -440,44 +460,45 @@ alert('An error occurred while submitting the request.');
                         });
                         subCategoriesSelect.empty().append('<option value="">Select Sub Category</option>').removeClass('form-multi-select').addClass('form-select').removeAttr('multiple');
                         $('#subCategoryValidation').text('');
-                        
+                        if (@Model.CategoryId > 0) {
+                            populateSubCategories(@Model.CategoryId);
+                        }
                     });
                 }
-               
+
             });
 
-            
             $('#Categories').change(function () {
-                
                 const categoryId = $(this).val();
+
                 populateSubCategories(categoryId);
-                
+
             });
 
             function populateSubCategories(categoryId) {
-                
+
                 var subCategoriesSelect = $('#SubCategories');
-                subCategoriesSelect.empty().append('<option value="">Select Sub Category</option>').removeClass('form-multi-select').addClass('form-select').removeAttr('multiple');
+                subCategoriesSelect.empty().append('<option value="">Select Sub Category</option>').removeClass('form-multi-select p-0').addClass('form-select').removeAttr('multiple');
                 $('#subCategoryValidation').text('');
 
                 if (multiSelectInstance) {
-                    multiSelectInstance = null; 
+                    multiSelectInstance = null;
                 }
 
                 if (categoryId) {
                     $.getJSON('@Url.Action("GetSubCategories", "HelpDesk")', { categoryId: categoryId }, function (subCategories) {
                         if (categoryId == 3) {
-                            
-                           
-                            subCategoriesSelect.removeClass('form-select').addClass('form-multi-select').attr('multiple', 'multiple');
+
+
+                            subCategoriesSelect.removeClass('form-select').addClass('form-multi-select p-0').attr('multiple', 'multiple');
+                            @* $("#SubCategories").style.removeProperty('display'); *@
                             $.each(subCategories, function (index, subCategory) {
                                 const isSelected = selectedSubCategoryIdsForCategory3.includes(subCategory.value);
-                                console.log(isSelected,"frfefwerrert");
-                                subCategoriesSelect.append($('<option/>', {
-                                    value: subCategory.value,
-                                    text: subCategory.text,
-                                    selected: isSelected
-                                }));
+                                    subCategoriesSelect.append($('<option/>', {
+                                        value: subCategory.value,
+                                        text: subCategory.text,
+                                        selected: isSelected
+                                    }));
                             });
                             multiSelectInstance = new coreui.MultiSelect(document.getElementById('SubCategories'), {
                                 search: true,
@@ -485,16 +506,20 @@ alert('An error occurred while submitting the request.');
                                 onChange: updateSelectedSubCategories
                             });
                         } else {
-                            // Single-select mode, still use selectedSubCategories
+
                             
                             subCategoriesSelect.removeClass('form-multi-select').addClass('form-select').removeAttr('multiple');
+                            @* subCategoriesSelect.style.removeProperty('display'); *@
+                            $(".form-multi-select").addClass('d-none');
+
                             $.each(subCategories, function (index, subCategory) {
-                                const isSelected = selectedSubCategoryIdsForCategory3.includes(subCategory.value);
+                                const singleSelected = selectedSubCategoryIdsForCategory3.includes(subCategory.value);
+                                console.log(singleSelected);
                                 subCategoriesSelect.append($('<option/>', {
                                     value: subCategory.value,
                                     text: subCategory.text,
-                                    
-                                    selected: isSelected 
+
+                                    selected: singleSelected
                                 }));
                             });
                         }
@@ -513,24 +538,27 @@ alert('An error occurred while submitting the request.');
                     selectedSubCategories = $('#SubCategories option:selected').map(function () {
                         return $(this).text();
                     }).get();
-                    selectedSubCategoryIdsForCategory3 = selectedSubCategoryIds; 
+                    selectedSubCategoryIdsForCategory3 = selectedSubCategoryIds;
+                    console.log(selectedSubCategoryIds);
                 } else {
-                    
+
                     const selectedOption = $('#SubCategories option:selected');
                     if (selectedOption.val()) {
                         selectedSubCategoryIds.push(Number(selectedOption.val()));
                         selectedSubCategories.push(selectedOption.text());
-                        selectedSubCategoryIdsForCategory3 = selectedSubCategoryIds; 
+                        selectedSubCategoryIdsForCategory3 = selectedSubCategoryIds;
                     }
                 }
 
                 const label = selectedSubCategories.length > 0 ? selectedSubCategories.join(', ') : 'Select Sub Categories';
                 $('#SubCategories').siblings('.form-multi-select-label').text(label);
-                $('#subCategoryValidation').text(selectedSubCategoryIds.length ? '' : 'Please select at least one sub category.');
+                console.log(selectedSubCategoryIds);
+                $('#subCategoryValidation').text(selectedSubCategoryIds.length > 0  ? '' : 'Please select at least one sub category.');
+                @* $('#subCategoryValidation').selectedSubCategoryIds.length ? '' : 'Please select at least one sub category.'; *@
+                @* console.log(selectedSubCategoryIdsForCategory3); *@
             }
 
-            // Form validation
-            $('#helpDeskForm').validate({
+            @* $('#helpDeskForm').validate({
                 rules: {
                     GroupId: { required: true },
                     CategoryId: { required: true },
@@ -539,14 +567,16 @@ alert('An error occurred while submitting the request.');
                         minlength: 1
                     },
                     Priority: { required: true },
-                    ServiceDetails: { required: true }
+                    ServiceDetails: { required: true },
+                    RequestedDate: { required: true }
                 },
                 messages: {
                     GroupId: "Please select a group.",
                     CategoryId: "Please select a category.",
                     selectedSubCategories: "Please select at least one sub category.",
                     Priority: "Please select a priority.",
-                    ServiceDetails: "Please enter service details."
+                    ServiceDetails: "Please enter service details.",
+                    RequestedDate: "Please select a requested date."
                 },
                 errorPlacement: function (error, element) {
                     if (element.attr('name') === 'selectedSubCategories') {
@@ -556,41 +586,60 @@ alert('An error occurred while submitting the request.');
                     }
                 },
                 submitHandler: function (form) {
-                    const formData = {
-                        HelpDeskRequestId: $('#HelpDeskRequestId').val(),
-                        EmployeeId: $('#EmployeeId').val(),
-                        GroupId: $('#Groups').val(),
-                        CategoryId: $('#Categories').val(),
-                        SubCategoryId: null, // Always null, use selectedSubCategories instead
-                        selectedSubCategories: selectedSubCategoryIdsForCategory3, // Use the array for all cases
-                        Priority: $('#Priority').val(),
-                        ServiceDetails: $('#ServiceDetails').val(),
-                        RequestedDate: $('#requestedDate').val()
-                    };
-                    console.log($('#SubCategories option:selected').val());
-                    @* $.ajax({
-                        url: '/HelpDesk/AddEditHelpDeskRequest',
+                    if (!$(form).valid()) return; // Ensure validation passes
+                    const formData = $(form).serializeArray().reduce(function (obj, item) {
+                        obj[item.name] = item.value;
+                        return obj;
+                    }, {});
+                    formData.selectedSubCategories = $('#SubCategoriesHidden').val() || [];
+
+                    $.ajax({
+                        url: form.action,
                         type: 'POST',
-                        data: formData,
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json',
                         success: function (response) {
-                            if (response.isSuccess) {
-                                toastr.success('Request submitted successfully!');
+                            if (response.success) {
+                                toastr.success(response.message);
                                 setTimeout(() => window.location.href = '/HelpDesk/HelpDeskRequest', 1000);
                             } else {
-                                toastr.error(response.message || 'Error submitting request.');
+                                toastr.error(response.message);
                             }
                         },
                         error: function () {
                             toastr.error('An error occurred while submitting the request.');
                         }
-                    }); *@
+                    });
                 }
+            }); *@
+
+            // Form validation
+            $('#helpDeskForm').validate({
+                rules: {
+                    
+                    selectedSubCategories: {
+                        required: true,
+                        minlength: 1
+                    },
+                    
+                },
+                messages: {
+                    
+                    selectedSubCategories: "Please select at least one sub category.",
+                    
+                },
+                errorPlacement: function (error, element) {
+                    if (element.attr('name') === 'selectedSubCategories') {
+                        error.appendTo('#subCategoryValidation');
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                
             });
 
-            // Trigger initial population for edit mode
-            if (@Model.CategoryId > 0) {
-                populateSubCategories(@Model.CategoryId);
-            }
+
+
 
             // Update subcategories on change
             $('#SubCategories').on('change', updateSelectedSubCategories);

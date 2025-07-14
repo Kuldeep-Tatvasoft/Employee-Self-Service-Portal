@@ -67,10 +67,11 @@
                     <td class="text-center">
                         @data.Category
                     </td>
-
+                    
                     <td class="text-center">
                         @data.SubCategory
                     </td>
+        
                     <td class="text-center">
                         @data.Priority
                     </td>
@@ -80,7 +81,31 @@
                     </td>
 
                     <td class="text-center">
-                        @data.Status
+                        @if (@data.StatusId == 2)
+                        {
+                            <div class="approved ">
+                                @data.Status
+                            </div>
+                        }
+                        else if (@data.StatusId == 7)
+                        {
+                            <div class="rejected">
+                                @data.Status
+                            </div>
+                        }
+                        else if (@data.StatusId == 3)
+                        {
+                            <div class="cancelled">
+                                @data.Status
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="pending d-flex align-items-center">
+                                @data.Status
+                            </div>
+                        }
+                        
                     </td>
 
                     <td class="text-center">

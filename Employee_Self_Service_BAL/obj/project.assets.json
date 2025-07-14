@@ -7098,8 +7098,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "d:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj": {
-              "projectPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj"
+            "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj": {
+              "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj"
             }
           }
         }

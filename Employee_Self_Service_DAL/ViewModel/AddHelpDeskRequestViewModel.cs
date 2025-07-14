@@ -8,6 +8,7 @@ public class AddHelpDeskRequestViewModel
 {
     public long HelpDeskRequestId { get; set; }
     [Required(ErrorMessage = "Employee is required")]
+    public string EmployeeName {get; set;}
     public int EmployeeId { get; set; }
     [Required(ErrorMessage = "Group is required")]
     public int GroupId { get; set; }
@@ -27,5 +28,9 @@ public class AddHelpDeskRequestViewModel
     public string PendingAt { get; set; }
     public string Status { get; set; }
     public string Comment { get; set; }
-    public long[] selectedSubCategories { get; set; } = Array.Empty<long>();
+
+    [Required(ErrorMessage = "At least one subcategory is required")]
+    [MinLength(1, ErrorMessage = "At least one subcategory must be selected.")]
+    public int[] selectedSubCategories { get; set; } = Array.Empty<int>();
+   
 }
