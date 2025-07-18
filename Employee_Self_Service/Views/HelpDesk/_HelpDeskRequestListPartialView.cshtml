@@ -1,6 +1,81 @@
-@model Employee_Self_Service_DAL.ViewModel.HelpDeskPaginationViewModel
+@* @model Employee_Self_Service_DAL.ViewModel.HelpDeskPaginationViewModel
+@using Employee_Self_Service.Attributes
 @using Employee_Self_Service_BAL.Helpers
+@using Employee_Self_Service_DAL.ViewModel
+@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+
+
+@{
+    var gridProperties = typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel)
+        .GetProperties()
+        .Where(p => p.GetCustomAttribute<DisplayAttribute>() != null)
+        .ToList();
+}
+
 <div class="table-responsive px-0">
+   
+
+<table class="table">
+    <thead>
+        <tr>
+            @foreach (var prop in gridProperties)
+            {
+                var displayName = prop.GetCustomAttribute<DisplayAttribute>()?.Name ?? prop.Name;
+                <th class="text-center">@displayName</th>
+            }
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in Model.HelpDeskList)
+        {
+            <tr>
+                @foreach (var prop in gridProperties)
+                {
+                    var value = prop.GetValue(data, null);
+                    <td class="text-center">
+                        @if (value is IEnumerable<string> subCats)
+                        {
+                            foreach (var item in subCats) { @item<br /> }
+                        }
+                        else if (value is DateTime dt)
+                        {
+                            @dt.ToString("dd-MM-yyyy hh:mm tt")
+                        }
+                        else
+                        {
+                            @value
+                        }
+                    </td>
+                }
+
+                <td class="text-center">
+                    <div class="d-flex justify-content-center align-items-center">
+                        @if (data.PendingAt == "HR")
+                        {
+                            <a asp-action="AddEditHelpdeskRequest" asp-controller="HelpDesk"
+                               asp-route-requestId="@data.HelpDeskRequestId" class="btn">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            <a class="btn deleteHelpDeskBtn p-0" data-id="@data.HelpDeskRequestId" data-bs-toggle="modal"
+                               data-bs-target="#deleteHelpDeskModal">
+                                <i class="bi bi-trash text-black"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+                               asp-route-requestId="@data.HelpDeskRequestId" class="btn">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
     <table class="table">
         <thead>
             <tr>
@@ -16,6 +91,7 @@
                 </th>
                 <th class="text-center">
                     <a href="javascript:void(0)" onclick="sortBy('Group')"
+    
                         class="text-decoration-none text-dark">Group<i class="bi bi-arrow-down-up" id="sort-by-role"
                             data-direction="asc"></i> </a>
                 </th>
@@ -205,4 +281,118 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+ *@
 
+@model Employee_Self_Service_DAL.ViewModel.HelpDeskPaginationViewModel
+@using Employee_Self_Service.DAL.Attributes
+@using Employee_Self_Service_DAL.ViewModel
+@using System.Reflection
+
+<div class="table-responsive px-0">
+   
+@* 
+@{
+    var gridProperties = typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel)
+        .GetProperties()
+        .Where(p => p.GetCustomAttribute<DisplayColumnAttribute>().IsVisible != false)
+        .ToList();
+} *@
+
+<table class="table">
+    <thead>
+        <tr>
+             @foreach (var prop in typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel).GetProperties())
+        {
+            var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
+            if (displayAttr?.IsVisible != false) // skip invisible columns
+            {
+                <th>@displayAttr?.Name ?? prop.Name</th>
+            }
+        }
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in Model.HelpDeskList)
+        {
+            <tr>
+                @foreach (var prop in typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel).GetProperties())
+            {
+            var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
+            if (displayAttr?.IsVisible != false)
+            {
+                var value = prop.GetValue(data);
+                    <td class="text-center">
+                        @if (value is IEnumerable<string> subCats)
+                        {
+                            foreach (var item in subCats) { @item<br /> }
+                        }
+                        else if (value is DateTime dt)
+                        {
+                            @dt.ToString("dd-MM-yyyy hh:mm tt")
+                        }
+                        else
+                        {
+                            @value
+                        }
+                    </td>
+                }
+        }
+                <td class="text-center">
+                    <div class="d-flex justify-content-center align-items-center">
+                        @if (data.PendingAt == "HR")
+                        {
+                            <a asp-action="AddEditHelpdeskRequest" asp-controller="HelpDesk"
+                               asp-route-requestId="@data.HelpDeskRequestId" class="btn">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            <a class="btn deleteHelpDeskBtn p-0" data-id="@data.HelpDeskRequestId" data-bs-toggle="modal"
+                               data-bs-target="#deleteHelpDeskModal">
+                                <i class="bi bi-trash text-black"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+                               asp-route-requestId="@data.HelpDeskRequestId" class="btn">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+<!-- Pagination Section -->
+<div class="d-flex flex-row justify-content-end gap-2 mb-3 align-items-center">
+    <p class="pt-3 text-black">Items per page</p>
+    <div class="dropdown">
+        <select class="form-select w-auto" onchange="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage)"
+                aria-label="Default select example" id="helpDeskRequestPageSize">
+            @if (Model.Page.PageSize != null)
+            {
+                <option value="5" selected="@(Model.Page.PageSize == 5 ? "selected" : null)">5</option>
+                <option value="10" selected="@(Model.Page.PageSize == 10 ? "selected" : null)">10</option>
+                <option value="15" selected="@(Model.Page.PageSize == 15 ? "selected" : null)">15</option>
+            }
+        </select>
+    </div>
+    <p class="pt-3 text-black">Showing @Model.Page!.FromRec - @Model.Page.ToRec of @Model.Page.TotalRecord</p>
+
+    <!-- Previous Button -->
+    <button class="btn btn-outline-primary col-auto"
+            onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage - 1)" @(Model.Page.CurrentPage > 1 ? "" : "disabled")">
+        <
+    </button>
+
+    <!-- Next Button -->
+    <button class="btn btn-outline-primary col-auto"
+            onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage + 1)" @(Model.Page.CurrentPage < Model.Page.TotalPages ? "" : "disabled")">
+        >
+    </button>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>

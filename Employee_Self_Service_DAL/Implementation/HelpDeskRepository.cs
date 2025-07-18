@@ -47,7 +47,7 @@ public class HelpDeskRepository : IHelpDeskRepository
                     .Include(h => h.Status)
                     .Include(h => h.SubcategoryMappings)
                     .Where(h => h.InsertedBy == employeeId && h.DeletedAt == null )
-                    .Select(h => new AddHelpDeskRequestViewModel
+                    .Select(h => new HelpDeskDetailsViewModel
                     {
                         HelpDeskRequestId = h.HelpdeskRequestId,
                         RequestedDate = (DateTime)h.InsertedAt,
@@ -279,7 +279,7 @@ public class HelpDeskRepository : IHelpDeskRepository
                     .Include(h => h.Status)
                     .Include(h => h.SubcategoryMappings)
                     .Where(h => role == "Network" ? (int)h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault() == 2 || (int)h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault() == 1 : h.StatusId != 3 && h.InsertedBy != employeeId && h.StatusId != 3)
-                    .Select(h => new AddHelpDeskRequestViewModel
+                    .Select(h => new HelpDeskDetailsViewModel
                     {
                         HelpDeskRequestId = h.HelpdeskRequestId,
                         RequestedDate = (DateTime)h.InsertedAt,
