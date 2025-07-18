@@ -25,11 +25,15 @@ public partial class HelpdeskRequest
 
     public int? Priority { get; set; }
 
+    public int? PendingAt { get; set; }
+
     public virtual GroupCategory? Category { get; set; }
 
     public virtual Group? Group { get; set; }
 
     public virtual Employee? InsertedByNavigation { get; set; }
+
+    public virtual Role? PendingAtNavigation { get; set; }
 
     public virtual HelpdeskStatus? Status { get; set; }
 

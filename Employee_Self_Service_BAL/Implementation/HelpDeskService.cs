@@ -1,9 +1,11 @@
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.Constants;
 using Employee_Self_Service_DAL.Interface;
 using Employee_Self_Service_DAL.Models;
 using Employee_Self_Service_DAL.ViewModel;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Group = Employee_Self_Service_DAL.Models.Group;
 
 namespace Employee_Self_Service_BAL.Implementation;
@@ -47,28 +49,18 @@ public class HelpDeskService : IHelpDeskService
     {
         try
         {
-            var helpDeskRequest = new HelpdeskRequest
+            HelpdeskRequest helpDeskRequest = new HelpdeskRequest
             {
                 InsertedBy = model.EmployeeId,
                 GroupId = model.GroupId,
                 CategoryId = model.CategoryId,
-                // SubCategoryId = model.CategoryId == 3 ? null : model.SubCategoryId,
                 Priority = (int?)model.Priority,
                 ServiceDetails = model.ServiceDetails,
-                InsertedAt = model.RequestedDate,
-                StatusId = model.StatusId > 0 ? model.StatusId : 6
+                InsertedAt = DateTime.Now,
+                StatusId = model.StatusId > 0 ? model.StatusId : 6,
+                PendingAt = 3
             };
-            // HelpdeskRequest request = new HelpdeskRequest
-            // {
-            //     GroupId = model.GroupId,
-            //     CategoryId = model.CategoryId,
-            //     SubCategoryId = model.SubCategoryId,
-            //     Priority = (int?)model.Priority,
-            //     ServiceDetails = model.ServiceDetails,
-            //     StatusId = 6,
-            //     InsertedAt = model.RequestedDate,
-            //     InsertedBy = model.EmployeeId
-            // };
+            
             ResponseViewModel response = await _helpDeskRepository.AddRequest(helpDeskRequest, model.selectedSubCategories);
             return response;
         }
@@ -95,31 +87,7 @@ public class HelpDeskService : IHelpDeskService
         return response;
     }
 
-    // public async Task<AddHelpDeskRequestViewModel> GetEditDetails(long requestId)
-    // {
-    //     HelpdeskRequest details = await _helpDeskRepository.GetDetails(requestId);
-    //     if(details == null)
-    //     {
-    //         return null;
-    //     }
-    //     AddHelpDeskRequestViewModel model = new AddHelpDeskRequestViewModel
-    //     {
-    //         HelpDeskRequestId = details.HelpdeskRequestId,
-    //         EmployeeId = (int)details.InsertedBy,
-    //         RequestedDate = (DateTime)details.InsertedAt,
-    //         GroupId = (int)details.GroupId,
-    //         CategoryId = (int)details.CategoryId,
-    //         SubCategoryId = (int)details.SubCategoryId,
-    //         Group = details.Group.GroupName,
-    //         Category = details.Category.CategoryName,
-    //         SubCategory = details.SubCategory.SubCategoryName,
-    //         Priority = (HelpDeskEnum.Priority)details.Priority,
-    //         ServiceDetails = details.ServiceDetails,
-    //         Status = details.Status.StatusName,
-    //         // StatusId = (int)h.StatusId
-    //     };
-    //     return model;
-    // }
+   
 
     public async Task<AddHelpDeskRequestViewModel> GetEditDetails(long requestId)
     {
@@ -130,6 +98,9 @@ public class HelpDeskService : IHelpDeskService
             {
                 return new AddHelpDeskRequestViewModel();
             }
+            // var abx =  details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).FirstOrDefault();
+            // var aaa = details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).FirstOrDefault();
+            // var aadfsa = details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault();
 
             var model = new AddHelpDeskRequestViewModel
             {
@@ -141,11 +112,14 @@ public class HelpDeskService : IHelpDeskService
                 Priority = (HelpDeskEnum.Priority)details.Priority,
                 ServiceDetails = details.ServiceDetails,
                 RequestedDate = (DateTime)details.InsertedAt,
-                StatusId = (int)details.StatusId,
+                StatusId = details.PendingAt == 3 || details.StatusId == 3 ? (int)details.StatusId  : Convert.ToInt32(details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault()),
+                // Status = h.PendingAt == 3 ? h.Status.StatusName:  h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.RequestId).Select(s => s.StatusNavigation.StatusName).FirstOrDefault(),
                 Group = details.Group.GroupName,
                 Category = details.Category.CategoryName,
+                SubCategories = details.SubcategoryMappings.Where(s => s.RequestId == requestId).Select(s => s.SubCategory.SubCategoryName).ToList(),
                 // SubCategory = details.SubCategory.SubCategoryName,
-                Status = details.Status.StatusName,
+                InsertedBy = details.InsertedByNavigation.Name,
+                Status = details.PendingAt == 3 || details.StatusId == 3? details.Status.StatusName : details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.StatusNavigation.StatusName).FirstOrDefault(),
                 selectedSubCategories = details.SubcategoryMappings
                         .Where(l => l.RequestId == requestId)
                         .Select(l => (int)l.SubCategoryId)
@@ -172,6 +146,7 @@ public class HelpDeskService : IHelpDeskService
             helpDeskRequest.Priority = (int?)model.Priority;
             helpDeskRequest.ServiceDetails = model.ServiceDetails;
             helpDeskRequest.InsertedAt = model.RequestedDate;
+            helpDeskRequest.StatusId = model.StatusId > 0 ? model.StatusId : 6;
             // helpDeskRequest.StatusId = model.StatusId;
         };
         
@@ -185,7 +160,7 @@ public class HelpDeskService : IHelpDeskService
         {
             HelpdeskRequest request = await _helpDeskRepository.GetDetails(requestId);
             {
-                request.StatusId = 3;
+                // request.StatusId = 3;
                 request.DeletedAt = DateTime.Now;
             };
 
@@ -201,6 +176,102 @@ public class HelpDeskService : IHelpDeskService
             };
         }
 
+    }
+
+    public async Task<HelpDeskPaginationViewModel> GetResponseData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string helpDeskResponseGroup, string helpDeskResponseStatus, int employeeId,string role)
+    {
+         try
+        {
+            return await _helpDeskRepository.GetPaginatedResponse(pageSize, pageNumber, search, sort, sortDirection, helpDeskResponseGroup, helpDeskResponseStatus, employeeId,role);
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
+
+    public async Task<ResponseViewModel> ResponseHelpDeskRequest(AddHelpDeskRequestViewModel model)
+    {
+        try
+        {
+            StatusHistory status = new StatusHistory
+            {
+                RequestId = model.HelpDeskRequestId,
+                StatusChnageDate = DateTime.Now,
+                Comment = model.Comment,
+                UpdatedBy = model.EmployeeId,
+                UpdatedAt = DateTime.Now,
+                Status = model.StatusId
+            };
+            
+            HelpdeskRequest request = await _helpDeskRepository.GetDetails(model.HelpDeskRequestId);
+            {
+                request.StatusId = model.StatusId == 2 || model.StatusId == 1  ? 6 : model.StatusId;
+                request.PendingAt = model.StatusId == 2 ? 4 : null;
+            }
+
+            ResponseViewModel response1 = await _helpDeskRepository.EditRequest(request);
+
+            ResponseViewModel response = await _helpDeskRepository.AddStatus(status);
+            if(response.success && response1.success)
+            {
+                return new ResponseViewModel{
+                    success = true,
+                    message = "Status Changed Successfully" 
+                };
+            }
+            else if (!response.success)
+            {   
+                return new ResponseViewModel{
+                    success = false,
+                    message = "Error occur status change " + response.message 
+                };
+            }
+            else{
+                return new ResponseViewModel{
+                    success = false,
+                    message = "Error occur status change " + response1.message 
+                };
+            }
+        }
+        catch(Exception ex)
+        {
+            return new ResponseViewModel{
+                success = false,
+                message = "Failed to update status" + ex.Message
+            };
+        }
+    }
+
+    public async Task<ResponseViewModel> AddNotificationByHr(string notification)
+    {
+        Notification addNotification = new Notification
+        {
+            Notification1 = notification,
+            NotificationCategoryId = 4,
+
+        };
+        
+        ResponseViewModel response = await _helpDeskRepository.AddNotificationByHr(addNotification);
+        return response;
+    }
+
+    public async Task<ResponseViewModel> AddResponseNotification(string notification,int employeeId)
+    {
+        Notification addNotification = new Notification
+        {
+            Notification1 = notification,
+            NotificationCategoryId = 4,
+
+        };
+        
+        ResponseViewModel response = await _helpDeskRepository.AddResponseNotification(addNotification,employeeId);
+        return response;
+    }
+
+    public async Task<List<StatusHistoryViewModel>> GetStatusHistory(long requestId)
+    {
+        return await _helpDeskRepository.GetStatusHistory(requestId);
     }
 
 }

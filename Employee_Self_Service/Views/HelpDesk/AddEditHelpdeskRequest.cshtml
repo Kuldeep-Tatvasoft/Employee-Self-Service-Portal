@@ -278,10 +278,13 @@ alert('An error occurred while submitting the request.');
 });
 </script> *@
 
+
 @model Employee_Self_Service_DAL.ViewModel.AddHelpDeskRequestViewModel
+ 
 @{
     var username = Context.Request.Cookies["employeeName"];
     string? employeeId = Context.Request.Cookies["EmployeeId"];
+    string? userRole = Context.Request.Cookies["role"];
 }
 
 <div class="d-flex flex-column py-3">
@@ -305,6 +308,7 @@ alert('An error occurred while submitting the request.');
             <input type="hidden" asp-for="HelpDeskRequestId">
             <input type="hidden" asp-for="EmployeeId" value="@employeeId">
             <input type="hidden" asp-for="Group" id="selectedGroupText" />
+            <input type="hidden" asp-for="StatusId" id="Status">
             <div class="row col col-xxl-6 col-xl-7 col-lg-12 px-4">
                 <!-- First Row: Name -->
                 <label for="Name" class="p-0 mb-1">Name</label>
@@ -314,7 +318,7 @@ alert('An error occurred while submitting the request.');
                 <!-- Second Row: Requested DateTime -->
                 <label for="requestedDate" class="p-0 mb-1 mt-3">Requested DateTime</label>
                 <input type="datetime-local" class="form-control rounded-0 shadow-none border-2 d-none"
-                    id="requestedDate" asp-for="RequestedDate">
+                    id="requestedDate" asp-for="RequestedDate" value="@Model.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")">
                 <input type="text" class="form-control rounded-0 shadow-none border-2" id="requestedDateDisplay"
                     readonly>
                 <span asp-validation-for="RequestedDate" class="text-danger"></span>
@@ -362,6 +366,9 @@ alert('An error occurred while submitting the request.');
                 <!-- Submit and Cancel Buttons -->
                 <div class="d-flex justify-content-start mt-4 gap-2 p-0">
                     <button type="submit" id="customDateApplyModel" class="btn btn-primary rounded-0">Save</button>
+                    @if(Model.HelpDeskRequestId !=0){
+                    <button type="submit" id="cancel" class="btn btn-primary rounded-0" value="3" >Cancel</button>
+                    }
                     <a href="/HelpDesk/HelpDeskRequest"><button type="button"
                             class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
                 </div>
@@ -370,15 +377,30 @@ alert('An error occurred while submitting the request.');
     </form>
 </div>
 
-@section Scripts {
+   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@@coreui/coreui@5.15.0/dist/js/coreui.bundle.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@@coreui/coreui-pro@5.15.0/dist/js/coreui.bundle.min.js"></script>
     <script>
+        $(document).ready(function () {
+            if("@userRole" == "HR")
+            {   
+                var statusId = 2
+                $("#Status").val(statusId);
+            }
+            $("#cancel").on('click',function(e)
+            {
+                var statusId = $(this).val();
+                $("#Status").val(statusId);
+            });
+        });
+    </script>
+    <script>
         
         $(document).ready(function () {
+            
             const selectedSubCategoryIds = [];
             let selectedSubCategories = [];
             var selectedSubCategoryIdsForCategory3 = @Html.Raw(Json.Serialize(Model.selectedSubCategories ?? Array.Empty<int>()));
@@ -435,7 +457,7 @@ alert('An error occurred while submitting the request.');
 
             $('#Groups').change(function () {
                 const groupId = $(this).val();
-                console.log(groupId);
+
                 var group = $('#Groups option:selected').text();
                 $('#selectedGroupText').val(group);
                 const categoriesSelect = $('#Categories');
@@ -645,4 +667,3 @@ alert('An error occurred while submitting the request.');
             $('#SubCategories').on('change', updateSelectedSubCategories);
         });
     </script>
-}

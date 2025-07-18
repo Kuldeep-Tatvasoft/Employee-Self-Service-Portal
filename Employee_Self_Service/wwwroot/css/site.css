@@ -65,9 +65,18 @@ body {
   margin-left: 0;
   width: 100%;
 }
+@media (max-width: 991.98px) {
+  .sidebar:not(.sidebar-end):not(.show) {
+      -webkit-margin-start: calc(0* var(--cui-sidebar-width) ) !important; 
+      margin-inline-start: calc(0*  var(--cui-sidebar-width) ) ;
+     
+  }
+  .sidebar {
+      z-index: 0 !important;
+  }
+}
 
-
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .sidebar {
       transform: translateX(-100%);
   }
@@ -218,6 +227,7 @@ form i{
   {
     width: 100px;
     padding: 3px;
+    border-radius: 0px;
     background-color: rgb(107, 189, 107);
     display: flex;
     justify-content: center;
@@ -239,7 +249,7 @@ form i{
     width: 100px;
     padding: 3px;
     border-radius: 0px;
-    background-color: #eef077;
+    background-color: #FFDEBD;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -250,7 +260,7 @@ form i{
     width: 100px;
     padding: 3px;
     border-radius: 0px;
-    background-color: #dc3545;
+    background-color: #ee5934;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -261,11 +271,64 @@ form i{
     width: 100px;
     padding: 3px;
     border-radius: 0px;
-    background-color: #b4b48f;
+    background-color: #FFFBD4;
     display: flex;
     justify-content: center;
     align-items: center;
   }
+  .acknowledged
+  {
+    width: 120px;
+    padding: 3px;
+    border-radius: 0px;
+    background-color: #A1F3EE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .closed
+  {
+    width: 100px;
+    padding: 3px;
+    border-radius: 0px;
+    background-color: #EEEEEE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .hold
+  {
+    width: 100px;
+    padding: 3px;
+    border-radius: 0px;
+    background-color: #FFF0AC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .status
+  {
+    padding: .4rem .5rem .6rem;
+    border-radius: .2rem;    
+    display: inline-block;
+    color: var(--blackColor);
+    line-height: 1;
+    text-transform: capitalize;
+  }
+  .high{
+     background-color: #FF9B91;
+  }
+
+  .medium{
+    background-color: #E6D081;
+ }
+
+ .low{
+  background-color: #B4E7FF;
+}
+
+  
 
   .accordion-btn {
     margin: 11px !important;

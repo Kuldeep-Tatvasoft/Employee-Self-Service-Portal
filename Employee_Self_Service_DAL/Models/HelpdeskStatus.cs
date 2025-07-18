@@ -10,4 +10,6 @@ public partial class HelpdeskStatus
     public string? StatusName { get; set; }
 
     public virtual ICollection<HelpdeskRequest> HelpdeskRequests { get; set; } = new List<HelpdeskRequest>();
+
+    public virtual ICollection<StatusHistory> StatusHistories { get; set; } = new List<StatusHistory>();
 }

@@ -228,6 +228,7 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("inserted_at");
             entity.Property(e => e.InsertedBy).HasColumnName("inserted_by");
+            entity.Property(e => e.PendingAt).HasColumnName("pending_at");
             entity.Property(e => e.Priority).HasColumnName("priority");
             entity.Property(e => e.ServiceDetails)
                 .HasColumnType("character varying")
@@ -245,7 +246,11 @@ public partial class EmployeeSelfServiceContext : DbContext
 
             entity.HasOne(d => d.InsertedByNavigation).WithMany(p => p.HelpdeskRequests)
                 .HasForeignKey(d => d.InsertedBy)
-                .HasConstraintName("helpdesk_created_by_fkey");
+                .HasConstraintName("helpdesk_inserted_by_fkey");
+
+            entity.HasOne(d => d.PendingAtNavigation).WithMany(p => p.HelpdeskRequests)
+                .HasForeignKey(d => d.PendingAt)
+                .HasConstraintName("helpdesk_request_pending_at_fkey");
 
             entity.HasOne(d => d.Status).WithMany(p => p.HelpdeskRequests)
                 .HasForeignKey(d => d.StatusId)
@@ -457,6 +462,7 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasColumnType("character varying")
                 .HasColumnName("comment");
             entity.Property(e => e.RequestId).HasColumnName("request_id");
+            entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.StatusChnageDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("status_chnage_date");
@@ -469,6 +475,10 @@ public partial class EmployeeSelfServiceContext : DbContext
                 .HasForeignKey(d => d.RequestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("status_history_request_id_fkey");
+
+            entity.HasOne(d => d.StatusNavigation).WithMany(p => p.StatusHistories)
+                .HasForeignKey(d => d.Status)
+                .HasConstraintName("status_history_status_fkey");
 
             entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.StatusHistories)
                 .HasForeignKey(d => d.UpdatedBy)

@@ -1,0 +1,206 @@
+@model Employee_Self_Service_DAL.ViewModel.AddHelpDeskRequestViewModel
+@{
+    var username = Context.Request.Cookies["employeeName"];
+    string? employeeId = Context.Request.Cookies["EmployeeId"];
+    string? userRole = Context.Request.Cookies["role"];
+}
+<div class=" d-flex flex-column py-3 ">
+    <div class="px-3 d-flex justify-content-between align-items-center">
+        <div>
+            <span>Leave/Self</span>
+            @if(employeeId == Convert.ToString(@Model.EmployeeId)){
+                <h4 class=" d-flex align-content-center m-0">PreView HelpDesk Request</h4>
+            }
+            else{
+                <h4 class=" d-flex align-content-center m-0">Edit HelpDesk Request</h4>
+            }            
+        </div>
+    </div>
+    <hr class="dropdown-divider">
+
+    <form id="helpDeskResponse">
+        <div class="details d-md-flex flex-row ">
+
+            <input type="hidden" asp-for="@Model.EmployeeId" value="@employeeId">
+            <input type="hidden" asp-for="@Model.EmployeeName" value="@username">
+            <input type="hidden" asp-for="StatusId" id="Status">
+
+            <div class="row col col-xxl-6 col-xl-6  px-4">
+                <!-- First Row -->
+                <label for="itemName" class="p-0 mb-1">Ticket No.</label>
+                <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="HelpDeskRequestId"
+                    id="Name" value="@Model.HelpDeskRequestId" readonly>
+
+                <!-- Second Row -->
+                <label for="itemName" class="p-0 mb-1"> Requested DateTime</label>
+                <input type="datetime" class="form-control rounded-0" id="requestedDate" asp-for="RequestedDate"
+                    value="@Model.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")" readonly>
+                <span asp-validation-for="RequestedDate" class="text-danger"></span>
+                <label for="itemName" class="p-0 mb-1">Requester</label>
+                <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="InsertedBy" id="Name"
+                    value="@Model.InsertedBy" readonly>
+                <label for="itemName" class="p-0 mb-1">Status</label>
+                <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="Status" id="Name"
+                    value="@Model.Status" readonly>
+                <!-- Third Row -->
+                <label for="itemName" class="p-0 mb-1">Group</label>
+                <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@Model.Group" id="Name"
+                    value="@Model.Group" readonly>
+                <!-- Fourth Row -->
+                <label class="p-0 mb-1 mt-3"> Category*</label>
+                <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@Model.Category"
+                    id="Name" value="@Model.Category" readonly>
+
+                <!-- Fifth Row -->
+                <label class="p-0 mb-1 mt-3"> Sub Category*</label>
+                @foreach (string subCategories in Model.SubCategories)
+                {
+                    <input type="text" class="form-control rounded-0 shadow-none border-2" asp-for="@subCategories"
+                        id="Name" value="@subCategories" readonly>
+                }
+                
+                <!-- Sixth Row -->
+                <label class="p-0 mb-1 mt-3"> Priority*</label>
+                <select asp-for="Priority" class="form-select rounded-0 shadow-none border-2"
+                    asp-items="ViewBag.PriorityList" disabled>
+                    <option value="">Select Priority</option>
+                </select>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+
+                <!-- Seventh Row -->
+                <label for="itemName" class="p-0 mb-1 mt-3">Service Details*</label>
+                <textarea class="form-control rounded-0 shadow-none border-2" rows="4" asp-for="@Model.ServiceDetails"
+                    aria-required="false" aria-invalid="false" readonly> </textarea>
+                <span asp-validation-for="ServiceDetails" class="text-danger"></span>
+                <hr class="dropdown-divider text-light mt-3">
+                @if (@Model.StatusId == 6 || userRole == "Network")
+                {
+                    <h6 class="p-0 mt-3 text-dark">Action Required</h6>
+                    <label for="itemName" class="p-0 mb-1 mt-1"> Comment *</label>
+                    <textarea class="form-control rounded-0 shadow-none border-2" rows="4" id="comment" aria-required="true"
+                        aria-invalid="false" asp-for="Comment"> </textarea>
+                    <span asp-validation-for="Comment" class="text-danger"></span>
+                }
+                <!-- Nine Row -->
+
+
+
+
+            </div>
+
+
+            
+            <div class="row col col-xxl-6 col-xl-6  px-4 ">
+                
+                <div id="statusHistoryContent">
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="d-flex justify-content-start mt-4 gap-2 px-3 mb-4 mb-md-0">
+            @if (@Model.StatusId == 6)
+            {
+                <button type="submit" id="" class="btn response btn-primary rounded-0"
+                    data-requestid="@Model.HelpDeskRequestId" value="2">Approve</button>
+                <button type="submit" id="" class="btn response btn-primary rounded-0"
+                    data-requestid="@Model.HelpDeskRequestId" value="7">Reject</button>
+            }
+            @if (userRole == "Network")
+            {
+
+                @if (@Model.StatusId == 2)
+                {
+                    <button type="submit" id="" class="btn response btn-primary rounded-0"
+                        data-requestid="@Model.HelpDeskRequestId" value="1">Acknowledge</button>
+                    <button type="submit" id="" class="btn response btn-primary rounded-0"
+                        data-requestid="@Model.HelpDeskRequestId" value="3">Cancel</button>
+                }
+                @if (@Model.StatusId == 1)
+                {
+                    <button type="submit" id="" class="btn response btn-primary rounded-0"
+                        data-requestid="@Model.HelpDeskRequestId" value="4">Close</button>
+                }
+            }
+            @if (userRole == "Employee")
+            {
+                <a href="/HelpDesk/HelpDeskRequest"><button type="button"
+                        class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
+            }
+            else
+            {
+                <a href="/HelpDesk/HelpDeskResponse"><button type="button"
+                        class="btn btn-white text-primary border-primary rounded-0">Cancel</button></a>
+            }
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+    @* if("@employeeId" == "@Model.EmployeeId"){ *@
+            HelpDeskRequestStatusHistory(@Model.HelpDeskRequestId)
+    @* } *@
+            $('.response').on('click', function () {
+                statusId = $(this).val();
+                $("#Status").val(statusId);
+            });
+    });
+    function HelpDeskRequestStatusHistory(requestId) {
+        $.ajax({
+            url: '/HelpDesk/GetStatusHistory',
+            data: {
+                requestId: requestId
+            },
+            type: "GET",
+            success: function (data) {
+                $("#statusHistoryContent").html(data);
+                updateNotificationCount();
+            },
+            error: function () {
+                $("#statusHistoryContent").html('<li>An error has occurred</li>');
+            }
+        });
+    }
+
+</script>
+
+<script>
+
+    @* $(document).on('submit', '#helpDeskResponse', function (e) { *@
+        $(document).off('submit').on('submit', '#helpDeskResponse', function (e) {
+            e.preventDefault();
+    @* let comment = $('#comment').val(); *@
+            if (!$(this).valid()) return;
+            var formData = new FormData(this)
+            $.ajax({
+                url: '/HelpDesk/ResponseHelpDeskRequest',
+                type: 'POST',
+                data: formData,
+    @* data: {
+                formData
+                'requestId': $('.response').data("requestid"),
+                'statusId': statusId,
+                'responseBy': @employeeId,
+                'comment': comment,
+                }, *@
+                processData: false,
+                contentType: false,
+                success: (response) => {
+                    if (response.success == true) {
+                        window.location.href = ("/HelpDesk/HelpDeskResponse");
+                    }
+                    else {
+                        location.reload();
+                    }
+                },
+                error: (error) => {
+                    toastr.error("Eroor response request");
+                    location.reload();
+                }
+        });
+    });
+</script>

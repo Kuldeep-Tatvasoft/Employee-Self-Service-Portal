@@ -1,6 +1,7 @@
 @model List<Employee_Self_Service_DAL.ViewModel.NotificationViewModel>
 @{
     string? employeeId = Context.Request.Cookies["EmployeeId"];
+    string? userRole = Context.Request.Cookies["role"];
 }
 
 <li class="d-flex align-items-center justify-content-between align-items-center fw-bold text-secondary p-2">
@@ -19,25 +20,41 @@
                 <a class="notificationEventDetails d-flex align-items-center text-decoration-none text-black" href=""
                     onclick="OpenEventModel(@notification.CategoryId, @notification.NotificationId)"
                     data-id="@notification.CategoryId" data-bs-toggle="modal" data-bs-target="#eventDetailsModal">
-
+ 
                     <span class="notificationMessage"
                         data-notificationid="@notification.NotificationId">@notification.Message</span>
                 </a>
             }
             else if (notification.NotificationCategory == "Leave Request")
-            {
+            {   
                 <a class="leaveNotificationMessage d-flex align-items-center text-decoration-none text-black"
                     data-notificationid="@notification.NotificationId" asp-action="ResponseLeaveRequest" asp-controller="Leave"
                     asp-route-requestId="@notification.CategoryId">
 
                     <span>@notification.Message</span>
                 </a>
+                
             }
             else if (notification.NotificationCategory == "Response Request")
             {
                 <span>@notification.Message</span>
             }
-            <a class=" pb-1 "><i class="read-icon bi bi-circle" data-notificationid="@notification.NotificationId"></i>
+            else if (notification.NotificationCategory == "HelpDesk Request")
+            {   
+                if(userRole != "Employee"){
+                <a class="helpDeskResponseNotificationMessage readMark d-flex align-items-center text-decoration-none text-black"
+                    data-notificationid="@notification.NotificationId" asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+                    asp-route-requestId="@notification.CategoryId">
+
+                    <span>@notification.Message</span>
+                </a>
+                }
+                else{
+                    <span>@notification.Message</span>
+                }
+                
+            }
+            <a class=" pb-1 "><i class="readMark read-icon bi bi-circle" data-notificationid="@notification.NotificationId"></i>
             </a>
         </div>
         <hr class="dropdown-divider">
@@ -46,7 +63,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
 
-    $(".read-icon").on('click', function (e) {
+    $(".readMark").on('click', function (e) {
         e.stopPropagation();
         $.ajax({
             url: '/Notification/MarkRead',

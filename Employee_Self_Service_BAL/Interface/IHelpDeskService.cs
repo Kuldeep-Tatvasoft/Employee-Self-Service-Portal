@@ -14,4 +14,9 @@ public interface IHelpDeskService
     Task<AddHelpDeskRequestViewModel> GetEditDetails(long requestId);
     Task<ResponseViewModel> EditRequest(AddHelpDeskRequestViewModel model);
     Task<ResponseViewModel> DeleteHelpDeskRequest(long requestId);
+    Task<HelpDeskPaginationViewModel> GetResponseData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string helpDeskResponseGroup, string helpDeskResponseStatus, int employeeId,string role);
+    Task<ResponseViewModel> ResponseHelpDeskRequest(AddHelpDeskRequestViewModel model);
+    Task<ResponseViewModel> AddNotificationByHr(string notification);
+    Task<ResponseViewModel> AddResponseNotification(string notification,int employeeId);
+    Task<List<StatusHistoryViewModel>> GetStatusHistory(long requestId);
 }

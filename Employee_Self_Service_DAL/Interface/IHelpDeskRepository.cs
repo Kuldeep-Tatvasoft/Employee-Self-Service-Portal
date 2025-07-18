@@ -14,4 +14,9 @@ public interface IHelpDeskRepository
     Task<HelpdeskRequest> GetDetails(long requestId);
     Task<ResponseViewModel> EditRequest(HelpdeskRequest helpDeskRequest,int [] selectedSubCategories);
     Task<ResponseViewModel> EditRequest(HelpdeskRequest helpDeskRequest);
+    Task<HelpDeskPaginationViewModel> GetPaginatedResponse(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string helpDeskResponseGroup, string helpDeskResponseStatus, int employeeId,string role);
+    Task<ResponseViewModel> AddStatus(StatusHistory status);
+    Task<ResponseViewModel> AddNotificationByHr(Notification addNotification);
+    Task<ResponseViewModel> AddResponseNotification(Notification addNotification, int employeeId);
+    Task<List<StatusHistoryViewModel>> GetStatusHistory(long requestId);
 }

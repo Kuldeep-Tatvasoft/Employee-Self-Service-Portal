@@ -326,7 +326,7 @@ public class EventRepository : IEventRepository
             };
         
         var excelExporter = new Excel.ExportExcel();
-        return excelExporter.ExportToExcel(model, "LeaveRequest",string.IsNullOrEmpty(eventCategory) ? "All" : eventCategory,searchQuery, columnMappings);
+        return excelExporter.ExportToExcel(exportData, "LeaveRequest",string.IsNullOrEmpty(eventCategory) ? "All" : eventCategory,searchQuery, columnMappings);
     }
 
     

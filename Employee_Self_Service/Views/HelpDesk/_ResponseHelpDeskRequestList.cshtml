@@ -1,5 +1,8 @@
 @model Employee_Self_Service_DAL.ViewModel.HelpDeskPaginationViewModel
 @using Employee_Self_Service_BAL.Helpers
+@{
+    string? userRole = Context.Request.Cookies["role"];
+}
 <div class="table-responsive px-0">
     <table class="table">
         <thead>
@@ -47,6 +50,7 @@
                         class="text-decoration-none text-dark">Pending At<i class="bi bi-arrow-down-up"
                             id="sort-by-role" data-direction="asc"></i> </a>
                 </th>
+
                 <th class="text-center">
                     <a href="javascript:void(0)" onclick="sortBy('Status')"
                         class="text-decoration-none text-dark">Status<i class="bi bi-arrow-down-up" id="sort-by-role"
@@ -62,17 +66,9 @@
             {
                 <tr>
                     <td class="text-center">
-                        @if (data.PendingAt.ToString() != "HR" && data.StatusId != 3 ){
-                            <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
-                                    asp-route-requestId="@data.HelpDeskRequestId" >
-                                    @data.HelpDeskRequestId
-                                </a>
-                        }
-                        else{
-                            @data.HelpDeskRequestId
-                        }                        
+                        @data.HelpDeskRequestId
                     </td>
-                    <td  class="requestedDate">@data.RequestedDate</td>
+                    <td  class="requestedDate">@data.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")</td>
                     <td class="text-center">
                         @data.Group
                     </td>
@@ -81,27 +77,16 @@
                     </td>
                     
                     <td class="text-center">
-                       @foreach (string subCategories in data.SubCategories)
+                        @foreach (string subCategories in data.SubCategories)
                         {
                             @subCategories 
                             <br/>
                         }
+                        
                     </td>
         
-                    <td class="text-center ">
-                        @if(data.Priority.ToString() == "High")
-                        {
-                            <span class="badge status high p-2 text-black fw-lighter fs-6">@data.Priority</span>
-                        }
-                        else if(data.Priority.ToString() == "Medium")
-                        {
-                            <span class="badge status medium p-2 text-black fw-lighter fs-6">@data.Priority</span>
-                        }
-                        else 
-                        {
-                            <span class="badge status low p-2 text-black fw-lighter fs-6">@data.Priority</span>
-                        }
-                        
+                    <td class="text-center">
+                        @data.Priority
                     </td>
 
                     <td class="text-center">
@@ -151,24 +136,15 @@
 
                     <td class="text-center">
                         <div class="d-flex align-items-center justify-content-center">
-                            @if (data.PendingAt == "HR")
-                            {
-                                <a asp-action="AddEditHelpdeskRequest" asp-controller="HelpDesk"
-                                    asp-route-requestId="@data.HelpDeskRequestId" class="btn " type="button">
-                                    <i class="bi bi-pen"></i>
-                                </a>
-                                <a class="btn deleteHelpDeskBtn p-0" data-id="@data.HelpDeskRequestId" data-bs-toggle="modal"
-                                    data-bs-target="#deleteHelpDeskModal">
-                                    <i class=" bi bi-trash text-black"></i>
-                                </a>
-                            }
-                            @if (data.PendingAt.ToString() != "HR" )
-                            {
-                             <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+                            
+                            @* @if (data.StatusId == 6 || userRole == "Network")
+                            { *@
+                               
+                                <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
                                     asp-route-requestId="@data.HelpDeskRequestId" class="btn " type="button">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                            }
+                            @* } *@
                         </div>
                     </td>
                 </tr>
@@ -181,8 +157,8 @@
 <div class="d-flex flex-row justify-content-end  gap-2 mb-3 align-items-center">
     <p class="pt-3 text-black">Items per page</p>
     <div class="dropdown">
-        <select class="form-select w-auto " onchange="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage)"
-            aria-label="Default select example" id="helpDeskRequestPageSize">
+        <select class="form-select w-auto " onchange="HelpDeskResponsePaginationAjax(@Model.Page.CurrentPage)"
+            aria-label="Default select example" id="helpDeskResponsePageSize">
             @if (Model.Page.PageSize != null)
             {
                 <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false) selected">5</option>
@@ -195,14 +171,13 @@
 
     <!-- Previous Button -->
     <button class="btn btn-outline-primary col-auto"
-        onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage - 1)" @(Model.Page.CurrentPage > 1 ? "" :
+        onclick="HelpDeskResponsePaginationAjax(@Model.Page.CurrentPage - 1)" @(Model.Page.CurrentPage > 1 ? "" :
         "disabled")> &lt; </button>
 
     <!-- Next Button -->
     <button class="btn btn-outline-primary col-auto"
-        onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage + 1)" @(Model.Page.CurrentPage <
+        onclick="HelpDeskResponsePaginationAjax(@Model.Page.CurrentPage + 1)" @(Model.Page.CurrentPage <
         Model.Page.TotalPages ? "" : "disabled")> &gt; </button>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-

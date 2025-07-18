@@ -1,0 +1,54 @@
+@model List<Employee_Self_Service_DAL.ViewModel.StatusHistoryViewModel>
+
+<h4>Request Status History</h4>  
+<div class="table-responsive px-0 ">
+    <div class="border">
+        <table class="table table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        Name
+
+                    </th>
+                    <th>
+                        Status Changed Date
+                        Date
+                    </th>
+                    <th class="text-center">
+                        Status
+                    </th>
+
+                    <th class="text-center">
+                        Comments
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+                @foreach (var data in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            @data.Name
+                        </td>
+                        <td class="">@data.StatusChangedDate</td>
+                        <td class="text-center">
+                            @data.Status
+                        </td>
+                        <td class="text-center">
+                            @data.Comment
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+            
+        </table>
+        @if (@Model == null || !@Model.Any())
+        {
+        <h6 class="text-secondary text-center ">No Record Found</h6>
+        }
+    </div>
+</div>

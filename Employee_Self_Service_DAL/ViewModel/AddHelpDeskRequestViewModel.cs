@@ -18,19 +18,21 @@ public class AddHelpDeskRequestViewModel
     public int? SubCategoryId { get; set; } 
     [Required(ErrorMessage = "Service Details is required")]
     public string ServiceDetails { get; set; }
-    public int StatusId { get; set; }
+    public int? StatusId { get; set; }
     [Required(ErrorMessage = "Priority is required")]
     public Priority Priority { get; set; }
     public DateTime RequestedDate { get; set; }
     public string Group { get; set; }
     public string Category { get; set; }
-    public string SubCategory { get; set; }
+    public string SubCategory {get; set;}
+    public List<string> SubCategories { get; set; }
     public string PendingAt { get; set; }
-    public string Status { get; set; }
+    public string? Status { get; set; }
     public string Comment { get; set; }
 
     [Required(ErrorMessage = "At least one subcategory is required")]
     [MinLength(1, ErrorMessage = "At least one subcategory must be selected.")]
     public int[] selectedSubCategories { get; set; } = Array.Empty<int>();
-   
+    public string InsertedBy {get; set;}
+    public int historyStatus {get; set;}
 }

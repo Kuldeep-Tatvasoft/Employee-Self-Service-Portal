@@ -17,7 +17,11 @@ public partial class StatusHistory
 
     public DateTime? UpdatedAt { get; set; }
 
+    public int? Status { get; set; }
+
     public virtual HelpdeskRequest Request { get; set; } = null!;
+
+    public virtual HelpdeskStatus? StatusNavigation { get; set; }
 
     public virtual Employee? UpdatedByNavigation { get; set; }
 }

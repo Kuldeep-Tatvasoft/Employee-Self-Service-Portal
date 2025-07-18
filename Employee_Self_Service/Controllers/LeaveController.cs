@@ -162,10 +162,9 @@ public class LeaveController : Controller
         string notificationMessage = $"Your leave request has been {model.LeaveStatus} by {model.ApprovedBy}.";
 
         try
-        {
+        {   
+            response = await _leaveService.AddResponseNotification(notificationMessage, model.EmployeeId);
             await _hubContext.Clients.User(model.EmployeeId.ToString()).SendAsync("ReceiveNotification", notificationMessage);
-            
-            // await _hubContext.Clients.Group("employee_3").SendAsync("ReceiveNotification", notificationMessage);
         }
         catch (Exception ex)
         {
@@ -182,6 +181,20 @@ public class LeaveController : Controller
             TempData["errorToastr"] = response.message;
             return Json(new { success = false });
         }
+    }
+    #endregion
+
+    # region Excel
+    public async Task<IActionResult> ExportExcelOfLeave(int pageSize, int pageNumber, string searchQuery, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus, int employeeId)
+    {
+        var fileContent = await _leaveService.GetLeaveDataToExport(pageSize, pageNumber, searchQuery, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
+        return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LeaveRequest.xlsx");
+    }
+
+    public async Task<IActionResult> ExportExcelOfResponse(int pageSize, int pageNumber, string searchQuery, string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus, int employeeId)
+    {
+        var fileContent = await _leaveService.GetResponseDataToExport(pageSize, pageNumber, searchQuery, leaveRequestFromDate, leaveRequestToDate, leaveRequestStatus, employeeId);
+        return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LeaveRequest.xlsx");
     }
     #endregion
 }
