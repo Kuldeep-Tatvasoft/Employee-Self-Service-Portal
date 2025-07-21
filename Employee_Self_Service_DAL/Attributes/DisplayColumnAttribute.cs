@@ -11,6 +11,7 @@ namespace Employee_Self_Service.DAL.Attributes
         public DisplayColumnAttribute(string name)
         {
             Name = name;
+            
         }
     }
 }

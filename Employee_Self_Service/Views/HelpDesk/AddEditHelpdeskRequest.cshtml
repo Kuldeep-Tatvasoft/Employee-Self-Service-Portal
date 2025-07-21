@@ -317,11 +317,14 @@ alert('An error occurred while submitting the request.');
 
                 <!-- Second Row: Requested DateTime -->
                 <label for="requestedDate" class="p-0 mb-1 mt-3">Requested DateTime</label>
-                <input type="datetime-local" class="form-control rounded-0 shadow-none border-2 d-none"
+                <input type="datetime" class="form-control rounded-0" id="requestedDateDisplay" asp-for="RequestedDate"
+                    value="@Model.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")" readonly>
+                <span asp-validation-for="RequestedDate" class="text-danger"></span>
+                @* <input type="datetime-local" class="form-control rounded-0 shadow-none border-2 d-none"
                     id="requestedDate" asp-for="RequestedDate" value="@Model.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")">
                 <input type="text" class="form-control rounded-0 shadow-none border-2" id="requestedDateDisplay"
-                    readonly>
-                <span asp-validation-for="RequestedDate" class="text-danger"></span>
+                    readonly> *@
+                @* <span asp-validation-for="RequestedDate" class="text-danger"></span> *@
 
                 <!-- Third Row: Group -->
                 <label class="p-0 mb-1 mt-3">Group*</label>

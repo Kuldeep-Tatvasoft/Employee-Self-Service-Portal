@@ -24,7 +24,7 @@ public class EventRepository : IEventRepository
         var query = _context.Events
                     .Include(e => e.Category)
                     .Where(e => !e.IsDeleted)
-                    .Select(e => new AddEventViewModel 
+                    .Select(e => new EventDetailsViewModel 
                     {   
                         EventId = e.EventId,
                         EventName = e.Name,
@@ -264,7 +264,7 @@ public class EventRepository : IEventRepository
         var query = _context.Events
                     .Include(e => e.Category)
                     .Where(e => !e.IsDeleted)
-                    .Select(e => new AddEventViewModel 
+                    .Select(e => new EventDetailsViewModel 
                     {   
                         EventId = e.EventId,
                         EventName = e.Name,
@@ -305,28 +305,12 @@ public class EventRepository : IEventRepository
                     .Take(pageSize)
                     
                     .ToListAsync();
-       
-        var exportData = list.Select(l => new
-        {
-            l.EventId,
-            l.EventName,
-            l.StartDate,
-            l.EndDate,
-            l.CategoryName  
-        }).ToList();
 
-        List<AddEventViewModel> model = list;
-        var columnMappings = new Dictionary<string, string>
-            {
-                { "EventId", "Event Id" },
-                { "EventName", "Event Name" },
-                { "StartDate", "Start Date" },
-                { "EndDate", "End Date" },
-                { "CategoryName", "Category Name" }
-            };
+        List<EventDetailsViewModel> model = list;
+        
         
         var excelExporter = new Excel.ExportExcel();
-        return excelExporter.ExportToExcel(exportData, "LeaveRequest",string.IsNullOrEmpty(eventCategory) ? "All" : eventCategory,searchQuery, columnMappings);
+        return excelExporter.ExportToExcel(model, "LeaveRequest",string.IsNullOrEmpty(eventCategory) ? "All" : eventCategory,searchQuery);
     }
 
     

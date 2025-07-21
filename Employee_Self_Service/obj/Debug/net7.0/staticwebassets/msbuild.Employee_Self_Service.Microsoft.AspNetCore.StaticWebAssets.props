@@ -1840,6 +1840,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\events\0ae438a0-1a2c-42f2-802b-4ca7ffc982bc_somnath.jpg))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\events\0c3825a6-d110-4fc0-8d72-b030b7b97744_somnath.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>Employee_Self_Service</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Employee_Self_Service</BasePath>
+      <RelativePath>uploads/events/0c3825a6-d110-4fc0-8d72-b030b7b97744_somnath.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\events\0c3825a6-d110-4fc0-8d72-b030b7b97744_somnath.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\events\119f9d2b-3639-4925-9102-0477c61eff37_somnath.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>Employee_Self_Service</SourceId>
@@ -4079,6 +4095,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\events\b6b9a541-e6eb-4ee2-9ad4-83fdd4a8d4cc_somnath.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\events\b70471a7-f941-4599-bd5d-e766bf261b39_somnath.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>Employee_Self_Service</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Employee_Self_Service</BasePath>
+      <RelativePath>uploads/events/b70471a7-f941-4599-bd5d-e766bf261b39_somnath.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\events\b70471a7-f941-4599-bd5d-e766bf261b39_somnath.jpg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\events\b87c7d7a-9acb-499f-a681-eb18a1c087c3_event.pdf))">
       <SourceType>Package</SourceType>

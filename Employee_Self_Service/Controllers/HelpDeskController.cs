@@ -226,6 +226,18 @@ public class HelpDeskController : Controller
         var history = await _helpDeskService.GetStatusHistory(requestId); 
         return PartialView("_StatusHistoryPartialView", history);
     }
+
+    public async Task<IActionResult> ExportExcelOfHelpDesk(int pageSize, int pageNumber, string searchQuery, string helpDeskGroup, string helpDeskStatus, int employeeId)
+    {
+        var fileContent = await _helpDeskService.GetHelpDeskDataToExport(pageSize, pageNumber, searchQuery, helpDeskGroup,helpDeskStatus,employeeId);
+        return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LeaveRequest.xlsx");
+    }
+
+    public async Task<IActionResult> ExportExcelOfHelpDeskResponse(int pageSize, int pageNumber, string searchQuery, string helpDeskGroup, string helpDeskStatus, int employeeId)
+    {
+        var fileContent = await _helpDeskService.GetHelpDeskResponseDataToExport(pageSize, pageNumber, searchQuery, helpDeskGroup,helpDeskStatus,employeeId);
+        return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LeaveRequest.xlsx");
+    }
 }
 
 

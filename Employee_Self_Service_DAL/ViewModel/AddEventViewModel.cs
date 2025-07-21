@@ -7,6 +7,7 @@ namespace Employee_Self_Service_DAL.ViewModel;
 public class AddEventViewModel
 {   
     public long EventId { get; set; } 
+    
     [Required(ErrorMessage = "Event Name is required")]
     public string EventName { get; set; }
     [Required(ErrorMessage = "Event Description is required")]

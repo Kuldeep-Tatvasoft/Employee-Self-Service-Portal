@@ -55,6 +55,11 @@
                     <a class="btn cancle_btn clear rounded-0 ms-2 px-4 border-primary text-primary fw-semibold">
                         Reset
                     </a>
+                    <a class="btn w-auto my-1 my-lg-0 ms-1 d-flex align-items-center justify-content-center text-white"
+                        id="exportHelpDeskResponseBtn" style="background-color:#0066a7">
+                        <i class="fa-solid fa-share-from-square me-2"></i>
+                        Export
+                    </a>
                 </div>
             </div>
         </div>
@@ -135,5 +140,54 @@
         $('#helpDeskRequestStatus').val(6);
         HelpDeskResponsePaginationAjax(1);
     })
+
+
+    $('#exportHelpDeskResponseBtn').on('click', function () {    
+        let pageNumber =1;
+        let pageSize = $("#helpDeskRequestPageSize").val();
+        if (pageSize == 0 || pageSize == null) pageSize = 5;
+        if (pageNumber === 0) pageNumber = 1;
+        var searchQuery = $('#helpDeskSearchInput').val() || '';
+        let helpDeskGroup = $('#helpDeskResponseGroup').val();
+        let helpDeskStatus = $('#helpDeskResponseStatus').find('option:selected').text();
+        
+        $.ajax({
+            url: "/HelpDesk/ExportExcelOfHelpDeskResponse",
+            data: {
+                pageSize: pageSize,
+                pageNumber: pageNumber,
+                searchQuery: searchQuery,
+                helpDeskGroup: helpDeskGroup,
+                helpDeskStatus: helpDeskStatus,
+                employeeId: @employeeId              
+            },
+            xhrFields: {
+                responseType: 'blob'
+            },
+            type: "POST",
+            success: function (data) {
+                
+                let blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+               
+                var isIE = false || !!document.documentMode;
+                if (isIE) {
+                    window.navigator.msSaveBlob(blob, "HelpDeskRequestList.xlsx");
+                } else {
+                    var url = window.URL || window.webkitURL;
+                    link = url.createObjectURL(blob);
+                    var a = $("<a />");
+                    a.attr("download", "HelpDeskRequestList.xlsx");
+                    a.attr("href", link);
+                    $("body").append(a);
+                    a[0].click();
+                    $("body").remove(a);
+                }
+
+            },
+            error: function () {
+
+            }
+        });
+    });
 
 </script>

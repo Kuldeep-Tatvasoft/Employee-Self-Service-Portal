@@ -1,77 +1,35 @@
 @model Employee_Self_Service_DAL.ViewModel.LeaveRequestPaginationViewModel
+@using Employee_Self_Service.DAL.Attributes
 @using Employee_Self_Service_BAL.Helpers
+@using System.Reflection
 <div class="table-responsive px-0">
     <table class="table table-light">
         <thead>
             <tr>
                 <th>No</th>
-                <th class="">
-                    <a href="javascript:void(0)" onclick="sortBy('StartDate')" class="text-decoration-none text-dark">
-                        Start Date
-                        <i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th>
-                    <a href="javascript:void(0)" onclick="sortBy('EndDate')" class="text-decoration-none text-dark">End
-                        Date<i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i></a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('AvailableOnPhone')"
-                        class="text-decoration-none text-dark">Reason<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
+                @{
+                    var props = typeof(Employee_Self_Service_DAL.ViewModel.LeaveRequestDetailsViewModel).GetProperties();
 
-                <th class="">
-                    <a href="javascript:void(0)" onclick="sortBy('ReturnDate')"
-                        class="text-decoration-none text-dark">Return Date<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('ActualDuration')"
-                        class="text-decoration-none text-dark">Actual Duration<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-
-                @if (Model.RequestList.All(x => x.Status == "Approved"))
-                {
-                    <th class="text-center">
-                        <a href="javascript:void(0)" onclick="sortBy('ApprovedBy')"
-                            class="text-decoration-none text-dark">ApprovedBy<i class="bi bi-arrow-down-up"
-                                id="sort-by-role" data-direction="asc"></i> </a>
-                    </th>
                 }
-                else if (Model.RequestList.All(x => x.Status == "Rejected"))
+                @foreach (var prop in props)
                 {
-                    <th class="text-center">
-                        <a href="javascript:void(0)" onclick="sortBy('ApprovedBy')"
-                            class="text-decoration-none text-dark">RejectedBy<i class="bi bi-arrow-down-up"
-                                id="sort-by-role" data-direction="asc"></i> </a>
-                    </th>
-                }
+                    var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
 
-                else
-                {
-                    <th class="text-center">
-                        <a href="javascript:void(0)" onclick="sortBy('ApprovedBy')"
-                            class="text-decoration-none text-dark">ResponseBy<i class="bi bi-arrow-down-up"
-                                id="sort-by-role" data-direction="asc"></i> </a>
-                    </th>
+                    if (displayAttr != null && displayAttr.IsVisible)
+                    {   
+                        if(prop.Name == "EmployeeName")
+                        {
+                            continue;
+                        }
+                        <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")">
+                            <a href="javascript:void(0)" onclick="sortBy('@prop.Name')"
+                                class="text-decoration-none text-dark">@displayAttr.Name
+                                <i class="bi bi-arrow-down-up" id="sort-by-@prop.Name.Replace('.', '-')"
+                                    data-direction="asc"></i>
+                            </a>
+                        </th>
+                    }
                 }
-
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('ApprovedDate')"
-                        class="text-decoration-none text-dark">Response Date<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th class="">
-                    <a href="javascript:void(0)" onclick="sortBy('Status')"
-                        class="text-decoration-none text-dark">Status<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('AdhocLeave')"
-                        class="text-decoration-none text-dark">Adhoc Leave?<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
@@ -88,45 +46,51 @@
                             count++;
                         }
                     </td>
-                    <td>@data.StartDate</td>
-                    <td class=" ">
-                        @data.EndDate
-                    </td>
-                    <td class="text-center">
-                        @data.ReasonName
-                    </td>
-
-                    <td class="">
-                        @data.ReturnDate
-                    </td>
-                    <td class="text-center">
-                        @data.ActualDuration
-                    </td>
-                    @if (Model.RequestList.All(x => x.Status == "Approved"))
+                    @foreach (var prop in props)
                     {
-                        <td class="text-center">
-                            @data.ApprovedBy
-                        </td>
-                    }
-                    else if (Model.RequestList.All(x => x.Status == "Rejected"))
-                    {
-                        <td class="text-center">
-                            @data.ApprovedBy
-                        </td>
-                    }
+                        var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
 
-                    else
-                    {
-                        <td class="text-center">
-                            @data.ApprovedBy
-                        </td>
+                        if (displayAttr != null && displayAttr.IsVisible)
+                        {   
+                        if(prop.Name == "EmployeeName")
+                        {
+                            continue;
+                        }
+                            var value = prop.GetValue(data);
+                            <td class="text-center">
+                                @if (prop.Name == "Status")
+                                {
+                                    <span class="  @(data.StatusId switch
+                            {
+                                2 => "approved",
+                                5 => "rejected",
+                                4 => "cancelled",
+                                _ => "pending"
+                            }) p-2 text-black fw-lighter fs- text-center">
+                                        @value
+                                    </span>
+                                }
+                            
+                                else if(value is bool AdhocLeave)
+                                {
+                                   <input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault"
+                                    value="@(data.AdhocLeave ? "true" : "false")" @(data.AdhocLeave ? "checked" : "") disabled>
+                                }
+                                else if (value is DateTime dt)
+                                {
+                                    @dt.ToString("dd-MM-yyyy")
+                                }
+                                else
+                                {
+                                    @value
+                                }
+                            </td>
+                        }
                     }
+                    
 
-                    <td class="text-center">
-
-                        @data.ApprovedDate
-                    </td>
-                    <td class="">
+                    
+                    @* <td class="">
                         @if (@data.StatusId == 2)
                         {
                             <div class="approved ">
@@ -152,11 +116,11 @@
                             </div>
                         }
 
-                    </td>
-                    <td class="text-center">
+                    </td> *@
+                    @* <td class="text-center">
                         <input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault"
                             value="@(data.AdhocLeave ? "true" : "false")" @(data.AdhocLeave ? "checked" : "") disabled>
-                    </td>
+                    </td> *@
                     <td class="text-center">
                         <div class="d-flex align-items-center justify-content-center">
                             @if (data.StartDate >= DateOnly.FromDateTime(DateTime.Now) && data.StatusId == 3)

@@ -1,34 +1,32 @@
 @model Employee_Self_Service_DAL.ViewModel.EventPaginationViewModel
+@using Employee_Self_Service.DAL.Attributes
 @using Employee_Self_Service_BAL.Helpers
+@using System.Reflection
 <div class="table-responsive px-0">
     <table class="table table-light">
         <thead>
             <tr>
                 
-                <th>
-                    <span class="">Event Name</span>
+                @{
+                    var props = typeof(Employee_Self_Service_DAL.ViewModel.EventDetailsViewModel).GetProperties();
 
-                    <a href="javascript:void(0)" onclick="sortBy('EventName')" class="text-decoration-none text-dark ">
-                        <i class="bi bi-arrow-down-up fs-6" id="sort-by-role" data-direction="asc"></i></a>
-                </th>
-                <th class="">
-                    Start Date
-                    <a href="javascript:void(0)" onclick="sortBy('StartDate')" class="text-decoration-none text-dark">
+                }
+                @foreach (var prop in props)
+                {
+                    var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
 
-                        <i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th>
-                    <a href="javascript:void(0)" onclick="sortBy('EndDate')" class="text-decoration-none text-dark">End
-                        Date<i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i></a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('CategoryName')"
-                        class="text-decoration-none text-dark ">Category<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
-                <th class="text-center">
-                    Status
-                </th>
+                    if (displayAttr != null && displayAttr.IsVisible)
+                    {
+                        <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")">
+                            <a href="javascript:void(0)" onclick="sortBy('@prop.Name')"
+                                class="text-decoration-none text-dark">@displayAttr.Name
+                                <i class="bi bi-arrow-down-up" id="sort-by-@prop.Name.Replace('.', '-')"
+                                    data-direction="asc"></i>
+                            </a>
+                        </th>
+                    }
+                }
+                <th class="text-center">Status</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
@@ -38,14 +36,44 @@
             {
                 <tr>
                     
-                    <td>@data.EventName</td>
-                    <td>@data.StartDate</td>
-                    <td class=" ">
-                        @data.EndDate
-                    </td>
-                    <td class="text-center">
-                        @data.CategoryName
-                    </td>
+                    @foreach (var prop in props)
+                    {
+                        var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
+
+                        if (displayAttr != null && displayAttr.IsVisible)
+                        {
+                            var value = prop.GetValue(data);
+                            <td class="text-center">
+                                @* @if (prop.Name == "Status")
+                                {
+                                    <span class="badge  @((data.EndDate < DateOnly.FromDateTime(DateTime.Now) ? "bg-danger" :
+                                                        data.StartDate > DateOnly.FromDateTime(DateTime.Now) ? "bg-secondary" :
+                                                        "bg-success") + " p-2")">
+                                        @(data.EndDate < DateOnly.FromDateTime(DateTime.Now) ? "Expired" :
+                                          data.StartDate > DateOnly.FromDateTime(DateTime.Now) ? "Upcoming" : "Ongoing")
+                                    </span>
+                                } *@
+                                
+                                @if (value is IEnumerable<string> Cats)
+                                {
+                                    foreach (var item in Cats ?? Enumerable.Empty<string>())
+                                    {
+                                        @item
+
+                                        <br />
+                                    }
+                                }
+                                else if (value is DateTime dt)
+                                {
+                                    @dt.ToString("dd-MMM-yyyy hh:mm tt")
+                                }
+                                else
+                                {
+                                    @value
+                                }
+                            </td>
+                        }
+                    }
                     <td class="text-center">
                         @if(data.EndDate < DateOnly.FromDateTime(DateTime.Now))
                         {
@@ -81,8 +109,6 @@
         </tbody>
     </table>
 </div>
-
-
 
 <!-- Pagination Section -->
 <div class="d-flex flex-row justify-content-end  gap-2 mb-3 align-items-center">

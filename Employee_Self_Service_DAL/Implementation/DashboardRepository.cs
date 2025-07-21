@@ -15,6 +15,7 @@ public class DashboardRepository : IDashboardRepository
 
     public async Task<DashboardViewModel> GetDashboardData()
     {   
+        // var employeeId = 
         var today = DateOnly.FromDateTime(DateTime.Now);
         List<LeaveRequestDetailsViewModel>? todayOnLeave = await _context.LeaveRequests
                                                     .Include(l => l.Employee)
@@ -22,7 +23,6 @@ public class DashboardRepository : IDashboardRepository
                                                     .Where(l => !l.IsDeleted && l.StartDate <= today && l.EndDate >= today && l.StatusId == 2)
                                                     .Select(l => new LeaveRequestDetailsViewModel 
                                                     {   
-                                                       
                                                         EmployeeName = l.Employee.Name,
                                                         StartDate = (DateOnly)l.StartDate,
                                                         EndDate = (DateOnly)l.EndDate,
@@ -30,8 +30,7 @@ public class DashboardRepository : IDashboardRepository
                                                         
                                                     }).ToListAsync();
         
-        List<AddEventViewModel>? upcomingEvents = await _context.Events
-                                                    
+        List<AddEventViewModel>? upcomingEvents = await _context.Events                                                    
                                                     .Where(e => e.EndDate >= today)
                                                     .Select(e => new AddEventViewModel
                                                     {   
@@ -47,19 +46,45 @@ public class DashboardRepository : IDashboardRepository
                                                     .Where(l => !l.IsDeleted && l.EndDate >= today  && l.StatusId == 2)
                                                     .Select(l => new LeaveRequestDetailsViewModel 
                                                     {   
-                                                       
                                                         EmployeeName = l.Employee.Name,
                                                         StartDate = (DateOnly)l.StartDate,
                                                         EndDate = (DateOnly)l.EndDate,
                                                         ActualDuration = (decimal)l.ActualLeaveDuration,
-                                                        
                                                     }).ToListAsync();
+        List<HelpDeskDetailsViewModel>? ownHelpDeskRequests = await _context.HelpdeskRequests
+                                                            .Include(h => h.StatusHistories)
+                                                            .ThenInclude(st => st.StatusNavigation)
+                                                            .Include(h => h.PendingAtNavigation)
+                                                            .Include(h => h.Group)
+                                                            .Include(h => h.Category)
+                                                            .Include(h => h.SubCategory)
+                                                            .Include(h => h.Status)
+                                                            .Include(h => h.SubcategoryMappings)
+                                                            .Where(h =>  h.DeletedAt == null )
+                                                            .OrderBy(h => h.HelpdeskRequestId)
+                                                            .Select(h => new HelpDeskDetailsViewModel
+                                                            {   
+                                                                HelpDeskRequestId = h.HelpdeskRequestId,
+                                                                RequestedDate = (DateTime)h.InsertedAt,
+                                                                Group = h.Group.GroupName,
+                                                                Category = h.Category.CategoryName,
+                                                                // SubCategory = _context.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).FirstOrDefaultAsync(),
+                                                                SubCategories = h.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).ToList(),
+                                                                Priority = (Constants.HelpDeskEnum.Priority)h.Priority,
+                                                                ServiceDetails = h.ServiceDetails,
+                                                                Status = h.Status.StatusName,
+                                                                GroupId = (int)h.GroupId,
+                                                                StatusId = (int)h.StatusId,
+                                                                PendingAt = h.PendingAtNavigation != null ? h.PendingAtNavigation.Role1 : string.Empty,
+                                                                EmployeeId = (int)h.InsertedBy
+                                                            }).ToListAsync();
 
                                                     return new DashboardViewModel
                                                     {
                                                         TodayOnLeave = todayOnLeave,
                                                         UpcomingEvents = upcomingEvents,
-                                                        OnLeave = onLeave
+                                                        OnLeave = onLeave,
+                                                        OwnHelpDeskRequests = ownHelpDeskRequests
                                                     };
     }
 }

@@ -106,7 +106,7 @@ public class LeaveRepository : ILeaveRepository
                     .Include(l => l.Status)
                     .Where(l => !l.IsDeleted && l.EmployeeId == employeeId)
                     .OrderBy(l => l.LeaveRequestId)
-                    .Select(l => new LeaveExcelViewModel
+                    .Select(l => new LeaveRequestDetailsViewModel
                     {
                         LeaveRequestId = l.LeaveRequestId,
                         StartDate = (DateOnly)l.StartDate,
@@ -154,38 +154,12 @@ public class LeaveRepository : ILeaveRepository
                     
                     .ToListAsync();
        
-        var exportData = list.Select(l => new
-        {
-            l.LeaveRequestId,
-            l.StartDate,
-            l.EndDate,
-            l.ReasonName,
-            l.ReturnDate,
-            l.ActualDuration,
-            l.TotalDuration,
-            l.ApprovedDate,
-            l.ApprovedBy,
-            l.StatusId,
-            l.Status       
-        }).ToList();
-
-        List<LeaveExcelViewModel> model = list;
-        var columnMappings = new Dictionary<string, string>
-            {
-                { "LeaveRequestId", "Request ID" },
-                { "StartDate", "Start Date" },
-                { "EndDate", "End Date" },
-                { "ReasonName", "Reason Name" },
-                { "ReturnDate", "Return Date" },
-                { "ActualDuration", "Actual Duration" },
-                { "TotalDuration", "Total Duration" },
-                { "ApprovedDate", "Approved Date" },
-                { "ApprovedBy", "Approved By" },
-                { "Status", "Status" }
-            };
+        
+        List<LeaveRequestDetailsViewModel> model = list;
+        
         
         var excelExporter = new Excel.ExportExcel();
-        return excelExporter.ExportToExcel(exportData, "LeaveRequest",string.IsNullOrEmpty(leaveRequestStatus) ? "All" : leaveRequestStatus,searchQuery, columnMappings);
+        return excelExporter.ExportToExcel(model, "LeaveRequest",string.IsNullOrEmpty(leaveRequestStatus) ? "All" : leaveRequestStatus,searchQuery);
     }
 
 
@@ -403,12 +377,11 @@ public class LeaveRepository : ILeaveRepository
 
     public async Task<byte []> GetResponseDataToExport (int pageSize, int pageNumber, string searchQuery,string leaveRequestFromDate, string leaveRequestToDate, string leaveRequestStatus,int employeeId)
     {
-
         var query = _context.LeaveRequests
                     .Include(l => l.Status)
                     .Where(l => !l.IsDeleted && l.EmployeeId != employeeId)
                     .OrderBy(l => l.LeaveRequestId)
-                    .Select(l => new LeaveExcelViewModel
+                    .Select(l => new LeaveRequestDetailsViewModel
                     {
                         LeaveRequestId = l.LeaveRequestId,
                         EmployeeName = l.Employee.Name,
@@ -423,8 +396,7 @@ public class LeaveRepository : ILeaveRepository
                         Status = l.Status.Status,
                         ReasonName = l.ReasonNavigation.Reason1
                     });
-        
-        
+                
         if (!string.IsNullOrEmpty(searchQuery))
         {
             searchQuery = searchQuery.ToLower();
@@ -458,24 +430,10 @@ public class LeaveRepository : ILeaveRepository
                     .ToListAsync();
         
 
-        List<LeaveExcelViewModel> model = list;
-        var columnMappings = new Dictionary<string, string>
-            {
-                { "LeaveRequestId", "Request ID" },
-                { "EmployeeName", "Employee Name" },
-                { "StartDate", "Start Date" },
-                { "EndDate", "End Date" },
-                { "ReasonName", "Reason Name" },
-                { "ReturnDate", "Return Date" },
-                { "ActualDuration", "Actual Duration" },
-                { "TotalDuration", "Total Duration" },
-                { "ApprovedDate", "Approved Date" },
-                { "ApprovedBy", "Approved By" },
-                { "Status", "Status" }
-            };
-        // return model;
+        List<LeaveRequestDetailsViewModel> model = list;
+    
          var excelExporter = new Excel.ExportExcel();
-         return excelExporter.ExportToExcel(list, "LeaveRequest",string.IsNullOrEmpty(leaveRequestStatus) ? "All" : leaveRequestStatus,searchQuery, columnMappings);
+         return excelExporter.ExportToExcel(list, "LeaveRequest",string.IsNullOrEmpty(leaveRequestStatus) ? "All" : leaveRequestStatus,searchQuery);
     }
 
 }

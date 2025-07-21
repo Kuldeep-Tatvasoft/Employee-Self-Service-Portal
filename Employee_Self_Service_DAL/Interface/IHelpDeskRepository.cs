@@ -19,4 +19,6 @@ public interface IHelpDeskRepository
     Task<ResponseViewModel> AddNotificationByHr(Notification addNotification);
     Task<ResponseViewModel> AddResponseNotification(Notification addNotification, int employeeId);
     Task<List<StatusHistoryViewModel>> GetStatusHistory(long requestId);
+    Task<byte []> GetHelpDeskDataToExport (int pageSize, int pageNumber, string searchQuery, string helpDeskGroup,string helpDeskStatus,int employeeId);
+    Task<byte []> GetHelpDeskResponseDataToExport (int pageSize, int pageNumber, string searchQuery, string helpDeskGroup,string helpDeskStatus,int employeeId);
 }

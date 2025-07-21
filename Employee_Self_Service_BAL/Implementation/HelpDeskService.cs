@@ -274,4 +274,14 @@ public class HelpDeskService : IHelpDeskService
         return await _helpDeskRepository.GetStatusHistory(requestId);
     }
 
+    public async Task<byte[]> GetHelpDeskDataToExport(int pageSize, int pageNumber, string searchQuery, string helpDeskGroup, string helpDeskStatus, int employeeId)
+    {
+        return await _helpDeskRepository.GetHelpDeskDataToExport(pageSize, pageNumber, searchQuery,helpDeskGroup,helpDeskStatus,employeeId);
+    }
+
+    public async Task<byte[]> GetHelpDeskResponseDataToExport(int pageSize, int pageNumber, string searchQuery, string helpDeskGroup, string helpDeskStatus, int employeeId)
+    {
+        return await _helpDeskRepository.GetHelpDeskResponseDataToExport(pageSize, pageNumber, searchQuery,helpDeskGroup,helpDeskStatus,employeeId);
+    }
+
 }

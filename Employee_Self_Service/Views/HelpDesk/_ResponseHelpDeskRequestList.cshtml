@@ -1,5 +1,7 @@
 @model Employee_Self_Service_DAL.ViewModel.HelpDeskPaginationViewModel
+@using Employee_Self_Service.DAL.Attributes
 @using Employee_Self_Service_BAL.Helpers
+@using System.Reflection
 @{
     string? userRole = Context.Request.Cookies["role"];
 }
@@ -7,132 +9,81 @@
     <table class="table">
         <thead>
             <tr>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('HelpDeskRequestId')"
-                        class="text-decoration-none text-dark">Ticket
-                        <i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th>
-                    <a href="javascript:void(0)" onclick="sortBy('RequestedDate')"
-                        class="text-decoration-none text-dark">Request DateTime
-                        Date<i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i></a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('Group')"
-                        class="text-decoration-none text-dark">Group<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
+                @{
+                    var props = typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel).GetProperties();
 
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('Category')"
-                        class="text-decoration-none text-dark">Category<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('SubCategory')"
-                        class="text-decoration-none text-dark">Sub Category<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
+                }
+                @foreach (var prop in props)
+                {
+                    var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
 
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('Priority')"
-                        class="text-decoration-none text-dark">Priority<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
-
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('ServiceDetails')"
-                        class="text-decoration-none text-dark">Service Details<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('PendingAt')"
-                        class="text-decoration-none text-dark">Pending At<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('Status')"
-                        class="text-decoration-none text-dark">Status<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
-
+                    if (displayAttr != null && displayAttr.IsVisible)
+                    {
+                        @* <th>@displayAttr.Name</th> *@
+                        <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")">
+                            <a href="javascript:void(0)" onclick="sortBy('@prop.Name')"
+                                class="text-decoration-none text-dark">@displayAttr.Name
+                                <i class="bi bi-arrow-down-up" id="sort-by-@prop.Name.Replace('.', '-')"
+                                    data-direction="asc"></i>
+                            </a>
+                        </th>
+                    }
+                }
                 <th class="text-center">Action</th>
             </tr>
         </thead>
-
         <tbody>
             @foreach (var data in Model.HelpDeskList)
             {
                 <tr>
-                    <td class="text-center">
-                        @data.HelpDeskRequestId
-                    </td>
-                    <td  class="requestedDate">@data.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")</td>
-                    <td class="text-center">
-                        @data.Group
-                    </td>
-                    <td class="text-center">
-                        @data.Category
-                    </td>
-                    
-                    <td class="text-center">
-                        @foreach (string subCategories in data.SubCategories)
-                        {
-                            @subCategories 
-                            <br/>
-                        }
-                        
-                    </td>
-        
-                    <td class="text-center">
-                        @data.Priority
-                    </td>
+                    @foreach (var prop in props)
+                    {
+                        var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
 
-                    <td class="text-center">
-                        @data.ServiceDetails
-                    </td>
-                    <td class="text-center">
-                        @data.PendingAt
-                    </td>
-                    <td class="text-center">
-                        @if (@data.StatusId == 2)
+                        if (displayAttr != null && displayAttr.IsVisible)
                         {
-                            <span class="badge status approved p-2 text-black fw-lighter fs-6">@data.Status</span>
-    
+                            var value = prop.GetValue(data);
+                            <td class="text-center">
+                                @if (prop.Name == "Status")
+                                {
+                                    <span class="badge status @(data.StatusId switch
+                            {
+                                2 => "approved",
+                                7 => "rejected",
+                                3 => "cancelled",
+                                1 => "acknowledged",
+                                4 => "closed",
+                                _ => "pending"
+                            }) p-2 text-black fw-lighter fs-6">
+                                        @value
+                                    </span>
+                                }
+                                else if (prop.Name == "Priority")
+                                {
+                                    <span class="badge status @(data.Priority.ToString().ToLower()) p-2 text-black fw-lighter fs-6">
+                                        @value
+                                    </span>
+                                }
+                                else if (value is IEnumerable<string> subCats)
+                                {
+                                    foreach (var item in subCats ?? Enumerable.Empty<string>())
+                                    {
+                                        @item
+
+                                        <br />
+                                    }
+                                }
+                                else if (value is DateTime dt)
+                                {
+                                    @dt.ToString("dd-MMM-yyyy hh:mm tt")
+                                }
+                                else
+                                {
+                                    @value
+                                }
+                            </td>
                         }
-                        else if (@data.StatusId == 7)
-                        {
-                            <span class="badge status rejected p-2 text-black fw-lighter fs-6">
-                                @data.Status
-                            </span>
-                        }
-                        else if (@data.StatusId == 3)
-                        {
-                            <span class="badge status cancelled p-2 text-black fw-lighter fs-6">
-                                @data.Status
-                            </span>
-                        }
-                        else if (@data.StatusId == 1)
-                        {
-                            <div class="badge status acknowledged p-2 text-black fw-lighter fs-6">
-                                @data.Status
-                            </div>
-                        }
-                        else if (@data.StatusId == 4)
-                        {
-                            <div class="badge status closed p-2 text-black fw-lighter fs-6">
-                                @data.Status
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="badge status pending  p-2 text-black fw-lighter fs-6">
-                                @data.Status
-                            </div>
-                        }
-                        
-                    </td>
+                    }
 
                     <td class="text-center">
                         <div class="d-flex align-items-center justify-content-center">

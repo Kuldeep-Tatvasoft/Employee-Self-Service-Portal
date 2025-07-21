@@ -7,241 +7,405 @@
 
 
 @{
-    var gridProperties = typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel)
-        .GetProperties()
-        .Where(p => p.GetCustomAttribute<DisplayAttribute>() != null)
-        .ToList();
+var gridProperties = typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel)
+.GetProperties()
+.Where(p => p.GetCustomAttribute<DisplayAttribute>() != null)
+.ToList();
 }
 
 <div class="table-responsive px-0">
-   
+
 
 <table class="table">
-    <thead>
-        <tr>
-            @foreach (var prop in gridProperties)
-            {
-                var displayName = prop.GetCustomAttribute<DisplayAttribute>()?.Name ?? prop.Name;
-                <th class="text-center">@displayName</th>
-            }
-            <th class="text-center">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var data in Model.HelpDeskList)
-        {
-            <tr>
-                @foreach (var prop in gridProperties)
-                {
-                    var value = prop.GetValue(data, null);
-                    <td class="text-center">
-                        @if (value is IEnumerable<string> subCats)
-                        {
-                            foreach (var item in subCats) { @item<br /> }
-                        }
-                        else if (value is DateTime dt)
-                        {
-                            @dt.ToString("dd-MM-yyyy hh:mm tt")
-                        }
-                        else
-                        {
-                            @value
-                        }
-                    </td>
-                }
+<thead>
+<tr>
+@foreach (var prop in gridProperties)
+{
+var displayName = prop.GetCustomAttribute<DisplayAttribute>()?.Name ?? prop.Name;
+<th class="text-center">@displayName</th>
+}
+<th class="text-center">Action</th>
+</tr>
+</thead>
+<tbody>
+@foreach (var data in Model.HelpDeskList)
+{
+<tr>
+@foreach (var prop in gridProperties)
+{
+var value = prop.GetValue(data, null);
+<td class="text-center">
+@if (value is IEnumerable<string> subCats)
+{
+foreach (var item in subCats) { @item<br /> }
+}
+else if (value is DateTime dt)
+{
+@dt.ToString("dd-MM-yyyy hh:mm tt")
+}
+else
+{
+@value
+}
+</td>
+}
 
-                <td class="text-center">
-                    <div class="d-flex justify-content-center align-items-center">
-                        @if (data.PendingAt == "HR")
-                        {
-                            <a asp-action="AddEditHelpdeskRequest" asp-controller="HelpDesk"
-                               asp-route-requestId="@data.HelpDeskRequestId" class="btn">
-                                <i class="bi bi-pen"></i>
-                            </a>
-                            <a class="btn deleteHelpDeskBtn p-0" data-id="@data.HelpDeskRequestId" data-bs-toggle="modal"
-                               data-bs-target="#deleteHelpDeskModal">
-                                <i class="bi bi-trash text-black"></i>
-                            </a>
-                        }
-                        else
-                        {
-                            <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
-                               asp-route-requestId="@data.HelpDeskRequestId" class="btn">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                        }
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
+<td class="text-center">
+<div class="d-flex justify-content-center align-items-center">
+@if (data.PendingAt == "HR")
+{
+<a asp-action="AddEditHelpdeskRequest" asp-controller="HelpDesk"
+asp-route-requestId="@data.HelpDeskRequestId" class="btn">
+<i class="bi bi-pen"></i>
+</a>
+<a class="btn deleteHelpDeskBtn p-0" data-id="@data.HelpDeskRequestId" data-bs-toggle="modal"
+data-bs-target="#deleteHelpDeskModal">
+<i class="bi bi-trash text-black"></i>
+</a>
+}
+else
+{
+<a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+asp-route-requestId="@data.HelpDeskRequestId" class="btn">
+<i class="fa-solid fa-pen-to-square"></i>
+</a>
+}
+</div>
+</td>
+</tr>
+}
+</tbody>
 </table>
+<table class="table">
+<thead>
+<tr>
+<th class="text-center">
+<a href="javascript:void(0)" onclick="sortBy('HelpDeskRequestId')"
+class="text-decoration-none text-dark">Ticket
+<i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
+</th>
+<th>
+<a href="javascript:void(0)" onclick="sortBy('RequestedDate')"
+class="text-decoration-none text-dark">Request DateTime
+Date<i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i></a>
+</th>
+<th class="text-center">
+<a href="javascript:void(0)" onclick="sortBy('Group')"
+
+class="text-decoration-none text-dark">Group<i class="bi bi-arrow-down-up" id="sort-by-role"
+data-direction="asc"></i> </a>
+</th>
+
+<th class="text-center">
+<a href="javascript:void(0)" onclick="sortBy('Category')"
+class="text-decoration-none text-dark">Category<i class="bi bi-arrow-down-up" id="sort-by-role"
+data-direction="asc"></i> </a>
+</th>
+<th class="text-center">
+<a href="javascript:void(0)" onclick="sortBy('SubCategory')"
+class="text-decoration-none text-dark">Sub Category<i class="bi bi-arrow-down-up"
+id="sort-by-role" data-direction="asc"></i> </a>
+</th>
+
+<th class="text-center">
+<a href="javascript:void(0)" onclick="sortBy('Priority')"
+class="text-decoration-none text-dark">Priority<i class="bi bi-arrow-down-up" id="sort-by-role"
+data-direction="asc"></i> </a>
+</th>
+
+<th class="text-center">
+<a href="javascript:void(0)" onclick="sortBy('ServiceDetails')"
+class="text-decoration-none text-dark">Service Details<i class="bi bi-arrow-down-up"
+id="sort-by-role" data-direction="asc"></i> </a>
+</th>
+<th class="text-center">
+<a href="javascript:void(0)" onclick="sortBy('PendingAt')"
+class="text-decoration-none text-dark">Pending At<i class="bi bi-arrow-down-up"
+id="sort-by-role" data-direction="asc"></i> </a>
+</th>
+<th class="text-center">
+<a href="javascript:void(0)" onclick="sortBy('Status')"
+class="text-decoration-none text-dark">Status<i class="bi bi-arrow-down-up" id="sort-by-role"
+data-direction="asc"></i> </a>
+</th>
+
+<th class="text-center">Action</th>
+</tr>
+</thead>
+
+<tbody>
+@foreach (var data in Model.HelpDeskList)
+{
+<tr>
+<td class="text-center">
+@if (data.PendingAt.ToString() != "HR" && data.StatusId != 3 ){
+<a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+asp-route-requestId="@data.HelpDeskRequestId" >
+@data.HelpDeskRequestId
+</a>
+}
+else{
+@data.HelpDeskRequestId
+}
+</td>
+<td class="requestedDate">@data.RequestedDate</td>
+<td class="text-center">
+@data.Group
+</td>
+<td class="text-center">
+@data.Category
+</td>
+
+<td class="text-center">
+@foreach (string subCategories in data.SubCategories)
+{
+@subCategories
+<br/>
+}
+</td>
+
+<td class="text-center ">
+@if(data.Priority.ToString() == "High")
+{
+<span class="badge status high p-2 text-black fw-lighter fs-6">@data.Priority</span>
+}
+else if(data.Priority.ToString() == "Medium")
+{
+<span class="badge status medium p-2 text-black fw-lighter fs-6">@data.Priority</span>
+}
+else
+{
+<span class="badge status low p-2 text-black fw-lighter fs-6">@data.Priority</span>
+}
+
+</td>
+
+<td class="text-center">
+@data.ServiceDetails
+</td>
+<td class="text-center">
+@data.PendingAt
+</td>
+<td class="text-center">
+@if (@data.StatusId == 2)
+{
+<span class="badge status approved p-2 text-black fw-lighter fs-6">@data.Status</span>
+
+}
+else if (@data.StatusId == 7)
+{
+<span class="badge status rejected p-2 text-black fw-lighter fs-6">
+@data.Status
+</span>
+}
+else if (@data.StatusId == 3)
+{
+<span class="badge status cancelled p-2 text-black fw-lighter fs-6">
+@data.Status
+</span>
+}
+else if (@data.StatusId == 1)
+{
+<div class="badge status acknowledged p-2 text-black fw-lighter fs-6">
+@data.Status
+</div>
+}
+else if (@data.StatusId == 4)
+{
+<div class="badge status closed p-2 text-black fw-lighter fs-6">
+@data.Status
+</div>
+}
+else
+{
+<div class="badge status pending p-2 text-black fw-lighter fs-6">
+@data.Status
+</div>
+}
+
+</td>
+
+<td class="text-center">
+<div class="d-flex align-items-center justify-content-center">
+@if (data.PendingAt == "HR")
+{
+<a asp-action="AddEditHelpdeskRequest" asp-controller="HelpDesk"
+asp-route-requestId="@data.HelpDeskRequestId" class="btn " type="button">
+<i class="bi bi-pen"></i>
+</a>
+<a class="btn deleteHelpDeskBtn p-0" data-id="@data.HelpDeskRequestId" data-bs-toggle="modal"
+data-bs-target="#deleteHelpDeskModal">
+<i class=" bi bi-trash text-black"></i>
+</a>
+}
+@if (data.PendingAt.ToString() != "HR" )
+{
+<a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+asp-route-requestId="@data.HelpDeskRequestId" class="btn " type="button">
+<i class="fa-solid fa-pen-to-square"></i>
+</a>
+}
+</div>
+</td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+
+<!-- Pagination Section -->
+<div class="d-flex flex-row justify-content-end gap-2 mb-3 align-items-center">
+<p class="pt-3 text-black">Items per page</p>
+<div class="dropdown">
+<select class="form-select w-auto " onchange="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage)"
+aria-label="Default select example" id="helpDeskRequestPageSize">
+@if (Model.Page.PageSize != null)
+{
+<option value="5" selected="@(Model.Page.PageSize == 5 ? true : false) selected">5</option>
+<option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
+<option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>
+}
+</select>
+</div>
+<p class="pt-3 text-black">Showing @Model.Page!.FromRec - @Model.Page.ToRec of @Model.Page.TotalRecord</p>
+
+<!-- Previous Button -->
+<button class="btn btn-outline-primary col-auto"
+onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage - 1)" @(Model.Page.CurrentPage > 1 ? "" :
+"disabled")> &lt; </button>
+
+<!-- Next Button -->
+<button class="btn btn-outline-primary col-auto"
+onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage + 1)" @(Model.Page.CurrentPage <
+Model.Page.TotalPages ? "" : "disabled")> &gt; </button>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+*@
+
+@model Employee_Self_Service_DAL.ViewModel.HelpDeskPaginationViewModel
+@using Employee_Self_Service.DAL.Attributes
+@using Employee_Self_Service_DAL.ViewModel
+@using System.Reflection
+
+<div class="table-responsive px-0">
+
+    @*
+    @{
+    var gridProperties = typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel)
+    .GetProperties()
+    .Where(p => p.GetCustomAttribute<DisplayColumnAttribute>().IsVisible != false)
+    .ToList();
+    } *@
+
     <table class="table">
         <thead>
             <tr>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('HelpDeskRequestId')"
-                        class="text-decoration-none text-dark">Ticket
-                        <i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th>
-                    <a href="javascript:void(0)" onclick="sortBy('RequestedDate')"
-                        class="text-decoration-none text-dark">Request DateTime
-                        Date<i class="bi bi-arrow-down-up" id="sort-by-role" data-direction="asc"></i></a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('Group')"
-    
-                        class="text-decoration-none text-dark">Group<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
+                @{
+                    var props = typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel).GetProperties();
 
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('Category')"
-                        class="text-decoration-none text-dark">Category<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('SubCategory')"
-                        class="text-decoration-none text-dark">Sub Category<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
+                }
+                @foreach (var prop in props)
+                {
+                    var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
 
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('Priority')"
-                        class="text-decoration-none text-dark">Priority<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
-
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('ServiceDetails')"
-                        class="text-decoration-none text-dark">Service Details<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('PendingAt')"
-                        class="text-decoration-none text-dark">Pending At<i class="bi bi-arrow-down-up"
-                            id="sort-by-role" data-direction="asc"></i> </a>
-                </th>
-                <th class="text-center">
-                    <a href="javascript:void(0)" onclick="sortBy('Status')"
-                        class="text-decoration-none text-dark">Status<i class="bi bi-arrow-down-up" id="sort-by-role"
-                            data-direction="asc"></i> </a>
-                </th>
-
+                    if (displayAttr != null && displayAttr.IsVisible)
+                    {
+                        @* <th>@displayAttr.Name</th> *@
+                        <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")">
+                            <a href="javascript:void(0)" onclick="sortBy('@prop.Name')"
+                                class="text-decoration-none text-dark">@displayAttr.Name
+                                <i class="bi bi-arrow-down-up" id="sort-by-@prop.Name.Replace('.', '-')"
+                                    data-direction="asc"></i>
+                            </a>
+                        </th>
+                    }
+                }
                 <th class="text-center">Action</th>
             </tr>
         </thead>
-
         <tbody>
             @foreach (var data in Model.HelpDeskList)
             {
                 <tr>
-                    <td class="text-center">
-                        @if (data.PendingAt.ToString() != "HR" && data.StatusId != 3 ){
-                            <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
-                                    asp-route-requestId="@data.HelpDeskRequestId" >
-                                    @data.HelpDeskRequestId
-                                </a>
-                        }
-                        else{
-                            @data.HelpDeskRequestId
-                        }                        
-                    </td>
-                    <td  class="requestedDate">@data.RequestedDate</td>
-                    <td class="text-center">
-                        @data.Group
-                    </td>
-                    <td class="text-center">
-                        @data.Category
-                    </td>
-                    
-                    <td class="text-center">
-                       @foreach (string subCategories in data.SubCategories)
-                        {
-                            @subCategories 
-                            <br/>
-                        }
-                    </td>
-        
-                    <td class="text-center ">
-                        @if(data.Priority.ToString() == "High")
-                        {
-                            <span class="badge status high p-2 text-black fw-lighter fs-6">@data.Priority</span>
-                        }
-                        else if(data.Priority.ToString() == "Medium")
-                        {
-                            <span class="badge status medium p-2 text-black fw-lighter fs-6">@data.Priority</span>
-                        }
-                        else 
-                        {
-                            <span class="badge status low p-2 text-black fw-lighter fs-6">@data.Priority</span>
-                        }
-                        
-                    </td>
 
-                    <td class="text-center">
-                        @data.ServiceDetails
-                    </td>
-                    <td class="text-center">
-                        @data.PendingAt
-                    </td>
-                    <td class="text-center">
-                        @if (@data.StatusId == 2)
-                        {
-                            <span class="badge status approved p-2 text-black fw-lighter fs-6">@data.Status</span>
-    
-                        }
-                        else if (@data.StatusId == 7)
-                        {
-                            <span class="badge status rejected p-2 text-black fw-lighter fs-6">
-                                @data.Status
-                            </span>
-                        }
-                        else if (@data.StatusId == 3)
-                        {
-                            <span class="badge status cancelled p-2 text-black fw-lighter fs-6">
-                                @data.Status
-                            </span>
-                        }
-                        else if (@data.StatusId == 1)
-                        {
-                            <div class="badge status acknowledged p-2 text-black fw-lighter fs-6">
-                                @data.Status
-                            </div>
-                        }
-                        else if (@data.StatusId == 4)
-                        {
-                            <div class="badge status closed p-2 text-black fw-lighter fs-6">
-                                @data.Status
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="badge status pending  p-2 text-black fw-lighter fs-6">
-                                @data.Status
-                            </div>
-                        }
-                        
-                    </td>
+                    @foreach (var prop in props)
+                    {
+                        var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
 
+                        if (displayAttr != null && displayAttr.IsVisible)
+                        {
+                            var value = prop.GetValue(data);
+                            <td class="text-center">
+                                @if (prop.Name == "Status")
+                                {
+                                    <span class="badge status @(data.StatusId switch
+                                {
+                                2 => "approved",
+                                7 => "rejected",
+                                3 => "cancelled",
+                                1 => "acknowledged",
+                                4 => "closed",
+                                _ => "pending"
+                                }) p-2 text-black fw-lighter fs-6">
+                                        @value
+                                    </span>
+                                }
+                                else if(prop.Name == "HelpDeskRequestId")
+                                {
+                                    @if (data.PendingAt.ToString() != "HR" && data.StatusId != 3 ){
+                                        <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+                                        asp-route-requestId="@data.HelpDeskRequestId" >
+                                        @data.HelpDeskRequestId
+                                        </a>
+                                    }
+                                    else{
+                                        @data.HelpDeskRequestId
+                                    }
+                                }
+                                else if (prop.Name == "Priority")
+                                {
+                                    <span class="badge status @(data.Priority.ToString().ToLower()) p-2 text-black fw-lighter fs-6">
+                                        @value
+                                    </span>
+                                }
+                                else if (value is IEnumerable<string> subCats)
+                                {
+                                    foreach (var item in subCats ?? Enumerable.Empty<string>())
+                                    {
+                                        @item
+
+                                        <br />
+                                    }
+                                }
+                                else if (value is DateTime dt)
+                                {
+                                    @dt.ToString("dd-MMM-yyyy hh:mm tt")
+                                }
+                                else
+                                {
+                                    @value
+                                }
+                            </td>
+                        }
+                    }
                     <td class="text-center">
-                        <div class="d-flex align-items-center justify-content-center">
+                        <div class="d-flex justify-content-center align-items-center">
                             @if (data.PendingAt == "HR")
                             {
                                 <a asp-action="AddEditHelpdeskRequest" asp-controller="HelpDesk"
-                                    asp-route-requestId="@data.HelpDeskRequestId" class="btn " type="button">
+                                    asp-route-requestId="@data.HelpDeskRequestId" class="btn">
                                     <i class="bi bi-pen"></i>
                                 </a>
                                 <a class="btn deleteHelpDeskBtn p-0" data-id="@data.HelpDeskRequestId" data-bs-toggle="modal"
                                     data-bs-target="#deleteHelpDeskModal">
-                                    <i class=" bi bi-trash text-black"></i>
+                                    <i class="bi bi-trash text-black"></i>
                                 </a>
                             }
-                            @if (data.PendingAt.ToString() != "HR" )
+                            else
                             {
-                             <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
-                                    asp-route-requestId="@data.HelpDeskRequestId" class="btn " type="button">
+                                <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+                                    asp-route-requestId="@data.HelpDeskRequestId" class="btn">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             }
@@ -254,16 +418,16 @@
 </div>
 
 <!-- Pagination Section -->
-<div class="d-flex flex-row justify-content-end  gap-2 mb-3 align-items-center">
+<div class="d-flex flex-row justify-content-end gap-2 mb-3 align-items-center">
     <p class="pt-3 text-black">Items per page</p>
     <div class="dropdown">
-        <select class="form-select w-auto " onchange="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage)"
+        <select class="form-select w-auto" onchange="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage)"
             aria-label="Default select example" id="helpDeskRequestPageSize">
             @if (Model.Page.PageSize != null)
             {
-                <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false) selected">5</option>
-                <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
-                <option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>
+                <option value="5" selected="@(Model.Page.PageSize == 5 ? "selected" : null)">5</option>
+                <option value="10" selected="@(Model.Page.PageSize == 10 ? "selected" : null)">10</option>
+                <option value="15" selected="@(Model.Page.PageSize == 15 ? "selected" : null)">15</option>
             }
         </select>
     </div>
@@ -278,121 +442,6 @@
     <button class="btn btn-outline-primary col-auto"
         onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage + 1)" @(Model.Page.CurrentPage <
         Model.Page.TotalPages ? "" : "disabled")> &gt; </button>
-</div>
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
- *@
-
-@model Employee_Self_Service_DAL.ViewModel.HelpDeskPaginationViewModel
-@using Employee_Self_Service.DAL.Attributes
-@using Employee_Self_Service_DAL.ViewModel
-@using System.Reflection
-
-<div class="table-responsive px-0">
-   
-@* 
-@{
-    var gridProperties = typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel)
-        .GetProperties()
-        .Where(p => p.GetCustomAttribute<DisplayColumnAttribute>().IsVisible != false)
-        .ToList();
-} *@
-
-<table class="table">
-    <thead>
-        <tr>
-             @foreach (var prop in typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel).GetProperties())
-        {
-            var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
-            if (displayAttr?.IsVisible != false) // skip invisible columns
-            {
-                <th>@displayAttr?.Name ?? prop.Name</th>
-            }
-        }
-            <th class="text-center">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var data in Model.HelpDeskList)
-        {
-            <tr>
-                @foreach (var prop in typeof(Employee_Self_Service_DAL.ViewModel.HelpDeskDetailsViewModel).GetProperties())
-            {
-            var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
-            if (displayAttr?.IsVisible != false)
-            {
-                var value = prop.GetValue(data);
-                    <td class="text-center">
-                        @if (value is IEnumerable<string> subCats)
-                        {
-                            foreach (var item in subCats) { @item<br /> }
-                        }
-                        else if (value is DateTime dt)
-                        {
-                            @dt.ToString("dd-MM-yyyy hh:mm tt")
-                        }
-                        else
-                        {
-                            @value
-                        }
-                    </td>
-                }
-        }
-                <td class="text-center">
-                    <div class="d-flex justify-content-center align-items-center">
-                        @if (data.PendingAt == "HR")
-                        {
-                            <a asp-action="AddEditHelpdeskRequest" asp-controller="HelpDesk"
-                               asp-route-requestId="@data.HelpDeskRequestId" class="btn">
-                                <i class="bi bi-pen"></i>
-                            </a>
-                            <a class="btn deleteHelpDeskBtn p-0" data-id="@data.HelpDeskRequestId" data-bs-toggle="modal"
-                               data-bs-target="#deleteHelpDeskModal">
-                                <i class="bi bi-trash text-black"></i>
-                            </a>
-                        }
-                        else
-                        {
-                            <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
-                               asp-route-requestId="@data.HelpDeskRequestId" class="btn">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                        }
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-</div>
-
-<!-- Pagination Section -->
-<div class="d-flex flex-row justify-content-end gap-2 mb-3 align-items-center">
-    <p class="pt-3 text-black">Items per page</p>
-    <div class="dropdown">
-        <select class="form-select w-auto" onchange="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage)"
-                aria-label="Default select example" id="helpDeskRequestPageSize">
-            @if (Model.Page.PageSize != null)
-            {
-                <option value="5" selected="@(Model.Page.PageSize == 5 ? "selected" : null)">5</option>
-                <option value="10" selected="@(Model.Page.PageSize == 10 ? "selected" : null)">10</option>
-                <option value="15" selected="@(Model.Page.PageSize == 15 ? "selected" : null)">15</option>
-            }
-        </select>
-    </div>
-    <p class="pt-3 text-black">Showing @Model.Page!.FromRec - @Model.Page.ToRec of @Model.Page.TotalRecord</p>
-
-    <!-- Previous Button -->
-    <button class="btn btn-outline-primary col-auto"
-            onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage - 1)" @(Model.Page.CurrentPage > 1 ? "" : "disabled")">
-        <
-    </button>
-
-    <!-- Next Button -->
-    <button class="btn btn-outline-primary col-auto"
-            onclick="HelpDeskRequestPaginationAjax(@Model.Page.CurrentPage + 1)" @(Model.Page.CurrentPage < Model.Page.TotalPages ? "" : "disabled")">
-        >
-    </button>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

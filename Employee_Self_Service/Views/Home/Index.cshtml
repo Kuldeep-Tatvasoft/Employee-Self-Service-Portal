@@ -3,6 +3,9 @@
 }
 @model Employee_Self_Service_DAL.ViewModel.DashboardViewModel;
 
+@{
+    string? employeeId = Context.Request.Cookies["EmployeeId"];
+}
 
 <div class="container-fluid p-4">
 
@@ -113,8 +116,77 @@
                 </div>
             </div>
         </div>
+
+        <div class="col ">
+            
+            <div class=" bg-white shadow  rounded-0 dashboard-leave dashboard-card">
+                <div class=" w-100 h-100">
+                    <div class="member p-2">
+                        <span class="fw-semibold">HelpDesk Request</span>
+                    </div>
+                    <table class="table table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <td class="col-lg-8">
+                                    <span class="heading">RequestId</span>
+                                </td>
+                                <td class="text-center">
+                                    <span>Request Date</span>
+                                </td>
+                                <td class="text-center">
+                                    <span>Group</span>
+                                </td>
+                                <td class="col-lg-8">
+                                    <span class="heading">Category</span>
+                                </td>
+                                <td class="col-lg-8">
+                                    <span class="heading">SubCategory</span>
+                                </td>
+                                
+                            </tr>
+                        </thead>
+                        <tbody class="">
+                            @foreach (var data in Model.OwnHelpDeskRequests)
+                            {
+                            if(data.EmployeeId == Convert.ToInt32(employeeId))
+                            {
+                            <tr>
+                                <td>@if (data.PendingAt.ToString() != "HR" && data.StatusId != 3 ){
+                                    <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+                                    asp-route-requestId="@data.HelpDeskRequestId" >
+                                    @data.HelpDeskRequestId
+                                    </a>
+                                }
+                                else{
+                                    @data.HelpDeskRequestId
+                                }
+                                </td>
+
+                                <td>
+                                    @data.RequestedDate.ToString("dd-MM-yyyy") 
+                                </td>
+                                <td class="text-center">
+                                    @data.Group
+                                </td>
+                                <td>@data.Category</td>
+                                <td>
+                                    @foreach (string subCategories in data.SubCategories)
+                                    {
+                                    @subCategories
+                                    <br/>
+                                    }
+                                </td>
+                            </tr>
+                            }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         
     </div>
+    
 </div>
 
 
@@ -127,36 +199,9 @@
     </div>
 </div>
 
-
-@* <div id="notificationArea" class="alert alert-info" style="display:none;">
-    <span id="notificationMessage"></span>
-</div> *@
-
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 
-<!-- SignalR JavaScript -->
-
-@* <script>
-    // Connect to SignalR Hub
-    const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/notificationHub")
-        .build();
-
-    // Handle incoming notifications
-    connection.on("ReceiveNotification", (message) => {
-        const notificationArea = document.getElementById("notificationArea");
-        const notificationMessage = document.getElementById("notificationMessage");
-        notificationMessage.textContent = message;
-        notificationArea.style.display = "block";
-    
-        setTimeout(() => { notificationArea.style.display = "none"; }, 5000);
-        toastr.success(message);
-    });
-
-    // Start the connection
-    connection.start().catch(err => console.error(err.toString()));
-</script> *@
 
 <script>
     $(document).on("click", ".eventDetails", function () {

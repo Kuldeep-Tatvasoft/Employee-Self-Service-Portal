@@ -6,12 +6,13 @@ using System.IO;
 using System.Linq;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using Employee_Self_Service.DAL.Attributes;
 
 namespace Employee_Self_Service_DAL.Excel;
 
 public class ExportExcel
 {
-    public byte[] ExportToExcel<T>(List<T> data, string sheetName,string status,string searchQuery, Dictionary<string, string> columnMappings = null)
+    public byte[] ExportToExcel<T>(List<T> data, string sheetName, string status, string searchQuery, Dictionary<string, string> columnMappings = null)
     {
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         using var package = new ExcelPackage();
@@ -23,7 +24,7 @@ public class ExportExcel
             currentCol += 2;
             // First row 
             worksheet.Cells[currentRow, currentCol, currentRow + 1, currentCol + 1].Merge = true;
-            worksheet.Cells[currentRow, currentCol].Value =  "Status: ";
+            worksheet.Cells[currentRow, currentCol].Value = "Status: ";
             FormatHeaderCells(worksheet.Cells[currentRow, currentCol, currentRow + 1, currentCol + 1]);
 
             currentCol += 2;
@@ -57,20 +58,18 @@ public class ExportExcel
             // Table headers
             int headingRow = currentRow + 2;
             int headingCol = 1;
-            var properties = typeof(T).GetProperties();
+            var properties = typeof(T).GetProperties()
+            .Where(p => p.IsDefined(typeof(DisplayColumnAttribute), false))
+            .Where(p => p.GetCustomAttribute<DisplayColumnAttribute>()?.IsVisible == true )
+            .ToList();
 
             // Set headers
             foreach (var prop in properties)
             {
-                var property = prop;
-                var columnName = columnMappings != null && columnMappings.ContainsKey(property.Name)
-                ? columnMappings[property.Name]
-                : property.Name;
-                if(property.Name != "StatusId"){
-                    worksheet.Cells[headingRow, headingCol, headingRow, headingCol + 1].Merge = true;
-                    worksheet.Cells[headingRow, headingCol].Value = columnName;
-                    headingCol += 2;
-                }
+                var attr = prop.GetCustomAttribute<DisplayColumnAttribute>();
+                worksheet.Cells[headingRow, headingCol, headingRow, headingCol + 1].Merge = true;
+                worksheet.Cells[headingRow, headingCol].Value = attr.Name;
+                headingCol += 2;
             }
             FormatHeaderCells(worksheet.Cells[headingRow, 1, headingRow, headingCol - 1]);
 
@@ -80,12 +79,20 @@ public class ExportExcel
             {
                 int startCol = 1;
                 foreach (var prop in properties)
-                {   
-                    if(prop.Name != "StatusId"){
-                        worksheet.Cells[row, startCol, row, startCol + 1].Merge = true;
-                        worksheet.Cells[row, startCol].Value = prop.GetValue(item)?.ToString();
-                        startCol += 2;
+                {
+                    // if(prop.Name != "StatusId"){
+                    worksheet.Cells[row, startCol, row, startCol + 1].Merge = true;
+                    var value = prop.GetValue(item);
+                    if (value is IEnumerable<string> list && !(value is string))
+                    {
+                        worksheet.Cells[row, startCol].Value = string.Join(", ", list);
                     }
+                    else
+                    {
+                        worksheet.Cells[row, startCol].Value = value?.ToString();
+                    }
+                    startCol += 2;
+                    // }
                 }
                 FormatDataRow(worksheet.Cells[row, 1, row, startCol - 1], row);
                 row++;
@@ -101,8 +108,8 @@ public class ExportExcel
         cells.Style.Font.Bold = true;
         cells.Style.Font.Color.SetColor(Color.White);
         cells.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-        // cells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-        // cells.Style.Border.Right.Color.SetColor(Color.Black);
+        cells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+        cells.Style.Border.Right.Color.SetColor(Color.Black);
         cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
         cells.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
     }
@@ -115,59 +122,24 @@ public class ExportExcel
         cells.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
     }
     private static void FormatDataRow(ExcelRange cells, int row)
-    {   
-        if(row%2 == 0){
-        cells.Style.Fill.PatternType = ExcelFillStyle.Solid;
-        cells.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
-        cells.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-        cells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-        cells.Style.Border.Right.Color.SetColor(Color.Black);
+    {
+        if (row % 2 == 0)
+        {
+            cells.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            cells.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+            cells.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+            cells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            cells.Style.Border.Right.Color.SetColor(Color.Black);
         }
-        // else{
-        //     cells.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-        //     cells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-        //     cells.Style.Border.Right.Color.SetColor(Color.LightGray);
-        // }
+
         cells.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
         cells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
         cells.Style.Border.Right.Color.SetColor(Color.LightGray);
         cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
         cells.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
     }
+
     
-    //     var worksheet = package.Workbook.Worksheets.Add(sheetName);
-
-
-    //     // Get properties of the type T
-    //     var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance)
-    //         .Where(p => p.CanRead && !p.GetGetMethod().IsVirtual) // Exclude navigation properties
-    //         .ToList();
-
-    //     // Set headers
-    //     for (int i = 0; i < properties.Count; i++)
-    //     {
-    //         var property = properties[i];
-    //         var columnName = columnMappings != null && columnMappings.ContainsKey(property.Name)
-    //             ? columnMappings[property.Name]
-    //             : property.Name;
-    //         worksheet.Cells[1, i + 1].Value = columnName;
-    //         worksheet.Cells[1, i + 1].Style.Font.Bold = true;
-    //     }
-
-    //     // Populate data
-    //     for (int row = 0; row < data.Count; row++)
-    //     {
-    //         for (int col = 0; col < properties.Count; col++)
-    //         {
-    //             var value = properties[col].GetValue(data[row]);
-    //             worksheet.Cells[row + 2, col + 1].Value = value?.ToString();
-    //         }
-    //     }
-
-    //     // Auto-fit columns
-    //     worksheet.Cells.AutoFitColumns();
-
-    //     return package.GetAsByteArray();
 }
 
 
