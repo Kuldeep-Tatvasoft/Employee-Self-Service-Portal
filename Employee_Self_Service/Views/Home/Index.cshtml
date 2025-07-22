@@ -7,13 +7,12 @@
     string? employeeId = Context.Request.Cookies["EmployeeId"];
 }
 
+@* @foreach(var widget in Model.Widgets){ *@
 <div class="container-fluid p-4">
-
-
     <div class="row row-cols-1 row-cols-lg-2 mt-0 g-4 d-flex">
+        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 1).IsVisible == true)){
         <div class="col ">
-            
-            <div class=" bg-white shadow  rounded-0 dashboard-leave dashboard-card">
+            <div class=" bg-white shadow  rounded-0 dashboard-leave dashboard-card" >
                 <div class=" w-100 h-100">
                     <div class="member p-2">
                         <span class="fw-semibold">Member on Leave Today</span>
@@ -27,7 +26,7 @@
                                 <td class="text-center">
                                     <span>Duration</span>
                                 </td>
-    
+
                                 <td class="text-center">
                                     <span>Days</span>
                                 </td>
@@ -36,49 +35,48 @@
                         <tbody class="">
                             @foreach (var data in Model.TodayOnLeave)
                             {
-                            <tr>
-                                <td>@data.EmployeeName</td>
-                                <td>
-                                    @data.StartDate.ToString("dd/MM") - @data.EndDate.ToString("dd/MM")
-                                </td>
-                                <td class="text-center">
-                                    @data.ActualDuration
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>@data.EmployeeName</td>
+                                    <td>
+                                        @data.StartDate.ToString("dd/MM") - @data.EndDate.ToString("dd/MM")
+                                    </td>
+                                    <td class="text-center">
+                                        @data.ActualDuration
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+        }
+        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 2).IsVisible == true)){
         <div class="col ">
-            
+
             <div class="events rounded-0 shadow  p-3 dashboard-card d-flex flex-column ">
                 <div class="">
                     <span class="fw-semibold">News & Events</span>
                 </div>
-                
                 <div class="mt-3">
-                    
-                    
                     @foreach (var data in Model.UpcomingEvents)
                     {
-                        <a class="eventDetails d-flex align-items-center text-decoration-none text-black" href ="" data-id="@data.EventId" data-bs-toggle="modal"
-                                data-bs-target="#eventDetailsModal">
-                                <P class="">@data.EventName - @data.StartDate.ToString("dd/MM/yyyy")</P>
-                                
+                        <a class="eventDetails d-flex align-items-center text-decoration-none text-black" href=""
+                            data-id="@data.EventId" data-bs-toggle="modal" data-bs-target="#eventDetailsModal">
+                            <P class="">@data.EventName - @data.StartDate.ToString("dd/MM/yyyy")</P>
+
                         </a>
                     }
-                   
                 </div>
             </div>
         </div>
+        }
     </div>
 
-    <div class="row row-cols-1 row-cols-lg-2 mt-0 g-4 d-flex">
-        <div class="col ">
-            
-            <div class=" bg-white shadow  rounded-0 dashboard-leave dashboard-card">
+    <div class="row mt-0 g-4 d-flex" >
+        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 3).IsVisible == true)){
+        <div class="col">
+            <div class="bg-white shadow  rounded-0 dashboard-leave dashboard-card">
                 <div class=" w-100 h-100">
                     <div class="member p-2">
                         <span class="fw-semibold">Members Leave</span>
@@ -92,7 +90,7 @@
                                 <td class="text-center">
                                     <span>Duration</span>
                                 </td>
-    
+
                                 <td class="text-center">
                                     <span>Days</span>
                                 </td>
@@ -101,24 +99,25 @@
                         <tbody class="">
                             @foreach (var data in Model.OnLeave)
                             {
-                            <tr>
-                                <td>@data.EmployeeName</td>
-                                <td>
-                                    @data.StartDate.ToString("dd/MM") - @data.EndDate.ToString("dd/MM")
-                                </td>
-                                <td class="text-center">
-                                    @data.ActualDuration
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>@data.EmployeeName</td>
+                                    <td>
+                                        @data.StartDate.ToString("dd/MM") - @data.EndDate.ToString("dd/MM")
+                                    </td>
+                                    <td class="text-center">
+                                        @data.ActualDuration
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+        }
 
-        <div class="col ">
-            
+        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 4).IsVisible == true)){
+        <div class="col " >
             <div class=" bg-white shadow  rounded-0 dashboard-leave dashboard-card">
                 <div class=" w-100 h-100">
                     <div class="member p-2">
@@ -127,81 +126,78 @@
                     <table class="table table-bordered mb-0">
                         <thead>
                             <tr>
-                                <td class="col-lg-8">
+                                <td class="">
                                     <span class="heading">RequestId</span>
                                 </td>
-                                <td class="text-center">
+                                <td class="">
                                     <span>Request Date</span>
                                 </td>
-                                <td class="text-center">
-                                    <span>Group</span>
-                                </td>
-                                <td class="col-lg-8">
-                                    <span class="heading">Category</span>
-                                </td>
-                                <td class="col-lg-8">
-                                    <span class="heading">SubCategory</span>
-                                </td>
                                 
+                                <td class="">
+                                    <span class="">Category</span>
+                                </td>
+                                <td class="">
+                                    <span class="">Sub Category</span>
+                                </td>
+                                <td class="">
+                                    <span>Status</span>
+                                </td>
                             </tr>
                         </thead>
                         <tbody class="">
                             @foreach (var data in Model.OwnHelpDeskRequests)
                             {
-                            if(data.EmployeeId == Convert.ToInt32(employeeId))
-                            {
-                            <tr>
-                                <td>@if (data.PendingAt.ToString() != "HR" && data.StatusId != 3 ){
-                                    <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
-                                    asp-route-requestId="@data.HelpDeskRequestId" >
-                                    @data.HelpDeskRequestId
-                                    </a>
+                                if (data.EmployeeId == Convert.ToInt32(employeeId))
+                                {
+                                    <tr>
+                                        <td>@if (data.PendingAt.ToString() != "HR" && data.StatusId != 3)
+                                            {
+                                                <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+                                                    asp-route-requestId="@data.HelpDeskRequestId">
+                                                    @data.HelpDeskRequestId
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                @data.HelpDeskRequestId
+                                            }
+                                        </td>
+                                        <td class="">
+                                            @data.RequestedDate.ToString("dd-MM-yyyy")
+                                        </td>
+                                       
+                                        <td>@data.Category</td>
+                                        <td>
+                                            @foreach (string subCategories in data.SubCategories)
+                                            {
+                                                @subCategories
+                                                <br />
+                                            }
+                                        </td>
+                                         <td class="">
+                                            @data.Status
+                                        </td>
+                                    </tr>
                                 }
-                                else{
-                                    @data.HelpDeskRequestId
-                                }
-                                </td>
-
-                                <td>
-                                    @data.RequestedDate.ToString("dd-MM-yyyy") 
-                                </td>
-                                <td class="text-center">
-                                    @data.Group
-                                </td>
-                                <td>@data.Category</td>
-                                <td>
-                                    @foreach (string subCategories in data.SubCategories)
-                                    {
-                                    @subCategories
-                                    <br/>
-                                    }
-                                </td>
-                            </tr>
-                            }
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        
+        }
     </div>
-    
 </div>
-
-
-
+@* } *@
 <div class="modal fade" tabindex="-1" id="eventDetailsModal" aria-labelledby="leaveViewModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" id="eventDetailsModalContent">
-            
+
         </div>
     </div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-
 
 <script>
     $(document).on("click", ".eventDetails", function () {

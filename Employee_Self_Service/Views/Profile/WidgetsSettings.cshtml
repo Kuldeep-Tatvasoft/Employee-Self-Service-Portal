@@ -1,0 +1,60 @@
+@{
+    Layout = "_Layout";
+}
+@model List<Employee_Self_Service_DAL.Models.Widget>
+<div class="container-fluid">
+    <!-- Widget Management Table -->
+    <div class="row py-4">
+        <div class="px-3 d-flex justify-content-between align-items-center">
+            <h4 class=" d-flex align-content-center m-0">Add/Remove Widget</h4>
+            <button type="button" class="btn btn-white border-primary text-primary"> <a href="/Home/Index"
+                    class=" text-decoration-none">
+                    < Back</a> </button>
+        </div>
+        <hr class="dropdown-divider">
+        <div class="col-4">
+            <table class="table table-bordered">
+                <tbody>
+                    @foreach (var widget in Model)
+                    {
+                        <tr>
+                            <td>@widget.CardName</td>
+                            <td class="text-center">
+                                <div class="form-check form-switch widget-checkbox  d-flex justify-content-center"
+                                    data-widget-id="@widget.WidgetId">
+                                    <input class="form-check-input  fs-5 shadow-none" type="checkbox"
+                                    @((bool)widget.IsVisible ? "checked" : "") />
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(".widget-checkbox").on('click', function (e) {
+        e.stopPropagation();
+        $.ajax({
+            url: '/Profile/WidgetsSettings',
+            type: 'POST',
+            data: {
+                widgetId: $(this).data("widget-id")
+            },
+            success: (response) => {
+                if (!response.success) {
+                    alert('Error updating widget visibility.');
+                }
+                
+                location.reload();
+            },
+            error: (error) => {
+                alert('Error in widget. Please try again.');
+            }
+        })
+    });
+</script>

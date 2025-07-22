@@ -205,4 +205,59 @@ public class ProfileService : IProfileService
             return null;
         }
     }
+
+    public async Task<List<Widget>> GetWidgets()
+    {
+        return await _employeeRepository.GetWidgets();
+    }
+
+    public async Task<ResponseViewModel> AddRemoveWidget(long widgetId)
+    {
+        try
+        {
+            List<Widget> widgets = await _employeeRepository.GetWidgets();
+            Widget widget = widgets.FirstOrDefault(w => w.WidgetId == widgetId);
+            if((bool)widget.IsVisible)
+            {
+                widget.IsVisible = false;                
+            }
+            else
+            {
+                widget.IsVisible = true;                
+            }
+            ResponseViewModel response = await _employeeRepository.UpdateWidget(widget);
+            if(response.success)
+            {   
+                if((bool)widget.IsVisible){
+                    return new ResponseViewModel
+                    {   
+                        success = true,
+                        message = "Widget Added successfully"
+                    };  
+                }
+                else{
+                    return new ResponseViewModel
+                    {
+                        success = true,
+                        message = "Widget remove successfully"
+                    };  
+                }
+            }
+            else{
+                return new ResponseViewModel
+                {   
+                    success = false,
+                    message = "Error occur update widget:" + response.message
+                };
+            }
+        }
+        catch(Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                success = false,
+                message = "Error occur while adding/removing widget:" +ex.Message 
+            };
+        }
+    }
 }

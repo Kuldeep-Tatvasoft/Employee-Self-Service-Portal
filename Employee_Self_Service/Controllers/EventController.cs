@@ -20,20 +20,19 @@ public class EventController : Controller
     }
 
     [CustomAuthorize("HR")]
-
     public IActionResult Events()
     {
         return View();
     }
 
-    // [HttpGet]
+    [HttpGet]
     public async Task<IActionResult> GetEventList(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string eventFromDate, string eventToDate, string eventCategory)
     {
         var model = await _eventService.GetEventData(pageSize, pageNumber, searchQuery, sortColumn, sortDirection, eventFromDate, eventToDate, eventCategory);
         return PartialView("_EventList", model);
     }
 
-    // [HttpGet]
+    [HttpGet]
     public async Task<IActionResult> AddEditEvent(long eventId)
     {
         AddEventViewModel model = new AddEventViewModel();

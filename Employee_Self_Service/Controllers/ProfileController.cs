@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -110,6 +111,30 @@ public class ProfileController : Controller
             TempData["errorToastr"] = response.message;
             return View("ChangePassword", model);
         }
+    }
+    #endregion
+
+    #region WidgetsSettings
+    [HttpGet]
+    public async Task<IActionResult> WidgetsSettings()
+    {   
+        var widgets = await _profileService.GetWidgets();       
+        return View(widgets);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> WidgetsSettings(long widgetId)
+    {
+        ResponseViewModel response = await _profileService.AddRemoveWidget(widgetId);
+        if(response.success)
+        {
+            TempData["successToastr"] = response.message;
+        }
+        else
+        {
+            TempData["errorToastr"] = response.message;
+        }        
+        return Json(new {response.success});       
     }
     #endregion
 }

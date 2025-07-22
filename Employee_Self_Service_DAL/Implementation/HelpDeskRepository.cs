@@ -1,4 +1,3 @@
-// using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 using Employee_Self_Service_BAL.Helpers;
 using Employee_Self_Service_DAL.Data;
@@ -19,16 +18,15 @@ public class HelpDeskRepository : IHelpDeskRepository
         _context = context;
     }
 
+    #region HelpDesk Request
     public async Task<List<Group>> GetGroups()
     {
         return await _context.Groups.ToListAsync();
     }
-
     public async Task<List<GroupCategory>> GetCategories(int groupId)
     {
         return await _context.GroupCategories.Where(u => u.GroupId == groupId).ToListAsync();
     }
-
     public async Task<List<SubCategory>> GetSubCategories(int categoryId)
     {
         return await _context.SubCategories.Where(u => u.CategoryId == categoryId).ToListAsync();
@@ -36,7 +34,6 @@ public class HelpDeskRepository : IHelpDeskRepository
 
     public async Task<HelpDeskPaginationViewModel> GetPaginatedRequest(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string helpDeskRequestGroup, string helpDeskRequestStatus, int employeeId)
     {
-
         var query = _context.HelpdeskRequests
                     .Include(h => h.StatusHistories)
                     .ThenInclude(st => st.StatusNavigation)
@@ -53,19 +50,13 @@ public class HelpDeskRepository : IHelpDeskRepository
                         RequestedDate = (DateTime)h.InsertedAt,
                         Group = h.Group.GroupName,
                         Category = h.Category.CategoryName,
-                        // SubCategory = _context.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).FirstOrDefaultAsync(),
                         SubCategories = h.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).ToList(),
                         Priority = (Constants.HelpDeskEnum.Priority)h.Priority,
                         ServiceDetails = h.ServiceDetails,
                         Status = h.Status.StatusName,
                         GroupId = (int)h.GroupId,
                         StatusId = (int)h.StatusId,
-                        PendingAt = h.PendingAtNavigation != null ? h.PendingAtNavigation.Role1 : string.Empty,
-                        // StatusId = h.PendingAt == 3 ? (int)h.StatusId : (int)h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault(),
-                        // historyStatus = h.PendingAt == 3 ? (int)h.StatusId : (int)h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault(),
-                        // historyStatus = h.
-                        // ApprovedDate = l.ApprovedAt.HasValue ? DateOnly.FromDateTime(l.ApprovedAt.Value).ToString("yyyy-MM-dd") : string.Empty,
-                        // Date = DateOnly.FromDateTime(l.CreatedAt.Value)
+                        PendingAt = h.PendingAtNavigation != null ? h.PendingAtNavigation.Role1 : string.Empty
                     });
 
         if (!string.IsNullOrEmpty(searchQuery))
@@ -211,7 +202,6 @@ public class HelpDeskRepository : IHelpDeskRepository
             _context.Update(helpDeskRequest);
             await _context.SaveChangesAsync();
 
-
             var existingLinks = _context.SubcategoryMappings
                 .Where(l => l.RequestId == helpDeskRequest.HelpdeskRequestId);
             _context.SubcategoryMappings.RemoveRange(existingLinks);
@@ -227,7 +217,6 @@ public class HelpDeskRepository : IHelpDeskRepository
                 }
                 await _context.SaveChangesAsync();
             }
-
 
             return new ResponseViewModel
             {
@@ -266,10 +255,11 @@ public class HelpDeskRepository : IHelpDeskRepository
             };
         }
     }
+    #endregion
 
+    #region HelpDesk Response
     public async Task<HelpDeskPaginationViewModel> GetPaginatedResponse(int pageSize, int pageNumber, string searchQuery, string sortColumn, string sortDirection, string helpDeskResponseGroup, string helpDeskResponseStatus, int employeeId, string role)
     {
-
         var query = _context.HelpdeskRequests
                     .Include(h => h.StatusHistories)
                     .ThenInclude(st => st.StatusNavigation)
@@ -285,7 +275,6 @@ public class HelpDeskRepository : IHelpDeskRepository
                         RequestedDate = (DateTime)h.InsertedAt,
                         Group = h.Group.GroupName,
                         Category = h.Category.CategoryName,
-                        // SubCategory = _context.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).FirstOrDefaultAsync(),
                         SubCategories = h.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).ToList(),
                         Priority = (Constants.HelpDeskEnum.Priority)h.Priority,
                         ServiceDetails = h.ServiceDetails,
@@ -293,8 +282,6 @@ public class HelpDeskRepository : IHelpDeskRepository
                         GroupId = (int)h.GroupId,
                         StatusId = h.PendingAt == 3 ? (int)h.StatusId : (int)h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault(),
                         PendingAt = h.PendingAtNavigation != null ? h.PendingAtNavigation.Role1 : string.Empty
-                        // ApprovedDate = l.ApprovedAt.HasValue ? DateOnly.FromDateTime(l.ApprovedAt.Value).ToString("yyyy-MM-dd") : string.Empty,
-                        // Date = DateOnly.FromDateTime(l.CreatedAt.Value)
                     });
 
         if (!string.IsNullOrEmpty(searchQuery))
@@ -310,8 +297,6 @@ public class HelpDeskRepository : IHelpDeskRepository
                 query = query.Where(x => x.GroupId == groupId);
             }
         }
-
-
         if (!string.IsNullOrEmpty(helpDeskResponseStatus) && !helpDeskResponseStatus.Equals("0"))
         {
             if (int.TryParse(helpDeskResponseStatus, out int statusId))
@@ -319,8 +304,6 @@ public class HelpDeskRepository : IHelpDeskRepository
                 query = query.Where(x => x.StatusId == statusId);
             }
         }
-
-
         query = sortColumn switch
         {
             "HelpDeskRequestId" => sortDirection == "asc" ? query.OrderBy(x => x.HelpDeskRequestId) : query.OrderByDescending(x => x.HelpDeskRequestId),
@@ -453,10 +436,11 @@ public class HelpDeskRepository : IHelpDeskRepository
                 Comment = h.Comment
             }).ToListAsync();
     }
+    #endregion
 
+    #region HelpDesk Excel
     public async Task<byte []> GetHelpDeskDataToExport (int pageSize, int pageNumber, string searchQuery, string helpDeskGroup,string helpDeskStatus,int employeeId)
     {
-
         var query = _context.HelpdeskRequests
                     .Include(h => h.StatusHistories)
                     .ThenInclude(st => st.StatusNavigation)
@@ -474,19 +458,13 @@ public class HelpDeskRepository : IHelpDeskRepository
                         RequestedDate = (DateTime)h.InsertedAt,
                         Group = h.Group.GroupName,
                         Category = h.Category.CategoryName,
-                        // SubCategory = _context.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).FirstOrDefaultAsync(),
                         SubCategories = h.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).ToList(),
                         Priority = (Constants.HelpDeskEnum.Priority)h.Priority,
                         ServiceDetails = h.ServiceDetails,
                         Status = h.Status.StatusName,
                         GroupId = (int)h.GroupId,
                         StatusId = (int)h.StatusId,
-                        PendingAt = h.PendingAtNavigation != null ? h.PendingAtNavigation.Role1 : string.Empty,
-                        // StatusId = h.PendingAt == 3 ? (int)h.StatusId : (int)h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault(),
-                        // historyStatus = h.PendingAt == 3 ? (int)h.StatusId : (int)h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault(),
-                        // historyStatus = h.
-                        // ApprovedDate = l.ApprovedAt.HasValue ? DateOnly.FromDateTime(l.ApprovedAt.Value).ToString("yyyy-MM-dd") : string.Empty,
-                        // Date = DateOnly.FromDateTime(l.CreatedAt.Value)
+                        PendingAt = h.PendingAtNavigation != null ? h.PendingAtNavigation.Role1 : string.Empty
                     });
         
         if (!string.IsNullOrEmpty(searchQuery))
@@ -496,17 +474,6 @@ public class HelpDeskRepository : IHelpDeskRepository
 
         }
         
-        // if(!string.IsNullOrEmpty(eventFromDate))
-        // {
-        //     DateOnly fromDate = DateOnly.Parse(eventFromDate);
-        //     query = query.Where(x => x.StartDate >= fromDate);
-        // }
-
-        // if(!string.IsNullOrEmpty(eventToDate))
-        // {
-        //     DateOnly toDate = DateOnly.Parse(eventToDate);
-        //     query = query.Where(x => x.StartDate <= toDate);
-        // }
         if (!string.IsNullOrEmpty(helpDeskGroup) && !helpDeskGroup.Equals("0"))
         {
             if (int.TryParse(helpDeskGroup, out int groupId))
@@ -526,25 +493,8 @@ public class HelpDeskRepository : IHelpDeskRepository
                     .Take(pageSize)
                     
                     .ToListAsync();
-       
-        // var exportData = list.Select(l => new
-        // {
-        //     l.EventId,
-        //     l.EventName,
-        //     l.StartDate,
-        //     l.EndDate,
-        //     l.CategoryName  
-        // }).ToList();
 
         List<HelpDeskDetailsViewModel> model = list;
-        // var columnMappings = new Dictionary<string, string>
-        //     {
-        //         { "EventId", "Event Id" },
-        //         { "EventName", "Event Name" },
-        //         { "StartDate", "Start Date" },
-        //         { "EndDate", "End Date" },
-        //         { "CategoryName", "Category Name" }
-        //     };
         
         var excelExporter = new Excel.ExportExcel();
         return excelExporter.ExportToExcel(model, "HelpDesk",string.IsNullOrEmpty(helpDeskStatus) ? "All" : helpDeskStatus,searchQuery);
@@ -552,7 +502,6 @@ public class HelpDeskRepository : IHelpDeskRepository
 
     public async Task<byte []> GetHelpDeskResponseDataToExport (int pageSize, int pageNumber, string searchQuery, string helpDeskGroup,string helpDeskStatus,int employeeId)
     {
-
         var query = _context.HelpdeskRequests
                     .Include(h => h.StatusHistories)
                     .ThenInclude(st => st.StatusNavigation)
@@ -570,19 +519,13 @@ public class HelpDeskRepository : IHelpDeskRepository
                         RequestedDate = (DateTime)h.InsertedAt,
                         Group = h.Group.GroupName,
                         Category = h.Category.CategoryName,
-                        // SubCategory = _context.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).FirstOrDefaultAsync(),
                         SubCategories = h.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).ToList(),
                         Priority = (Constants.HelpDeskEnum.Priority)h.Priority,
                         ServiceDetails = h.ServiceDetails,
                         Status = h.Status.StatusName,
                         GroupId = (int)h.GroupId,
                         StatusId = (int)h.StatusId,
-                        PendingAt = h.PendingAtNavigation != null ? h.PendingAtNavigation.Role1 : string.Empty,
-                        // StatusId = h.PendingAt == 3 ? (int)h.StatusId : (int)h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault(),
-                        // historyStatus = h.PendingAt == 3 ? (int)h.StatusId : (int)h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault(),
-                        // historyStatus = h.
-                        // ApprovedDate = l.ApprovedAt.HasValue ? DateOnly.FromDateTime(l.ApprovedAt.Value).ToString("yyyy-MM-dd") : string.Empty,
-                        // Date = DateOnly.FromDateTime(l.CreatedAt.Value)
+                        PendingAt = h.PendingAtNavigation != null ? h.PendingAtNavigation.Role1 : string.Empty
                     });
         
         if (!string.IsNullOrEmpty(searchQuery))
@@ -592,17 +535,6 @@ public class HelpDeskRepository : IHelpDeskRepository
 
         }
         
-        // if(!string.IsNullOrEmpty(eventFromDate))
-        // {
-        //     DateOnly fromDate = DateOnly.Parse(eventFromDate);
-        //     query = query.Where(x => x.StartDate >= fromDate);
-        // }
-
-        // if(!string.IsNullOrEmpty(eventToDate))
-        // {
-        //     DateOnly toDate = DateOnly.Parse(eventToDate);
-        //     query = query.Where(x => x.StartDate <= toDate);
-        // }
         if (!string.IsNullOrEmpty(helpDeskGroup) && !helpDeskGroup.Equals("0"))
         {
             if (int.TryParse(helpDeskGroup, out int groupId))
@@ -621,28 +553,10 @@ public class HelpDeskRepository : IHelpDeskRepository
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     
-                    .ToListAsync();
-       
-        // var exportData = list.Select(l => new
-        // {
-        //     l.EventId,
-        //     l.EventName,
-        //     l.StartDate,
-        //     l.EndDate,
-        //     l.CategoryName  
-        // }).ToList();
-
-        List<HelpDeskDetailsViewModel> model = list;
-        // var columnMappings = new Dictionary<string, string>
-        //     {
-        //         { "EventId", "Event Id" },
-        //         { "EventName", "Event Name" },
-        //         { "StartDate", "Start Date" },
-        //         { "EndDate", "End Date" },
-        //         { "CategoryName", "Category Name" }
-        //     };
-        
+                    .ToListAsync();    
+        List<HelpDeskDetailsViewModel> model = list;        
         var excelExporter = new Excel.ExportExcel();
         return excelExporter.ExportToExcel(model, "HelpDesk",string.IsNullOrEmpty(helpDeskStatus) ? "All" : helpDeskStatus,searchQuery);
     }
+    #endregion
 }

@@ -50,6 +50,8 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<SubcategoryMapping> SubcategoryMappings { get; set; }
 
+    public virtual DbSet<Widget> Widgets { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresEnum("priority", new[] { "low", "medium", "high" });
@@ -524,6 +526,19 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.HasOne(d => d.SubCategory).WithMany(p => p.SubcategoryMappings)
                 .HasForeignKey(d => d.SubCategoryId)
                 .HasConstraintName("subcategory_mapping_sub_category_id_fkey");
+        });
+
+        modelBuilder.Entity<Widget>(entity =>
+        {
+            entity.HasKey(e => e.WidgetId).HasName("widget_pkey");
+
+            entity.ToTable("widget");
+
+            entity.Property(e => e.WidgetId).HasColumnName("widget_id");
+            entity.Property(e => e.CardName)
+                .HasColumnType("character varying")
+                .HasColumnName("card_name");
+            entity.Property(e => e.IsVisible).HasColumnName("is_visible");
         });
 
         OnModelCreatingPartial(modelBuilder);

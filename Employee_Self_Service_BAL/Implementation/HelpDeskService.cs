@@ -19,6 +19,7 @@ public class HelpDeskService : IHelpDeskService
         _helpDeskRepository = helpDeskRepository;
     }
 
+    #region HelpDesk Request
     public async Task<List<Group>> GetGroups()
     {
         return await _helpDeskRepository.GetGroups();
@@ -81,13 +82,10 @@ public class HelpDeskService : IHelpDeskService
             Notification1 = notification,
             NotificationCategoryId = 4,
 
-        };
-        
+        };        
         ResponseViewModel response = await _helpDeskRepository.AddNotification(addNotification);
         return response;
     }
-
-   
 
     public async Task<AddHelpDeskRequestViewModel> GetEditDetails(long requestId)
     {
@@ -98,9 +96,6 @@ public class HelpDeskService : IHelpDeskService
             {
                 return new AddHelpDeskRequestViewModel();
             }
-            // var abx =  details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).FirstOrDefault();
-            // var aaa = details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).FirstOrDefault();
-            // var aadfsa = details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault();
 
             var model = new AddHelpDeskRequestViewModel
             {
@@ -108,18 +103,15 @@ public class HelpDeskService : IHelpDeskService
                 EmployeeId = (int)details.InsertedBy,
                 GroupId = details.Group.GroupId,
                 CategoryId = details.Category.CategoryId,
-                // SubCategoryId = details.SubCategory?.SubCategoryId ,
                 Priority = (HelpDeskEnum.Priority)details.Priority,
                 ServiceDetails = details.ServiceDetails,
                 RequestedDate = (DateTime)details.InsertedAt,
                 StatusId = details.PendingAt == 3 || details.StatusId == 3 ? (int)details.StatusId  : Convert.ToInt32(details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.Status).FirstOrDefault()),
-                // Status = h.PendingAt == 3 ? h.Status.StatusName:  h.StatusHistories.Where(s  => s.RequestId == h.HelpdeskRequestId).OrderByDescending(s => s.RequestId).Select(s => s.StatusNavigation.StatusName).FirstOrDefault(),
                 Group = details.Group.GroupName,
                 Category = details.Category.CategoryName,
                 SubCategories = details.SubcategoryMappings.Where(s => s.RequestId == requestId).Select(s => s.SubCategory.SubCategoryName).ToList(),
-                // SubCategory = details.SubCategory.SubCategoryName,
                 InsertedBy = details.InsertedByNavigation.Name,
-                Status = details.PendingAt == 3 || details.StatusId == 3? details.Status.StatusName : details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.StatusNavigation.StatusName).FirstOrDefault(),
+                Status = details.PendingAt == 3 || details.StatusId == 3|| details.PendingAt == 4? details.Status.StatusName : details.StatusHistories.Where(s  => s.RequestId == details.HelpdeskRequestId).OrderByDescending(s => s.UpdatedAt).Select(s => s.StatusNavigation.StatusName).FirstOrDefault(),
                 selectedSubCategories = details.SubcategoryMappings
                         .Where(l => l.RequestId == requestId)
                         .Select(l => (int)l.SubCategoryId)
@@ -138,8 +130,7 @@ public class HelpDeskService : IHelpDeskService
     public async Task<ResponseViewModel> EditRequest(AddHelpDeskRequestViewModel model)
     {
         HelpdeskRequest helpDeskRequest = await _helpDeskRepository.GetDetails(model.HelpDeskRequestId);
-        {
-            // helpDeskRequest.HelpdeskRequestId = model.HelpDeskRequestId;
+        {            
             helpDeskRequest.GroupId = model.GroupId;
             helpDeskRequest.CategoryId = model.CategoryId;
             helpDeskRequest.SubCategoryId = null;
@@ -147,9 +138,7 @@ public class HelpDeskService : IHelpDeskService
             helpDeskRequest.ServiceDetails = model.ServiceDetails;
             helpDeskRequest.InsertedAt = model.RequestedDate;
             helpDeskRequest.StatusId = model.StatusId > 0 ? model.StatusId : 6;
-            // helpDeskRequest.StatusId = model.StatusId;
-        };
-        
+        };        
         ResponseViewModel response = await _helpDeskRepository.EditRequest(helpDeskRequest, model.selectedSubCategories);
         return response;
     }
@@ -160,7 +149,6 @@ public class HelpDeskService : IHelpDeskService
         {
             HelpdeskRequest request = await _helpDeskRepository.GetDetails(requestId);
             {
-                // request.StatusId = 3;
                 request.DeletedAt = DateTime.Now;
             };
 
@@ -175,9 +163,10 @@ public class HelpDeskService : IHelpDeskService
                 message = "Request Failed to Canceled:" + ex.Message
             };
         }
-
     }
+    #endregion
 
+    #region HelpDesk Response
     public async Task<HelpDeskPaginationViewModel> GetResponseData(int pageSize, int pageNumber, string search, string sort, string sortDirection, string helpDeskResponseGroup, string helpDeskResponseStatus, int employeeId,string role)
     {
          try
@@ -206,7 +195,7 @@ public class HelpDeskService : IHelpDeskService
             
             HelpdeskRequest request = await _helpDeskRepository.GetDetails(model.HelpDeskRequestId);
             {
-                request.StatusId = model.StatusId == 2 || model.StatusId == 1  ? 6 : model.StatusId;
+                request.StatusId = model.StatusId == 2 || model.StatusId == 1  ? 6 : model.StatusId;    
                 request.PendingAt = model.StatusId == 2 ? 4 : null;
             }
 
@@ -249,7 +238,6 @@ public class HelpDeskService : IHelpDeskService
         {
             Notification1 = notification,
             NotificationCategoryId = 4,
-
         };
         
         ResponseViewModel response = await _helpDeskRepository.AddNotificationByHr(addNotification);
@@ -262,7 +250,6 @@ public class HelpDeskService : IHelpDeskService
         {
             Notification1 = notification,
             NotificationCategoryId = 4,
-
         };
         
         ResponseViewModel response = await _helpDeskRepository.AddResponseNotification(addNotification,employeeId);
@@ -273,7 +260,9 @@ public class HelpDeskService : IHelpDeskService
     {
         return await _helpDeskRepository.GetStatusHistory(requestId);
     }
+    #endregion
 
+    #region HelpDesk Excel
     public async Task<byte[]> GetHelpDeskDataToExport(int pageSize, int pageNumber, string searchQuery, string helpDeskGroup, string helpDeskStatus, int employeeId)
     {
         return await _helpDeskRepository.GetHelpDeskDataToExport(pageSize, pageNumber, searchQuery,helpDeskGroup,helpDeskStatus,employeeId);
@@ -283,5 +272,5 @@ public class HelpDeskService : IHelpDeskService
     {
         return await _helpDeskRepository.GetHelpDeskResponseDataToExport(pageSize, pageNumber, searchQuery,helpDeskGroup,helpDeskStatus,employeeId);
     }
-
+    #endregion
 }

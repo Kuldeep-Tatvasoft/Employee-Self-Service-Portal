@@ -21,6 +21,7 @@ public class HelpDeskController : Controller
         _hubContext = hubContext;
     }
 
+    #region HelpDesk Request
     public IActionResult HelpDeskRequest()
     {
         return View();
@@ -135,7 +136,9 @@ public class HelpDeskController : Controller
         }
         return RedirectToAction("HelpDeskRequest");
     }
+    #endregion
 
+    #region HelpDesk Response
     public IActionResult HelpDeskResponse()
     {
         return View();
@@ -226,7 +229,9 @@ public class HelpDeskController : Controller
         var history = await _helpDeskService.GetStatusHistory(requestId); 
         return PartialView("_StatusHistoryPartialView", history);
     }
+    #endregion
 
+    #region HelpDesk Excel
     public async Task<IActionResult> ExportExcelOfHelpDesk(int pageSize, int pageNumber, string searchQuery, string helpDeskGroup, string helpDeskStatus, int employeeId)
     {
         var fileContent = await _helpDeskService.GetHelpDeskDataToExport(pageSize, pageNumber, searchQuery, helpDeskGroup,helpDeskStatus,employeeId);
@@ -238,6 +243,7 @@ public class HelpDeskController : Controller
         var fileContent = await _helpDeskService.GetHelpDeskResponseDataToExport(pageSize, pageNumber, searchQuery, helpDeskGroup,helpDeskStatus,employeeId);
         return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LeaveRequest.xlsx");
     }
+    #endregion
 }
 
 

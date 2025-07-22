@@ -20,59 +20,62 @@
 
                     if (displayAttr != null && displayAttr.IsVisible)
                     {
-                        
-                                @if (prop.Name == "ApprovedBy")
-                                {
-                                    @if (Model.RequestList.All(x => x.Status == "Approved"))
-                                    {
-                                <th class="text-center">
+
+                        @if (prop.Name == "ApprovedBy")
+                        {
+                            @if (Model.RequestList.All(x => x.Status == "Approved"))
+                            {
+                                <th class="text-center" style="white-space: nowrap;">
                                     <a href="javascript:void(0)" onclick="sortBy('ApprovedBy')"
                                         class="text-decoration-none text-dark">ApprovedBy<i class="bi bi-arrow-down-up"
                                             id="sort-by-role" data-direction="asc"></i> </a>
                                 </th>
-                                    }
-                                    else if (Model.RequestList.All(x => x.Status == "Rejected"))
-                                    {
-                                <th class="text-center">
+                            }
+                            else if (Model.RequestList.All(x => x.Status == "Rejected"))
+                            {
+                                <th class="text-center" style="white-space: nowrap;">
                                     <a href="javascript:void(0)" onclick="sortBy('ApprovedBy')"
                                         class="text-decoration-none text-dark">RejectedBy<i class="bi bi-arrow-down-up"
                                             id="sort-by-role" data-direction="asc"></i> </a>
                                 </th>
-                                    }
-                                    else if (Model.RequestList.All(x => x.Status == "Pending" || x.Status == "Cancelled"))
-                                    {
-                                <th class="text-center">
+                            }
+                            else if (Model.RequestList.All(x => x.Status == "Pending" || x.Status == "Cancelled"))
+                            {
+                                <th class="text-center" style="white-space: nowrap;">
                                     <a href="javascript:void(0)" onclick="sortBy('TotalDuration')"
                                         class="text-decoration-none text-dark">Total Duration<i class="bi bi-arrow-down-up"
                                             id="sort-by-role" data-direction="asc"></i> </a>
                                 </th>
-                                    }
-                                    else
-                                    {
-                                <th class="text-center">
+                            }
+                            else
+                            {
+                                <th class="text-center" style="white-space: nowrap;">
                                     <a href="javascript:void(0)" onclick="sortBy('ApprovedBy')"
                                         class="text-decoration-none text-dark">ResponseBy<i class="bi bi-arrow-down-up"
                                             id="sort-by-role" data-direction="asc"></i> </a>
                                 </th>
-                                    }
-                                }
-                                else{
-                                    <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")">
-                            <a href="javascript:void(0)" onclick="sortBy('@prop.Name')" class="text-decoration-none text-dark">
+                            }
+                        }
+                        else
+                        {
+                            <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")  "
+                                style="white-space: nowrap;">
+                                <a href="javascript:void(0)" onclick="sortBy('@prop.Name')" class="text-decoration-none text-dark ">
                                     @displayAttr.Name
-                                    <i class="bi bi-arrow-down-up" id="sort-by-@prop.Name.Replace('.', '-')" data-direction="asc"></i>
-                        </a>
-                        </th>
-                                }
-                                
-                        
+                                    <i class="bi bi-arrow-down-up" id="sort-by-@prop.Name.Replace('.', '-')"
+                                        data-direction="asc"></i>
+                                </a>
+                            </th>
+                        }
+
+
                     }
 
 
 
                 }
 
-               
+
                 <th class="text-center">Action</th>
             </tr>
         </thead>
@@ -89,76 +92,76 @@
                             count++;
                         }
                     </td>
-                    <td class="text-center">@data.EmployeeName</td>
+                    @* <td class="text-center">@data.EmployeeName</td> *@
                     @foreach (var prop in props)
-                    {   
+                    {
                         var displayAttr = prop.GetCustomAttribute<DisplayColumnAttribute>();
 
                         if (displayAttr != null && displayAttr.IsVisible)
-                        {   
+                        {
                             if (prop.Name == "ApprovedBy")
                             {
                                 @if (Model.RequestList.All(x => x.Status == "Approved"))
-                    {
-                        <td class="text-center">
-                            @data.ApprovedBy
-                        </td>
-                    }
-                    else if (Model.RequestList.All(x => x.Status == "Rejected"))
-                    {
-                        <td class="text-center">
-                            @data.ApprovedBy
-                        </td>
-                    }
-                    else if (Model.RequestList.All(x => x.Status == "Pending" || x.Status == "Cancelled"))
-                    {
-                        <td class="text-center">
-                            @data.TotalDuration
-                        </td>
-                    }
-                    else
-                    {
-                        <td class="text-center">
-                            @data.ApprovedBy
-                        </td>
-                    }
+                                {
+                                    <td class="text-center">
+                                        @data.ApprovedBy
+                                    </td>
+                                }
+                                else if (Model.RequestList.All(x => x.Status == "Rejected"))
+                                {
+                                    <td class="text-center">
+                                        @data.ApprovedBy
+                                    </td>
+                                }
+                                else if (Model.RequestList.All(x => x.Status == "Pending" || x.Status == "Cancelled"))
+                                {
+                                    <td class="text-center">
+                                        @data.TotalDuration
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">
+                                        @data.ApprovedBy
+                                    </td>
+                                }
                             }
                             else
                             {
                                 var value = prop.GetValue(data);
-                            <td class="text-center">
-                                @if (prop.Name == "Status")
-                                {
-                                    <span class=" @(data.StatusId switch
+                                <td class="text-center">
+                                    @if (prop.Name == "Status")
+                                    {
+                                        <span class=" @(data.StatusId switch
                             {
                                 2 => "approved",
                                 5 => "rejected",
                                 4 => "cancelled",
                                 _ => "pending"
                             }) p-2 text-black fw-lighter fs-6">
+                                            @value
+                                        </span>
+                                    }
+
+                                    else if (value is bool AdhocLeave)
+                                    {
+                                        <input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault"
+                                            value="@(data.AdhocLeave ? "true" : "false")" @(data.AdhocLeave ? "checked" : "") disabled>
+                                    }
+                                    else if (value is DateTime dt)
+                                    {
+                                        @dt.ToString("dd-MM-yyyy")
+                                    }
+                                    else
+                                    {
                                         @value
-                                    </span>
-                                }
-                            
-                                else if(value is bool AdhocLeave)
-                                {
-                                   <input class="form-check-input rounded-0" type="checkbox" id="flexCheckDefault"
-                                    value="@(data.AdhocLeave ? "true" : "false")" @(data.AdhocLeave ? "checked" : "") disabled>
-                                }
-                                else if (value is DateTime dt)
-                                {
-                                    @dt.ToString("dd-MM-yyyy")
-                                }
-                                else
-                                {
-                                    @value
-                                }
-                            </td>
+                                    }
+                                </td>
                             }
-                            
+
                         }
                     }
-                                        
+
                     <td>
                         @if (@data.StatusId != 4)
                         {

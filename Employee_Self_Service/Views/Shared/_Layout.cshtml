@@ -126,16 +126,25 @@
                         <li>
                             <div class="d-flex">
                                 <a class="text-decoration-none" asp-action="MyProfile" asp-controller="Profile"><button
-                                        class="dropdown-item p-0 mt-2 fw-bold text-secondary gap-1 d-flex justify-content-start"
+                                        class="dropdown-item p-0 mt-2 fw-bold text-secondary gap-3 d-flex justify-content-start"
                                         type="submit">
                                         <i class="fa-solid fa-user mt-1"></i>
                                         <span class="">My Profile</span></button></a>
                             </div>
                         </li>
                         <li>
+                            <a href="/Profile/WidgetsSettings" class="text-decoration-none">
+                                <button
+                                    class="dropdown-item p-0 mt-2 fw-bold text-secondary d-flex align-items-center justify-content-start gap-1"
+                                    type="submit">
+                                    <i class="bi bi-ui-checks-grid"></i>&nbsp;
+                                    <span >Widgets Settings</span>
+                                </button></a>
+                        </li
+                        <li>
                             <a href="/Profile/ChangePassword" class="text-decoration-none">
                                 <button
-                                    class="dropdown-item p-0 mt-2 fw-bold text-secondary d-flex align-items-center justify-content-start"
+                                    class="dropdown-item p-0 mt-2 fw-bold text-secondary d-flex align-items-center justify-content-start gap-1"
                                     type="submit">
                                     <i class="fa-solid fa-lock"></i>&nbsp;
                                     <span class="">Change Password</span>
@@ -343,7 +352,6 @@
                 url: '/Notification/GetNotificationCount',
                 type: "GET",
                 data:{
-                            @* roleId:@roleId *@
                             employeeId: @employeeId
                         },
                 success: function (count) {

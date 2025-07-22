@@ -64,7 +64,37 @@ public class EmployeeRepository : IEmployeeRepository
             };
         }
     }
+
+    public async Task<List<Widget>> GetWidgets()
+    {
+        return await _context.Widgets.OrderBy(w => w.WidgetId).ToListAsync();        
+    }
+
+    // public async Task<Widget> GetWidgetById(long widgetId)
+    // {
+    //     return await _context.Widgets.FirstOrDefaultAsync(w => w.WidgetId == widgetId);
+    // }
     
+    public async Task<ResponseViewModel> UpdateWidget(Widget widget)
+    {
+        try
+        {
+            _context.Widgets.Update(widget);
+            await _context.SaveChangesAsync();
+            return new ResponseViewModel
+            {
+                success = true,            
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                success = false,
+                message = ex.Message
+            };
+        }
+    }
    
 }
 

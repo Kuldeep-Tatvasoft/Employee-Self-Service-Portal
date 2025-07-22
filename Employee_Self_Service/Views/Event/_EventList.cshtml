@@ -17,7 +17,7 @@
 
                     if (displayAttr != null && displayAttr.IsVisible)
                     {
-                        <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")">
+                        <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")" style="white-space: nowrap;">
                             <a href="javascript:void(0)" onclick="sortBy('@prop.Name')"
                                 class="text-decoration-none text-dark">@displayAttr.Name
                                 <i class="bi bi-arrow-down-up" id="sort-by-@prop.Name.Replace('.', '-')"
@@ -26,8 +26,8 @@
                         </th>
                     }
                 }
-                <th class="text-center">Status</th>
-                <th class="text-center">Action</th>
+                <th class="text-center" style="white-space: nowrap;">Status</th>
+                <th class="text-center" style="white-space: nowrap;">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -44,15 +44,6 @@
                         {
                             var value = prop.GetValue(data);
                             <td class="text-center">
-                                @* @if (prop.Name == "Status")
-                                {
-                                    <span class="badge  @((data.EndDate < DateOnly.FromDateTime(DateTime.Now) ? "bg-danger" :
-                                                        data.StartDate > DateOnly.FromDateTime(DateTime.Now) ? "bg-secondary" :
-                                                        "bg-success") + " p-2")">
-                                        @(data.EndDate < DateOnly.FromDateTime(DateTime.Now) ? "Expired" :
-                                          data.StartDate > DateOnly.FromDateTime(DateTime.Now) ? "Upcoming" : "Ongoing")
-                                    </span>
-                                } *@
                                 
                                 @if (value is IEnumerable<string> Cats)
                                 {
@@ -118,7 +109,6 @@
             aria-label="Default select example" id="eventPageSize">
             @if (Model.Page.PageSize != null)
             {
-                @* <option value="3" selected="@(Model.Page.PageSize == 3 ? true : false)">3</option> *@
                 <option value="5" selected="@(Model.Page.PageSize == 5 ? true : false) selected">5</option>
                 <option value="10" selected="@(Model.Page.PageSize == 10 ? true : false)">10</option>
                 <option value="15" selected="@(Model.Page.PageSize == 15 ? true : false)">15</option>

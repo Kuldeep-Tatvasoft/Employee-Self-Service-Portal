@@ -20,7 +20,7 @@
                     if (displayAttr != null && displayAttr.IsVisible)
                     {
                         @* <th>@displayAttr.Name</th> *@
-                        <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")">
+                        <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")" style="white-space: nowrap;">
                             <a href="javascript:void(0)" onclick="sortBy('@prop.Name')"
                                 class="text-decoration-none text-dark">@displayAttr.Name
                                 <i class="bi bi-arrow-down-up" id="sort-by-@prop.Name.Replace('.', '-')"

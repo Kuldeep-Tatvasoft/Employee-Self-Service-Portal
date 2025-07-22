@@ -1,5 +1,6 @@
 using Employee_Self_Service_DAL.Data;
 using Employee_Self_Service_DAL.Interface;
+using Employee_Self_Service_DAL.Models;
 using Employee_Self_Service_DAL.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -78,13 +79,14 @@ public class DashboardRepository : IDashboardRepository
                                                                 PendingAt = h.PendingAtNavigation != null ? h.PendingAtNavigation.Role1 : string.Empty,
                                                                 EmployeeId = (int)h.InsertedBy
                                                             }).ToListAsync();
-
+        List<Widget> availableWidgets = await _context.Widgets.ToListAsync();
                                                     return new DashboardViewModel
                                                     {
                                                         TodayOnLeave = todayOnLeave,
                                                         UpcomingEvents = upcomingEvents,
                                                         OnLeave = onLeave,
-                                                        OwnHelpDeskRequests = ownHelpDeskRequests
+                                                        OwnHelpDeskRequests = ownHelpDeskRequests,
+                                                        Widgets = availableWidgets
                                                     };
     }
 }

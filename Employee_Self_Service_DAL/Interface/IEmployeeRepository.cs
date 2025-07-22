@@ -9,6 +9,7 @@ public interface IEmployeeRepository
     Employee GetEmployeeById(int employeeId);
     Task<ResponseViewModel> UpdateEmployee(Employee employee);
     Task<ResponseViewModel> RegisterEmployee(Employee employee);
-    // Task<ResponseViewModel> UpdateProfile(Employee employee);
-    // Task<ResponseViewModel> ChangePassword(Employee employee);
+    Task<List<Widget>> GetWidgets();
+    Task<ResponseViewModel> UpdateWidget(Widget widget);
+    
 }
