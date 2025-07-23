@@ -12,4 +12,7 @@ public interface IProfileService
     Task<ProfileViewModel> GetEmployeeById(int employeeId);
     Task<List<Widget>> GetWidgets();
     Task<ResponseViewModel> AddRemoveWidget(long widgetId);
+    // Task<List<QuickLink>> GetQuickLink();
+    Task<List<QuickLinkViewModel>> GetQuickLink();
+    Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links);
 }

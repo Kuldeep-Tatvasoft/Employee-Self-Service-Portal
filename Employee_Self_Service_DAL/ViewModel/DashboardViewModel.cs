@@ -9,4 +9,5 @@ public class DashboardViewModel
     public List<LeaveRequestDetailsViewModel> OnLeave {get; set;} = new List<LeaveRequestDetailsViewModel>();
     public List<HelpDeskDetailsViewModel> OwnHelpDeskRequests {get; set;} = new List<HelpDeskDetailsViewModel>();
     public List<Widget> Widgets { get; set;} = new List<Widget>();
+    public List<QuickLinkViewModel> QuickLinks {get; set;} = new List<QuickLinkViewModel>();
 }

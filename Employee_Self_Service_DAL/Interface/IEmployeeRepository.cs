@@ -11,5 +11,7 @@ public interface IEmployeeRepository
     Task<ResponseViewModel> RegisterEmployee(Employee employee);
     Task<List<Widget>> GetWidgets();
     Task<ResponseViewModel> UpdateWidget(Widget widget);
-    
+    Task<List<QuickLink>> GetQuickLinks();
+    Task<List<QuickLinkViewModel>> GetQuickLink();
+    Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links);
 }

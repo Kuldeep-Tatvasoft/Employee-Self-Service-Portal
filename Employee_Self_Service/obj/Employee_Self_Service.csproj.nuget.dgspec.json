@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj": {}
+    "d:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj": {}
   },
   "projects": {
-    "D:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj": {
+    "d:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj",
+        "projectUniqueName": "d:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj",
         "projectName": "Employee_Self_Service",
-        "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj",
+        "projectPath": "d:\\Employee Self Service Portal\\Employee_Self_Service\\Employee_Self_Service.csproj",
         "packagesPath": "C:\\Users\\pca179\\.nuget\\packages\\",
-        "outputPath": "D:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\",
+        "outputPath": "d:\\Employee Self Service Portal\\Employee_Self_Service\\obj\\",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
@@ -27,8 +27,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj": {
-                "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj"
+              "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj": {
+                "projectPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj"
               },
               "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj": {
                 "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_DAL\\Employee_Self_Service_DAL.csproj"
@@ -118,14 +118,14 @@
         }
       }
     },
-    "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj": {
+    "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
+        "projectUniqueName": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
         "projectName": "Employee_Self_Service_BAL",
-        "projectPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
+        "projectPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\Employee_Self_Service_BAL.csproj",
         "packagesPath": "C:\\Users\\pca179\\.nuget\\packages\\",
-        "outputPath": "D:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\obj\\",
+        "outputPath": "d:\\Employee Self Service Portal\\Employee_Self_Service_BAL\\obj\\",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [

@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Employee_Self_Service.Authorization;
 using Employee_Self_Service.Hubs;
 using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.Constants;
@@ -83,7 +84,7 @@ public class HelpDeskController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddEditHelpDeskRequest([FromForm] AddHelpDeskRequestViewModel model)
+    public async Task<IActionResult> AddEditHelpDeskRequest( AddHelpDeskRequestViewModel model)
     {
 
         ResponseViewModel response;
@@ -112,13 +113,14 @@ public class HelpDeskController : Controller
             }
 
             TempData["successToastr"] = response.message;
-            return RedirectToAction("HelpDeskRequest");
+            // return RedirectToAction("HelpDeskRequest");
+            return Json(new { success = true });
         }
         else
         {
             TempData["errorToastr"] = response.message;
-            return RedirectToAction("AddEditHelpdeskRequest");
-
+            // return RedirectToAction("AddEditHelpdeskRequest");
+            return Json(new { success = true });
         }
     }
 
@@ -139,6 +141,7 @@ public class HelpDeskController : Controller
     #endregion
 
     #region HelpDesk Response
+    [CustomAuthorize ("HR","Network") ]
     public IActionResult HelpDeskResponse()
     {
         return View();

@@ -19,7 +19,6 @@
 
                     if (displayAttr != null && displayAttr.IsVisible)
                     {
-                        @* <th>@displayAttr.Name</th> *@
                         <th class="@(prop.PropertyType == typeof(DateTime) ? "" : "text-center")" style="white-space: nowrap;">
                             <a href="javascript:void(0)" onclick="sortBy('@prop.Name')"
                                 class="text-decoration-none text-dark">@displayAttr.Name
@@ -86,16 +85,11 @@
                     }
 
                     <td class="text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                            
-                            @* @if (data.StatusId == 6 || userRole == "Network")
-                            { *@
-                               
-                                <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
-                                    asp-route-requestId="@data.HelpDeskRequestId" class="btn " type="button">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                            @* } *@
+                        <div class="d-flex align-items-center justify-content-center">                               
+                            <a asp-action="ResponseHelpDeskRequest" asp-controller="HelpDesk"
+                                asp-route-requestId="@data.HelpDeskRequestId" class="btn " type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>                            
                         </div>
                     </td>
                 </tr>

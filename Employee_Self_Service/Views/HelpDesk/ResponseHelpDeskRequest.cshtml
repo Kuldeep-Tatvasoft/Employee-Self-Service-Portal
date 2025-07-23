@@ -173,20 +173,12 @@
     @* $(document).on('submit', '#helpDeskResponse', function (e) { *@
         $(document).off('submit').on('submit', '#helpDeskResponse', function (e) {
             e.preventDefault();
-    @* let comment = $('#comment').val(); *@
             if (!$(this).valid()) return;
             var formData = new FormData(this)
             $.ajax({
                 url: '/HelpDesk/ResponseHelpDeskRequest',
                 type: 'POST',
                 data: formData,
-    @* data: {
-                formData
-                'requestId': $('.response').data("requestid"),
-                'statusId': statusId,
-                'responseBy': @employeeId,
-                'comment': comment,
-                }, *@
                 processData: false,
                 contentType: false,
                 success: (response) => {

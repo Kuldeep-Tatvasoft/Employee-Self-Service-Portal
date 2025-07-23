@@ -260,4 +260,39 @@ public class ProfileService : IProfileService
             };
         }
     }
+
+    // public async Task<List<QuickLink>> GetQuickLink()
+    // {
+    //     return await _employeeRepository.GetQuickLink();     
+    // }
+    public async Task<List<QuickLinkViewModel>> GetQuickLink()
+    {
+        return await _employeeRepository.GetQuickLink();
+    }
+
+    public async Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links)
+    {
+        try
+        {
+            // List<QuickLink> quickLinks = await _employeeRepository.GetQuickLinks();
+            // if (quickLinks == null)
+            // {
+            //     quickLinks = new List<QuickLink>();
+            // }
+            // foreach(var link in links)
+            // {
+                
+            // }
+            return await _employeeRepository.AddQuickLink(links);
+
+        }
+        catch(Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                success = false,
+                message = "Error occur while adding quick link:" + ex.Message
+            };
+        }
+    }
 }

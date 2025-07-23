@@ -38,6 +38,8 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<NotificationMapping> NotificationMappings { get; set; }
 
+    public virtual DbSet<QuickLink> QuickLinks { get; set; }
+
     public virtual DbSet<Reason> Reasons { get; set; }
 
     public virtual DbSet<RequestStatus> RequestStatuses { get; set; }
@@ -413,6 +415,21 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.NotificationMappings)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("notification_mapping_employee_id_fkey");
+        });
+
+        modelBuilder.Entity<QuickLink>(entity =>
+        {
+            entity.HasKey(e => e.QuickLinkId).HasName("quick_link_pkey");
+
+            entity.ToTable("quick_link");
+
+            entity.Property(e => e.QuickLinkId).HasColumnName("quick_link_id");
+            entity.Property(e => e.Name)
+                .HasColumnType("character varying")
+                .HasColumnName("name");
+            entity.Property(e => e.Url)
+                .HasColumnType("character varying")
+                .HasColumnName("url");
         });
 
         modelBuilder.Entity<Reason>(entity =>

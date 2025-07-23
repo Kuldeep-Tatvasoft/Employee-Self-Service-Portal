@@ -137,4 +137,28 @@ public class ProfileController : Controller
         return Json(new {response.success});       
     }
     #endregion
+
+    #region QuickLinksSettings
+    public async Task<IActionResult> QuickLinks()
+    {   
+        var quickLink = await _profileService.GetQuickLink();
+        return View(quickLink);
+    }
+
+    [HttpPost]
+    public async  Task<IActionResult> QuickLinks([FromBody] List<QuickLinkViewModel> links)
+    {   
+        ResponseViewModel response = await _profileService.AddQuickLink(links);
+        if(response.success)
+        {
+            TempData["successToastr"] = response.message;
+        }
+        else
+        {
+            TempData["errorToastr"] = response.message;
+        }  
+    
+        return Json(new { response.success});
+    }
+    #endregion
 }

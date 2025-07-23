@@ -80,13 +80,24 @@ public class DashboardRepository : IDashboardRepository
                                                                 EmployeeId = (int)h.InsertedBy
                                                             }).ToListAsync();
         List<Widget> availableWidgets = await _context.Widgets.ToListAsync();
+
+        List<QuickLinkViewModel> quickLinks = await _context.QuickLinks
+                                                    .OrderBy(q => q.QuickLinkId)
+                                                    .Select(q => new QuickLinkViewModel
+                                                    {
+                                                        QuickLinkId = q.QuickLinkId,
+                                                        Name = q.Name,
+                                                        Url = q.Url
+                                                    }).ToListAsync();
+
                                                     return new DashboardViewModel
                                                     {
                                                         TodayOnLeave = todayOnLeave,
                                                         UpcomingEvents = upcomingEvents,
                                                         OnLeave = onLeave,
                                                         OwnHelpDeskRequests = ownHelpDeskRequests,
-                                                        Widgets = availableWidgets
+                                                        Widgets = availableWidgets,
+                                                        QuickLinks = quickLinks
                                                     };
     }
 }

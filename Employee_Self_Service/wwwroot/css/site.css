@@ -368,9 +368,16 @@ form i{
 .events{
   background-color: #CAE7D9;
 }
+.quickLinks{
+  background-color: #d2daeb;
+}
 
 .eventDetails:active, .eventDetails:hover{
   color: #0F67B1 !important;
+  text-decoration: underline !important;
+}
+
+.quick:active, .quick:hover{
   text-decoration: underline !important;
 }
 
@@ -411,4 +418,11 @@ form i{
 
 .form-select{
   display: block !important;
+}
+
+.is-invalid {
+  border-color: #dc3545;
+}
+.validation-error {
+  font-size: 0.8rem;
 }
