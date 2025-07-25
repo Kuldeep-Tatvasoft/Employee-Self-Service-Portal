@@ -19,7 +19,7 @@
                         <th style="white-space: nowrap;">No.</th>
                         <th style="white-space: nowrap;">Name</th>
                         <th style="white-space: nowrap;">URL</th>
-                        <th style="white-space: nowrap;">Actions</th>
+                        <th style="white-space: nowrap;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,16 +31,16 @@
                                 <td>@(i + 1)</td>
                                 <td>
                                     <input type="hidden" name="QuickLinks[@i].QuickLinkId" value="@Model[i].QuickLinkId" />
-                                    <input type="text" name="QuickLinks[@i].Name" class="form-control name-input" value="@Model[i].Name" />
+                                    <input type="text" name="QuickLinks[@i].Name" class="form-control name-input rounded-0 border-2 " value="@Model[i].Name" />
                                     <span class="validation-error text-danger"></span>
                                 </td>
                                 <td>
-                                    <input type="text" name="QuickLinks[@i].Url" class="form-control url-input" value="@Model[i].Url" />
+                                    <input type="text" name="QuickLinks[@i].Url" class="form-control url-input rounded-0 border-2" value="@Model[i].Url" />
                                     <span class="validation-error text-danger"></span>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-link text-danger delete-row"><i
-                                            class="fas fa-trash"></i></button>
+                                    <button type="button deleteQuickLinkBtn" id="deleteQuickLinkBtn" class="btn btn-link text-dark " data-id="@Model[i].QuickLinkId" data-bs-toggle="modal"
+                                    data-bs-target="#deleteQuickLinkModal"><i class="bi bi-trash"></i></button>
                                 </td>
                             </tr>
                         }
@@ -50,6 +50,29 @@
 
             <button type="button" class="btn btn-link" id="addRow">+ Add</button>
             <button type="button" class="btn btn-primary" id="saveQuickLinks">Save</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " id="deleteQuickLinkModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered text-secondary">
+        <div class="modal-content">
+            <div class="modal-header border border-0">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Confiremation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center flex-column align-items-center">
+                <img src="../images/toppng.com-warning-icon-2400x2400.png" alt="" style="width: 70px">
+                <p>Are you sure you want to delete this quick link?</p>
+            </div>
+            <div class="modal-footer border border-0 d-flex justify-content-center">
+                <form asp-action="DeleteQuickLink" asp-controller="Profile">
+                    <input type="hidden" name="quickLinkId" id="QuickLinkId" value="">
+                    <button type="submit" class="confirmQuickLinkDeleteBtn btn btn-primary"
+                        id="">Confirm</button>
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -81,16 +104,23 @@
             return;
         }
 
+
         rowIndex++;
         const row = `
             <tr class="new-row">
                 <td>${rowIndex}</td>
-                <td><input type="text" name="QuickLinks[${rowIndex - 1}].Name" class="form-control name-input" /></td>
-                <span class="validation-error text-danger"></span>
-                <td><input type="text" name="QuickLinks[${rowIndex - 1}].Url" class="form-control url-input" /></td>
-                <span class="validation-error text-danger"></span>
                 <td>
-                    <button type="button" class="btn btn-link text-danger delete-row"><i class="fas fa-trash"></i></button>
+                    <input type="text" name="QuickLinks[${rowIndex - 1}].Name" class="form-control name-input rounded-0 border-2" />
+                    <span class="validation-error text-danger"></span>
+                </td>
+                
+                <td>
+                    <input type="text" name="QuickLinks[${rowIndex - 1}].Url" class="form-control url-input rounded-0 border-2" />
+                    <span class="validation-error text-danger"></span>
+                </td>
+                
+                <td>
+                    <button type="button" class="btn btn-link text-dark delete-row"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>`;
         $('#quickLinksTable tbody').append(row);
@@ -124,7 +154,7 @@
 
         const name = ($nameInput.val() || '').trim();
         const url = ($urlInput.val() || '').trim();
-        // Clear previous validation
+        
         $row.find('.validation-error').text('');
         $nameInput.removeClass('is-invalid');
         $urlInput.removeClass('is-invalid');
@@ -147,9 +177,8 @@
     });
 
     if (!isValid) {
-        return; // prevent submission
+        return; 
     }
-
 
         $.ajax({
             url: '/Profile/QuickLinks',
@@ -165,160 +194,12 @@
             }
         });
     });
+
+    /* -------------------------------------------------------------------------------------Delete Leave Request Script --------------------------------------------------------*/
+    $(document).on("click", "#deleteQuickLinkBtn", function () {
+        let quickLinkId = $(this).data("id");
+        console.log(quickLinkId);
+        $('#QuickLinkId').val(quickLinkId);
+    });
 </script>
 
-@* <div class="container-fluid">
-<!-- Widget Management Table -->
-<div class="row mb-4">
-<div class="col-12">
-<h4>Manage Links</h4>
-<button id="addRow" class="btn btn-primary mb-2">Add</button>
-<form id="linkForm" asp-action="SaveLinks" asp-controller="Home" method="post">
-<table class="table table-bordered" id="linkTable">
-<thead>
-<tr>
-<th>#</th>
-<th>Name</th>
-<th>URL</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<!-- Initial row will be added via JavaScript -->
-</tbody>
-</table>
-<button type="submit" class="btn btn-success">Save</button>
-</form>
-<div id="validationMessage" class="text-danger mt-2" style="display: none;"></div>
-</div>
-</div>
-</div>
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
-let rowCount = 0;
-const addRow = document.getElementById('addRow');
-const tableBody = document.getElementById('linkTable').getElementsByTagName('tbody')[0];
-const validationMessage = document.getElementById('validationMessage');
-
-
-addInitialRow();
-
-function addInitialRow() {
-if (rowCount === 0 && !hasBlankRow()) {
-rowCount++;
-const newRow = document.createElement('tr');
-newRow.innerHTML = `
-<td>${rowCount}</td>
-<td><input type="text" class="form-control name-input" name="links[${rowCount - 1}].Name" required></td>
-<td><input type="url" class="form-control url-input" name="links[${rowCount - 1}].Url" required></td>
-<td class="text-center"><button type="button" class="btn btn-danger delete-row"><i class="bi
-bi-trash"></i></button></td>
-`;
-tableBody.appendChild(newRow);
-
-// Add delete functionality
-newRow.querySelector('.delete-row').addEventListener('click', function () {
-newRow.remove();
-renumberRows();
-addRow.disabled = false; // Enable Add button if no blank row remains
-rowCount--;
-});
-}
-}
-
-function hasBlankRow() {
-const rows = tableBody.getElementsByTagName('tr');
-for (let row of rows) {
-const nameInput = row.getElementsByClassName('name-input')[0];
-const urlInput = row.getElementsByClassName('url-input')[0];
-if (nameInput && urlInput && !nameInput.value.trim() && !urlInput.value.trim()) {
-return true;
-}
-}
-return false;
-}
-
-function renumberRows() {
-const rows = tableBody.getElementsByTagName('tr');
-for (let i = 0; i < rows.length; i++) {
-rows[i].cells[0].textContent = i + 1;
-const inputs = rows[i].getElementsByTagName('input');
-if (inputs.length >= 2) {
-inputs[0].name = `links[${i}].Name`;
-inputs[1].name = `links[${i}].Url`;
-}
-}
-}
-
-addRow.addEventListener('click', function (e) {
-e.preventDefault();
-if (hasBlankRow()) {
-validationMessage.textContent = 'Please fill or delete the blank row before adding a new one.';
-validationMessage.style.display = 'block';
-return;
-}
-rowCount++;
-const newRow = document.createElement('tr');
-newRow.innerHTML = `
-<td>${rowCount}</td>
-<td><input type="text" class="form-control name-input" name="links[${rowCount - 1}].Name" required></td>
-<td><input type="url" class="form-control url-input" name="links[${rowCount - 1}].Url" required></td>
-<td class="text-center"><button type="button" class="btn btn-danger delete-row"><i class="bi
-bi-trash"></i></button></td>
-`;
-tableBody.appendChild(newRow);
-
-// Add delete functionality
-newRow.querySelector('.delete-row').addEventListener('click', function () {
-newRow.remove();
-renumberRows();
-addRow.disabled = false; // Enable Add button if no blank row remains
-rowCount--;
-if (!hasBlankRow() && rowCount === 0) addInitialRow(); // Add blank row if table is empty
-});
-
-addRow.disabled = true; // Disable Add button after adding a row
-validationMessage.style.display = 'none';
-});
-
-// Form submission handling with validation
-document.getElementById('linkForm').addEventListener('submit', function (e) {
-const rows = tableBody.getElementsByTagName('tr');
-const links = [];
-let isValid = true;
-
-for (let i = 0; i < rows.length; i++) {
-const nameInput = rows[i].getElementsByClassName('name-input')[0];
-const urlInput = rows[i].getElementsByClassName('url-input')[0];
-const name = nameInput.value.trim();
-const url = urlInput.value.trim();
-
-if (!name || !url) {
-isValid = false;
-validationMessage.textContent = 'Please fill all Name and URL fields before saving.';
-validationMessage.style.display = 'block';
-} else {
-links.push({ Id: i + 1, Name: name, Url: url });
-}
-}
-
-if (!isValid) {
-e.preventDefault();
-return;
-}
-
-if (links.length > 0) {
-console.log('Saving links:', links); // For debugging
-alert('Links saved: ' + JSON.stringify(links));
-} else {
-e.preventDefault();
-validationMessage.textContent = 'No valid links to save.';
-validationMessage.style.display = 'block';
-}
-});
-});
-</script> *@

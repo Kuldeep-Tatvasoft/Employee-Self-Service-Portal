@@ -10,4 +10,10 @@ public partial class Widget
     public string? CardName { get; set; }
 
     public bool? IsVisible { get; set; }
+
+    public int? EmployeeId { get; set; }
+
+    public virtual Employee? Employee { get; set; }
+
+    public virtual ICollection<WidgetMapping> WidgetMappings { get; set; } = new List<WidgetMapping>();
 }

@@ -9,4 +9,6 @@ public class QuickLinkViewModel
     public string Name { get; set; }
     [Required(ErrorMessage = "Url is required")]
     public string Url { get; set; }
+    public bool IsDeleted {get; set;}
+    public int EmployeeId {get; set;}
 }

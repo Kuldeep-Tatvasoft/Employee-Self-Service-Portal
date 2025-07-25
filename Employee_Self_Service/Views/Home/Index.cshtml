@@ -10,7 +10,7 @@
 
 <div class="container-fluid p-4">
     <div class="row  row-cols-lg-3 mt-0 g-4 d-flex">
-        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 1).IsVisible == true)){
+        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 1 && w.EmployeeId == Convert.ToInt32(employeeId)).IsVisible == true)){
         <div class="col ">
             <div class=" bg-white shadow  rounded-0 dashboard-leave dashboard-card" >
                 <div class=" w-100 h-100">
@@ -51,9 +51,8 @@
             </div>
         </div>
         }
-        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 2).IsVisible == true)){
+        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 5 && w.EmployeeId == Convert.ToInt32(employeeId)).IsVisible == true)){
         <div class="col ">
-
             <div class="quickLinks rounded-0 shadow  p-3 dashboard-card d-flex flex-column ">
                 <div class="">
                     <span class="fw-semibold">Quick Links</span>
@@ -61,16 +60,17 @@
                 <div class="mt-3 d-flex gap-3">
                     @foreach (var data in Model.QuickLinks)
                     {
-                        <a class="quick d-flex align-items-center text-decoration-none" href="@data.Url">
-                            <P class="fs-6">@data.Name <i class="bi bi-arrow-up-right "></i> </P>
-                            
+                        @if( data.EmployeeId == Convert.ToInt32(employeeId)){
+                        <a class="quick d-flex align-items-center text-decoration-none check-url" data-url="@data.Url" href="javascript:void(0)">
+                            <p class="fs-6">@data.Name <i class="bi bi-arrow-up-right"></i></p>
                         </a>
+                        }
                     }
                 </div>
             </div>
         </div>
         }
-        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 2).IsVisible == true)){
+        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 2 && w.EmployeeId == Convert.ToInt32(employeeId)).IsVisible == true)){
         <div class="col ">
 
             <div class="events rounded-0 shadow  p-3 dashboard-card d-flex flex-column ">
@@ -93,7 +93,7 @@
     </div>
 
     <div class="row mt-0 g-4 d-flex" >
-        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 3).IsVisible == true)){
+        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 3 && w.EmployeeId == Convert.ToInt32(employeeId)).IsVisible == true)){
         <div class="col">
             <div class="bg-white shadow  rounded-0 dashboard-leave dashboard-card">
                 <div class=" w-100 h-100">
@@ -135,7 +135,7 @@
         </div>
         }
 
-        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 4).IsVisible == true)){
+        @if((Model.Widgets.FirstOrDefault(w => w.WidgetId == 4 && w.EmployeeId == Convert.ToInt32(employeeId)).IsVisible == true)){
         <div class="col " >
             <div class=" bg-white shadow  rounded-0 dashboard-leave dashboard-card">
                 <div class="w-100 h-100 ">
@@ -209,10 +209,59 @@
     </div>
 </div>
 
-<div class="modal fade" tabindex="-1" id="eventDetailsModal" aria-labelledby="leaveViewModal" aria-hidden="true">
+<div class="modal fade" tabindex="-1" id="eventDetailsModal"  data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" id="eventDetailsModalContent">
 
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" id="documentViewerModal" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bolder">View Documents</h5>
+                <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#eventDetailsModal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column">
+                <div id="documentModalContent">
+
+                </div>
+                @* @if (Model.EventDocuments != null && Model.EventDocuments.Any())
+                            {
+                                foreach (var document in Model.EventDocuments)
+                                {
+                                    var fileExtension = document.Documents.Split('.').Last().ToLower();
+                                    if (fileExtension == "pdf")
+                                    {
+                                        <iframe src="@document.Documents" width="100%" height="500px" style="border: none;"></iframe>
+                                    }
+                                    else if (fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "png" || fileExtension == "gif")
+                                    {
+                                        <img src="@document.Documents" alt="@document.Documents.Split('_').Last()" class="img-fluid mb-2" />
+                                    }
+                                    else
+                                    {
+                                        <p>Unsupported file type: @document.Documents.Split('_').Last()</p>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <p>No documents available.</p>
+                            } *@
+
+            </div>
+            <div class="modal-footer border-0 d-flex flex-row justify-content-start">
+                <button type="button" class="btn cancle_btn" data-bs-toggle="modal"
+                    data-bs-target="#eventDetailsModal">
+                    Cancel
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -235,5 +284,43 @@
             }
         })
     });
+
+    $(document).on("click", ".documentView", function () {
+        $.ajax({
+            url: '/Event/GetDocument',
+            data: {
+                'eventId': $(this).data("id")
+            },
+            type: "GET",
+            success: function (data) {
+                $("#documentModalContent").html(data);
+            },
+            error: function () {
+                $("#documentModalContent").html('An error has occurred');
+            }
+        })
+    });
+    
+    document.addEventListener('DOMContentLoaded', function () {            
+            document.querySelectorAll('.check-url').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const url = this.getAttribute('data-url');
+                    fetch('/Home/CheckUrl?url=' + encodeURIComponent(url))
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.exists) {
+                                window.location.href = url;
+                            } else {
+                                window.location.href = '/Home/Error404';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error checking URL:', error);
+                            window.location.href = '/Home/Error404';
+                        });
+                });
+            });
+        });
 
 </script>

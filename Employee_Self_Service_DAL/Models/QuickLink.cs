@@ -10,4 +10,10 @@ public partial class QuickLink
     public string? Name { get; set; }
 
     public string? Url { get; set; }
+
+    public bool? IsDeleted { get; set; }
+
+    public int? EmployeeId { get; set; }
+
+    public virtual Employee? Employee { get; set; }
 }

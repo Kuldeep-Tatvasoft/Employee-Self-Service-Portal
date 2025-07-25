@@ -8,6 +8,6 @@ public class DashboardViewModel
     public List<AddEventViewModel> UpcomingEvents {get; set;} = new List<AddEventViewModel>();
     public List<LeaveRequestDetailsViewModel> OnLeave {get; set;} = new List<LeaveRequestDetailsViewModel>();
     public List<HelpDeskDetailsViewModel> OwnHelpDeskRequests {get; set;} = new List<HelpDeskDetailsViewModel>();
-    public List<Widget> Widgets { get; set;} = new List<Widget>();
+    public List<WidgetMapping> Widgets { get; set;} = new List<WidgetMapping>();
     public List<QuickLinkViewModel> QuickLinks {get; set;} = new List<QuickLinkViewModel>();
 }

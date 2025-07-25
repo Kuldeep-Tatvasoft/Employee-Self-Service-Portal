@@ -81,6 +81,11 @@ public class EventController : Controller
         return PartialView("_EventDetailsPartialView", model);
     }
 
+    public async Task<IActionResult> GetDocument(long eventId)
+    {
+        var model = await _eventService.EventDetails(eventId);
+        return PartialView("_DocumentViewer", model);
+    }
     [HttpPost]
     public async Task<IActionResult> DeleteEvent(long eventId)
     {

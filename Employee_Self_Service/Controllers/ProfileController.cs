@@ -118,14 +118,16 @@ public class ProfileController : Controller
     [HttpGet]
     public async Task<IActionResult> WidgetsSettings()
     {   
-        var widgets = await _profileService.GetWidgets();       
+        var employeeId = int.Parse(Request.Cookies["EmployeeId"]);
+        var widgets = await _profileService.GetWidgets(employeeId);       
         return View(widgets);
     }
 
     [HttpPost]
     public async Task<IActionResult> WidgetsSettings(long widgetId)
-    {
-        ResponseViewModel response = await _profileService.AddRemoveWidget(widgetId);
+    {   
+        var employeeId = int.Parse(Request.Cookies["EmployeeId"]);
+        ResponseViewModel response = await _profileService.AddRemoveWidget(widgetId,employeeId);
         if(response.success)
         {
             TempData["successToastr"] = response.message;
@@ -139,16 +141,19 @@ public class ProfileController : Controller
     #endregion
 
     #region QuickLinksSettings
+    
     public async Task<IActionResult> QuickLinks()
     {   
-        var quickLink = await _profileService.GetQuickLink();
+        var employeeId = int.Parse(Request.Cookies["EmployeeId"]);
+        var quickLink = await _profileService.GetQuickLink(employeeId);
         return View(quickLink);
     }
 
     [HttpPost]
     public async  Task<IActionResult> QuickLinks([FromBody] List<QuickLinkViewModel> links)
     {   
-        ResponseViewModel response = await _profileService.AddQuickLink(links);
+        var employeeId = int.Parse(Request.Cookies["EmployeeId"]);
+        ResponseViewModel response = await _profileService.AddQuickLink(links,employeeId);
         if(response.success)
         {
             TempData["successToastr"] = response.message;
@@ -159,6 +164,22 @@ public class ProfileController : Controller
         }  
     
         return Json(new { response.success});
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteQuickLink(long quickLinkId)
+    {
+        ResponseViewModel response = await _profileService.DeleteQuickLink(quickLinkId);
+        if(response.success)
+        {
+            TempData["successToastr"] = response.message;
+        }
+        else
+        {
+            TempData["errorToastr"] = response.message;
+        }
+
+        return RedirectToAction("QuickLinks");
     }
     #endregion
 }

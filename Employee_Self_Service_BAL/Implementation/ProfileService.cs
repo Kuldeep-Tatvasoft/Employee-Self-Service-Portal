@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Employee_Self_Service_BAL.Interface;
 using Employee_Self_Service_DAL.Interface;
 using Employee_Self_Service_DAL.Models;
@@ -206,17 +207,17 @@ public class ProfileService : IProfileService
         }
     }
 
-    public async Task<List<Widget>> GetWidgets()
+    public async Task<List<WidgetMapping>> GetWidgets(int employeeId)
     {
-        return await _employeeRepository.GetWidgets();
+        return await _employeeRepository.GetWidgets(employeeId);
     }
 
-    public async Task<ResponseViewModel> AddRemoveWidget(long widgetId)
+    public async Task<ResponseViewModel> AddRemoveWidget(long widgetId,int employeeId)
     {
         try
         {
-            List<Widget> widgets = await _employeeRepository.GetWidgets();
-            Widget widget = widgets.FirstOrDefault(w => w.WidgetId == widgetId);
+            List<WidgetMapping> widgets = await _employeeRepository.GetWidgets(employeeId);
+            WidgetMapping widget = widgets.FirstOrDefault(w => w.WidgetId == widgetId);
             if((bool)widget.IsVisible)
             {
                 widget.IsVisible = false;                
@@ -265,12 +266,12 @@ public class ProfileService : IProfileService
     // {
     //     return await _employeeRepository.GetQuickLink();     
     // }
-    public async Task<List<QuickLinkViewModel>> GetQuickLink()
+    public async Task<List<QuickLinkViewModel>> GetQuickLink(int employeeId)
     {
-        return await _employeeRepository.GetQuickLink();
+        return await _employeeRepository.GetQuickLink(employeeId);
     }
 
-    public async Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links)
+    public async Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links, int employeeId)
     {
         try
         {
@@ -283,7 +284,7 @@ public class ProfileService : IProfileService
             // {
                 
             // }
-            return await _employeeRepository.AddQuickLink(links);
+            return await _employeeRepository.AddQuickLink(links,employeeId);
 
         }
         catch(Exception ex)
@@ -292,6 +293,53 @@ public class ProfileService : IProfileService
             {
                 success = false,
                 message = "Error occur while adding quick link:" + ex.Message
+            };
+        }
+    }
+
+    public async Task<ResponseViewModel> DeleteQuickLink(long quickLinkId)
+    {
+        try
+        {
+            List<QuickLink> quickLinkViews = await _employeeRepository.GetQuickLinks();
+            QuickLink quickLink = quickLinkViews.FirstOrDefault(q => q.QuickLinkId == quickLinkId);
+            {
+                if (quickLink == null)
+                {
+                    return new ResponseViewModel
+                    {
+                        success = false,
+                        message = "Quick Link not found"
+                    };
+                }
+
+                quickLink.IsDeleted = true;
+                ResponseViewModel response = await _employeeRepository.UpdateQuickLink(quickLink);
+                if(response.success)
+                {
+                    return new ResponseViewModel
+                    {
+                        success = response.success,
+                        message = "Quick Link deleted successfully."
+                    };
+                }
+                else
+                {
+                    return new ResponseViewModel
+                    {
+                        success = response.success,
+                        message = "Error occur deleting link:" + response.message
+                    };
+                }
+
+            }
+        }
+        catch(Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                success = false,
+                message = "Filed to Delete Quick Link:" + ex.Message
             };
         }
     }

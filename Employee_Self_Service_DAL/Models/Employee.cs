@@ -49,7 +49,13 @@ public partial class Employee
 
     public virtual ICollection<NotificationMapping> NotificationMappings { get; set; } = new List<NotificationMapping>();
 
+    public virtual ICollection<QuickLink> QuickLinks { get; set; } = new List<QuickLink>();
+
     public virtual Role? Role { get; set; }
 
     public virtual ICollection<StatusHistory> StatusHistories { get; set; } = new List<StatusHistory>();
+
+    public virtual ICollection<WidgetMapping> WidgetMappings { get; set; } = new List<WidgetMapping>();
+
+    public virtual ICollection<Widget> Widgets { get; set; } = new List<Widget>();
 }

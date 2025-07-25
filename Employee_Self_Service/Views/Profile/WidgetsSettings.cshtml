@@ -1,7 +1,7 @@
 @{
     Layout = "_Layout";
 }
-@model List<Employee_Self_Service_DAL.Models.Widget>
+@model List<Employee_Self_Service_DAL.Models.WidgetMapping>
 <div class="container-fluid">
     <!-- Widget Management Table -->
     <div class="row py-4">
@@ -18,7 +18,7 @@
                     @foreach (var widget in Model)
                     {
                         <tr>
-                            <td>@widget.CardName</td>
+                            <td>@widget.Widget.CardName</td>
                             <td class="text-center">
                                 <div class="form-check form-switch widget-checkbox  d-flex justify-content-center"
                                     data-widget-id="@widget.WidgetId">

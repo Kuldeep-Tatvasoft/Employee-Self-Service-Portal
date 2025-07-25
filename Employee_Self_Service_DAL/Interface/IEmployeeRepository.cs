@@ -9,9 +9,10 @@ public interface IEmployeeRepository
     Employee GetEmployeeById(int employeeId);
     Task<ResponseViewModel> UpdateEmployee(Employee employee);
     Task<ResponseViewModel> RegisterEmployee(Employee employee);
-    Task<List<Widget>> GetWidgets();
-    Task<ResponseViewModel> UpdateWidget(Widget widget);
+    Task<List<WidgetMapping>> GetWidgets(int employeeId);
+    Task<ResponseViewModel> UpdateWidget(WidgetMapping widget);
     Task<List<QuickLink>> GetQuickLinks();
-    Task<List<QuickLinkViewModel>> GetQuickLink();
-    Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links);
+    Task<List<QuickLinkViewModel>> GetQuickLink(long employeeId);
+    Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links,int employeeId);
+    Task<ResponseViewModel> UpdateQuickLink(QuickLink quickLink);
 }

@@ -10,9 +10,10 @@ public interface IProfileService
     Task<ResponseViewModel> UpdateProfile(ProfileViewModel model, HttpContext httpContext);
     Task<ResponseViewModel> ChangePassword(LoginViewModel model);
     Task<ProfileViewModel> GetEmployeeById(int employeeId);
-    Task<List<Widget>> GetWidgets();
-    Task<ResponseViewModel> AddRemoveWidget(long widgetId);
+    Task<List<WidgetMapping>> GetWidgets(int employeeId);
+    Task<ResponseViewModel> AddRemoveWidget(long widgetId,int employeeId);
     // Task<List<QuickLink>> GetQuickLink();
-    Task<List<QuickLinkViewModel>> GetQuickLink();
-    Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links);
+    Task<List<QuickLinkViewModel>> GetQuickLink(int employeeId);
+    Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links, int employeeId);
+    Task<ResponseViewModel> DeleteQuickLink(long quickLinkId);
 }

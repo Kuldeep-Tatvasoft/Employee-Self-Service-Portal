@@ -16,7 +16,6 @@ public class DashboardRepository : IDashboardRepository
 
     public async Task<DashboardViewModel> GetDashboardData()
     {   
-        // var employeeId = 
         var today = DateOnly.FromDateTime(DateTime.Now);
         List<LeaveRequestDetailsViewModel>? todayOnLeave = await _context.LeaveRequests
                                                     .Include(l => l.Employee)
@@ -69,7 +68,6 @@ public class DashboardRepository : IDashboardRepository
                                                                 RequestedDate = (DateTime)h.InsertedAt,
                                                                 Group = h.Group.GroupName,
                                                                 Category = h.Category.CategoryName,
-                                                                // SubCategory = _context.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).FirstOrDefaultAsync(),
                                                                 SubCategories = h.SubcategoryMappings.Where(s => s.RequestId == h.HelpdeskRequestId).Select(s => s.SubCategory.SubCategoryName).ToList(),
                                                                 Priority = (Constants.HelpDeskEnum.Priority)h.Priority,
                                                                 ServiceDetails = h.ServiceDetails,
@@ -79,15 +77,17 @@ public class DashboardRepository : IDashboardRepository
                                                                 PendingAt = h.PendingAtNavigation != null ? h.PendingAtNavigation.Role1 : string.Empty,
                                                                 EmployeeId = (int)h.InsertedBy
                                                             }).ToListAsync();
-        List<Widget> availableWidgets = await _context.Widgets.ToListAsync();
+        List<WidgetMapping> availableWidgets = await _context.WidgetMappings.ToListAsync();
 
         List<QuickLinkViewModel> quickLinks = await _context.QuickLinks
                                                     .OrderBy(q => q.QuickLinkId)
+                                                    .Where(q => q.IsDeleted == false)
                                                     .Select(q => new QuickLinkViewModel
                                                     {
                                                         QuickLinkId = q.QuickLinkId,
                                                         Name = q.Name,
-                                                        Url = q.Url
+                                                        Url = q.Url,
+                                                        EmployeeId = (int)q.EmployeeId
                                                     }).ToListAsync();
 
                                                     return new DashboardViewModel

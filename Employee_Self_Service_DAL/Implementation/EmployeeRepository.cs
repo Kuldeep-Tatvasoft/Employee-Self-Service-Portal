@@ -1,3 +1,4 @@
+using System.Drawing.Imaging;
 using Employee_Self_Service_DAL.Data;
 using Employee_Self_Service_DAL.Interface;
 using Employee_Self_Service_DAL.Models;
@@ -70,9 +71,13 @@ public class EmployeeRepository : IEmployeeRepository
         }
     }
 
-    public async Task<List<Widget>> GetWidgets()
+    public async Task<List<WidgetMapping>> GetWidgets(int employeeId)
     {
-        return await _context.Widgets.OrderBy(w => w.WidgetId).ToListAsync();
+        return await _context.WidgetMappings
+            .Include(wm => wm.Widget)
+            .Where(wm => wm.EmployeeId == employeeId)
+            .OrderBy(wm => wm.Widget.WidgetId)
+            .ToListAsync();
     }
 
     // public async Task<Widget> GetWidgetById(long widgetId)
@@ -80,11 +85,11 @@ public class EmployeeRepository : IEmployeeRepository
     //     return await _context.Widgets.FirstOrDefaultAsync(w => w.WidgetId == widgetId);
     // }
 
-    public async Task<ResponseViewModel> UpdateWidget(Widget widget)
+    public async Task<ResponseViewModel> UpdateWidget(WidgetMapping widget)
     {
         try
         {
-            _context.Widgets.Update(widget);
+            _context.WidgetMappings.Update(widget);
             await _context.SaveChangesAsync();
             return new ResponseViewModel
             {
@@ -103,22 +108,24 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task<List<QuickLink>> GetQuickLinks()
     {
-        return await _context.QuickLinks.OrderBy(w => w.QuickLinkId).ToListAsync();
+        return await _context.QuickLinks.OrderBy(w => w.QuickLinkId).Where(q => q.IsDeleted == false).ToListAsync();
     }
 
-    public async Task<List<QuickLinkViewModel>> GetQuickLink()
+    public async Task<List<QuickLinkViewModel>> GetQuickLink(long employeeId)
     {
         return await _context.QuickLinks
             .OrderBy(q => q.QuickLinkId)
+            .Where(q => q.IsDeleted == false && q.EmployeeId == employeeId)
             .Select(q => new QuickLinkViewModel
             {
                 QuickLinkId = q.QuickLinkId,
                 Name = q.Name,
-                Url = q.Url
+                Url = q.Url,
+                IsDeleted = (bool)q.IsDeleted
             }).ToListAsync();
     }
 
-    public async Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links)
+    public async Task<ResponseViewModel> AddQuickLink(List<QuickLinkViewModel> links,int employeeId)
     {
         try
         {
@@ -139,7 +146,8 @@ public class EmployeeRepository : IEmployeeRepository
                     var newLink = new QuickLink
                     {
                         Name = link.Name,
-                        Url = link.Url
+                        Url = link.Url,
+                        EmployeeId = employeeId
                     };
                     _context.QuickLinks.Add(newLink);
                 }
@@ -149,6 +157,27 @@ public class EmployeeRepository : IEmployeeRepository
             {
                 success = true,
                 message = "Quick Links updated successfully."
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseViewModel
+            {
+                success = false,
+                message = ex.Message
+            };
+        }
+    }
+
+    public async Task<ResponseViewModel> UpdateQuickLink(QuickLink quickLink)
+    {
+        try
+        {
+            _context.QuickLinks.Update(quickLink);
+            await _context.SaveChangesAsync();
+            return new ResponseViewModel
+            {
+                success = true
             };
         }
         catch (Exception ex)

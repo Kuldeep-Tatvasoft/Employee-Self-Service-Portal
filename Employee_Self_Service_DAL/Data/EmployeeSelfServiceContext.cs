@@ -54,6 +54,8 @@ public partial class EmployeeSelfServiceContext : DbContext
 
     public virtual DbSet<Widget> Widgets { get; set; }
 
+    public virtual DbSet<WidgetMapping> WidgetMappings { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresEnum("priority", new[] { "low", "medium", "high" });
@@ -424,12 +426,20 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.ToTable("quick_link");
 
             entity.Property(e => e.QuickLinkId).HasColumnName("quick_link_id");
+            entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValueSql("false")
+                .HasColumnName("is_deleted");
             entity.Property(e => e.Name)
                 .HasColumnType("character varying")
                 .HasColumnName("name");
             entity.Property(e => e.Url)
                 .HasColumnType("character varying")
                 .HasColumnName("url");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.QuickLinks)
+                .HasForeignKey(d => d.EmployeeId)
+                .HasConstraintName("quick_link_employee_id_fkey");
         });
 
         modelBuilder.Entity<Reason>(entity =>
@@ -555,7 +565,34 @@ public partial class EmployeeSelfServiceContext : DbContext
             entity.Property(e => e.CardName)
                 .HasColumnType("character varying")
                 .HasColumnName("card_name");
+            entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
             entity.Property(e => e.IsVisible).HasColumnName("is_visible");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.Widgets)
+                .HasForeignKey(d => d.EmployeeId)
+                .HasConstraintName("widget_employee_id_fkey");
+        });
+
+        modelBuilder.Entity<WidgetMapping>(entity =>
+        {
+            entity.HasKey(e => e.WidgetMappingId).HasName("widget_mapping_pkey");
+
+            entity.ToTable("widget_mapping");
+
+            entity.Property(e => e.WidgetMappingId).HasColumnName("widget_mapping_id");
+            entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+            entity.Property(e => e.IsVisible)
+                .HasDefaultValueSql("true")
+                .HasColumnName("is_visible");
+            entity.Property(e => e.WidgetId).HasColumnName("widget_id");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.WidgetMappings)
+                .HasForeignKey(d => d.EmployeeId)
+                .HasConstraintName("widget_mapping_employee_id_fkey");
+
+            entity.HasOne(d => d.Widget).WithMany(p => p.WidgetMappings)
+                .HasForeignKey(d => d.WidgetId)
+                .HasConstraintName("widget_mapping_widget_id_fkey");
         });
 
         OnModelCreatingPartial(modelBuilder);

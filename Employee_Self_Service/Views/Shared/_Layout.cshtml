@@ -14,27 +14,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Employee_Self_Service</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
-    
+
     @* <link href="https://cdn.jsdelivr.net/npm/@@coreui/coreui@5.15.0/dist/css/coreui.min.css" rel="stylesheet"> *@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/@@coreui/coreui-pro@5.15.0/dist/css/coreui.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    
+
     @* <link href="https://cdn.jsdelivr.net/npm/@@coreui/coreui@5.15.0/dist/css/coreui.min.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/@@coreui/coreui@5.15.0/dist/js/coreui.bundle.min.js"></script> *@
     <link rel="stylesheet" href="../css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Employee_Self_Service.styles.css" asp-append-version="true" />
-    
-    
-    
+
+
+
 
 </head>
 
 <body>
     <div>
-        
+
         <header class="header bg-primary p-2 d-flex justify-content-between w-100">
 
             <div class="img col-sm-4 col-md-3 col-4 col-xl-2 col-xxl-2 d-flex align-items-center">
@@ -77,32 +77,34 @@
 
             <div class="col d-flex justify-content-end px-2 w-100">
                 @* <div class="input-group w-25 rounded-3 p-2">
-                    <input type="text" class="search form-control w-25 border-end-0 outline:none d-sm-block d-none"
-                        id="searchInput" placeholder="Search" aria-label="Amount (to the nearest dollar)">
-                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                <input type="text" class="search form-control w-25 border-end-0 outline:none d-sm-block d-none"
+                id="searchInput" placeholder="Search" aria-label="Amount (to the nearest dollar)">
+                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
                 </div> *@
-                
+
                 <div class="dropdown">
-                    
+
                     <button class="btn shadow-none border-none" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <div class="d-flex align-items-center">
 
-                        <div id="" class="px-2 text-white position-relative">
-                            <i class="bi bi-bell fs-4"></i>
-                            <span id="notificationCount" class="position-absolute top-47 start-130 translate-middle badge rounded-pill bg-danger" style="display:none ;">0</span>
+                            <div id="" class="px-2 text-white position-relative">
+                                <i class="bi bi-bell fs-4"></i>
+                                <span id="notificationCount"
+                                    class="position-absolute top-47 start-130 translate-middle badge rounded-pill bg-danger"
+                                    style="display:none ;">0</span>
+                            </div>
                         </div>
-                    </div>
-        
-                    </button >
-                    
+
+                    </button>
+
                     <ul class="dropdown-menu mt-2 rounded-0 notification " id="notificationContent">
-                        
+
                     </ul>
                 </div>
 
-                
-                
+
+
 
                 <div class="dropdown">
                     <button class="btn shadow-none border-none" type="button" data-bs-toggle="dropdown"
@@ -138,7 +140,7 @@
                                     class="dropdown-item p-0 mt-2 fw-bold text-secondary d-flex align-items-center justify-content-start gap-1"
                                     type="submit">
                                     <i class="bi bi-ui-checks-grid"></i>&nbsp;
-                                    <span >Widgets Settings</span>
+                                    <span>Widgets Settings</span>
                                 </button></a>
                         </li>
                         <li>
@@ -159,7 +161,7 @@
                                     <span class="">Change Password</span>
                                 </button></a>
                         </li>
-                        
+
                         <li>
                             <button
                                 class="dropdown-item p-0 mt-2 fw-bold text-secondary d-flex align-items-center justify-content-start"
@@ -170,11 +172,11 @@
                         </li>
                     </ul>
                 </div>
-                
+
             </div>
-           
+
         </header>
-        
+
         <div class="main-container ">
             <!-- Sidebar -->
             <div class="sidebar">
@@ -228,23 +230,24 @@
                                         data-bs-parent="#accordionFlushExample">
                                         <div class="accordion-body d-flex flex-column gap-2  p-0 ms-5">
                                             @if (userRole != "Network")
-                                                {
-                                            <a href="/HelpDesk/HelpDeskRequest" class="d-flex text-decoration-none text-dark ">
-                                                <span class="icon-name icon-name-inner">Self</span></a>
-                                                }
-                                                @if (userRole == "HR" || userRole == "Network")
-                                                {
-                                                    <a href="/HelpDesk/HelpDeskResponse"
-                                                        class="d-flex text-decoration-none text-dark">
-                                                        <span class="icon-name icon-name-inner">Response</span></a>
-                                                }
+                                            {
+                                                <a href="/HelpDesk/HelpDeskRequest"
+                                                    class="d-flex text-decoration-none text-dark ">
+                                                    <span class="icon-name icon-name-inner">Self</span></a>
+                                            }
+                                            @if (userRole == "HR" || userRole == "Network")
+                                            {
+                                                <a href="/HelpDesk/HelpDeskResponse"
+                                                    class="d-flex text-decoration-none text-dark">
+                                                    <span class="icon-name icon-name-inner">Response</span></a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
-                                   <div class="accordion-item border-0">
-                                     @if (userRole == "HR")
-                                    { 
-                                 
+                                <div class="accordion-item border-0">
+                                    @if (userRole == "HR")
+                                    {
+
                                         <li class="list-active d-flex align-items-center gap-2 p-3 ms-1">
                                             <div class="d-flex align-items-center gap-2">
 
@@ -252,11 +255,25 @@
                                                     class="d-flex text-decoration-none text-dark align-items-center gap-2">
                                                     <i class="bi bi-calendar-event"></i><span
                                                         class="icon-name fw-bold d-flex justify-content-center">Event</span></a>
-                                                
+
                                             </div>
                                         </li>
-                                }
-                                    </div>
+                                    }
+                                </div>
+                                <div class="accordion-item border-0">
+                                   
+
+                                        <li class="list-active d-flex align-items-center gap-2 p-3 ms-1">
+                                            <div class="d-flex align-items-center gap-2">
+
+                                                <a href="/Document/Documents"
+                                                    class="d-flex text-decoration-none text-dark align-items-center gap-2">
+                                                    <i class="bi bi-file-earmark-medical-fill"></i><span
+                                                        class="icon-name fw-bold d-flex justify-content-center">Documents</span></a>
+                                            </div>
+                                        </li>
+                                    
+                                </div>
                             </div>
                         </ul>
                     </nav>
@@ -296,7 +313,7 @@
 
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@@coreui/coreui-pro@5.15.0/dist/js/coreui.bundle.min.js"></script>
     @* <script defer src="https://cdn.jsdelivr.net/npm/@@coreui/coreui@5.15.0/dist/js/coreui.bundle.min.js"></script> *@
@@ -335,34 +352,34 @@
             });
         });
 
-        function NotificationDropdown(){
-                    $.ajax({
-                        url: '/Notification/GetNotifications',
-                        data: {
-                            
-                            employeeId: @employeeId
+        function NotificationDropdown() {
+            $.ajax({
+                url: '/Notification/GetNotifications',
+                data: {
+
+                    employeeId: @employeeId
                         },
-                        type: "GET",
-                        success: function (data) {
-                            $("#notificationContent").html(data);
-                            updateNotificationCount();
-                        },
-                        error: function () {
-                            $("#notificationContent").html('<li>An error has occurred</li>');
-                        }
-                    });
+                type: "GET",
+                success: function (data) {
+                    $("#notificationContent").html(data);
+                    updateNotificationCount();
+                },
+                error: function () {
+                    $("#notificationContent").html('<li>An error has occurred</li>');
+                }
+            });
         }
 
-        $(document).on("click",".dropdown", function () {
-            NotificationDropdown()            
+        $(document).on("click", ".dropdown", function () {
+            NotificationDropdown()
         });
 
         function updateNotificationCount() {
             $.ajax({
                 url: '/Notification/GetNotificationCount',
                 type: "GET",
-                data:{
-                            employeeId: @employeeId
+                data: {
+                    employeeId: @employeeId
                         },
                 success: function (count) {
                     const notificationCountElement = $("#notificationCount");
@@ -380,11 +397,11 @@
 
         $(document).ready(function () {
             updateNotificationCount();
-            setInterval(updateNotificationCount, 60000); 
+            setInterval(updateNotificationCount, 60000);
         });
-        
+
     </script>
-    
+
 </body>
 
 </html>
